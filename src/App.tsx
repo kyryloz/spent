@@ -1,22 +1,18 @@
+import { ConnectedRouter } from 'connected-react-router'
+import { createHashHistory } from 'history'
 import * as React from 'react'
-import './App.css'
+import { Provider } from 'react-redux'
+import { Routes } from './routes'
+import { configureStore } from './store/configureStore'
 
-import logo from './logo.svg'
+const history = createHashHistory()
 
-class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    )
-  }
-}
+const store = configureStore(history)
 
-export default App
+export const App = () => (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Routes />
+    </ConnectedRouter>
+  </Provider>
+)

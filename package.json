@@ -4,11 +4,13 @@
   "description": "Expense manager for geeks",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.3.1",
+    "connected-react-router": "^4.5.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-scripts-ts": "3.1.0",
-    "react-redux": "^5.0.7",
+    "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
+    "react-scripts-ts": "3.1.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
     "redux-saga": "^0.16.2",
@@ -21,12 +23,15 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/history": "^4.7.2",
     "@types/jest": "^23.3.7",
     "@types/node": "^10.12.0",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
-    "typescript": "^3.1.3",
+    "@types/react-redux": "^6.0.9",
+    "@types/react-router-dom": "^4.3.1",
+    "prettier": "1.14.3",
     "tslint": "^5.11.0",
-    "prettier": "1.14.3"
+    "typescript": "^3.1.3"
   }
 }
