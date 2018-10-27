@@ -1,6 +1,5 @@
-import { connect } from 'react-redux'
-import { compose, withHandlers, withState, setDisplayName } from 'recompose'
-import { Dispatch } from 'redux'
+import { compose, setDisplayName, withHandlers, withState } from 'recompose'
+import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Application } from '../../store/interface'
 import { addTransaction } from '../../store/transactions/actions'
 import { Transactions } from '../../store/transactions/interface'
@@ -8,14 +7,13 @@ import { View } from './View'
 
 interface OutterProps {}
 
-interface ConnectedReduxProps {
-  dispatch: Dispatch<Application.Action>
+interface StateProps {
+  recentTransactions: Array<Transactions.Transaction>
 }
 
-interface InnerProps extends ConnectedReduxProps {
+interface InnerProps extends Application.ConnectedComponentProps<StateProps> {
   input: string
   setInput: (input: string) => void
-  recentTransactions: Array<Transactions.Transaction>
 }
 
 interface HandlerProps {
@@ -25,12 +23,10 @@ interface HandlerProps {
 
 export type ViewProps = OutterProps & InnerProps & HandlerProps
 
-const mapStateToProps = (state: Application.State) => ({
-  recentTransactions: state.transactions.recent,
-})
-
 export const MainPage = compose<InnerProps, OutterProps>(
-  connect(mapStateToProps),
+  withConnectedProps<StateProps>(state => ({
+    recentTransactions: state.transactions.recent,
+  })),
   withState('input', 'setInput', ''),
   withHandlers<OutterProps & InnerProps, HandlerProps>({
     handleInputChange: ({ setInput }) => event => {
