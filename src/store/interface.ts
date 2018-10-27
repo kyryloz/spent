@@ -6,7 +6,7 @@ export namespace Application {
     readonly transactions: Transactions.State
   }
 
-  export interface Action<T> extends AnyAction {
+  export interface Action<T = any> extends AnyAction {
     readonly payload: T
   }
 }

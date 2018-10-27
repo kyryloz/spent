@@ -11,5 +11,10 @@ export namespace Transactions {
   export interface Transaction {
     readonly id: string
     readonly rawContent: string
+    readonly tree: Tree
+  }
+
+  export interface Tree {
+    t: any
   }
 }

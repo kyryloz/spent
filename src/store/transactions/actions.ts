@@ -3,12 +3,14 @@ import { Application } from '../interface'
 import { Transactions } from './interface'
 
 export const addTransaction = (
-  content: string
+  rawContent: string,
+  tree: Transactions.Tree
 ): Application.Action<Transactions.Transaction> => ({
   type: Transactions.ActionTypes.TRANSACTION_ADD,
   payload: {
     id: uuidv4(),
-    rawContent: content,
+    rawContent,
+    tree,
   },
 })
 

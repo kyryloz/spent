@@ -1,21 +1,14 @@
 import * as React from 'react'
+import { ViewProps } from '.'
 import { RecentTransactionList } from '../../components/RecentTransactionList'
 import { SmartInput } from '../../components/SmartInput'
-import { Transactions } from '../../store/transactions/interface'
 import './styles.css'
 
-interface Props {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  input: string
-  handleInputSubmit: () => void
-  transactions: Array<Transactions.Transaction>
-}
-
-export const View: React.SFC<Props> = ({
+export const View: React.SFC<ViewProps> = ({
   handleInputChange,
   input,
   handleInputSubmit,
-  transactions,
+  recentTransactions,
 }) => (
   <div className="mainPage">
     <div className="smartInput">
@@ -26,7 +19,7 @@ export const View: React.SFC<Props> = ({
       />
     </div>
     <div className="transactionList">
-      <RecentTransactionList transactions={transactions} />
+      <RecentTransactionList transactions={recentTransactions} />
     </div>
   </div>
 )
