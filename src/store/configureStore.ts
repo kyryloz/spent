@@ -1,15 +1,11 @@
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { History } from 'history'
-import { Action, applyMiddleware, createStore, Store } from 'redux'
+import { applyMiddleware, createStore, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { rootReducer } from './rootReducer'
+import { ApplicationState } from './interface'
 
-interface IApplicationState {
-  value: 42
-}
-
-const rootReducer = (state: IApplicationState, _: Action) => state
-
-export const configureStore = (history: History): Store<IApplicationState> => {
+export const configureStore = (history: History): Store<ApplicationState> => {
   const composeEnhancers = composeWithDevTools({})
 
   const store = createStore(

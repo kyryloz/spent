@@ -1,9 +1,9 @@
-import { TextField } from '@material-ui/core'
 import * as React from 'react'
+import { InputCli } from '../../components/inputCli/InputCli'
 import './styles.css'
 
-export const MainPageView = () => (
-  <div className="root">
-    <TextField id="input" variant="outlined" label="Process money flow" />
+export const MainPageView: React.SFC = () => (
+  <div className="mainPage">
+    <InputCli />
   </div>
 )
