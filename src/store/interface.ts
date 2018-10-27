@@ -1,8 +1,8 @@
 import { Action, AnyAction, Dispatch } from 'redux'
-import { EntriesState } from './entries/interface';
+import { TransactionListState } from './transactionList/interface';
 
 export interface ApplicationState {
-  entries: EntriesState
+  transactionList: TransactionListState
 }
 
 export interface ConnectedReduxProps<A extends Action = AnyAction> {

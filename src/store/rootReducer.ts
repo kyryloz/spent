@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { ApplicationState } from './interface'
-import { entriesReducer } from './entries/reducer'
+import { transactionListReducer } from './transactionList/reducer'
 
 export const rootReducer = combineReducers<ApplicationState>({
-  entries: entriesReducer,
+  transactionList: transactionListReducer,
 })

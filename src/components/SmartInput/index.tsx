@@ -1,23 +1,22 @@
 import { TextField } from '@material-ui/core'
 import * as React from 'react'
 import { ChangeEvent } from 'react'
-import './styles.css'
 
-interface OwnProps {
+interface Props {
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void
   input: string
   handleInputSubmit: () => void
 }
 
-export const InputCliView: React.SFC<OwnProps> = ({
+export const SmartInput: React.SFC<Props> = ({
   input,
   handleInputChange,
   handleInputSubmit,
 }) => (
   <TextField
-    id="inputCli"
     variant="outlined"
     label="Process money flow"
+    fullWidth={true}
     onChange={handleInputChange}
     value={input}
     onKeyPress={ev => {

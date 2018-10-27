@@ -1,7 +1,17 @@
 .mainPage {
   display: flex;
   width: 100%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: 100px;
+}
+
+.smartInput {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.transactionList {
+  width: 400px
 }
