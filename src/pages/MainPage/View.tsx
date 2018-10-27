@@ -1,14 +1,14 @@
 import * as React from 'react'
+import { RecentTransactionList } from '../../components/RecentTransactionList'
 import { SmartInput } from '../../components/SmartInput'
-import { TransactionList } from '../../components/TransactionList'
-import { Transaction } from '../../store/transactionList/interface'
+import { Transactions } from '../../store/transactions/interface'
 import './styles.css'
 
 interface Props {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   input: string
   handleInputSubmit: () => void
-  transactions: Array<Transaction>
+  transactions: Array<Transactions.Transaction>
 }
 
 export const View: React.SFC<Props> = ({
@@ -26,7 +26,7 @@ export const View: React.SFC<Props> = ({
       />
     </div>
     <div className="transactionList">
-      <TransactionList transactions={transactions} />
+      <RecentTransactionList transactions={transactions} />
     </div>
   </div>
 )

@@ -3,9 +3,9 @@ import { History } from 'history'
 import { applyMiddleware, createStore, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { rootReducer } from './rootReducer'
-import { ApplicationState } from './interface'
+import { Application } from './interface'
 
-export const configureStore = (history: History): Store<ApplicationState> => {
+export const configureStore = (history: History): Store<Application.State> => {
   const composeEnhancers = composeWithDevTools({})
 
   const store = createStore(

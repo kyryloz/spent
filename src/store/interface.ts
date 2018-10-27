@@ -1,10 +1,12 @@
-import { Action, AnyAction, Dispatch } from 'redux'
-import { TransactionListState } from './transactionList/interface';
+import { AnyAction } from 'redux'
+import { Transactions } from './transactions/interface'
 
-export interface ApplicationState {
-  transactionList: TransactionListState
-}
+export namespace Application {
+  export interface State {
+    readonly transactions: Transactions.State
+  }
 
-export interface ConnectedReduxProps<A extends Action = AnyAction> {
-  dispatch: Dispatch<A>
+  export interface Action<T> extends AnyAction {
+    readonly payload: T
+  }
 }

@@ -2,13 +2,13 @@ import * as React from 'react'
 import { ChangeEvent } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { ApplicationState } from '../../store/interface'
-import { addTransaction } from '../../store/transactionList/actions'
-import { Transaction } from '../../store/transactionList/interface'
+import { Application } from '../../store/interface'
+import { addTransaction } from '../../store/transactions/actions'
+import { Transactions } from '../../store/transactions/interface'
 import { View } from './View'
 
 interface OwnProps {
-  transactions: Array<Transaction>
+  recentTransactions: Array<Transactions.Transaction>
 }
 
 interface StateProps {
@@ -21,8 +21,8 @@ interface DispatchProps {
 
 type AllProps = StateProps & DispatchProps & OwnProps
 
-const mapStateToProps = (state: ApplicationState) => ({
-  transactions: state.transactionList.transactions,
+const mapStateToProps = (state: Application.State) => ({
+  recentTransactions: state.transactions.recent,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -53,7 +53,7 @@ class MainPageContainer extends React.PureComponent<AllProps> {
         handleInputChange={this.handleInputChange}
         input={this.state.input}
         handleInputSubmit={this.handleInputSubmit}
-        transactions={this.props.transactions}
+        transactions={this.props.recentTransactions}
       />
     )
   }
