@@ -1,66 +1,36 @@
-// create account 'Wallet'
-// create category 'Groceries'
-// expence 100 on 'Groceries' from 'Credit Card'
-// income 100 to 'Wallet'
-// transfer 100 from 'Credit Card' to 'Wallet'
-
-export namespace Syntax {
-  export type Keyword =
-    | 'expence'
-    | 'income'
-    | 'on'
-    | 'budget'
-    | 'transfer'
-    | 'create'
-    | 'account'
-    | 'category'
-    | 'to'
-    | 'from'
-    | 'save'
-    | 'restore'
-    | 'undo'
-    | 'redo'
-
-  export type ActionWord = 'expence' | 'income' | 'transfer' | 'create'
-
-  export type PrepositionWord = 'on' | 'to' | 'from'
-
-  export type EntityWord = 'account' | 'category'
-
-  export enum Expression {
-    KEYWORD = 'keyword',
-    ENTITY = 'entity',
-    FUNCTION = 'function',
-    VALUE = 'value',
-  }
-}
+import { Syntax } from './syntax'
+import { CommandTree } from './evaluator';
 
 export const parse = (input: string) => {
   let { parsed, rest } = parseInput(input)
-  console.log(parsed)
   if (skipSpace(rest).length > 0) {
     throw new SyntaxError(`Unexpected text in the end: ${rest}`)
   }
   return parsed
 }
 
-export const parseInput = (input: string) => {
+interface ParseResult {
+  parsed: CommandTree
+  rest: string
+}
+
+export const parseInput = (input: string): ParseResult => {
   input = skipSpace(input)
-  let match
-  let result
-  if ((match = /^'([^"]*)'/.exec(input))) {
+  let match: RegExpExecArray | null
+  let result: CommandTree
+  if (match = /^'([^"]*)'/.exec(input)) {
     // match: 'test'
-    result = { type: Syntax.Expression.VALUE, value: match[1] }
-  } else if ((match = /^\d+\b/.exec(input))) {
+    result = { type: Syntax.ExpressionType.VALUE, value: match[1] }
+  } else if (match = /^\d+\b/.exec(input)) {
     // match: 42
-    result = { type: Syntax.Expression.VALUE, value: Number(match[0]) }
-  } else if ((match = /^[^\s(),#"']+/.exec(input))) {
+    result = { type: Syntax.ExpressionType.VALUE, value: Number(match[0]) }
+  } else if (match = /^[^\s(),#"']+/.exec(input)) {
     // match: test
     const name = match[0]
     if (name === 'account' || name === 'category') {
-      result = { type: Syntax.Expression.ENTITY, name: match[0] }
+      result = { type: Syntax.ExpressionType.ENTITY, name: match[0] }
     } else {
-      result = { type: Syntax.Expression.KEYWORD, name: match[0] }
+      result = { type: Syntax.ExpressionType.KEYWORD, name: match[0] }
     }
   } else {
     throw new SyntaxError(`Unexpected syntax: ${input}`)
@@ -69,17 +39,19 @@ export const parseInput = (input: string) => {
   return parseFunction(result, input.slice(match[0].length))
 }
 
-const parseFunction = (result: any, restInput: any): any => {
+const parseFunction = (result: CommandTree, restInput: string): ParseResult => {
   restInput = skipSpace(restInput)
   if (restInput[0] != '(') {
     return { parsed: result, rest: restInput }
   }
 
   restInput = skipSpace(restInput.slice(1))
-  result = { type: Syntax.Expression.FUNCTION, operator: result, args: [] }
+  result = { type: Syntax.ExpressionType.FUNCTION, operator: result, args: [] }
   while (restInput[0] != ')') {
     let arg = parseInput(restInput)
-    result.args.push(arg.parsed)
+    if (result.args) {
+      result.args.push(arg.parsed)
+    }
     restInput = skipSpace(arg.rest)
     if (restInput[0] == ',') {
       restInput = skipSpace(restInput.slice(1))

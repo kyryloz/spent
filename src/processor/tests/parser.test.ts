@@ -1,22 +1,23 @@
-import { parse, Syntax } from '../parser'
+import { parse } from '../parser'
+import { Syntax } from '../syntax'
 
 describe('parser', () => {
   describe('actions', () => {
     describe('create', () => {
       const input = "create(account, 'Wallet')"
       const expected = {
-        type: Syntax.Expression.FUNCTION,
+        type: Syntax.ExpressionType.FUNCTION,
         operator: {
-          type: Syntax.Expression.KEYWORD,
+          type: Syntax.ExpressionType.KEYWORD,
           name: 'create',
         },
         args: [
           {
-            type: Syntax.Expression.ENTITY,
+            type: Syntax.ExpressionType.ENTITY,
             name: 'account',
           },
           {
-            type: Syntax.Expression.VALUE,
+            type: Syntax.ExpressionType.VALUE,
             value: 'Wallet',
           },
         ],
