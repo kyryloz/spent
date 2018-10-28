@@ -1,4 +1,4 @@
-import { Syntax } from './grammar'
+import { Grammar } from './grammar/grammar'
 import { CommandTree } from './evaluator';
 
 export const parse = (input: string) => {
@@ -20,17 +20,17 @@ export const parseInput = (input: string): ParseResult => {
   let result: CommandTree
   if (match = /^'([^"]*)'/.exec(input)) {
     // match: 'test'
-    result = { type: Syntax.ExpressionType.VALUE, value: match[1] }
+    result = { type: Grammar.ExpressionType.VALUE, value: match[1] }
   } else if (match = /^\d+\b/.exec(input)) {
     // match: 42
-    result = { type: Syntax.ExpressionType.VALUE, value: Number(match[0]) }
+    result = { type: Grammar.ExpressionType.VALUE, value: Number(match[0]) }
   } else if (match = /^[^\s(),#"']+/.exec(input)) {
     // match: test
     const name = match[0]
     if (name === 'account' || name === 'category') {
-      result = { type: Syntax.ExpressionType.ENTITY, name: match[0] }
+      result = { type: Grammar.ExpressionType.ENTITY, name: match[0] }
     } else {
-      result = { type: Syntax.ExpressionType.KEYWORD, name: match[0] }
+      result = { type: Grammar.ExpressionType.KEYWORD, name: match[0] }
     }
   } else {
     throw new SyntaxError(`Unexpected syntax: ${input}`)
@@ -46,7 +46,7 @@ const parseFunction = (result: CommandTree, restInput: string): ParseResult => {
   }
 
   restInput = skipSpace(restInput.slice(1))
-  result = { type: Syntax.ExpressionType.FUNCTION, operator: result, args: [] }
+  result = { type: Grammar.ExpressionType.FUNCTION, operator: result, args: [] }
   while (restInput[0] != ')') {
     let arg = parseInput(restInput)
     if (result.args) {

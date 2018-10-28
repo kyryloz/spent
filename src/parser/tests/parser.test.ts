@@ -1,23 +1,23 @@
 import { parse } from '../parser'
-import { Syntax } from '../grammar'
+import { Grammar } from '../grammar/grammar'
 
 describe.skip('parser', () => {
   describe('actions', () => {
     describe('create', () => {
       const input = "create account 'Wallet'"
       const expected = {
-        type: Syntax.ExpressionType.FUNCTION,
+        type: Grammar.ExpressionType.FUNCTION,
         operator: {
-          type: Syntax.ExpressionType.KEYWORD,
+          type: Grammar.ExpressionType.KEYWORD,
           name: 'create',
         },
         args: [
           {
-            type: Syntax.ExpressionType.ENTITY,
+            type: Grammar.ExpressionType.ENTITY,
             name: 'account',
           },
           {
-            type: Syntax.ExpressionType.VALUE,
+            type: Grammar.ExpressionType.VALUE,
             value: 'Wallet',
           },
         ],
