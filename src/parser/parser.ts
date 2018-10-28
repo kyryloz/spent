@@ -1,4 +1,4 @@
-import { Syntax } from './syntax'
+import { Syntax } from './grammar'
 import { CommandTree } from './evaluator';
 
 export const parse = (input: string) => {

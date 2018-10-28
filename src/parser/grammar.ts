@@ -5,6 +5,8 @@
 // transfer 100 from 'Credit Card' to 'Wallet'
 
 export namespace Syntax {
+  export const ALLOWED_SYMBOLS = /[a-zA-Z0-9\-_@#\s:]/
+
   export type Keyword =
     | 'expence'
     | 'income'

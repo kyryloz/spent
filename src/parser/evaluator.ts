@@ -1,4 +1,4 @@
-import { Syntax } from './Syntax'
+import { Syntax } from './grammar'
 
 export interface CommandTree {
   type: Syntax.ExpressionType

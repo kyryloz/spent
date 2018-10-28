@@ -1,7 +1,7 @@
 import { parse } from '../parser'
 import { evaluate } from '../evaluator';
 
-describe('evaluator', () => {
+describe.skip('evaluator', () => {
   describe('actions', () => {
     describe('create', () => {
       const input = "create account 'Wallet'"
