@@ -1,4 +1,4 @@
-const temporarySpaceChar = '~'
+const spaceGuard = '~'
 
 export const tokenize = (input: string): Array<string> => {
   return normalize(input)
@@ -8,11 +8,11 @@ export const tokenize = (input: string): Array<string> => {
 
 export const normalize = (input: string): string => {
   return input
-    .replace(/'.+'/g, str => guardSpaces(str))
+    .replace(/'(.+)'/g, (_, group) => guardSpaces(group))
     .trim()
     .replace(/\s\s+/g, ' ')
 }
 
-const guardSpaces = (input: string) => input.replace(/\s/g, temporarySpaceChar)
+const guardSpaces = (input: string) => input.replace(/\s/g, spaceGuard)
 
-const unguardSpaces = (input: string) => input.replace(temporarySpaceChar, ' ')
+const unguardSpaces = (input: string) => input.replace(spaceGuard, ' ')

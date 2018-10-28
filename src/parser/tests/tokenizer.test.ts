@@ -1,20 +1,34 @@
 import { tokenize, normalize } from '../tokenizer'
 
-describe('tokenizer', () => {
+describe('tokenizer.js', () => {
   describe('tokenize()', () => {
-    const input = "  create  account  'My Wallet'"
-    const expected = ['create', 'account', "'My Wallet'"]
+    test('simple input', () => {
+      const input = 'create account Wallet'
+      const expected = ['create', 'account', 'Wallet']
 
-    test('test', () => {
+      expect(tokenize(input)).toEqual(expected)
+    })
+
+    test('complex input', () => {
+      const input = "  create  account  'My Wallet'"
+      const expected = ['create', 'account', 'My Wallet']
+
       expect(tokenize(input)).toEqual(expected)
     })
   })
 
   describe('normalize()', () => {
-    const input = "   create  account   'My  Wallet' "
-    const expected = "create account 'My~~Wallet'"
+    test('simple input', () => {
+      const input = 'create account Wallet'
+      const expected = 'create account Wallet'
 
-    test('test', () => {
+      expect(normalize(input)).toEqual(expected)
+    })
+
+    test('complex input', () => {
+      const input = "   create  account   'My  Wallet' "
+      const expected = 'create account My~~Wallet'
+
       expect(normalize(input)).toEqual(expected)
     })
   })
