@@ -4,7 +4,7 @@ import { RecentTransactionList } from '../../components/RecentTransactionList'
 import { SmartInput } from '../../components/SmartInput'
 import './styles.css'
 
-export const View: React.SFC<ViewProps> = ({
+export const MainPageView: React.SFC<ViewProps> = ({
   handleInputChange,
   input,
   handleInputSubmit,

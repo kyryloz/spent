@@ -1,17 +1,17 @@
-import { compose, setDisplayName, withHandlers, withState } from 'recompose'
+import { compose, setDisplayName, withHandlers, withState, pure } from 'recompose'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Application } from '../../store/interface'
 import { addTransaction } from '../../store/transactions/actions'
 import { Transactions } from '../../store/transactions/interface'
-import { View } from './View'
+import { MainPageView } from './MainPageView'
 
 interface OutterProps {}
 
-interface StateProps {
+interface ConnectedProps {
   recentTransactions: Array<Transactions.Transaction>
 }
 
-interface InnerProps extends Application.ConnectedComponentProps<StateProps> {
+interface InnerProps extends Application.ConnectedComponentProps<ConnectedProps> {
   input: string
   setInput: (input: string) => void
 }
@@ -23,8 +23,8 @@ interface HandlerProps {
 
 export type ViewProps = OutterProps & InnerProps & HandlerProps
 
-export const MainPage = compose<InnerProps, OutterProps>(
-  withConnectedProps<StateProps>(state => ({
+export const MainPage = compose<ViewProps, OutterProps>(
+  withConnectedProps<ConnectedProps>(state => ({
     recentTransactions: state.transactions.recent,
   })),
   withState('input', 'setInput', ''),
@@ -37,5 +37,6 @@ export const MainPage = compose<InnerProps, OutterProps>(
       setInput('')
     },
   }),
+  pure,
   setDisplayName('MainPage')
-)(View)
+)(MainPageView)

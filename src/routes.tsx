@@ -4,14 +4,6 @@ import { MainPage } from './pages/MainPage'
 
 export const Routes = () => (
   <Switch>
-    <Route
-      exact={true}
-      path="/"
-      component={() => (
-        <div>
-          <MainPage />
-        </div>
-      )}
-    />
+    <Route exact={true} path="/" component={MainPage} />
   </Switch>
 )
