@@ -36,6 +36,15 @@ export namespace Syntax {
 }
 
 export const parse = (input: string) => {
+  let { parsed, rest } = parseInput(input)
+  console.log(parsed)
+  if (skipSpace(rest).length > 0) {
+    throw new SyntaxError(`Unexpected text in the end: ${rest}`)
+  }
+  return parsed
+}
+
+export const parseInput = (input: string) => {
   input = skipSpace(input)
   let match
   let result
@@ -54,7 +63,7 @@ export const parse = (input: string) => {
       result = { type: Syntax.Expression.KEYWORD, name: match[0] }
     }
   } else {
-    throw new SyntaxError('Unexpected syntax: ' + input)
+    throw new SyntaxError(`Unexpected syntax: ${input}`)
   }
 
   return parseFunction(result, input.slice(match[0].length))
@@ -69,7 +78,7 @@ const parseFunction = (result: any, restInput: any): any => {
   restInput = skipSpace(restInput.slice(1))
   result = { type: Syntax.Expression.FUNCTION, operator: result, args: [] }
   while (restInput[0] != ')') {
-    let arg = parse(restInput)
+    let arg = parseInput(restInput)
     result.args.push(arg.parsed)
     restInput = skipSpace(arg.rest)
     if (restInput[0] == ',') {
@@ -84,7 +93,7 @@ const parseFunction = (result: any, restInput: any): any => {
 const skipSpace = (expression: string) => {
   let first = expression.search(/\S/)
   if (first === -1) {
-    return expression
+    return ''
   }
   return expression.slice(first)
 }
