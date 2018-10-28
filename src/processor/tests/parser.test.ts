@@ -4,7 +4,7 @@ import { Syntax } from '../syntax'
 describe('parser', () => {
   describe('actions', () => {
     describe('create', () => {
-      const input = "create(account, 'Wallet')"
+      const input = "create account 'Wallet'"
       const expected = {
         type: Syntax.ExpressionType.FUNCTION,
         operator: {

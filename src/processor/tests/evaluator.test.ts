@@ -4,7 +4,7 @@ import { evaluate } from '../evaluator';
 describe('evaluator', () => {
   describe('actions', () => {
     describe('create', () => {
-      const input = "create(account, 'Wallet')"
+      const input = "create account 'Wallet'"
       const expected = "Account 'Wallet' created"
 
       test('create account', () => {

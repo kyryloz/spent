@@ -25,7 +25,7 @@ export const evaluate = (expr: any, scope: any = []): any => {
       return specialForms[operator.name](expr.args, scope)
     } else {
       let op = evaluate(operator, scope)
-      if (typeof op == 'function') {
+      if (typeof op === 'function') {
         return op(...args.map((arg: any) => evaluate(arg, scope)))
       } else {
         throw new TypeError('Applying a non-function.')
@@ -48,7 +48,13 @@ specialForms.create = (args: any, scope: any) => {
     }
   }
 
-  console.log('aaa', args)
-
   throw new SyntaxError(`Unknown entity: ${args[0]}`)
 }
+
+specialForms.do = (args: any, scope: any) => {
+  let value = false;
+  for (let arg of args) {
+    value = evaluate(arg, scope);
+  }
+  return value;
+};
