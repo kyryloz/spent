@@ -1,5 +1,5 @@
-import { parse } from '../parser'
-import { evaluate } from '../evaluator';
+import { parse } from '../processor/parser'
+import { evaluate } from '../processor/evaluator';
 
 describe.skip('evaluator', () => {
   describe('actions', () => {

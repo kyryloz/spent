@@ -1,5 +1,6 @@
-import { parse } from '../parser'
-import { Grammar } from '../grammar/grammar'
+import { Grammar } from '../grammar/grammar';
+import { parse } from '../parser';
+import { tokenize } from '../tokenizer';
 
 describe.skip('parser', () => {
   describe('actions', () => {
@@ -24,7 +25,7 @@ describe.skip('parser', () => {
       }
 
       test('create account', () => {
-        expect(parse(input)).toEqual(expected)
+        expect(parse(tokenize(input))).toEqual(expected)
       })
     })
   })

@@ -23,7 +23,7 @@ export namespace Grammar {
     | 'undo'
     | 'redo'
 
-  export type ActionWord = 'expence' | 'income' | 'transfer' | 'create'
+  export type ActionWord = 'expence' | 'income' | 'transfer' | 'create' | 'get'
 
   export type PrepositionWord = 'on' | 'to' | 'from'
 

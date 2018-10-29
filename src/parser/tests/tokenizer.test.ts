@@ -6,14 +6,14 @@ describe('tokenizer.js', () => {
       const input = 'create account Wallet'
       const expected = ['create', 'account', 'Wallet']
 
-      expect(tokenize(input)).toEqual(expected)
+      expect(tokenize(input).map(t => t.value)).toEqual(expected)
     })
 
     test('complex input', () => {
       const input = "  create  account  'My Wallet'"
       const expected = ['create', 'account', 'My Wallet']
 
-      expect(tokenize(input)).toEqual(expected)
+      expect(tokenize(input).map(t => t.value)).toEqual(expected)
     })
   })
 

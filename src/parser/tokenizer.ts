@@ -1,9 +1,14 @@
 const spaceGuard = '~'
 
-export const tokenize = (input: string): Array<string> => {
+export interface Token {
+  value: string
+}
+
+export const tokenize = (input: string): Array<Token> => {
   return normalize(input)
     .split(/\s/)
     .map(token => unguardSpaces(token))
+    .map(value => ({ value }))
 }
 
 export const normalize = (input: string): string => {
