@@ -2,9 +2,9 @@ import * as ohm from 'ohm-js'
 
 const myGrammar = ohm.grammar(`
   Spent {
-    Exp =
-      | "create" entity name -- create
-      | "expense" value "on" name -- expense
+    Exp = Create | Expense
+    Create = "create" entity name
+    Expense = "expense" value "on" name
     entity = "account" | "category"
     name = letter+
     value = digit+
@@ -12,5 +12,25 @@ const myGrammar = ohm.grammar(`
 `)
 
 export const parseInput = (input: string) => {
-  return myGrammar.match(input).succeeded()
+  const semantic = myGrammar.createSemantics()
+  semantic.addOperation('allOperations', {
+    Exp: function(e) {
+      return e.allOperations()
+    },
+    Create: (_, entity, name) => {
+      console.log(`Create ${entity.sourceString} with name ${name.sourceString}`)
+    },
+    Expense: (_, value, _0, name) => {
+      console.log(`Create expense ($${value.sourceString}) on ${name.sourceString}`)
+    },
+    name: function(_) {
+      return this.sourceString.toString()
+    },
+    value: function(_) {
+      return parseInt(this.sourceString.toString())
+    },
+  })
+  console.log('TEST TEST TEST')
+  const adapter = semantic(myGrammar.match(input))
+  return adapter.allOperations()
 }
