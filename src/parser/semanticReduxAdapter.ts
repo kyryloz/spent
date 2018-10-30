@@ -36,11 +36,12 @@ export const parse = (input: string, dispatch: Dispatch) => {
         })
       )
     },
-    expense: (category, amount) => {
+    expense: (category, amount, source) => {
       dispatch(
         addTransaction(input, {
           category,
           amount,
+          source
         })
       )
     },
