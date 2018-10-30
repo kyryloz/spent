@@ -29,27 +29,28 @@ export const reservedWords = [
 
 export const grammar = ohm.grammar(`
 Spent {
-  // non-terminals
-  Exp = Create | Expense
-  Create = "create" entity accountName
+  Command =
+    | Create
+    | Expense
+  Create = "create" classicSpace* entity classicSpace* accountName
   Expense = "expense" value "on" categoryName
 
   categoryName = identifier
   accountName = identifier
 
-  // terminals
-  entity = "account" | "category"
-  reservedWords = entity
-
-  // identifiers
   identifier =
     | name
     | nameMultiword
 
-  name = ~reservedWords letter+
+  keyword = ("account" | "category" | "expense") ~nameSuffix
+  entity = "account" | "category"
   nameMultiword = "'" classicSpace* name classicSpace* name* classicSpace*"'"
+
+  name = ~keyword letter+ nameSuffix*
+  nameSuffix = "_" | "-" | "@" | "#" | alnum
+
   classicSpace = " "
 
-  value = digit+
+  value = digit+ ("." digit+)?
 }
 `)
