@@ -6,9 +6,7 @@ import * as ohm from 'ohm-js'
 // income 100 to 'Wallet'
 // transfer 100 from 'Credit Card' to 'Wallet'
 
-export const STRING_VALUE_PATTERN = /^[a-zA-Z0-9\-_@#\s:]+$/
-
-export const reservedWords = [
+export const keywords = [
   'expence',
   'income',
   'on',
@@ -27,30 +25,47 @@ export const reservedWords = [
   'get',
 ]
 
+// https://ohmlang.github.io/editor/#2aaa2dcbb7a1ee5f5c676a77f7fe1d89
 export const grammar = ohm.grammar(`
-Spent {
-  Command =
-    | Create
-    | Expense
-  Create = "create" classicSpace* entity classicSpace* accountName
-  Expense = "expense" value "on" categoryName
+  Spent {
+    Command =
+      | Create
+      | Expense
+      | Income
+      | Status
 
-  categoryName = identifier
-  accountName = identifier
+    Create     = "create" entity identifier                        --create
+    Expense    = "expense" number "on" category ("from" account)?  --expense
+    Income     = "income" number "to" account                      --income
+    Status     = "status" status                                   --status
 
-  identifier =
-    | name
-    | nameMultiword
+    category (a category)  = identifier
+    account (an account)   = identifier
 
-  keyword = ("account" | "category" | "expense") ~nameSuffix
-  entity = "account" | "category"
-  nameMultiword = "'" classicSpace* name classicSpace* name* classicSpace*"'"
+    identifier =
+      | word
+      | string
 
-  name = ~keyword letter+ nameSuffix*
-  nameSuffix = "_" | "-" | "@" | "#" | alnum
+    keyword    = (${keywords.map(w => `"${w}"`).join('|')}) ~char
 
-  classicSpace = " "
+    entity =
+      | "account"
+      | "category"
 
-  value = digit+ ("." digit+)?
-}
+    status =
+      | "accounts"
+      | "transactions"
+
+    number     = digit+ ("." digit+)?
+    word       = ~keyword wordprefix+ alnum*
+    string     = "'" char+ "'"
+    char       = ~"\\\\" ~"\\"" ~"'" ~"\\n" any
+
+    wordprefix =
+      | letter
+      | "_"
+      | "-"
+      | "@"
+      | "#"
+  }
 `)
