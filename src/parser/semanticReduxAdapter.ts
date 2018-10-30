@@ -3,31 +3,19 @@ import { addTransaction } from '../store/transactions/actions'
 import { parseGrammar } from './parser'
 import { evaluateAction } from './semantic'
 
-// namespace SemanticAdapter {
-//   export interface Subscription {
-//     unsubscribe: () => void
-//   }
+export const processInput = (input: string, dispatch: Dispatch) => {
+  const parseResult = parseGrammar(input)
 
-//   export interface Stream {
-//     processAction: (action: Action) => void
-//   }
+  if (parseResult.error) {
+    dispatch(
+      addTransaction(input, {
+        error: parseResult.message,
+      })
+    )
+    return
+  }
 
-//   export enum ActionType {
-//     CREATE,
-//     EXPENSE,
-//     INCOME,
-//     STATUS,
-//   }
-
-//   export interface Action {
-//     type: ActionType
-//   }
-// }
-
-export const parse = (input: string, dispatch: Dispatch) => {
-  const match = parseGrammar(input)
-
-  evaluateAction(match, {
+  evaluateAction(parseResult.match, {
     create: (entity, name) => {
       dispatch(
         addTransaction(input, {
@@ -41,7 +29,7 @@ export const parse = (input: string, dispatch: Dispatch) => {
         addTransaction(input, {
           category,
           amount,
-          source
+          source,
         })
       )
     },

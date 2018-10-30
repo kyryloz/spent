@@ -3,7 +3,7 @@ import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Application } from '../../store/interface'
 import { Transactions } from '../../store/transactions/interface'
 import { MainPageView } from './MainPageView'
-import { parse } from '../../parser/semanticReduxAdapter';
+import { processInput } from '../../parser/semanticReduxAdapter';
 
 interface OutterProps {}
 
@@ -33,7 +33,7 @@ export const MainPage = compose<ViewProps, OutterProps>(
       setInput(event.target.value)
     },
     handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      parse(input, dispatch)
+      processInput(input, dispatch)
       setInput('')
     },
   }),
