@@ -1,14 +1,13 @@
-import { parse } from '../parser';
-import { evaluateAction, EvaluateActionCallback } from '../semantic';
+import { parse } from '../parser'
+import { evaluateAction, EvaluateActionCallback } from '../semantic'
 
 describe('semantic.ts', () => {
   describe('runSemantic()', () => {
-
     const mockCallback: EvaluateActionCallback = {
       create: jest.fn(),
       expense: jest.fn(),
       income: jest.fn(),
-      status: jest.fn()
+      status: jest.fn(),
     }
 
     beforeEach(() => {
