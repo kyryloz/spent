@@ -11,7 +11,7 @@ export const RecentTransactionList: React.SFC<Props> = ({ transactions }) => (
     <List component="nav">
       {transactions.map(t => (
         <ListItem key={t.id}>
-          <ListItemText primary={t.rawContent} />
+          <ListItemText primary={t.rawContent} secondary={JSON.stringify(t.payload, null, 2)} />
         </ListItem>
       ))}
     </List>

@@ -21,7 +21,10 @@ semantic.addOperation('eval', {
   },
   Expense: (_, amount, _0, category, _1, account) => {
     if (actionCallback) {
-      const from = account ? account.children[0].eval() : undefined
+      const from =
+        account && account.children && account.children.length > 0
+          ? account.children[0].eval()
+          : undefined
       actionCallback.expense(category.eval(), amount.eval(), from)
     }
     actionCallback = undefined
@@ -40,6 +43,7 @@ semantic.addOperation('eval', {
   },
   number: (value, _, fraction) => parseFloat(`${value.sourceString}${fraction.sourceString}`),
   string: (_, str, _0) => str.sourceString,
+  word: function (this: any, _, _0) { return this.sourceString }
 })
 
 export const evaluateAction = (match: ohm.MatchResult, callback: EvaluateActionCallback) => {

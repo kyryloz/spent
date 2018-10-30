@@ -1,9 +1,9 @@
 import { compose, setDisplayName, withHandlers, withState, pure } from 'recompose'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Application } from '../../store/interface'
-import { addTransaction } from '../../store/transactions/actions'
 import { Transactions } from '../../store/transactions/interface'
 import { MainPageView } from './MainPageView'
+import { parse } from '../../parser/semanticReduxAdapter';
 
 interface OutterProps {}
 
@@ -33,7 +33,7 @@ export const MainPage = compose<ViewProps, OutterProps>(
       setInput(event.target.value)
     },
     handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      dispatch(addTransaction(input, { t: null }))
+      parse(input, dispatch)
       setInput('')
     },
   }),
