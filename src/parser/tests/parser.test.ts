@@ -34,6 +34,20 @@ describe('parser.ts', () => {
       })
     })
 
+    describe('new lines', () => {
+      test('forbid new lines in terminals', () => {
+        const input = `create account 'My
+        Account'`
+        expect(parse(input).succeeded()).toBeFalsy()
+      })
+
+      test('grant new lines between non-terminals', () => {
+        const input = `create
+        account 'My Account'`
+        expect(parse(input).succeeded()).toBeTruthy()
+      })
+    })
+
     describe('commands', () => {
       describe('expense', () => {
         test('case1', () => {
