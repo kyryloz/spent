@@ -6,7 +6,7 @@ import * as ohm from 'ohm-js'
 // income 100 to 'Wallet'
 // transfer 100 from 'Credit Card' to 'Wallet'
 
-export const keywords = [
+const keywords = [
   'expence',
   'income',
   'on',
