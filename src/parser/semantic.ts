@@ -4,15 +4,19 @@ import { grammar } from './grammar'
 const semantic = grammar.createSemantics()
 
 semantic.addOperation('eval', {
-  Exp: e => e.eval(),
-  Create: (_, entity, name) => {
-    console.log(`Create ${entity.sourceString} with name ${name.sourceString}`)
+  Create: (_, entity, identifier) => {
+    console.log(`Create ${entity.sourceString} with name '${identifier.sourceString}'`)
   },
-  Expense: (_, value, _0, name) => {
-    console.log(`Create expense ($${value.sourceString}) on ${name.sourceString}`)
+  Expense: (_, value, _0, identifier, _1, account) => {
+    const from = account ? account.sourceString : ''
+    console.log(`Create expense ($${value.sourceString}) on ${identifier.sourceString} ${from}`)
   },
-  name: node => node.sourceString,
-  value: node => parseInt(node.sourceString),
+  Income: (_, value, _0, account) => {
+    console.log(`Income ($${value.sourceString}) to '${account.sourceString}'`)
+  },
+  Status: (_, entity) => {
+    console.log(`Show status of ${entity.sourceString}`)
+  },
 })
 
 export const runSemantic = (match: ohm.MatchResult) => {

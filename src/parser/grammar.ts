@@ -34,10 +34,10 @@ export const grammar = ohm.grammar(`
       | Income
       | Status
 
-    Create     = "create" entity identifier                        --create
-    Expense    = "expense" number "on" category ("from" account)?  --expense
-    Income     = "income" number "to" account                      --income
-    Status     = "status" status                                   --status
+    Create     = "create" entity identifier
+    Expense    = "expense" number "on" category ("from" account)?
+    Income     = "income" number "to" account
+    Status     = "status" status
 
     category (a category)  = identifier
     account (an account)   = identifier
