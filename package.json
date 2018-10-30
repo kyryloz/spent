@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "description": "Expense manager for geeks",
   "private": true,
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
   "dependencies": {
     "@material-ui/core": "^3.3.1",
     "@material-ui/icons": "^3.0.1",
@@ -16,13 +22,8 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
-    "redux-saga": "^0.16.2"
-  },
-  "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "redux-saga": "^0.16.2",
+    "rxjs": "^6.3.3"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.6",
