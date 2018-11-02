@@ -6,11 +6,12 @@ export namespace Application {
     readonly transactions: Transactions.State
   }
 
-  export interface Action<T = any> extends AnyAction {
-    readonly payload: T
+  export interface Action<Payload, Type> extends AnyAction {
+    readonly type: Type
+    readonly payload: Payload
   }
 
   export type ConnectedComponentProps<StateProps> = {
-    dispatch: Dispatch<Application.Action>
+    dispatch: Dispatch<Application.Action<any, any>>
   } & StateProps
 }

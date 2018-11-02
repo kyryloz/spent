@@ -1,41 +1,53 @@
 import { Dispatch } from 'redux'
-import { addTransaction } from '../store/transactions/actions'
+import { addTransaction, errorTransaction } from '../store/transactions/actions'
 import { parseGrammar } from './parser'
 import { evaluateAction } from './semantic'
+import { Transactions } from '../store/transactions/interface'
 
 export const processInput = (input: string, dispatch: Dispatch) => {
   const parseResult = parseGrammar(input)
 
   if (parseResult.error) {
-    dispatch(
-      addTransaction(input, {
-        error: parseResult.message,
-      })
-    )
+    dispatch(errorTransaction(parseResult.message || 'unknown error'))
     return
   }
 
   evaluateAction(parseResult.match, {
-    create: (entity, name) => {
+    create: (entityName, name) => {
+      let entity: Transactions.Entity
+      switch (entityName) {
+        case 'account':
+          entity = Transactions.Entity.ACCOUNT
+          break
+        case 'category':
+          entity = Transactions.Entity.CATEGORY
+          break
+        default:
+          throw new Error(`Unknown entity name: '${entityName}'`)
+      }
+
       dispatch(
-        addTransaction(input, {
+        addTransaction<Transactions.Create>(input, {
+          type: 'create',
           entity,
           name,
         })
       )
     },
-    expense: (category, amount, source) => {
+    expense: (category, amount, fromAccount) => {
       dispatch(
-        addTransaction(input, {
+        addTransaction<Transactions.Expense>(input, {
+          type: 'expense',
           category,
           amount,
-          source,
+          fromAccount,
         })
       )
     },
     income: (accountName, amount) => {
       dispatch(
-        addTransaction(input, {
+        addTransaction<Transactions.Income>(input, {
+          type: 'income',
           accountName,
           amount,
         })
@@ -43,7 +55,8 @@ export const processInput = (input: string, dispatch: Dispatch) => {
     },
     status: what => {
       dispatch(
-        addTransaction(input, {
+        addTransaction<Transactions.Status>(input, {
+          type: 'status',
           what,
         })
       )
