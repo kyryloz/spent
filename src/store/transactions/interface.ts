@@ -4,9 +4,9 @@ export namespace Transactions {
   }
 
   export const enum ActionTypes {
-    TRANSACTION_ADD = '@@transaction/add',
-    TRANSACTION_REMOVE = '@@transaction/remove',
-    TRANSACTION_PARSE_ERROR = '@@transaction/error',
+    TRANSACTION_ADD = '@@transaction/ADD',
+    TRANSACTION_REMOVE = '@@transaction/REMOVE',
+    TRANSACTION_PARSE_ERROR = '@@transaction/PARSE_ERROR',
   }
 
   export interface Transaction<T extends TransactionPayload> {
