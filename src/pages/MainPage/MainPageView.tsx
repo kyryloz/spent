@@ -24,13 +24,13 @@ export const MainPageView: React.SFC<ViewProps> = ({
           input={input}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <RecentTransactionList transactions={transactions} />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <AccountsList accounts={accounts} />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <CategoriesList categories={categories} />
       </Grid>
     </Grid>

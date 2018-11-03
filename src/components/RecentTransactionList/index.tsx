@@ -12,7 +12,7 @@ export const RecentTransactionList: React.SFC<Props> = ({ transactions }) => (
       {transactions.map(t => (
         <ListItem key={t.id}>
           <ListItemText
-            primary={`${t.details.transactionType}: ${t.rawContent}`}
+            primary={t.rawContent}
             secondary={JSON.stringify(t.details, null, 2)}
           />
         </ListItem>
