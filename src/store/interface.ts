@@ -18,6 +18,10 @@ export namespace Application {
     dispatch: Dispatch<Application.Action<any, any>>
   } & StateProps
 
+  export interface StyledComponentProps {
+    classes: any
+  }
+
   export interface Identifiable {
     id: string
   }

@@ -1,11 +1,12 @@
-import { compose, setDisplayName, withHandlers, withState, pure } from 'recompose'
+import { withStyles } from '@material-ui/core'
+import { compose, pure, setDisplayName } from 'recompose'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { Accounts } from '../../store/accounts/interface'
+import { Categories } from '../../store/categories/interface'
 import { Application } from '../../store/interface'
 import { Transactions } from '../../store/transactions/interface'
 import { MainPageView } from './MainPageView'
-import { evaluate } from '../../parser/evaluator'
-import { Accounts } from '../../store/accounts/interface'
-import { Categories } from '../../store/categories/interface'
+import { styles } from './styles'
 
 interface OutterProps {}
 
@@ -15,34 +16,21 @@ interface ConnectedProps {
   categories: Array<Categories.Category>
 }
 
-interface InnerProps extends Application.ConnectedComponentProps<ConnectedProps> {
-  input: string
-  setInput: (input: string) => void
-}
+interface InnerProps
+  extends Application.ConnectedComponentProps<ConnectedProps>,
+    Application.StyledComponentProps {} // TODO fix this type
 
-interface HandlerProps {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  handleInputSubmit: () => void
-}
+interface HandlerProps {}
 
 export type ViewProps = OutterProps & InnerProps & HandlerProps
 
 export const MainPage = compose<ViewProps, OutterProps>(
+  withStyles(styles),
   withConnectedProps<ConnectedProps>(state => ({
     transactions: state.transactions.recent,
     accounts: state.accounts.list,
-    categories: state.categories.list
+    categories: state.categories.list,
   })),
-  withState('input', 'setInput', ''),
-  withHandlers<OutterProps & InnerProps, HandlerProps>({
-    handleInputChange: ({ setInput }) => event => {
-      setInput(event.target.value)
-    },
-    handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      evaluate(input, dispatch)
-      setInput('')
-    },
-  }),
   pure,
   setDisplayName('MainPage')
 )(MainPageView)
