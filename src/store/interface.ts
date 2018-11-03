@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch } from 'redux'
+import { Action as ReduxAction, Dispatch } from 'redux'
 import { Transactions } from './transactions/interface'
 
 export namespace Application {
@@ -6,8 +6,7 @@ export namespace Application {
     readonly transactions: Transactions.State
   }
 
-  export interface Action<Payload, Type> extends AnyAction {
-    readonly type: Type
+  export interface Action<Payload, Type> extends ReduxAction<Type> {
     readonly payload: Payload
   }
 

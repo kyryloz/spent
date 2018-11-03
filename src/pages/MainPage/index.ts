@@ -8,7 +8,7 @@ import { processInput } from '../../parser/semanticReduxAdapter';
 interface OutterProps {}
 
 interface ConnectedProps {
-  recentTransactions: Array<Transactions.Transaction<Transactions.TransactionPayload>>
+  recentTransactions: Array<Transactions.Transaction>
 }
 
 interface InnerProps extends Application.ConnectedComponentProps<ConnectedProps> {

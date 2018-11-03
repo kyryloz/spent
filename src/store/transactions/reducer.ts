@@ -1,34 +1,39 @@
 import { Reducer } from 'redux'
-import { Application } from '../interface'
 import { Transactions } from './interface'
 
 const initialState: Transactions.State = {
   recent: [],
 }
 
-export const transactions: Reducer<
-  Transactions.State,
-  Application.Action<any, Transactions.ActionTypes>
-> = (state = initialState, action): Transactions.State => {
+export const transactions: Reducer<Transactions.State, Transactions.Action> = (
+  state = initialState,
+  action
+): Transactions.State => {
   switch (action.type) {
     case Transactions.ActionTypes.TRANSACTION_ADD: {
+      const payload = (<Transactions.Actions.Add>action).payload
+
       return {
         ...state,
-        recent: [...state.recent, action.payload],
+        recent: [...state.recent, payload],
       }
     }
     case Transactions.ActionTypes.TRANSACTION_REMOVE: {
+      const payload = (<Transactions.Actions.Remove>action).payload
+
       return {
         ...state,
-        recent: state.recent.filter(entry => entry.id !== action.payload.id),
+        recent: state.recent.filter(entry => entry.id !== payload),
       }
     }
     case Transactions.ActionTypes.TRANSACTION_PARSE_ERROR: {
-      const errorTransaction: Transactions.Transaction<any> = {
-        id: `error: ${state.recent.length}`,
-        rawContent: action.payload,
-        data: {
-          type: 'error'
+      const payload = (<Transactions.Actions.ParsingError>action).payload
+
+      const errorTransaction: Transactions.Transaction = {
+        id: `error_${state.recent.length}`,
+        rawContent: payload,
+        details: {
+          transactionType: Transactions.TransactionType.STATUS,
         },
       }
 

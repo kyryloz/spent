@@ -1,6 +1,8 @@
+import { Application } from '../interface'
+
 export namespace Transactions {
   export interface State {
-    readonly recent: Array<Transaction<TransactionPayload>>
+    readonly recent: Array<Transaction>
   }
 
   export const enum ActionTypes {
@@ -9,10 +11,18 @@ export namespace Transactions {
     TRANSACTION_PARSE_ERROR = '@@transaction/PARSE_ERROR',
   }
 
-  export interface Transaction<T extends TransactionPayload> {
+  export type Action = Application.Action<any, ActionTypes>
+
+  export namespace Actions {
+    export type Add = Application.Action<Transaction, ActionTypes>
+    export type Remove = Application.Action<string, ActionTypes>
+    export type ParsingError = Application.Action<string, ActionTypes>
+  }
+
+  export interface Transaction {
     readonly id: string
     readonly rawContent: string
-    readonly data: T
+    readonly details: TransactionDetails
   }
 
   export enum Entity {
@@ -20,33 +30,38 @@ export namespace Transactions {
     CATEGORY = 'category',
   }
 
-  export type TransactionType = 'create' | 'expense' | 'income' | 'status'
-
-  export interface TransactionPayload {
-    readonly type: TransactionType
+  export enum TransactionType {
+    CREATE = 'create',
+    EXPENSE = 'expense',
+    INCOME = 'income',
+    STATUS = 'status',
   }
 
-  export interface Create extends TransactionPayload {
-    readonly type: 'create'
+  export interface TransactionDetails {
+    readonly transactionType: TransactionType
+  }
+
+  export interface Create extends TransactionDetails {
+    readonly transactionType: TransactionType.CREATE
     readonly entity: Entity
     readonly name: string
   }
 
-  export interface Expense extends TransactionPayload {
-    readonly type: 'expense'
+  export interface Expense extends TransactionDetails {
+    readonly transactionType: TransactionType.EXPENSE
     readonly category: string
     readonly amount: number
     readonly fromAccount?: string
   }
 
-  export interface Income extends TransactionPayload {
-    readonly type: 'income'
+  export interface Income extends TransactionDetails {
+    readonly transactionType: TransactionType.INCOME
     readonly accountName: string
     readonly amount: number
   }
 
-  export interface Status extends TransactionPayload {
-    readonly type: 'status'
+  export interface Status extends TransactionDetails {
+    readonly transactionType: TransactionType.STATUS
     readonly what: string
   }
 }

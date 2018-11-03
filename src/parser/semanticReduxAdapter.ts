@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux'
 import { addTransaction, errorTransaction } from '../store/transactions/actions'
+import { Transactions } from '../store/transactions/interface'
 import { parseGrammar } from './parser'
 import { evaluateAction } from './semantic'
-import { Transactions } from '../store/transactions/interface'
 
 export const processInput = (input: string, dispatch: Dispatch) => {
   const parseResult = parseGrammar(input)
@@ -28,7 +28,7 @@ export const processInput = (input: string, dispatch: Dispatch) => {
 
       dispatch(
         addTransaction<Transactions.Create>(input, {
-          type: 'create',
+          transactionType: Transactions.TransactionType.CREATE,
           entity,
           name,
         })
@@ -37,7 +37,7 @@ export const processInput = (input: string, dispatch: Dispatch) => {
     expense: (category, amount, fromAccount) => {
       dispatch(
         addTransaction<Transactions.Expense>(input, {
-          type: 'expense',
+          transactionType: Transactions.TransactionType.EXPENSE,
           category,
           amount,
           fromAccount,
@@ -47,7 +47,7 @@ export const processInput = (input: string, dispatch: Dispatch) => {
     income: (accountName, amount) => {
       dispatch(
         addTransaction<Transactions.Income>(input, {
-          type: 'income',
+          transactionType: Transactions.TransactionType.INCOME,
           accountName,
           amount,
         })
@@ -56,7 +56,7 @@ export const processInput = (input: string, dispatch: Dispatch) => {
     status: what => {
       dispatch(
         addTransaction<Transactions.Status>(input, {
-          type: 'status',
+          transactionType: Transactions.TransactionType.STATUS,
           what,
         })
       )
