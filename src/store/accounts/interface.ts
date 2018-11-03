@@ -15,11 +15,11 @@ export namespace Accounts {
 
   export namespace Actions {
     export type Add = Application.Action<Account, ActionTypes>
-    export type Remove = Application.Action<string, ActionTypes>
+    export type Remove = Application.Action<Application.Identifiable, ActionTypes>
     export type BalanceChange = Application.Action<BalanceChangePayload, ActionTypes>
   }
 
-  export interface Account {
+  export interface Account extends Application.Identifiable {
     readonly name: string
     readonly balance: number
   }

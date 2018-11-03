@@ -13,4 +13,8 @@ export namespace Application {
   export type ConnectedComponentProps<StateProps> = {
     dispatch: Dispatch<Application.Action<any, any>>
   } & StateProps
+
+  export interface Identifiable {
+    id: string
+  }
 }

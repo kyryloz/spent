@@ -1,8 +1,10 @@
+import { uuidv4 } from '../../utils/math'
 import { Accounts } from './interface'
 
 export const addAccount = (name: string, balance: number): Accounts.Actions.Add => ({
   type: Accounts.ActionTypes.ACCOUNT_ADD,
   payload: {
+    id: uuidv4(),
     name,
     balance,
   },
@@ -10,7 +12,9 @@ export const addAccount = (name: string, balance: number): Accounts.Actions.Add 
 
 export const removeAccount = (id: string): Accounts.Actions.Remove => ({
   type: Accounts.ActionTypes.ACCOUNT_REMOVE,
-  payload: id,
+  payload: {
+    id,
+  },
 })
 
 export const errorTransaction = (
