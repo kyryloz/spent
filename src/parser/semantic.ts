@@ -1,7 +1,7 @@
 import * as ohm from 'ohm-js'
 import { grammar } from './grammar'
 
-export interface EvaluateActionCallback {
+export interface SemanticCallback {
   create: (entity: string, name: string) => void
   expense: (category: string, amount: number, source: string) => void
   income: (accountName: string, amount: number) => void
@@ -10,7 +10,7 @@ export interface EvaluateActionCallback {
 
 const semantic = grammar.createSemantics()
 
-let actionCallback: EvaluateActionCallback | undefined = undefined
+let actionCallback: SemanticCallback | undefined = undefined
 
 semantic.addOperation('eval', {
   Create: (_, entity, name) => {
@@ -42,7 +42,7 @@ semantic.addOperation('eval', {
   word: function (this: any, _, _0) { return this.sourceString }
 })
 
-export const evaluateAction = (match: ohm.MatchResult, callback: EvaluateActionCallback) => {
+export const runSemantic = (match: ohm.MatchResult, callback: SemanticCallback) => {
   actionCallback = callback
   semantic(match).eval()
 }

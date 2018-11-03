@@ -3,7 +3,7 @@ import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Application } from '../../store/interface'
 import { Transactions } from '../../store/transactions/interface'
 import { MainPageView } from './MainPageView'
-import { getActions } from '../../parser/reduxActionsEvaluator'
+import { evaluate } from '../../parser/evaluator'
 import { Accounts } from '../../store/accounts/interface'
 import { Categories } from '../../store/categories/interface'
 
@@ -39,7 +39,7 @@ export const MainPage = compose<ViewProps, OutterProps>(
       setInput(event.target.value)
     },
     handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      getActions(input).forEach(action => dispatch(action))
+      evaluate(input, dispatch)
       setInput('')
     },
   }),
