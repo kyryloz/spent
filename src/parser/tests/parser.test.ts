@@ -14,7 +14,7 @@ describe('parser.ts', () => {
       })
 
       test('case3', () => {
-        const input = "expense 100 on '  My  Clothes  '"
+        const input = "expense 100 on '  My  Clothes  ' from Wallet"
         expect(parseGrammar(input).success).toBeTruthy()
       })
 
@@ -117,17 +117,17 @@ describe('parser.ts', () => {
         })
 
         test('case4', () => {
-          const input = 'expense 200 on clothes'
+          const input = 'expense 200 on clothes from Wallet'
           expect(parseGrammar(input).success).toBeTruthy()
         })
 
         test('case5', () => {
-          const input = "expense 200 on 'My Clothes'"
+          const input = "expense 200 on 'My Clothes' from Wallet"
           expect(parseGrammar(input).success).toBeTruthy()
         })
 
         test('case6', () => {
-          const input = "expense 200.25 on 'My Clothes'"
+          const input = "expense 200.25 on 'My Clothes' from Wallet"
           expect(parseGrammar(input).success).toBeTruthy()
         })
 

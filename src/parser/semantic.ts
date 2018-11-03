@@ -21,11 +21,7 @@ semantic.addOperation('eval', {
   },
   Expense: (_, amount, _0, category, _1, account) => {
     if (actionCallback) {
-      const from =
-        account && account.children && account.children.length > 0
-          ? account.children[0].eval()
-          : undefined
-      actionCallback.expense(category.eval(), amount.eval(), from)
+      actionCallback.expense(category.eval(), amount.eval(), account.eval())
     }
     actionCallback = undefined
   },
