@@ -17,7 +17,7 @@ export const removeAccount = (id: string): Accounts.Actions.Remove => ({
   },
 })
 
-export const errorTransaction = (
+export const changeBalance = (
   accountName: string,
   amount: number
 ): Accounts.Actions.BalanceChange => ({

@@ -3,6 +3,8 @@ import { addTransaction, errorTransaction } from '../store/transactions/actions'
 import { Transactions } from '../store/transactions/interface'
 import { parseGrammar } from './parser'
 import { evaluateAction } from './semantic'
+import { addAccount, changeBalance } from '../store/accounts/actions';
+import { addCategory } from '../store/categories/actions';
 
 export const processInput = (input: string, dispatch: Dispatch) => {
   const parseResult = parseGrammar(input)
@@ -18,9 +20,11 @@ export const processInput = (input: string, dispatch: Dispatch) => {
       switch (entityName) {
         case 'account':
           entity = Transactions.Entity.ACCOUNT
+          dispatch(addAccount(name, 0))
           break
         case 'category':
           entity = Transactions.Entity.CATEGORY
+          dispatch(addCategory(name))
           break
         default:
           throw new Error(`Unknown entity name: '${entityName}'`)
@@ -43,6 +47,9 @@ export const processInput = (input: string, dispatch: Dispatch) => {
           fromAccount,
         })
       )
+      if (fromAccount) {
+        dispatch(changeBalance(fromAccount, -amount))
+      }
     },
     income: (accountName, amount) => {
       dispatch(
@@ -52,6 +59,7 @@ export const processInput = (input: string, dispatch: Dispatch) => {
           amount,
         })
       )
+      dispatch(changeBalance(accountName, amount))
     },
     status: what => {
       dispatch(
