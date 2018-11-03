@@ -3,12 +3,16 @@ import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Application } from '../../store/interface'
 import { Transactions } from '../../store/transactions/interface'
 import { MainPageView } from './MainPageView'
-import { processInput } from '../../parser/semanticReduxAdapter';
+import { processInput } from '../../parser/semanticReduxAdapter'
+import { Accounts } from '../../store/accounts/interface'
+import { Categories } from '../../store/categories/interface'
 
 interface OutterProps {}
 
 interface ConnectedProps {
-  recentTransactions: Array<Transactions.Transaction>
+  transactions: Array<Transactions.Transaction>
+  accounts: Array<Accounts.Account>
+  categories: Array<Categories.Category>
 }
 
 interface InnerProps extends Application.ConnectedComponentProps<ConnectedProps> {
@@ -25,7 +29,9 @@ export type ViewProps = OutterProps & InnerProps & HandlerProps
 
 export const MainPage = compose<ViewProps, OutterProps>(
   withConnectedProps<ConnectedProps>(state => ({
-    recentTransactions: state.transactions.recent,
+    transactions: state.transactions.recent,
+    accounts: state.accounts.list,
+    categories: state.categories.list
   })),
   withState('input', 'setInput', ''),
   withHandlers<OutterProps & InnerProps, HandlerProps>({

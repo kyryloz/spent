@@ -2,7 +2,7 @@ import { Application } from '../interface'
 
 export namespace Categories {
   export interface State {
-    readonly categories: Array<Category>
+    readonly list: Array<Category>
   }
 
   export const enum ActionTypes {

@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 import { Accounts } from './interface'
 
 const initialState: Accounts.State = {
-  accounts: [],
+  list: [],
 }
 
 export const accounts: Reducer<Accounts.State, Accounts.Action> = (
@@ -13,12 +13,12 @@ export const accounts: Reducer<Accounts.State, Accounts.Action> = (
     case Accounts.ActionTypes.ACCOUNT_ADD: {
       const payload = (<Accounts.Actions.Add>action).payload
 
-      if (state.accounts.find(entry => entry.name === payload.name)) {
+      if (state.list.find(entry => entry.name === payload.name)) {
         return state
       } else {
         return {
           ...state,
-          accounts: [...state.accounts, payload],
+          list: [...state.list, payload],
         }
       }
     }
@@ -27,7 +27,7 @@ export const accounts: Reducer<Accounts.State, Accounts.Action> = (
 
       return {
         ...state,
-        accounts: state.accounts.filter(entry => entry.id !== payload.id),
+        list: state.list.filter(entry => entry.id !== payload.id),
       }
     }
     case Accounts.ActionTypes.ACCOUNT_BALANCE_CHANGE: {
@@ -35,7 +35,7 @@ export const accounts: Reducer<Accounts.State, Accounts.Action> = (
 
       return {
         ...state,
-        accounts: state.accounts.map(acc => {
+        list: state.list.map(acc => {
           if (acc.name === payload.accountName) {
             return {
               ...acc,
