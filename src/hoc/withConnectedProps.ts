@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { Application } from '../store/interface'
+import { App } from '../store/interface'
 
 export const withConnectedProps = <RequiredProps>(
-  mapStateToProps: ((state: Application.State) => RequiredProps)
+  mapStateToProps: ((state: App.State) => RequiredProps)
 ) => connect(mapStateToProps)

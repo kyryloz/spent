@@ -1,4 +1,4 @@
-import { Application } from '../interface'
+import { App } from '../interface'
 
 export namespace Categories {
   export interface State {
@@ -10,14 +10,14 @@ export namespace Categories {
     CATEGORY_REMOVE = '@@category/REMOVE',
   }
 
-  export type Action = Application.Action<any, ActionTypes>
+  export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Add = Application.Action<Category, ActionTypes>
-    export type Remove = Application.Action<Application.Identifiable, ActionTypes>
+    export type Add = App.Action<Category, ActionTypes>
+    export type Remove = App.Action<App.Identifiable, ActionTypes>
   }
 
-  export interface Category extends Application.Identifiable {
+  export interface Category extends App.Identifiable {
     readonly name: string
   }
 }

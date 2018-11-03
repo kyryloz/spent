@@ -3,7 +3,7 @@ import { Accounts } from './accounts/interface'
 import { Categories } from './categories/interface'
 import { Transactions } from './transactions/interface'
 
-export namespace Application {
+export namespace App {
   export interface State {
     readonly transactions: Transactions.State
     readonly accounts: Accounts.State
@@ -15,12 +15,8 @@ export namespace Application {
   }
 
   export type ConnectedComponentProps<StateProps> = {
-    dispatch: Dispatch<Application.Action<any, any>>
+    dispatch: Dispatch<App.Action<any, any>>
   } & StateProps
-
-  export interface StyledComponentProps {
-    classes: any
-  }
 
   export interface Identifiable {
     id: string

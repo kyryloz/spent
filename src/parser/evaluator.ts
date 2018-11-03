@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import { accountsActionCreator } from '../store/accounts/actions'
 import { categoriesActionCreator } from '../store/categories/actions'
-import { Application } from '../store/interface'
+import { App } from '../store/interface'
 import { transactionsActionCreator } from '../store/transactions/actions'
 import { Transactions } from '../store/transactions/interface'
 import { parseGrammar } from './parser'
@@ -11,11 +11,11 @@ const evaluateCreate = (
   input: string,
   entityName: string,
   name: string
-): Array<Application.Action> => {
-  const actions: Array<Application.Action> = []
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
 
   let entity: Transactions.Entity
-  let entityAction: Application.Action
+  let entityAction: App.Action
   switch (entityName) {
     case 'account':
       entity = Transactions.Entity.ACCOUNT
@@ -47,8 +47,8 @@ const evaluateExpense = (
   category: string,
   amount: number,
   fromAccount: string
-): Array<Application.Action> => {
-  const actions: Array<Application.Action> = []
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
 
   actions.push(
     transactionsActionCreator.addTransaction<Transactions.Expense>(input, {
@@ -67,8 +67,8 @@ const evaluateIncome = (
   input: string,
   accountName: string,
   amount: number
-): Array<Application.Action> => {
-  const actions: Array<Application.Action> = []
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
 
   actions.push(
     transactionsActionCreator.addTransaction<Transactions.Income>(input, {
@@ -82,8 +82,8 @@ const evaluateIncome = (
   return actions
 }
 
-const evaluateStatus = (input: string, what: string): Array<Application.Action> => {
-  const actions: Array<Application.Action> = []
+const evaluateStatus = (input: string, what: string): Array<App.Action> => {
+  const actions: Array<App.Action> = []
 
   actions.push(
     transactionsActionCreator.addTransaction<Transactions.Status>(input, {

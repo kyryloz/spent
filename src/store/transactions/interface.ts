@@ -1,4 +1,4 @@
-import { Application } from '../interface'
+import { App } from '../interface'
 
 export namespace Transactions {
   export interface State {
@@ -11,12 +11,12 @@ export namespace Transactions {
     TRANSACTION_PARSE_ERROR = '@@transaction/PARSE_ERROR',
   }
 
-  export type Action = Application.Action<any, ActionTypes>
+  export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Add = Application.Action<Transaction, ActionTypes>
-    export type Remove = Application.Action<string, ActionTypes>
-    export type ParsingError = Application.Action<string, ActionTypes>
+    export type Add = App.Action<Transaction, ActionTypes>
+    export type Remove = App.Action<string, ActionTypes>
+    export type ParsingError = App.Action<string, ActionTypes>
   }
 
   export interface Transaction {

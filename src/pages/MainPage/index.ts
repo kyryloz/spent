@@ -1,9 +1,9 @@
-import { withStyles } from '@material-ui/core'
+import { withStyles, WithStyles } from '@material-ui/core'
 import { compose, pure, setDisplayName } from 'recompose'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Accounts } from '../../store/accounts/interface'
 import { Categories } from '../../store/categories/interface'
-import { Application } from '../../store/interface'
+import { App } from '../../store/interface'
 import { Transactions } from '../../store/transactions/interface'
 import { MainPageView } from './MainPageView'
 import { styles } from './styles'
@@ -16,9 +16,13 @@ interface ConnectedProps {
   categories: Array<Categories.Category>
 }
 
+export interface StyledComponentProps {
+  classes: WithStyles<typeof styles>
+}
+
 interface InnerProps
-  extends Application.ConnectedComponentProps<ConnectedProps>,
-    Application.StyledComponentProps {} // TODO fix this type
+  extends App.ConnectedComponentProps<ConnectedProps>,
+    WithStyles<typeof styles> {}
 
 interface HandlerProps {}
 

@@ -1,6 +1,6 @@
 import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
 import { evaluate } from '../../parser/evaluator'
-import { Application } from '../../store/interface'
+import { App } from '../../store/interface'
 import { SmartInputView } from './SmartInputView'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
 
@@ -8,7 +8,7 @@ interface OutterProps {}
 
 interface ConnectedProps {}
 
-interface InnerProps extends Application.ConnectedComponentProps<ConnectedProps> {
+interface InnerProps extends App.ConnectedComponentProps<ConnectedProps> {
   input: string
   setInput: (input: string) => void
 }

@@ -1,4 +1,4 @@
-import { Application } from '../interface'
+import { App } from '../interface'
 
 export namespace Accounts {
   export interface State {
@@ -11,15 +11,15 @@ export namespace Accounts {
     ACCOUNT_BALANCE_CHANGE = '@@account/BALANCE_CHANGE',
   }
 
-  export type Action = Application.Action<any, ActionTypes>
+  export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Add = Application.Action<Account, ActionTypes>
-    export type Remove = Application.Action<Application.Identifiable, ActionTypes>
-    export type BalanceChange = Application.Action<BalanceChangePayload, ActionTypes>
+    export type Add = App.Action<Account, ActionTypes>
+    export type Remove = App.Action<App.Identifiable, ActionTypes>
+    export type BalanceChange = App.Action<BalanceChangePayload, ActionTypes>
   }
 
-  export interface Account extends Application.Identifiable {
+  export interface Account extends App.Identifiable {
     readonly name: string
     readonly balance: number
   }
