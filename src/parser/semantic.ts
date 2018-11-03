@@ -3,7 +3,7 @@ import { grammar } from './grammar'
 
 export interface EvaluateActionCallback {
   create: (entity: string, name: string) => void
-  expense: (category: string, amount: number, source?: string) => void
+  expense: (category: string, amount: number, source: string) => void
   income: (accountName: string, amount: number) => void
   status: (what: string) => void
 }

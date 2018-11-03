@@ -10,7 +10,7 @@ export namespace Application {
     readonly categories: Categories.State
   }
 
-  export interface Action<Payload, Type> extends ReduxAction<Type> {
+  export interface Action<Payload = any, Type = any> extends ReduxAction<Type> {
     readonly payload: Payload
   }
 

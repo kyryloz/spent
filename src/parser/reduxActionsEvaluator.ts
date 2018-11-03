@@ -1,18 +1,19 @@
-import { Dispatch } from 'redux'
-import { addTransaction, errorTransaction } from '../store/transactions/actions'
+import { accountsActionCreator } from '../store/accounts/actions'
+import { categoriesActionCreator } from '../store/categories/actions'
+import { Application } from '../store/interface'
+import { transactionsActionCreator } from '../store/transactions/actions'
 import { Transactions } from '../store/transactions/interface'
 import { parseGrammar } from './parser'
 import { evaluateAction } from './semantic'
-import { addAccount, changeBalance } from '../store/accounts/actions';
-import { addCategory } from '../store/categories/actions';
 
-export const processInput = (input: string, dispatch: Dispatch) => {
+export const getActions = (input: string): Array<Application.Action> => {
   const parseResult = parseGrammar(input)
 
   if (parseResult.error) {
-    dispatch(errorTransaction(parseResult.message || 'unknown error'))
-    return
+    return [transactionsActionCreator.errorTransaction(parseResult.message || 'unknown error')]
   }
+
+  const actions: Array<Application.Action<any, any>> = []
 
   evaluateAction(parseResult.match, {
     create: (entityName, name) => {
@@ -20,18 +21,18 @@ export const processInput = (input: string, dispatch: Dispatch) => {
       switch (entityName) {
         case 'account':
           entity = Transactions.Entity.ACCOUNT
-          dispatch(addAccount(name, 0))
+          actions.push(accountsActionCreator.addAccount(name, 0))
           break
         case 'category':
           entity = Transactions.Entity.CATEGORY
-          dispatch(addCategory(name))
+          actions.push(categoriesActionCreator.addCategory(name))
           break
         default:
           throw new Error(`Unknown entity name: '${entityName}'`)
       }
 
-      dispatch(
-        addTransaction<Transactions.Create>(input, {
+      actions.push(
+        transactionsActionCreator.addTransaction<Transactions.Create>(input, {
           transactionType: Transactions.TransactionType.CREATE,
           entity,
           name,
@@ -39,35 +40,35 @@ export const processInput = (input: string, dispatch: Dispatch) => {
       )
     },
     expense: (category, amount, fromAccount) => {
-      dispatch(
-        addTransaction<Transactions.Expense>(input, {
+      actions.push(
+        transactionsActionCreator.addTransaction<Transactions.Expense>(input, {
           transactionType: Transactions.TransactionType.EXPENSE,
           category,
           amount,
           fromAccount,
         })
       )
-      if (fromAccount) {
-        dispatch(changeBalance(fromAccount, -amount))
-      }
+      actions.push(accountsActionCreator.changeBalance(fromAccount, -amount))
     },
     income: (accountName, amount) => {
-      dispatch(
-        addTransaction<Transactions.Income>(input, {
+      actions.push(
+        transactionsActionCreator.addTransaction<Transactions.Income>(input, {
           transactionType: Transactions.TransactionType.INCOME,
           accountName,
           amount,
         })
       )
-      dispatch(changeBalance(accountName, amount))
+      actions.push(accountsActionCreator.changeBalance(accountName, amount))
     },
     status: what => {
-      dispatch(
-        addTransaction<Transactions.Status>(input, {
+      actions.push(
+        transactionsActionCreator.addTransaction<Transactions.Status>(input, {
           transactionType: Transactions.TransactionType.STATUS,
           what,
         })
       )
     },
   })
+
+  return actions
 }
