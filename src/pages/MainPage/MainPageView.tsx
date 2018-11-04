@@ -13,9 +13,7 @@ export const MainPageView: React.SFC<ViewProps> = ({ classes }) => (
       </Typography>
     </header>
     <main className={classes.main}>
-      <div className={classes.section}>
-        <SmartOutput />
-      </div>
+      <SmartOutput />
     </main>
     <footer className={classes.footer}>
       <SmartInput />

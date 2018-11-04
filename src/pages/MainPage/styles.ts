@@ -23,12 +23,6 @@ export const styles = (theme: Theme) =>
       flex: 1,
       overflow: 'auto',
     },
-    section: {
-      height: '100%',
-      overflow: 'auto',
-      border: '1px solid #aaaaaa20',
-      borderRadius: 5,
-    },
     footer: {
       marginTop: theme.spacing.unit * 4,
       marginBottom: theme.spacing.unit * 4,
