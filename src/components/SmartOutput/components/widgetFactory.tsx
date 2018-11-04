@@ -1,6 +1,7 @@
 import { ListItem, ListItemText } from '@material-ui/core'
 import * as React from 'react'
 import { Transactions } from '../../../store/transactions/interface'
+import { Expense } from './Expense'
 
 export const createWidget = (transaction: Transactions.Transaction) => {
   switch (transaction.details.transactionType) {
@@ -17,16 +18,7 @@ export const createWidget = (transaction: Transactions.Transaction) => {
       )
     }
     case Transactions.TransactionType.EXPENSE: {
-      const details = transaction.details as Transactions.Expense
-
-      return (
-        <ListItem>
-          <ListItemText
-            primary={transaction.rawContent}
-            secondary={`Expence $${details.amount} on '${details.category}' recorded`}
-          />
-        </ListItem>
-      )
+      return <Expense transaction={transaction as Transactions.Transaction<Transactions.Expense>} />
     }
     case Transactions.TransactionType.INCOME: {
       const details = transaction.details as Transactions.Income

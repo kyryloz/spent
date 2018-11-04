@@ -19,10 +19,10 @@ export namespace Transactions {
     export type ParsingError = App.Action<string, ActionTypes>
   }
 
-  export interface Transaction {
+  export interface Transaction<T extends TransactionDetails = TransactionDetails> {
     readonly id: string
     readonly rawContent: string
-    readonly details: TransactionDetails
+    readonly details: T
   }
 
   export enum Entity {
