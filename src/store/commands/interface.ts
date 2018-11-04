@@ -56,16 +56,16 @@ export namespace Commands {
   export interface Expense extends Command {
     readonly commandType: CommandType.EXPENSE
     readonly data: {
-      readonly category: string
+      readonly categoryId: string
+      readonly accountId: string
       readonly amount: number
-      readonly fromAccount: string
     }
   }
 
   export interface Income extends Command {
     readonly commandType: CommandType.INCOME
     readonly data: {
-      readonly accountName: string
+      readonly accountId: string
       readonly amount: number
     }
   }

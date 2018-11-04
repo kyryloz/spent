@@ -19,5 +19,6 @@ export namespace Categories {
 
   export interface Category extends App.Identifiable {
     readonly name: string
+    readonly commandIds: Array<string>
   }
 }

@@ -30,23 +30,6 @@ export const accounts: Reducer<Accounts.State, Accounts.Action> = (
         items: state.items.filter(entry => entry.id !== payload.id),
       }
     }
-    case Accounts.ActionTypes.ACCOUNT_BALANCE_CHANGE: {
-      const payload = (<Accounts.Actions.BalanceChange>action).payload
-
-      return {
-        ...state,
-        items: state.items.map(acc => {
-          if (acc.name === payload.accountName) {
-            return {
-              ...acc,
-              balance: acc.balance + payload.amount,
-            }
-          }
-
-          return acc
-        }),
-      }
-    }
     default: {
       return state
     }
