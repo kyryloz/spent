@@ -1,9 +1,14 @@
 import * as React from 'react'
 import { ViewProps } from '.'
-import { RecentTransactionList } from '../RecentTransactionList'
+import { createWidget } from './components/widgetFactory'
+import { List } from '@material-ui/core';
 
 export const SmartOutputView: React.SFC<ViewProps> = ({ transactions, classes }) => (
   <div className={classes.root}>
-    <RecentTransactionList transactions={transactions} />
+    <List component="nav">
+      {transactions.map(t => (
+        <div key={t.id}>{createWidget(t)}</div>
+      ))}
+    </List>
   </div>
 )
