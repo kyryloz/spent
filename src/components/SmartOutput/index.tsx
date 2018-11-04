@@ -5,6 +5,7 @@ import { App } from '../../store/interface'
 import { Transactions } from '../../store/transactions/interface'
 import { SmartOutputView } from './SmartOutputView'
 import { styles } from './styles'
+import { transactionsSelector } from '../../store/transactions/selectors';
 
 interface OutterProps {}
 
@@ -24,7 +25,7 @@ export const SmartOutput = compose<ViewProps, OutterProps>(
   withStyles(styles),
   withState('input', 'setInput', ''),
   withConnectedProps<ConnectedProps>(state => ({
-    transactions: state.transactions.recent,
+    transactions: transactionsSelector.items(state),
   })),
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
   pure,

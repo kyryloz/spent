@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 import { Categories } from './interface'
 
 const initialState: Categories.State = {
-  list: [],
+  items: [],
 }
 
 export const categories: Reducer<Categories.State, Categories.Action> = (
@@ -13,12 +13,12 @@ export const categories: Reducer<Categories.State, Categories.Action> = (
     case Categories.ActionTypes.CATEGORY_ADD: {
       const payload = (<Categories.Actions.Add>action).payload
 
-      if (state.list.find(entry => entry.name === payload.name)) {
+      if (state.items.find(entry => entry.name === payload.name)) {
         return state
       } else {
         return {
           ...state,
-          list: [...state.list, payload],
+          items: [...state.items, payload],
         }
       }
     }
@@ -27,7 +27,7 @@ export const categories: Reducer<Categories.State, Categories.Action> = (
 
       return {
         ...state,
-        list: state.list.filter(entry => entry.id !== payload.id),
+        items: state.items.filter(entry => entry.id !== payload.id),
       }
     }
     default: {

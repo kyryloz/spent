@@ -13,7 +13,7 @@ const testTransaction = {
 }
 
 const initialState: Transactions.State = {
-  recent: [testTransaction],
+  items: [testTransaction],
 }
 
 export const transactions: Reducer<Transactions.State, Transactions.Action> = (
@@ -26,7 +26,7 @@ export const transactions: Reducer<Transactions.State, Transactions.Action> = (
 
       return {
         ...state,
-        recent: [...state.recent, payload],
+        items: [...state.items, payload],
       }
     }
     case Transactions.ActionTypes.TRANSACTION_REMOVE: {
@@ -34,14 +34,14 @@ export const transactions: Reducer<Transactions.State, Transactions.Action> = (
 
       return {
         ...state,
-        recent: state.recent.filter(entry => entry.id !== payload),
+        items: state.items.filter(entry => entry.id !== payload),
       }
     }
     case Transactions.ActionTypes.TRANSACTION_PARSE_ERROR: {
       const payload = (<Transactions.Actions.ParsingError>action).payload
 
       const errorTransaction: Transactions.Transaction = {
-        id: `error_${state.recent.length}`,
+        id: `error_${state.items.length}`,
         rawContent: payload,
         details: {
           transactionType: Transactions.TransactionType.STATUS,
@@ -50,7 +50,7 @@ export const transactions: Reducer<Transactions.State, Transactions.Action> = (
 
       return {
         ...state,
-        recent: [...state.recent, errorTransaction],
+        items: [...state.items, errorTransaction],
       }
     }
     default: {

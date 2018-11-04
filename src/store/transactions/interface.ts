@@ -2,7 +2,7 @@ import { App } from '../interface'
 
 export namespace Transactions {
   export interface State {
-    readonly recent: Array<Transaction>
+    readonly items: Array<Transaction>
   }
 
   export const enum ActionTypes {

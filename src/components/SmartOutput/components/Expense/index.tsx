@@ -5,12 +5,15 @@ import { App } from '../../../../store/interface'
 import { Transactions } from '../../../../store/transactions/interface'
 import { styles } from './styles'
 import { View } from './View'
+import { transactionsSelector } from '../../../../store/transactions/selectors'
 
 interface OutterProps {
   transaction: Transactions.Transaction<Transactions.Expense>
 }
 
-interface ConnectedProps {}
+interface ConnectedProps {
+  accountBalance: number
+}
 
 interface InnerProps
   extends App.ConnectedComponentProps<ConnectedProps>,
@@ -23,7 +26,9 @@ export type ViewProps = OutterProps & InnerProps & HandlerProps
 export const Expense = compose<ViewProps, OutterProps>(
   pure,
   withStyles(styles),
-  withConnectedProps<ConnectedProps>(() => ({})),
+  withConnectedProps<ConnectedProps, OutterProps & InnerProps>((state, ownProps) => ({
+    accountBalance: transactionsSelector.balance(ownProps.transaction.details.fromAccount)(state),
+  })),
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
   setDisplayName('Expense')
 )(View)
