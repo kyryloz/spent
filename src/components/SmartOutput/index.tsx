@@ -1,0 +1,27 @@
+import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
+import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { App } from '../../store/interface'
+import { Transactions } from '../../store/transactions/interface'
+import { SmartOutputView } from './SmartOutputView'
+
+interface OutterProps {}
+
+interface ConnectedProps {
+  transactions: Array<Transactions.Transaction>
+}
+
+interface InnerProps extends App.ConnectedComponentProps<ConnectedProps> {}
+
+interface HandlerProps {}
+
+export type ViewProps = OutterProps & InnerProps & HandlerProps
+
+export const SmartOutput = compose<ViewProps, OutterProps>(
+  withState('input', 'setInput', ''),
+  withConnectedProps<ConnectedProps>(state => ({
+    transactions: state.transactions.recent,
+  })),
+  withHandlers<OutterProps & InnerProps, HandlerProps>({}),
+  pure,
+  setDisplayName('SmartOuput')
+)(SmartOutputView)

@@ -1,10 +1,10 @@
 import { CssBaseline, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { ViewProps } from '.'
-import { RecentTransactionList } from '../../components/RecentTransactionList'
 import { SmartInput } from '../../components/SmartInput'
+import { SmartOutput } from '../../components/SmartOutput'
 
-export const MainPageView: React.SFC<ViewProps> = ({ transactions, classes }) => (
+export const MainPageView: React.SFC<ViewProps> = ({ classes }) => (
   <div className={classes.root}>
     <CssBaseline />
     <header className={classes.header}>
@@ -14,7 +14,7 @@ export const MainPageView: React.SFC<ViewProps> = ({ transactions, classes }) =>
     </header>
     <main className={classes.main}>
       <div className={classes.section}>
-        <RecentTransactionList transactions={transactions} />
+        <SmartOutput />
       </div>
     </main>
     <footer className={classes.footer}>
