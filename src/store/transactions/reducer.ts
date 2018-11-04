@@ -1,8 +1,19 @@
 import { Reducer } from 'redux'
 import { Transactions } from './interface'
 
+const testTransaction = {
+  id: 'id',
+  rawContent: 'expense 200 on clothes from wallet',
+  details: {
+    transactionType: Transactions.TransactionType.EXPENSE,
+    category: 'clothes',
+    amount: 200,
+    fromAccount: 'wallet',
+  },
+}
+
 const initialState: Transactions.State = {
-  recent: [],
+  recent: [testTransaction],
 }
 
 export const transactions: Reducer<Transactions.State, Transactions.Action> = (

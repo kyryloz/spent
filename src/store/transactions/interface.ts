@@ -51,7 +51,7 @@ export namespace Transactions {
     readonly transactionType: TransactionType.EXPENSE
     readonly category: string
     readonly amount: number
-    readonly fromAccount?: string
+    readonly fromAccount: string
   }
 
   export interface Income extends TransactionDetails {
