@@ -1,5 +1,5 @@
 import { createStyles, Theme } from '@material-ui/core'
-import { grey, red } from '@material-ui/core/colors'
+import { grey, red, teal, amber } from '@material-ui/core/colors'
 
 export const styles = (theme: Theme) =>
   createStyles({
@@ -20,11 +20,18 @@ export const styles = (theme: Theme) =>
     detailsContainer: {
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'flex-end'
     },
     amount: {
       color: grey.A100,
     },
     date: {
       color: grey[700],
-    }
+    },
+    account: {
+      color: teal[200]
+    },
+    category: {
+      color: amber[200]
+    },
   })

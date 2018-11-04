@@ -1,5 +1,5 @@
 import { withStyles, WithStyles } from '@material-ui/core'
-import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
+import { compose, pure, setDisplayName, withHandlers } from 'recompose'
 import { withConnectedProps } from '../../../../hoc/withConnectedProps'
 import { App } from '../../../../store/interface'
 import { Transactions } from '../../../../store/transactions/interface'
@@ -23,7 +23,6 @@ export type ViewProps = OutterProps & InnerProps & HandlerProps
 export const Expense = compose<ViewProps, OutterProps>(
   pure,
   withStyles(styles),
-  withState('input', 'setInput', ''),
   withConnectedProps<ConnectedProps>(() => ({})),
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
   setDisplayName('Expense')

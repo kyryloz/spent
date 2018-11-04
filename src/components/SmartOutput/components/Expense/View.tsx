@@ -13,9 +13,15 @@ export const View: React.SFC<ViewProps> = ({ transaction, classes }) => (
         Expense
       </Typography>
       <div className={classes.detailsContainer}>
-        <Typography className={classes.amount}>
-          {transaction.details.amount} USD → {transaction.details.category}
-        </Typography>
+        <div>
+          <Typography className={classes.amount}>
+            {transaction.details.amount} USD → {' '}
+            <span className={classes.category}>{transaction.details.category}</span>
+          </Typography>
+          <Typography className={classes.amount}>
+            <span className={classes.account}>{transaction.details.fromAccount}</span> = {1000} USD
+          </Typography>
+        </div>
         <Typography className={classes.date}>{moment().format('MM MMM YYYY')}</Typography>
       </div>
     </div>
