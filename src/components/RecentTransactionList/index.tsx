@@ -7,16 +7,11 @@ interface Props {
 }
 
 export const RecentTransactionList: React.SFC<Props> = ({ transactions }) => (
-  <div>
-    <List component="nav">
-      {transactions.map(t => (
-        <ListItem key={t.id}>
-          <ListItemText
-            primary={t.rawContent}
-            secondary={JSON.stringify(t.details, null, 2)}
-          />
-        </ListItem>
-      ))}
-    </List>
-  </div>
+  <List component="nav">
+    {transactions.map(t => (
+      <ListItem key={t.id}>
+        <ListItemText primary={t.rawContent} secondary={JSON.stringify(t.details, null, 2)} />
+      </ListItem>
+    ))}
+  </List>
 )

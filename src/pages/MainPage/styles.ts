@@ -1,27 +1,36 @@
 import { createStyles, Theme } from '@material-ui/core'
 
-const drawerWidth = 240
-
 export const styles = (theme: Theme) =>
   createStyles({
     root: {
-      dispalay: 'flex',
-    },
-    appBar: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    toolbar: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
       backgroundColor: theme.palette.background.default,
-      padding: theme.spacing.unit * 3,
+      paddingLeft: theme.spacing.unit * 20,
+      paddingRight: theme.spacing.unit * 20,
+    },
+    logo: {
+      textAlign: 'center',
+      color: 'white',
+      fontFamily: 'Roboto',
+      fontWeight: 100,
+    },
+    header: {
+      padding: theme.spacing.unit * 4,
+    },
+    main: {
+      flex: 1,
+      overflow: 'auto',
+    },
+    section: {
+      height: '100%',
+      overflow: 'auto',
+      border: '1px solid #aaaaaa20',
+      borderRadius: 5,
+    },
+    footer: {
+      marginTop: theme.spacing.unit * 4,
+      marginBottom: theme.spacing.unit * 4,
     },
   })

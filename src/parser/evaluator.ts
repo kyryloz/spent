@@ -100,6 +100,7 @@ export const evaluate = (input: string, dispatch: Dispatch) => {
 
   if (parseResult.error) {
     dispatch(transactionsActionCreator.errorTransaction(parseResult.message || 'unknown error'))
+    return
   }
 
   runSemantic(parseResult.match, {

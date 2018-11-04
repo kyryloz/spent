@@ -3,12 +3,16 @@ import { evaluate } from '../../parser/evaluator'
 import { App } from '../../store/interface'
 import { SmartInputView } from './SmartInputView'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { withStyles, WithStyles } from '@material-ui/core'
+import { styles } from './styles'
 
 interface OutterProps {}
 
 interface ConnectedProps {}
 
-interface InnerProps extends App.ConnectedComponentProps<ConnectedProps> {
+interface InnerProps
+  extends App.ConnectedComponentProps<ConnectedProps>,
+    WithStyles<typeof styles> {
   input: string
   setInput: (input: string) => void
 }
@@ -21,6 +25,7 @@ interface HandlerProps {
 export type ViewProps = OutterProps & InnerProps & HandlerProps
 
 export const SmartInput = compose<ViewProps, OutterProps>(
+  withStyles(styles),
   withState('input', 'setInput', ''),
   withConnectedProps<ConnectedProps>(() => ({})),
   withHandlers<OutterProps & InnerProps, HandlerProps>({
