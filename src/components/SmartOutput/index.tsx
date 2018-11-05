@@ -1,16 +1,16 @@
 import { WithStyles, withStyles } from '@material-ui/core'
 import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { Commands } from '../../store/commands/interface'
+import { commandsSelector } from '../../store/commands/selectors'
 import { App } from '../../store/interface'
-import { Transactions } from '../../store/transactions/interface'
 import { SmartOutputView } from './SmartOutputView'
 import { styles } from './styles'
-import { transactionsSelector } from '../../store/transactions/selectors';
 
 interface OutterProps {}
 
 interface ConnectedProps {
-  transactions: Array<Transactions.Transaction>
+  commands: Array<Commands.Command>
 }
 
 interface InnerProps
@@ -25,7 +25,7 @@ export const SmartOutput = compose<ViewProps, OutterProps>(
   withStyles(styles),
   withState('input', 'setInput', ''),
   withConnectedProps<ConnectedProps>(state => ({
-    transactions: transactionsSelector.items(state),
+    commands: commandsSelector.items(state),
   })),
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
   pure,

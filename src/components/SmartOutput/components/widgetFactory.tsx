@@ -1,51 +1,60 @@
 import { ListItem, ListItemText } from '@material-ui/core'
 import * as React from 'react'
-import { Transactions } from '../../../store/transactions/interface'
+import { Commands } from '../../../store/commands/interface'
 import { Expense } from './Expense'
 
-export const createWidget = (transaction: Transactions.Transaction) => {
-  switch (transaction.details.transactionType) {
-    case Transactions.TransactionType.CREATE: {
-      const details = transaction.details as Transactions.Create
+export const createWidget = (command: Commands.Command) => {
+  switch (command.commandType) {
+    case Commands.CommandType.CREATE_ACCOUNT: {
+      const details = command as Commands.CreateAccount
 
       return (
         <ListItem>
           <ListItemText
-            primary={transaction.rawContent}
-            secondary={`'${details.name}' ${details.entity} created`}
+            primary={details.raw}
+            secondary={`'${details.data.name}' account created`}
           />
         </ListItem>
       )
     }
-    case Transactions.TransactionType.EXPENSE: {
-      return <Expense transaction={transaction as Transactions.Transaction<Transactions.Expense>} />
-    }
-    case Transactions.TransactionType.INCOME: {
-      const details = transaction.details as Transactions.Income
+    case Commands.CommandType.CREATE_CATEGORY: {
+      const details = command as Commands.CreateCategory
 
       return (
         <ListItem>
           <ListItemText
-            primary={transaction.rawContent}
-            secondary={`Income $${details.amount} to '${details.accountName}' recorded`}
+            primary={details.raw}
+            secondary={`'${details.data.name}' account created`}
           />
         </ListItem>
       )
     }
-    case Transactions.TransactionType.STATUS: {
+    case Commands.CommandType.EXPENSE: {
+      return <Expense command={command as Commands.Expense} />
+    }
+    case Commands.CommandType.INCOME: {
+      const details = command as Commands.Income
+
       return (
         <ListItem>
-          <ListItemText primary={transaction.rawContent} />
+          <ListItemText
+            primary={details.raw}
+            secondary={`Income $${details.data.amount} to '${details.data.accountName}' recorded`}
+          />
+        </ListItem>
+      )
+    }
+    case Commands.CommandType.STATUS: {
+      return (
+        <ListItem>
+          <ListItemText primary={command.raw} />
         </ListItem>
       )
     }
     default: {
       return (
         <ListItem>
-          <ListItemText
-            primary={transaction.rawContent}
-            secondary={JSON.stringify(transaction.details, null, 2)}
-          />
+          <ListItemText primary={command.raw} secondary={JSON.stringify(command.data, null, 2)} />
         </ListItem>
       )
     }

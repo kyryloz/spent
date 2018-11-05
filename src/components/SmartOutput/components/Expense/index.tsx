@@ -1,14 +1,13 @@
 import { withStyles, WithStyles } from '@material-ui/core'
 import { compose, pure, setDisplayName, withHandlers } from 'recompose'
 import { withConnectedProps } from '../../../../hoc/withConnectedProps'
+import { Commands } from '../../../../store/commands/interface'
 import { App } from '../../../../store/interface'
-import { Transactions } from '../../../../store/transactions/interface'
 import { styles } from './styles'
 import { View } from './View'
-import { transactionsSelector } from '../../../../store/transactions/selectors'
 
 interface OutterProps {
-  transaction: Transactions.Transaction<Transactions.Expense>
+  command: Commands.Expense
 }
 
 interface ConnectedProps {
@@ -26,8 +25,8 @@ export type ViewProps = OutterProps & InnerProps & HandlerProps
 export const Expense = compose<ViewProps, OutterProps>(
   pure,
   withStyles(styles),
-  withConnectedProps<ConnectedProps, OutterProps & InnerProps>((state, ownProps) => ({
-    accountBalance: transactionsSelector.balance(ownProps.transaction.details.fromAccount)(state),
+  withConnectedProps<ConnectedProps, OutterProps & InnerProps>(() => ({
+    accountBalance: 0,
   })),
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
   setDisplayName('Expense')

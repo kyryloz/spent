@@ -3,10 +3,10 @@ import * as moment from 'moment'
 import * as React from 'react'
 import { ViewProps } from '.'
 
-export const View: React.SFC<ViewProps> = ({ transaction, accountBalance, classes }) => (
+export const View: React.SFC<ViewProps> = ({ command, accountBalance, classes }) => (
   <div className={classes.root}>
     <Typography gutterBottom className={classes.rawContent}>
-      > {transaction.rawContent}
+      > {command.raw}
     </Typography>
     <div className={classes.body}>
       <Typography gutterBottom className={classes.bodyTitle}>
@@ -15,12 +15,12 @@ export const View: React.SFC<ViewProps> = ({ transaction, accountBalance, classe
       <div className={classes.detailsContainer}>
         <div>
           <Typography className={classes.amount}>
-            {transaction.details.amount} USD →{' '}
-            <span className={classes.category}>{transaction.details.category}</span>
+            {command.data.amount} USD →{' '}
+            <span className={classes.category}>{command.data.categoryName}</span>
           </Typography>
           <Typography className={classes.amount}>
-            <span className={classes.account}>{transaction.details.fromAccount}</span> ={' '}
-            {accountBalance} USD
+            <span className={classes.account}>{command.data.accountName}</span> = {accountBalance}{' '}
+            USD
           </Typography>
         </div>
         <Typography className={classes.date}>{moment().format('MM MMM YYYY')}</Typography>

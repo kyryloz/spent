@@ -1,16 +1,16 @@
 import { List, ListItem, ListItemText } from '@material-ui/core'
 import * as React from 'react'
-import { Transactions } from '../../store/transactions/interface'
+import { Commands } from '../../store/commands/interface'
 
 interface Props {
-  transactions: Array<Transactions.Transaction>
+  commands: Array<Commands.Command>
 }
 
-export const RecentTransactionList: React.SFC<Props> = ({ transactions }) => (
+export const RecentTransactionList: React.SFC<Props> = ({ commands }) => (
   <List component="nav">
-    {transactions.map(t => (
-      <ListItem key={t.id}>
-        <ListItemText primary={t.rawContent} secondary={JSON.stringify(t.details, null, 2)} />
+    {commands.map(command => (
+      <ListItem key={command.id}>
+        <ListItemText primary={command.raw} secondary={JSON.stringify(command.data, null, 2)} />
       </ListItem>
     ))}
   </List>

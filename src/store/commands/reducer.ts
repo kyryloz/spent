@@ -7,9 +7,9 @@ const testCommand = {
   timestamp: 123123123,
   commandType: Commands.CommandType.EXPENSE,
   data: {
-    category: 'clothes',
+    categoryName: 'clothes',
     amount: 200,
-    fromAccount: 'wallet',
+    accountName: 'wallet',
   },
 }
 

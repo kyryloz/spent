@@ -56,8 +56,8 @@ export namespace Commands {
   export interface Expense extends Command {
     readonly commandType: CommandType.EXPENSE
     readonly data: {
-      readonly categoryId: string
-      readonly accountId: string
+      readonly categoryName: string
+      readonly accountName: string
       readonly amount: number
     }
   }
@@ -65,7 +65,7 @@ export namespace Commands {
   export interface Income extends Command {
     readonly commandType: CommandType.INCOME
     readonly data: {
-      readonly accountId: string
+      readonly accountName: string
       readonly amount: number
     }
   }

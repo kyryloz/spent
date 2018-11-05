@@ -11,7 +11,7 @@ export const AccountsList: React.SFC<Props> = ({ accounts }) => (
     <List component="nav">
       {accounts.map(account => (
         <ListItem key={account.id}>
-          <ListItemText primary={`${account.name}: ${account.balance}`} />
+          <ListItemText primary={`${account.name}`} />
         </ListItem>
       ))}
     </List>

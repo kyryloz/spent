@@ -1,83 +1,88 @@
+import * as moment from 'moment'
 import { Dispatch } from 'redux'
-import { accountsActionCreator } from '../store/accounts/actions'
-import { categoriesActionCreator } from '../store/categories/actions'
+import { commandsActionCreator } from '../store/commands/actions'
+import { Commands } from '../store/commands/interface'
 import { App } from '../store/interface'
-import { transactionsActionCreator } from '../store/transactions/actions'
-import { Transactions } from '../store/transactions/interface'
+import { uuidv4 } from '../utils/math'
 import { parseGrammar } from './parser'
 import { runSemantic } from './semantic'
 
-const evaluateCreate = (
-  input: string,
-  entityName: string,
-  name: string
-): Array<App.Action> => {
+const evaluateCreate = (input: string, entityName: string, name: string): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
-  let entity: Transactions.Entity
-  let entityAction: App.Action
+  let action: Commands.Action
   switch (entityName) {
     case 'account':
-      entity = Transactions.Entity.ACCOUNT
-      entityAction = accountsActionCreator.addAccount(name, 0)
+      action = commandsActionCreator.addCommand<Commands.CreateAccount>({
+        commandType: Commands.CommandType.CREATE_ACCOUNT,
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw: input,
+        data: {
+          name,
+        },
+      })
       break
     case 'category':
-      entity = Transactions.Entity.CATEGORY
-      entityAction = categoriesActionCreator.addCategory(name)
+      action = commandsActionCreator.addCommand<Commands.CreateCategory>({
+        commandType: Commands.CommandType.CREATE_CATEGORY,
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw: input,
+        data: {
+          name,
+        },
+      })
       break
     default:
       throw new Error(`Unknown entity name: '${entityName}'`)
   }
 
-  actions.push(
-    transactionsActionCreator.addTransaction<Transactions.Create>(input, {
-      transactionType: Transactions.TransactionType.CREATE,
-      entity,
-      name,
-    })
-  )
-
-  actions.push(entityAction)
+  actions.push(action)
 
   return actions
 }
 
 const evaluateExpense = (
   input: string,
-  category: string,
+  categoryName: string,
   amount: number,
-  fromAccount: string
+  accountName: string
 ): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
   actions.push(
-    transactionsActionCreator.addTransaction<Transactions.Expense>(input, {
-      transactionType: Transactions.TransactionType.EXPENSE,
-      category,
-      amount,
-      fromAccount,
+    commandsActionCreator.addCommand<Commands.Expense>({
+      commandType: Commands.CommandType.EXPENSE,
+      id: uuidv4(),
+      timestamp: moment().unix(),
+      raw: input,
+      data: {
+        categoryName,
+        accountName,
+        amount,
+      },
     })
   )
-  actions.push(accountsActionCreator.changeBalance(fromAccount, -amount))
 
   return actions
 }
 
-const evaluateIncome = (
-  input: string,
-  accountName: string,
-  amount: number
-): Array<App.Action> => {
+const evaluateIncome = (input: string, accountName: string, amount: number): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
   actions.push(
-    transactionsActionCreator.addTransaction<Transactions.Income>(input, {
-      transactionType: Transactions.TransactionType.INCOME,
-      accountName,
-      amount,
+    commandsActionCreator.addCommand<Commands.Income>({
+      commandType: Commands.CommandType.INCOME,
+      id: uuidv4(),
+      timestamp: moment().unix(),
+      raw: input,
+      data: {
+        accountName,
+        amount,
+      },
     })
   )
-  actions.push(accountsActionCreator.changeBalance(accountName, amount))
 
   return actions
 }
@@ -86,9 +91,14 @@ const evaluateStatus = (input: string, what: string): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
   actions.push(
-    transactionsActionCreator.addTransaction<Transactions.Status>(input, {
-      transactionType: Transactions.TransactionType.STATUS,
-      what,
+    commandsActionCreator.addCommand<Commands.Status>({
+      commandType: Commands.CommandType.STATUS,
+      id: uuidv4(),
+      timestamp: moment().unix(),
+      raw: input,
+      data: {
+        what,
+      },
     })
   )
 
@@ -99,7 +109,7 @@ export const evaluate = (input: string, dispatch: Dispatch) => {
   const parseResult = parseGrammar(input)
 
   if (parseResult.error) {
-    dispatch(transactionsActionCreator.errorTransaction(parseResult.message || 'unknown error'))
+    console.error(parseResult.error)
     return
   }
 

@@ -7,6 +7,7 @@ export namespace categoriesActionCreator {
     payload: {
       id: uuidv4(),
       name,
+      commandIds: []
     },
   })
 
