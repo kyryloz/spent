@@ -24,7 +24,7 @@ export const createWidget = (command: Commands.Command) => {
         <ListItem>
           <ListItemText
             primary={details.raw}
-            secondary={`'${details.data.name}' account created`}
+            secondary={`'${details.data.name}' category created`}
           />
         </ListItem>
       )
@@ -39,7 +39,7 @@ export const createWidget = (command: Commands.Command) => {
         <ListItem>
           <ListItemText
             primary={details.raw}
-            secondary={`Income $${details.data.amount} to '${details.data.accountName}' recorded`}
+            secondary={`Income $${details.data.amount} to '${details.data.accountId}' recorded`}
           />
         </ListItem>
       )

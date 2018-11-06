@@ -1,15 +1,13 @@
+import { withStyles, WithStyles } from '@material-ui/core'
 import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
-import { evaluate } from '../../parser/evaluator'
+import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { App } from '../../store/interface'
 import { SmartInputView } from './SmartInputView'
-import { withConnectedProps } from '../../hoc/withConnectedProps'
-import { withStyles, WithStyles } from '@material-ui/core'
 import { styles } from './styles'
 
 interface OutterProps {}
 
-interface ConnectedProps {
-}
+interface ConnectedProps {}
 
 interface InnerProps
   extends App.ConnectedComponentProps<ConnectedProps>,
@@ -34,7 +32,12 @@ export const SmartInput = compose<ViewProps, OutterProps>(
       setInput(event.target.value)
     },
     handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      evaluate(input, dispatch)
+      dispatch({
+        type: '@@evaluateCommand',
+        payload: {
+          input,
+        },
+      })
       setInput('')
     },
   }),

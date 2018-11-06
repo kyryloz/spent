@@ -16,10 +16,10 @@ export const View: React.SFC<ViewProps> = ({ command, accountBalance, classes })
         <div>
           <Typography className={classes.amount}>
             {command.data.amount} USD →{' '}
-            <span className={classes.category}>{command.data.categoryName}</span>
+            <span className={classes.category}>{command.data.categoryId}</span>
           </Typography>
           <Typography className={classes.amount}>
-            <span className={classes.account}>{command.data.accountName}</span> = {accountBalance}{' '}
+            <span className={classes.account}>{command.data.accountId}</span> = {accountBalance}{' '}
             USD
           </Typography>
         </div>
