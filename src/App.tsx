@@ -6,10 +6,13 @@ import { Provider } from 'react-redux'
 import { Routes } from './routes'
 import { configureStore } from './store/configureStore'
 import { cyan } from '@material-ui/core/colors'
+import { initSemantic } from './parser/semantic'
 
 const history = createHashHistory()
 
 const store = configureStore(history)
+
+initSemantic(store)
 
 const theme = createMuiTheme({
   typography: {

@@ -8,7 +8,8 @@ import { styles } from './styles'
 
 interface OutterProps {}
 
-interface ConnectedProps {}
+interface ConnectedProps {
+}
 
 interface InnerProps
   extends App.ConnectedComponentProps<ConnectedProps>,
