@@ -1,24 +1,24 @@
+import { createSelector } from 'reselect'
 import { App } from '../interface'
+import { Commands } from './interface'
 
 export namespace commandsSelector {
   export const items = (state: App.State) => state.commands.items
 
-  // export const balance = (accountName: string) =>
-  // createSelector(items, items => {
-  //   const totalExpenses = items
-  //     .map(item => item.details)
-  //     .filter(details => details.transactionType === Transactions.TransactionType.EXPENSE)
-  //     .map(details => details as Transactions.Expense)
-  //     .filter(details => details.fromAccount === accountName)
-  //     .reduce((sum, next) => (sum += next.amount), 0)
+  export const balance = (accountId: string) =>
+    createSelector(items, items => {
+      const totalExpenses = items
+        .filter(command => command.data.commandType === Commands.CommandType.EXPENSE)
+        .map(command => command as Commands.ExpensePayload)
+        .filter(command => command.data.accountId === accountId)
+        .reduce((sum, next) => (sum += next.data.amount), 0)
 
-  //   const totalIncome = items
-  //     .map(item => item.details)
-  //     .filter(details => details.transactionType === Transactions.TransactionType.INCOME)
-  //     .map(details => details as Transactions.Income)
-  //     .filter(details => details.accountName === accountName)
-  //     .reduce((sum, next) => (sum += next.amount), 0)
+      const totalIncome = items
+        .filter(command => command.data.commandType === Commands.CommandType.INCOME)
+        .map(data => data as Commands.IncomePayload)
+        .filter(data => data.data.accountId === accountId)
+        .reduce((sum, next) => (sum += next.data.amount), 0)
 
-  //   return totalIncome - totalExpenses
-  // })
+      return totalIncome - totalExpenses
+    })
 }

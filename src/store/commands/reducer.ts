@@ -1,33 +1,24 @@
 import { Reducer } from 'redux'
 import { Commands } from './interface'
-
-const testCommand = {
-  id: 'id',
-  raw: 'expense 200 on clothes from wallet',
-  timestamp: 123123123,
-  commandType: Commands.CommandType.EXPENSE,
-  data: {
-    categoryName: 'clothes',
-    amount: 200,
-    accountName: 'wallet',
-  },
-}
+import { App } from '../interface'
 
 const initialState: Commands.State = {
-  items: [testCommand],
+  items: [],
 }
 
-export const commands: Reducer<Commands.State, Commands.Action> = (
+export const commands: Reducer<Commands.State, App.Action> = (
   state = initialState,
   action
 ): Commands.State => {
   switch (action.type) {
-    case Commands.ActionTypes.COMMAND_ADD: {
-      const payload = (<Commands.Actions.Add>action).payload
-
+    case Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT:
+    case Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY:
+    case Commands.ActionTypes.COMMAND_ADD_EXPENSE:
+    case Commands.ActionTypes.COMMAND_ADD_INCOME:
+    case Commands.ActionTypes.COMMAND_ADD_STATUS: {
       return {
         ...state,
-        items: [...state.items, payload],
+        items: [...state.items, action.payload],
       }
     }
     case Commands.ActionTypes.COMMAND_REMOVE: {

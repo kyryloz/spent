@@ -1,24 +1,33 @@
 import { Reducer } from 'redux'
+import { uuidv4 } from '../../utils/math'
+import { Commands } from '../commands/interface'
+import { App } from '../interface'
 import { Accounts } from './interface'
 
 const initialState: Accounts.State = {
   items: [],
 }
 
-export const accounts: Reducer<Accounts.State, Accounts.Action> = (
+export const accounts: Reducer<Accounts.State, App.Action> = (
   state = initialState,
   action
 ): Accounts.State => {
   switch (action.type) {
-    case Accounts.ActionTypes.ACCOUNT_ADD: {
-      const payload = (<Accounts.Actions.Add>action).payload
-
-      if (state.items.find(entry => entry.name === payload.name)) {
+    case Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT: {
+      const actionAdd = action as Commands.Actions.AddCreateAccountCommand
+      if (state.items.find(entry => entry.name === actionAdd.payload.data.name)) {
         return state
       } else {
         return {
           ...state,
-          items: [...state.items, payload],
+          items: [
+            ...state.items,
+            {
+              name: actionAdd.payload.data.name,
+              id: uuidv4(),
+              commandIds: [actionAdd.payload.id],
+            },
+          ],
         }
       }
     }

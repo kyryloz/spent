@@ -6,14 +6,12 @@ export namespace Accounts {
   }
 
   export const enum ActionTypes {
-    ACCOUNT_ADD = '@@account/ADD',
     ACCOUNT_REMOVE = '@@account/REMOVE',
   }
 
   export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Add = App.Action<Account, ActionTypes>
     export type Remove = App.Action<App.Identifiable, ActionTypes>
   }
 
