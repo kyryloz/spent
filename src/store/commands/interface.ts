@@ -32,37 +32,46 @@ export namespace Commands {
     >
   }
 
+  export const enum CommandType {
+    EXPENSE = 'EXPENSE',
+    INCOME = 'INCOME',
+    STATUS = 'STATUS',
+    CREATE_ACCOUNT = 'CREATE_ACCOUNT',
+    CREATE_CATEGORY = 'CREATE_CATEGORY',
+  }
+
   export interface CommandPayload extends App.Identifiable {
-    readonly commandType: ActionTypes,
     readonly raw: string
     readonly timestamp: number
-    readonly data: any
+    readonly data: {
+      readonly commandType: CommandType
+    }
   }
 
   export interface CreateCategoryPayload extends CommandPayload {
-    readonly commandType: ActionTypes.COMMAND_ADD_CREATE_CATEGORY,
     readonly data: {
+      readonly commandType: CommandType.CREATE_CATEGORY
       readonly name: string
     }
   }
 
   export interface CreateAccountPayload extends CommandPayload {
-    readonly commandType: ActionTypes.COMMAND_ADD_CREATE_ACCOUNT,
     readonly data: {
+      readonly commandType: CommandType.CREATE_ACCOUNT
       readonly name: string
     }
   }
 
   export interface StatusPayload extends CommandPayload {
-    readonly commandType: ActionTypes.COMMAND_ADD_STATUS,
     readonly data: {
+      readonly commandType: CommandType.STATUS
       readonly what: string
     }
   }
 
   export interface ExpensePayload extends CommandPayload {
-    readonly commandType: ActionTypes.COMMAND_ADD_EXPENSE,
     readonly data: {
+      readonly commandType: CommandType.EXPENSE
       readonly categoryId: string
       readonly accountId: string
       readonly amount: number
@@ -70,8 +79,8 @@ export namespace Commands {
   }
 
   export interface IncomePayload extends CommandPayload {
-    readonly commandType: ActionTypes.COMMAND_ADD_INCOME,
     readonly data: {
+      readonly commandType: CommandType.INCOME
       readonly accountId: string
       readonly amount: number
     }

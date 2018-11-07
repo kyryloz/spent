@@ -13,22 +13,22 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
   switch (entityName) {
     case 'account':
       action = commandsActionCreator.addCreateAccountCommand({
-        commandType: Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT,
         id: uuidv4(),
         timestamp: moment().unix(),
         raw: input,
         data: {
+          commandType: Commands.CommandType.CREATE_ACCOUNT,
           name,
         },
       })
       break
     case 'category':
       action = commandsActionCreator.addCreateCategoryCommand({
-        commandType: Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY,
         id: uuidv4(),
         timestamp: moment().unix(),
         raw: input,
         data: {
+          commandType: Commands.CommandType.CREATE_CATEGORY,
           name,
         },
       })
@@ -54,11 +54,11 @@ const evaluateExpense = (
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addExpenseCommand({
-    commandType: Commands.ActionTypes.COMMAND_ADD_EXPENSE,
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
     data: {
+      commandType: Commands.CommandType.EXPENSE,
       categoryId,
       accountId,
       amount,
@@ -76,11 +76,11 @@ const evaluateIncome = (
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addIncomeCommand({
-    commandType: Commands.ActionTypes.COMMAND_ADD_INCOME,
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
     data: {
+      commandType: Commands.CommandType.INCOME,
       accountId,
       amount,
     },
@@ -89,11 +89,11 @@ const evaluateIncome = (
 
 const evaluateStatus = (input: string, what: string): App.Action => {
   return commandsActionCreator.addStatusCommand({
-    commandType: Commands.ActionTypes.COMMAND_ADD_STATUS,
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
     data: {
+      commandType: Commands.CommandType.STATUS,
       what,
     },
   })

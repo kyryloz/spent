@@ -4,8 +4,8 @@ import { Commands } from '../../../store/commands/interface'
 import { Expense } from './Expense'
 
 export const createWidget = (command: Commands.CommandPayload) => {
-  switch (command.) {
-    case Commands.ActionTypes.CREATE_ACCOUNT: {
+  switch (command.data.commandType) {
+    case Commands.CommandType.CREATE_ACCOUNT: {
       const details = command as Commands.CreateAccountPayload
 
       return (
@@ -30,7 +30,7 @@ export const createWidget = (command: Commands.CommandPayload) => {
       )
     }
     case Commands.CommandType.EXPENSE: {
-      return <Expense command={command as Commands.Expense} />
+      return <Expense command={command as Commands.ExpensePayload} />
     }
     case Commands.CommandType.INCOME: {
       const details = command as Commands.IncomePayload
