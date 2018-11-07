@@ -12,27 +12,27 @@ export const categories: Reducer<Categories.State> = (
   action
 ): Categories.State => {
   switch (action.type) {
-    case Commands.ActionTypes.COMMAND_ADD: {
-      const actionAdd = action as Commands.Actions.Add
-      switch (actionAdd.payload.commandType) {
-        case Commands.CommandType.CREATE_CATEGORY:
-          const payload = action.payload as Commands.CreateCategory
+    // case Commands.ActionTypes.COMMAND_ADD: {
+    //   const actionAdd = action as Commands.Actions.Add
+    //   switch (actionAdd.payload.commandType) {
+    //     case Commands.CommandType.CREATE_CATEGORY:
+    //       const payload = action.payload as Commands.CreateCategory
 
-          if (state.items.find(entry => entry.name === payload.data.name)) {
-            return state
-          } else {
-            return {
-              ...state,
-              items: [
-                ...state.items,
-                { name: payload.data.name, id: uuidv4(), commandIds: [payload.id] },
-              ],
-            }
-          }
-        default:
-          return state
-      }
-    }
+    //       if (state.items.find(entry => entry.name === payload.data.name)) {
+    //         return state
+    //       } else {
+    //         return {
+    //           ...state,
+    //           items: [
+    //             ...state.items,
+    //             { name: payload.data.name, id: uuidv4(), commandIds: [payload.id] },
+    //           ],
+    //         }
+    //       }
+    //     default:
+    //       return state
+    //   }
+    // }
     case Categories.ActionTypes.CATEGORY_REMOVE: {
       const payload = (<Categories.Actions.Remove>action).payload
 

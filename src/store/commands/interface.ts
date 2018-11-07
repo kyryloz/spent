@@ -6,15 +6,18 @@ export namespace Commands {
   }
 
   export const enum ActionTypes {
+    COMMAND_EVALUATE = '@@command/EVALUATE',
     COMMAND_ADD = '@@command/ADD',
     COMMAND_REMOVE = '@@command/REMOVE',
+    COMMAND_EXPENSE = '@@command/EXPENSE',
   }
 
-  export type Action = App.Action<any, ActionTypes>
+  export type Action<Payload = any> = App.Action<Payload, ActionTypes>
 
   export namespace Actions {
     export type Add = App.Action<Command, ActionTypes>
     export type Remove = App.Action<App.Identifiable, ActionTypes>
+    export type Expense = App.Action<ExpensePayload, ActionTypes.COMMAND_EXPENSE>
   }
 
   export enum CommandType {
@@ -26,7 +29,6 @@ export namespace Commands {
   }
 
   export interface Command extends App.Identifiable {
-    readonly commandType: CommandType
     readonly raw: string
     readonly timestamp: number
     readonly data: any
@@ -53,8 +55,7 @@ export namespace Commands {
     }
   }
 
-  export interface Expense extends Command {
-    readonly commandType: CommandType.EXPENSE
+  export interface ExpensePayload extends Command {
     readonly data: {
       readonly categoryId: string
       readonly accountId: string

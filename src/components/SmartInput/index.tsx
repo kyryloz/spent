@@ -1,6 +1,7 @@
 import { withStyles, WithStyles } from '@material-ui/core'
 import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
 import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { commandsActionCreator } from '../../store/commands/actions'
 import { App } from '../../store/interface'
 import { SmartInputView } from './SmartInputView'
 import { styles } from './styles'
@@ -32,12 +33,7 @@ export const SmartInput = compose<ViewProps, OutterProps>(
       setInput(event.target.value)
     },
     handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      dispatch({
-        type: '@@evaluateCommand',
-        payload: {
-          input,
-        },
-      })
+      dispatch(commandsActionCreator.evaluateInput(input))
       setInput('')
     },
   }),

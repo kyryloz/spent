@@ -49,12 +49,11 @@ const evaluateExpense = (
 ): App.Action => {
   const category = getState().categories.items.find(c => c.name === categoryName)
   const categoryId = category ? category.id : 'not found'
-  console.log('accs', getState().accounts, accountName)
+
   const account = getState().accounts.items.find(a => a.name === accountName)
   const accountId = account ? account.id : 'not found'
 
-  return commandsActionCreator.addCommand<Commands.Expense>({
-    commandType: Commands.CommandType.EXPENSE,
+  return commandsActionCreator.expenseCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -108,19 +107,27 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
   }
 
   runSemantic(parseResult.match, {
-    create: (entityName, name) => dispatch(evaluateCreate(input, entityName, name)),
-    expense: (category, amount, fromAccount) =>
-      dispatch(evaluateExpense(getState, input, category, amount, fromAccount)),
-    income: (accountName, amount) => dispatch(evaluateIncome(getState, input, accountName, amount)),
-    status: what => dispatch(evaluateStatus(input, what)),
+    create: (entityName, name) => {
+      dispatch(evaluateCreate(input, entityName, name))
+    },
+    expense: (category, amount, fromAccount) => {
+      dispatch(evaluateExpense(getState, input, category, amount, fromAccount))
+    },
+    income: (accountName, amount) => {
+      dispatch(evaluateIncome(getState, input, accountName, amount))
+    },
+    status: what => {
+      dispatch(evaluateStatus(input, what))
+    },
   })
 }
 
 export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
   next: Dispatch<App.Action>
 ) => (action: App.Action) => {
-  if (action.type === '@@evaluateCommand') {
+  if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
     evaluate(action.payload.input, store)
+  } else {
+    next(action)
   }
-  return next(action)
 }
