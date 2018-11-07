@@ -2,60 +2,61 @@ import { App } from '../interface'
 
 export namespace Commands {
   export interface State {
-    readonly items: Array<Command>
+    readonly items: Array<CommandPayload>
   }
 
   export const enum ActionTypes {
     COMMAND_EVALUATE = '@@command/EVALUATE',
-    COMMAND_ADD = '@@command/ADD',
     COMMAND_REMOVE = '@@command/REMOVE',
-    COMMAND_EXPENSE = '@@command/EXPENSE',
+    COMMAND_ADD_EXPENSE = '@@command/ADD_EXPENSE',
+    COMMAND_ADD_INCOME = '@@command/ADD_INCOME',
+    COMMAND_ADD_STATUS = '@@command/ADD_STATUS',
+    COMMAND_ADD_CREATE_ACCOUNT = '@@command/ADD_CREATE_ACCOUNT',
+    COMMAND_ADD_CREATE_CATEGORY = '@@command/ADD_CREATE_CATEGORY',
   }
 
-  export type Action<Payload = any> = App.Action<Payload, ActionTypes>
+  export type Action<Payload> = App.Action<Payload, ActionTypes>
 
   export namespace Actions {
-    export type Add = App.Action<Command, ActionTypes>
     export type Remove = App.Action<App.Identifiable, ActionTypes>
-    export type Expense = App.Action<ExpensePayload, ActionTypes.COMMAND_EXPENSE>
+    export type AddExpenseCommand = App.Action<ExpensePayload, ActionTypes.COMMAND_ADD_EXPENSE>
+    export type AddIncomeCommand = App.Action<IncomePayload, ActionTypes.COMMAND_ADD_INCOME>
+    export type AddStatusCommand = App.Action<StatusPayload, ActionTypes.COMMAND_ADD_STATUS>
+    export type AddCreateAccountCommand = App.Action<
+      CreateAccountPayload,
+      ActionTypes.COMMAND_ADD_CREATE_ACCOUNT
+    >
+    export type AddCreateCategoryCommand = App.Action<
+      CreateCategoryPayload,
+      ActionTypes.COMMAND_ADD_CREATE_CATEGORY
+    >
   }
 
-  export enum CommandType {
-    CREATE_CATEGORY = 'create_category',
-    CREATE_ACCOUNT = 'create_account',
-    EXPENSE = 'expense',
-    INCOME = 'income',
-    STATUS = 'status',
-  }
-
-  export interface Command extends App.Identifiable {
+  export interface CommandPayload extends App.Identifiable {
     readonly raw: string
     readonly timestamp: number
     readonly data: any
   }
 
-  export interface CreateCategory extends Command {
-    readonly commandType: CommandType.CREATE_CATEGORY
+  export interface CreateCategoryPayload extends CommandPayload {
     readonly data: {
       readonly name: string
     }
   }
 
-  export interface CreateAccount extends Command {
-    readonly commandType: CommandType.CREATE_ACCOUNT
+  export interface CreateAccountPayload extends CommandPayload {
     readonly data: {
       readonly name: string
     }
   }
 
-  export interface Status extends Command {
-    readonly commandType: CommandType.STATUS
+  export interface StatusPayload extends CommandPayload {
     readonly data: {
       readonly what: string
     }
   }
 
-  export interface ExpensePayload extends Command {
+  export interface ExpensePayload extends CommandPayload {
     readonly data: {
       readonly categoryId: string
       readonly accountId: string
@@ -63,8 +64,7 @@ export namespace Commands {
     }
   }
 
-  export interface Income extends Command {
-    readonly commandType: CommandType.INCOME
+  export interface IncomePayload extends CommandPayload {
     readonly data: {
       readonly accountId: string
       readonly amount: number

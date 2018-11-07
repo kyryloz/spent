@@ -3,10 +3,10 @@ import * as React from 'react'
 import { Commands } from '../../../store/commands/interface'
 import { Expense } from './Expense'
 
-export const createWidget = (command: Commands.Command) => {
-  switch (command.commandType) {
-    case Commands.CommandType.CREATE_ACCOUNT: {
-      const details = command as Commands.CreateAccount
+export const createWidget = (command: Commands.CommandPayload) => {
+  switch (command.) {
+    case Commands.ActionTypes.CREATE_ACCOUNT: {
+      const details = command as Commands.CreateAccountPayload
 
       return (
         <ListItem>
@@ -18,7 +18,7 @@ export const createWidget = (command: Commands.Command) => {
       )
     }
     case Commands.CommandType.CREATE_CATEGORY: {
-      const details = command as Commands.CreateCategory
+      const details = command as Commands.CreateCategoryPayload
 
       return (
         <ListItem>
@@ -33,7 +33,7 @@ export const createWidget = (command: Commands.Command) => {
       return <Expense command={command as Commands.Expense} />
     }
     case Commands.CommandType.INCOME: {
-      const details = command as Commands.Income
+      const details = command as Commands.IncomePayload
 
       return (
         <ListItem>

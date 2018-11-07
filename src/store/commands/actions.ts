@@ -1,6 +1,4 @@
 import { Commands } from './interface'
-import { normalize } from 'normalizr'
-import { commandsSchema } from '../schema'
 
 export namespace commandsActionCreator {
   export const evaluateInput = (input: string) => {
@@ -12,23 +10,52 @@ export namespace commandsActionCreator {
     }
   }
 
-  export const expenseCommand = (payload: Commands.ExpensePayload) => {
+  export const addExpenseCommand = (
+    payload: Commands.ExpensePayload
+  ): Commands.Actions.AddExpenseCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_EXPENSE,
-      payload
+      type: Commands.ActionTypes.COMMAND_ADD_EXPENSE,
+      payload,
     }
   }
 
-  export const addCommand = <T extends Commands.Command>(command: T): Commands.Actions.Add => {
-    let normalized = normalize(command, commandsSchema)
-    console.log(command, normalized)
+  export const addIncomeCommand = (
+    payload: Commands.IncomePayload
+  ): Commands.Actions.AddIncomeCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_ADD,
-      payload: command,
+      type: Commands.ActionTypes.COMMAND_ADD_INCOME,
+      payload,
     }
   }
 
-  export const removeTransaction = (id: string): Commands.Actions.Remove => ({
+  export const addCreateAccountCommand = (
+    payload: Commands.CreateAccountPayload
+  ): Commands.Actions.AddCreateAccountCommand => {
+    return {
+      type: Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT,
+      payload,
+    }
+  }
+
+  export const addCreateCategoryCommand = (
+    payload: Commands.CreateCategoryPayload
+  ): Commands.Actions.AddCreateCategoryCommand => {
+    return {
+      type: Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY,
+      payload,
+    }
+  }
+
+  export const addStatusCommand = (
+    payload: Commands.StatusPayload
+  ): Commands.Actions.AddStatusCommand => {
+    return {
+      type: Commands.ActionTypes.COMMAND_ADD_STATUS,
+      payload,
+    }
+  }
+
+  export const remove = (id: string): Commands.Actions.Remove => ({
     type: Commands.ActionTypes.COMMAND_REMOVE,
     payload: {
       id,

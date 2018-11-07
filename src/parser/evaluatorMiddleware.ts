@@ -8,12 +8,11 @@ import { parseGrammar } from './parser'
 import { runSemantic } from './semantic'
 
 const evaluateCreate = (input: string, entityName: string, name: string): App.Action => {
-  let action: Commands.Action
+  let action: Commands.Action<any>
 
   switch (entityName) {
     case 'account':
-      action = commandsActionCreator.addCommand<Commands.CreateAccount>({
-        commandType: Commands.CommandType.CREATE_ACCOUNT,
+      action = commandsActionCreator.addCreateAccountCommand({
         id: uuidv4(),
         timestamp: moment().unix(),
         raw: input,
@@ -23,8 +22,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
       })
       break
     case 'category':
-      action = commandsActionCreator.addCommand<Commands.CreateCategory>({
-        commandType: Commands.CommandType.CREATE_CATEGORY,
+      action = commandsActionCreator.addCreateCategoryCommand({
         id: uuidv4(),
         timestamp: moment().unix(),
         raw: input,
@@ -53,7 +51,7 @@ const evaluateExpense = (
   const account = getState().accounts.items.find(a => a.name === accountName)
   const accountId = account ? account.id : 'not found'
 
-  return commandsActionCreator.expenseCommand({
+  return commandsActionCreator.addExpenseCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -74,8 +72,7 @@ const evaluateIncome = (
   const account = getState().accounts.items.find(a => a.name === accountName)
   const accountId = account ? account.id : 'not found'
 
-  return commandsActionCreator.addCommand<Commands.Income>({
-    commandType: Commands.CommandType.INCOME,
+  return commandsActionCreator.addIncomeCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -87,8 +84,7 @@ const evaluateIncome = (
 }
 
 const evaluateStatus = (input: string, what: string): App.Action => {
-  return commandsActionCreator.addCommand<Commands.Status>({
-    commandType: Commands.CommandType.STATUS,
+  return commandsActionCreator.addStatusCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,

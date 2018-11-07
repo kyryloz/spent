@@ -10,7 +10,7 @@ import { styles } from './styles'
 interface OutterProps {}
 
 interface ConnectedProps {
-  commands: Array<Commands.Command>
+  commands: Array<Commands.CommandPayload>
 }
 
 interface InnerProps
