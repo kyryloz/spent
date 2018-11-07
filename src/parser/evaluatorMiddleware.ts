@@ -13,6 +13,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
   switch (entityName) {
     case 'account':
       action = commandsActionCreator.addCreateAccountCommand({
+        commandType: Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT,
         id: uuidv4(),
         timestamp: moment().unix(),
         raw: input,
@@ -23,6 +24,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
       break
     case 'category':
       action = commandsActionCreator.addCreateCategoryCommand({
+        commandType: Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY,
         id: uuidv4(),
         timestamp: moment().unix(),
         raw: input,
@@ -52,6 +54,7 @@ const evaluateExpense = (
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addExpenseCommand({
+    commandType: Commands.ActionTypes.COMMAND_ADD_EXPENSE,
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -73,6 +76,7 @@ const evaluateIncome = (
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addIncomeCommand({
+    commandType: Commands.ActionTypes.COMMAND_ADD_INCOME,
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -85,6 +89,7 @@ const evaluateIncome = (
 
 const evaluateStatus = (input: string, what: string): App.Action => {
   return commandsActionCreator.addStatusCommand({
+    commandType: Commands.ActionTypes.COMMAND_ADD_STATUS,
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,

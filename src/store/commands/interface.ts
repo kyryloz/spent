@@ -33,30 +33,35 @@ export namespace Commands {
   }
 
   export interface CommandPayload extends App.Identifiable {
+    readonly commandType: ActionTypes,
     readonly raw: string
     readonly timestamp: number
     readonly data: any
   }
 
   export interface CreateCategoryPayload extends CommandPayload {
+    readonly commandType: ActionTypes.COMMAND_ADD_CREATE_CATEGORY,
     readonly data: {
       readonly name: string
     }
   }
 
   export interface CreateAccountPayload extends CommandPayload {
+    readonly commandType: ActionTypes.COMMAND_ADD_CREATE_ACCOUNT,
     readonly data: {
       readonly name: string
     }
   }
 
   export interface StatusPayload extends CommandPayload {
+    readonly commandType: ActionTypes.COMMAND_ADD_STATUS,
     readonly data: {
       readonly what: string
     }
   }
 
   export interface ExpensePayload extends CommandPayload {
+    readonly commandType: ActionTypes.COMMAND_ADD_EXPENSE,
     readonly data: {
       readonly categoryId: string
       readonly accountId: string
@@ -65,6 +70,7 @@ export namespace Commands {
   }
 
   export interface IncomePayload extends CommandPayload {
+    readonly commandType: ActionTypes.COMMAND_ADD_INCOME,
     readonly data: {
       readonly accountId: string
       readonly amount: number
