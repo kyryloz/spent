@@ -1,5 +1,4 @@
 import { Reducer } from 'redux'
-import { uuidv4 } from '../../utils/math'
 import { Commands } from '../commands/interface'
 import { App } from '../interface'
 import { Accounts } from './interface'
@@ -23,9 +22,9 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
           items: [
             ...state.items,
             {
+              id: actionAdd.payload.data.id,
               name: actionAdd.payload.data.name,
-              id: uuidv4(),
-              commandIds: [actionAdd.payload.id],
+              commandIds: [], // TODO
             },
           ],
         }

@@ -1,8 +1,7 @@
 import { Reducer } from 'redux'
-import { uuidv4 } from '../../utils/math'
 import { Commands } from '../commands/interface'
-import { Categories } from './interface'
 import { App } from '../interface'
+import { Categories } from './interface'
 
 const initialState: Categories.State = {
   items: [],
@@ -23,9 +22,9 @@ export const categories: Reducer<Categories.State, App.Action> = (
           items: [
             ...state.items,
             {
+              id: actionAdd.payload.data.id,
               name: actionAdd.payload.data.name,
-              id: uuidv4(),
-              commandIds: [actionAdd.payload.id],
+              commandIds: [], // TODO
             },
           ],
         }

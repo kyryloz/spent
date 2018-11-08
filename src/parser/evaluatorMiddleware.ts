@@ -18,6 +18,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
         raw: input,
         data: {
           dataType: Commands.DataType.CREATE_ACCOUNT,
+          id: uuidv4(),
           name,
         },
       })
@@ -29,6 +30,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
         raw: input,
         data: {
           dataType: Commands.DataType.CREATE_CATEGORY,
+          id: uuidv4(),
           name,
         },
       })

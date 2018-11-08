@@ -51,6 +51,7 @@ export namespace Commands {
   export interface CreateCategoryData extends CommandData {
     readonly data: {
       readonly dataType: DataType.CREATE_CATEGORY
+      readonly id: string
       readonly name: string
     }
   }
@@ -58,6 +59,7 @@ export namespace Commands {
   export interface CreateAccountData extends CommandData {
     readonly data: {
       readonly dataType: DataType.CREATE_ACCOUNT
+      readonly id: string
       readonly name: string
     }
   }

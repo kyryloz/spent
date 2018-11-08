@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { Routes } from './routes'
 import { configureStore } from './store/configureStore'
 import { cyan } from '@material-ui/core/colors'
+import { Commands } from './store/commands/interface'
 
 const history = createHashHistory()
 
@@ -21,6 +22,53 @@ const theme = createMuiTheme({
     primary: { main: cyan[500] },
   },
 })
+
+const createTestAccountAction: Commands.Actions.CreateAccountCommand = {
+  type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
+  payload: {
+    id: 'commandId1',
+    raw: 'create account wallet',
+    timestamp: 123123123,
+    data: {
+      dataType: Commands.DataType.CREATE_ACCOUNT,
+      id: 'accountId1',
+      name: 'wallet',
+    },
+  },
+}
+
+const createTestCategoryAction: Commands.Actions.CreateCategoryCommand = {
+  type: Commands.ActionTypes.COMMAND_CREATE_CATEGORY,
+  payload: {
+    id: 'commandId2',
+    raw: 'create category clothes',
+    timestamp: 123123123,
+    data: {
+      dataType: Commands.DataType.CREATE_CATEGORY,
+      id: 'categoryId1',
+      name: 'clothes',
+    },
+  },
+}
+
+const createTestExpenseAction: Commands.Actions.ExpenseCommand = {
+  type: Commands.ActionTypes.COMMAND_EXPENSE,
+  payload: {
+    id: 'commandId3',
+    raw: 'create account wallet',
+    timestamp: 123123123,
+    data: {
+      dataType: Commands.DataType.EXPENSE,
+      accountId: 'accountId1',
+      categoryId: 'categoryId1',
+      amount: 100,
+    },
+  },
+}
+
+store.dispatch(createTestAccountAction)
+store.dispatch(createTestCategoryAction)
+store.dispatch(createTestExpenseAction)
 
 export const App = () => (
   <Provider store={store}>
