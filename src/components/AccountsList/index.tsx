@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Accounts } from '../../store/accounts/interface'
 
 interface Props {
-  accounts: Array<Accounts.Account>
+  accounts: Array<Accounts.AccountPayload>
 }
 
 export const AccountsList: React.SFC<Props> = ({ accounts }) => (

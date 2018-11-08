@@ -5,7 +5,9 @@ import { commands } from './commands/reducer'
 import { App } from './interface'
 
 export const rootReducer = combineReducers<App.State>({
+  entities: combineReducers({
+    accounts,
+    categories,
+  }),
   commands,
-  accounts,
-  categories,
 })

@@ -28,7 +28,7 @@ const createTestAccountAction: Commands.Actions.CreateAccountCommand = {
   payload: {
     id: 'commandId1',
     raw: 'create account wallet',
-    timestamp: 123123123,
+    timestamp: 1541701827,
     data: {
       dataType: Commands.DataType.CREATE_ACCOUNT,
       id: 'accountId1',
@@ -42,7 +42,7 @@ const createTestCategoryAction: Commands.Actions.CreateCategoryCommand = {
   payload: {
     id: 'commandId2',
     raw: 'create category clothes',
-    timestamp: 123123123,
+    timestamp: 1541701827,
     data: {
       dataType: Commands.DataType.CREATE_CATEGORY,
       id: 'categoryId1',
@@ -56,7 +56,7 @@ const createTestExpenseAction: Commands.Actions.ExpenseCommand = {
   payload: {
     id: 'commandId3',
     raw: 'create account wallet',
-    timestamp: 123123123,
+    timestamp: 1541701827,
     data: {
       dataType: Commands.DataType.EXPENSE,
       accountId: 'accountId1',

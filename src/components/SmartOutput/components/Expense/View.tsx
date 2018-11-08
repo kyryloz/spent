@@ -19,11 +19,12 @@ export const View: React.SFC<ViewProps> = ({ command, accountBalance, classes })
             <span className={classes.category}>{command.data.categoryId}</span>
           </Typography>
           <Typography className={classes.amount}>
-            <span className={classes.account}>{command.data.accountId}</span> = {accountBalance}{' '}
-            USD
+            <span className={classes.account}>{command.data.accountId}</span> = {accountBalance} USD
           </Typography>
         </div>
-        <Typography className={classes.date}>{moment().format('MM MMM YYYY')}</Typography>
+        <Typography className={classes.date}>
+          {moment.unix(command.timestamp).format('MM MMM YYYY')}
+        </Typography>
       </div>
     </div>
   </div>

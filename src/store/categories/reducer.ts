@@ -1,10 +1,12 @@
-import { Reducer } from 'redux'
-import { Commands } from '../commands/interface'
-import { App } from '../interface'
-import { Categories } from './interface'
+import { Reducer } from 'redux';
+import { removeItem } from '../../utils/storeUtils';
+import { Commands } from '../commands/interface';
+import { App } from '../interface';
+import { Categories } from './interface';
 
 const initialState: Categories.State = {
-  items: [],
+  byId: {},
+  allIds: [],
 }
 
 export const categories: Reducer<Categories.State, App.Action> = (
@@ -13,29 +15,36 @@ export const categories: Reducer<Categories.State, App.Action> = (
 ): Categories.State => {
   switch (action.type) {
     case Commands.ActionTypes.COMMAND_CREATE_CATEGORY: {
-      const actionAdd = action as Commands.Actions.CreateCategoryCommand
-      if (state.items.find(entry => entry.name === actionAdd.payload.data.name)) {
-        return state
-      } else {
-        return {
-          ...state,
-          items: [
-            ...state.items,
-            {
-              id: actionAdd.payload.data.id,
-              name: actionAdd.payload.data.name,
-              commandIds: [], // TODO
-            },
-          ],
-        }
-      }
-    }
-    case Categories.ActionTypes.CATEGORY_REMOVE: {
-      const payload = (<Categories.Actions.Remove>action).payload
+      const {
+        payload: {
+          data: { id, name },
+        },
+      } = action as Commands.Actions.CreateCategoryCommand
 
       return {
         ...state,
-        items: state.items.filter(entry => entry.id !== payload.id),
+        byId: {
+          ...state.byId,
+          [id]: {
+            id: id,
+            name: name,
+            commandIds: [],
+          },
+        },
+        allIds: [...state.allIds, id],
+      }
+    }
+    case Categories.ActionTypes.CATEGORY_REMOVE: {
+      const {
+        payload: { id },
+      } = action as Categories.Actions.Remove
+
+      const allIds = removeItem(state.allIds, id)
+      const { [id]: value, ...byId } = state.byId
+
+      return {
+        byId,
+        allIds,
       }
     }
     default: {

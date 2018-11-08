@@ -2,7 +2,14 @@ import { App } from '../interface'
 
 export namespace Accounts {
   export interface State {
-    readonly items: Array<Account>
+    readonly byId: {
+      [id: string]: {
+        id: string,
+        name: string,
+        commandIds: Array<string>
+      }
+    }
+    readonly allIds: Array<string>
   }
 
   export const enum ActionTypes {
@@ -15,7 +22,7 @@ export namespace Accounts {
     export type Remove = App.Action<App.Identifiable, ActionTypes>
   }
 
-  export interface Account extends App.Identifiable {
+  export interface AccountPayload extends App.Identifiable {
     readonly name: string
     readonly commandIds: Array<string>
   }

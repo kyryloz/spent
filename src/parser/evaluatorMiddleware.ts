@@ -1,5 +1,7 @@
 import * as moment from 'moment'
 import { Dispatch, Store } from 'redux'
+import { accountsSelector } from '../store/accounts/selectors'
+import { categoriesSelector } from '../store/categories/selectors'
 import { commandsActionCreator } from '../store/commands/actions'
 import { Commands } from '../store/commands/interface'
 import { App } from '../store/interface'
@@ -49,10 +51,10 @@ const evaluateExpense = (
   amount: number,
   accountName: string
 ): App.Action => {
-  const category = getState().categories.items.find(c => c.name === categoryName)
+  const category = categoriesSelector.findCategoryByName(categoryName)(getState())
   const categoryId = category ? category.id : 'not found'
 
-  const account = getState().accounts.items.find(a => a.name === accountName)
+  const account = accountsSelector.findAccountByName(accountName)(getState())
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addExpenseCommand({
@@ -74,7 +76,7 @@ const evaluateIncome = (
   accountName: string,
   amount: number
 ): App.Action => {
-  const account = getState().accounts.items.find(a => a.name === accountName)
+  const account = accountsSelector.findAccountByName(accountName)(getState())
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addIncomeCommand({

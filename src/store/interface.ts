@@ -5,9 +5,11 @@ import { Commands } from './commands/interface'
 
 export namespace App {
   export interface State {
+    readonly entities: {
+      readonly accounts: Accounts.State
+      readonly categories: Categories.State
+    }
     readonly commands: Commands.State
-    readonly accounts: Accounts.State
-    readonly categories: Categories.State
   }
 
   export interface Action<Payload = any, Type = any> extends ReduxAction<Type> {
