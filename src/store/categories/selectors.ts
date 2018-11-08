@@ -1,5 +1,5 @@
-import { App } from '../interface'
 import { createSelector } from 'reselect'
+import { App } from '../interface'
 
 export namespace categoriesSelector {
   const byId = (state: App.State) => state.entities.categories.byId
@@ -10,4 +10,6 @@ export namespace categoriesSelector {
         .map(key => resultById[key])
         .find(value => value.name === name)
     })
+
+  export const findById = (id: string) => createSelector(byId, resultById => resultById[id].name)
 }

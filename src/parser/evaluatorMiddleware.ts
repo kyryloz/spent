@@ -54,7 +54,7 @@ const evaluateExpense = (
   const category = categoriesSelector.findCategoryByName(categoryName)(getState())
   const categoryId = category ? category.id : 'not found'
 
-  const account = accountsSelector.findAccountByName(accountName)(getState())
+  const account = accountsSelector.findByName(accountName)(getState())
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addExpenseCommand({
@@ -76,7 +76,7 @@ const evaluateIncome = (
   accountName: string,
   amount: number
 ): App.Action => {
-  const account = accountsSelector.findAccountByName(accountName)(getState())
+  const account = accountsSelector.findByName(accountName)(getState())
   const accountId = account ? account.id : 'not found'
 
   return commandsActionCreator.addIncomeCommand({
