@@ -1,12 +1,12 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
+import { cyan } from '@material-ui/core/colors'
 import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { Routes } from './routes'
-import { configureStore } from './store/configureStore'
-import { cyan } from '@material-ui/core/colors'
 import { Commands } from './store/commands/interface'
+import { configureStore } from './store/configureStore'
 
 const history = createHashHistory()
 
@@ -55,7 +55,7 @@ const createTestExpenseAction: Commands.Actions.ExpenseCommand = {
   type: Commands.ActionTypes.COMMAND_EXPENSE,
   payload: {
     id: 'commandId3',
-    raw: 'create account wallet',
+    raw: 'expense 100 on clothes from wallet',
     timestamp: 1541701827,
     data: {
       dataType: Commands.DataType.EXPENSE,
