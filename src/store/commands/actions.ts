@@ -11,46 +11,46 @@ export namespace commandsActionCreator {
   }
 
   export const addExpenseCommand = (
-    payload: Commands.ExpensePayload
-  ): Commands.Actions.AddExpenseCommand => {
+    payload: Commands.ExpenseData
+  ): Commands.Actions.ExpenseCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_ADD_EXPENSE,
+      type: Commands.ActionTypes.COMMAND_EXPENSE,
       payload,
     }
   }
 
   export const addIncomeCommand = (
-    payload: Commands.IncomePayload
-  ): Commands.Actions.AddIncomeCommand => {
+    payload: Commands.IncomeData
+  ): Commands.Actions.IncomeCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_ADD_INCOME,
+      type: Commands.ActionTypes.COMMAND_INCOME,
       payload,
     }
   }
 
   export const addCreateAccountCommand = (
-    payload: Commands.CreateAccountPayload
-  ): Commands.Actions.AddCreateAccountCommand => {
+    payload: Commands.CreateAccountData
+  ): Commands.Actions.CreateAccountCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT,
+      type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
       payload,
     }
   }
 
   export const addCreateCategoryCommand = (
-    payload: Commands.CreateCategoryPayload
-  ): Commands.Actions.AddCreateCategoryCommand => {
+    payload: Commands.CreateCategoryData
+  ): Commands.Actions.CreateCategoryCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY,
+      type: Commands.ActionTypes.COMMAND_CREATE_CATEGORY,
       payload,
     }
   }
 
   export const addStatusCommand = (
-    payload: Commands.StatusPayload
-  ): Commands.Actions.AddStatusCommand => {
+    payload: Commands.StatusData
+  ): Commands.Actions.StatusCommand => {
     return {
-      type: Commands.ActionTypes.COMMAND_ADD_STATUS,
+      type: Commands.ActionTypes.COMMAND_STATUS,
       payload,
     }
   }

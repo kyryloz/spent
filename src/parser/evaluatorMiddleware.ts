@@ -17,7 +17,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
         timestamp: moment().unix(),
         raw: input,
         data: {
-          commandType: Commands.CommandType.CREATE_ACCOUNT,
+          dataType: Commands.DataType.CREATE_ACCOUNT,
           name,
         },
       })
@@ -28,7 +28,7 @@ const evaluateCreate = (input: string, entityName: string, name: string): App.Ac
         timestamp: moment().unix(),
         raw: input,
         data: {
-          commandType: Commands.CommandType.CREATE_CATEGORY,
+          dataType: Commands.DataType.CREATE_CATEGORY,
           name,
         },
       })
@@ -58,7 +58,7 @@ const evaluateExpense = (
     timestamp: moment().unix(),
     raw: input,
     data: {
-      commandType: Commands.CommandType.EXPENSE,
+      dataType: Commands.DataType.EXPENSE,
       categoryId,
       accountId,
       amount,
@@ -80,7 +80,7 @@ const evaluateIncome = (
     timestamp: moment().unix(),
     raw: input,
     data: {
-      commandType: Commands.CommandType.INCOME,
+      dataType: Commands.DataType.INCOME,
       accountId,
       amount,
     },
@@ -93,7 +93,7 @@ const evaluateStatus = (input: string, what: string): App.Action => {
     timestamp: moment().unix(),
     raw: input,
     data: {
-      commandType: Commands.CommandType.STATUS,
+      dataType: Commands.DataType.STATUS,
       what,
     },
   })

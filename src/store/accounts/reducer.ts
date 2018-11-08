@@ -13,8 +13,8 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
   action
 ): Accounts.State => {
   switch (action.type) {
-    case Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT: {
-      const actionAdd = action as Commands.Actions.AddCreateAccountCommand
+    case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT: {
+      const actionAdd = action as Commands.Actions.CreateAccountCommand
       if (state.items.find(entry => entry.name === actionAdd.payload.data.name)) {
         return state
       } else {

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Commands } from '../../store/commands/interface'
 
 interface Props {
-  commands: Array<Commands.CommandPayload>
+  commands: Array<Commands.CommandData>
 }
 
 export const RecentTransactionList: React.SFC<Props> = ({ commands }) => (

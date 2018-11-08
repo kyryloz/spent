@@ -3,10 +3,10 @@ import * as React from 'react'
 import { Commands } from '../../../store/commands/interface'
 import { Expense } from './Expense'
 
-export const createWidget = (command: Commands.CommandPayload) => {
-  switch (command.data.commandType) {
-    case Commands.CommandType.CREATE_ACCOUNT: {
-      const details = command as Commands.CreateAccountPayload
+export const createWidget = (command: Commands.CommandData) => {
+  switch (command.data.dataType) {
+    case Commands.DataType.CREATE_ACCOUNT: {
+      const details = command as Commands.CreateAccountData
 
       return (
         <ListItem>
@@ -17,8 +17,8 @@ export const createWidget = (command: Commands.CommandPayload) => {
         </ListItem>
       )
     }
-    case Commands.CommandType.CREATE_CATEGORY: {
-      const details = command as Commands.CreateCategoryPayload
+    case Commands.DataType.CREATE_CATEGORY: {
+      const details = command as Commands.CreateCategoryData
 
       return (
         <ListItem>
@@ -29,11 +29,11 @@ export const createWidget = (command: Commands.CommandPayload) => {
         </ListItem>
       )
     }
-    case Commands.CommandType.EXPENSE: {
-      return <Expense command={command as Commands.ExpensePayload} />
+    case Commands.DataType.EXPENSE: {
+      return <Expense command={command as Commands.ExpenseData} />
     }
-    case Commands.CommandType.INCOME: {
-      const details = command as Commands.IncomePayload
+    case Commands.DataType.INCOME: {
+      const details = command as Commands.IncomeData
 
       return (
         <ListItem>
@@ -44,7 +44,7 @@ export const createWidget = (command: Commands.CommandPayload) => {
         </ListItem>
       )
     }
-    case Commands.CommandType.STATUS: {
+    case Commands.DataType.STATUS: {
       return (
         <ListItem>
           <ListItemText primary={command.raw} />

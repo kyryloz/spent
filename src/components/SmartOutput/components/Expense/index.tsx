@@ -8,7 +8,7 @@ import { styles } from './styles'
 import { View } from './View'
 
 interface OutterProps {
-  command: Commands.ExpensePayload
+  command: Commands.ExpenseData
 }
 
 interface ConnectedProps {

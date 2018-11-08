@@ -13,8 +13,8 @@ export const categories: Reducer<Categories.State, App.Action> = (
   action
 ): Categories.State => {
   switch (action.type) {
-    case Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY: {
-      const actionAdd = action as Commands.Actions.AddCreateCategoryCommand
+    case Commands.ActionTypes.COMMAND_CREATE_CATEGORY: {
+      const actionAdd = action as Commands.Actions.CreateCategoryCommand
       if (state.items.find(entry => entry.name === actionAdd.payload.data.name)) {
         return state
       } else {

@@ -11,11 +11,11 @@ export const commands: Reducer<Commands.State, App.Action> = (
   action
 ): Commands.State => {
   switch (action.type) {
-    case Commands.ActionTypes.COMMAND_ADD_CREATE_ACCOUNT:
-    case Commands.ActionTypes.COMMAND_ADD_CREATE_CATEGORY:
-    case Commands.ActionTypes.COMMAND_ADD_EXPENSE:
-    case Commands.ActionTypes.COMMAND_ADD_INCOME:
-    case Commands.ActionTypes.COMMAND_ADD_STATUS: {
+    case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT:
+    case Commands.ActionTypes.COMMAND_CREATE_CATEGORY:
+    case Commands.ActionTypes.COMMAND_EXPENSE:
+    case Commands.ActionTypes.COMMAND_INCOME:
+    case Commands.ActionTypes.COMMAND_STATUS: {
       return {
         ...state,
         items: [...state.items, action.payload],

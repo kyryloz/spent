@@ -2,37 +2,37 @@ import { App } from '../interface'
 
 export namespace Commands {
   export interface State {
-    readonly items: Array<CommandPayload>
+    readonly items: Array<CommandData>
   }
 
   export const enum ActionTypes {
     COMMAND_EVALUATE = '@@command/EVALUATE',
     COMMAND_REMOVE = '@@command/REMOVE',
-    COMMAND_ADD_EXPENSE = '@@command/ADD_EXPENSE',
-    COMMAND_ADD_INCOME = '@@command/ADD_INCOME',
-    COMMAND_ADD_STATUS = '@@command/ADD_STATUS',
-    COMMAND_ADD_CREATE_ACCOUNT = '@@command/ADD_CREATE_ACCOUNT',
-    COMMAND_ADD_CREATE_CATEGORY = '@@command/ADD_CREATE_CATEGORY',
+    COMMAND_EXPENSE = '@@command/EXPENSE',
+    COMMAND_INCOME = '@@command/INCOME',
+    COMMAND_STATUS = '@@command/STATUS',
+    COMMAND_CREATE_ACCOUNT = '@@command/CREATE_ACCOUNT',
+    COMMAND_CREATE_CATEGORY = '@@command/CREATE_CATEGORY',
   }
 
   export type Action<Payload> = App.Action<Payload, ActionTypes>
 
   export namespace Actions {
     export type Remove = App.Action<App.Identifiable, ActionTypes>
-    export type AddExpenseCommand = App.Action<ExpensePayload, ActionTypes.COMMAND_ADD_EXPENSE>
-    export type AddIncomeCommand = App.Action<IncomePayload, ActionTypes.COMMAND_ADD_INCOME>
-    export type AddStatusCommand = App.Action<StatusPayload, ActionTypes.COMMAND_ADD_STATUS>
-    export type AddCreateAccountCommand = App.Action<
-      CreateAccountPayload,
-      ActionTypes.COMMAND_ADD_CREATE_ACCOUNT
+    export type ExpenseCommand = App.Action<ExpenseData, ActionTypes.COMMAND_EXPENSE>
+    export type IncomeCommand = App.Action<IncomeData, ActionTypes.COMMAND_INCOME>
+    export type StatusCommand = App.Action<StatusData, ActionTypes.COMMAND_STATUS>
+    export type CreateAccountCommand = App.Action<
+      CreateAccountData,
+      ActionTypes.COMMAND_CREATE_ACCOUNT
     >
-    export type AddCreateCategoryCommand = App.Action<
-      CreateCategoryPayload,
-      ActionTypes.COMMAND_ADD_CREATE_CATEGORY
+    export type CreateCategoryCommand = App.Action<
+      CreateCategoryData,
+      ActionTypes.COMMAND_CREATE_CATEGORY
     >
   }
 
-  export const enum CommandType {
+  export const enum DataType {
     EXPENSE = 'EXPENSE',
     INCOME = 'INCOME',
     STATUS = 'STATUS',
@@ -40,47 +40,47 @@ export namespace Commands {
     CREATE_CATEGORY = 'CREATE_CATEGORY',
   }
 
-  export interface CommandPayload extends App.Identifiable {
+  export interface CommandData extends App.Identifiable {
     readonly raw: string
     readonly timestamp: number
     readonly data: {
-      readonly commandType: CommandType
+      readonly dataType: DataType
     }
   }
 
-  export interface CreateCategoryPayload extends CommandPayload {
+  export interface CreateCategoryData extends CommandData {
     readonly data: {
-      readonly commandType: CommandType.CREATE_CATEGORY
+      readonly dataType: DataType.CREATE_CATEGORY
       readonly name: string
     }
   }
 
-  export interface CreateAccountPayload extends CommandPayload {
+  export interface CreateAccountData extends CommandData {
     readonly data: {
-      readonly commandType: CommandType.CREATE_ACCOUNT
+      readonly dataType: DataType.CREATE_ACCOUNT
       readonly name: string
     }
   }
 
-  export interface StatusPayload extends CommandPayload {
+  export interface StatusData extends CommandData {
     readonly data: {
-      readonly commandType: CommandType.STATUS
+      readonly dataType: DataType.STATUS
       readonly what: string
     }
   }
 
-  export interface ExpensePayload extends CommandPayload {
+  export interface ExpenseData extends CommandData {
     readonly data: {
-      readonly commandType: CommandType.EXPENSE
+      readonly dataType: DataType.EXPENSE
       readonly categoryId: string
       readonly accountId: string
       readonly amount: number
     }
   }
 
-  export interface IncomePayload extends CommandPayload {
+  export interface IncomeData extends CommandData {
     readonly data: {
-      readonly commandType: CommandType.INCOME
+      readonly dataType: DataType.INCOME
       readonly accountId: string
       readonly amount: number
     }
