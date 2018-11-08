@@ -21,17 +21,25 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         },
       } = action as Commands.Actions.CreateAccountCommand
 
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [id]: {
-            id: id,
-            name: name,
-            commandIds: [],
+      const account = Object.keys(state.byId)
+        .map(key => state.byId[key])
+        .find(value => value.name === name)
+
+      if (account) {
+        return state
+      } else {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [id]: {
+              id: id,
+              name: name,
+              commandIds: [],
+            },
           },
-        },
-        allIds: [...state.allIds, id],
+          allIds: [...state.allIds, id],
+        }
       }
     }
     case Accounts.ActionTypes.ACCOUNT_REMOVE: {

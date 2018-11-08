@@ -9,33 +9,61 @@ import { uuidv4 } from '../utils/math'
 import { parseGrammar } from './parser'
 import { runSemantic } from './semantic'
 
-const evaluateCreate = (input: string, entityName: string, name: string): App.Action => {
-  let action: Commands.Action<any>
+const evaluateCreate = (
+  getState: () => App.State,
+  input: string,
+  entityName: string,
+  name: string
+): App.Action => {
+  let action: App.Action
 
   switch (entityName) {
     case 'account':
-      action = commandsActionCreator.addCreateAccountCommand({
-        id: uuidv4(),
-        timestamp: moment().unix(),
-        raw: input,
-        data: {
-          dataType: Commands.DataType.CREATE_ACCOUNT,
+      const account = accountsSelector.findByName(name)(getState())
+      console.log(account)
+
+      if (account) {
+        action = {
+          type: '@@evaluate/ERROR',
+          payload: {
+            error: `Account '${name}' is already existed`,
+          }
+        }
+      } else {
+        action = commandsActionCreator.addCreateAccountCommand({
           id: uuidv4(),
-          name,
-        },
-      })
+          timestamp: moment().unix(),
+          raw: input,
+          data: {
+            dataType: Commands.DataType.CREATE_ACCOUNT,
+            id: uuidv4(),
+            name,
+          },
+        })
+      }
       break
     case 'category':
-      action = commandsActionCreator.addCreateCategoryCommand({
-        id: uuidv4(),
-        timestamp: moment().unix(),
-        raw: input,
-        data: {
-          dataType: Commands.DataType.CREATE_CATEGORY,
+      const category = categoriesSelector.findCategoryByName(name)(getState())
+
+      if (category) {
+        action = {
+          type: '@@evaluate/ERROR',
+          payload: {
+            error: `Category '${name}' is already existed`,
+          }
+        }
+      } else {
+        action = commandsActionCreator.addCreateCategoryCommand({
           id: uuidv4(),
-          name,
-        },
-      })
+          timestamp: moment().unix(),
+          raw: input,
+          data: {
+            dataType: Commands.DataType.CREATE_CATEGORY,
+            id: uuidv4(),
+            name,
+          },
+        })
+      }
       break
     default:
       throw new Error(`Unknown entity name: '${entityName}'`)
@@ -107,13 +135,18 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
   const parseResult = parseGrammar(input)
 
   if (parseResult.error) {
-    console.error(parseResult.error)
+    dispatch({
+      type: '@@evaluate/ERROR',
+      payload: {
+        error: parseResult.message,
+      }
+    })
     return
   }
 
   runSemantic(parseResult.match, {
     create: (entityName, name) => {
-      dispatch(evaluateCreate(input, entityName, name))
+      dispatch(evaluateCreate(getState, input, entityName, name))
     },
     expense: (category, amount, fromAccount) => {
       dispatch(evaluateExpense(getState, input, category, amount, fromAccount))

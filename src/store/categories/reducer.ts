@@ -1,8 +1,8 @@
-import { Reducer } from 'redux';
-import { removeItem } from '../../utils/storeUtils';
-import { Commands } from '../commands/interface';
-import { App } from '../interface';
-import { Categories } from './interface';
+import { Reducer } from 'redux'
+import { removeItem } from '../../utils/storeUtils'
+import { Commands } from '../commands/interface'
+import { App } from '../interface'
+import { Categories } from './interface'
 
 const initialState: Categories.State = {
   byId: {},
@@ -21,17 +21,25 @@ export const categories: Reducer<Categories.State, App.Action> = (
         },
       } = action as Commands.Actions.CreateCategoryCommand
 
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [id]: {
-            id: id,
-            name: name,
-            commandIds: [],
+      const category = Object.keys(state.byId)
+        .map(key => state.byId[key])
+        .find(value => value.name === name)
+
+      if (category) {
+        return state
+      } else {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [id]: {
+              id: id,
+              name: name,
+              commandIds: [],
+            },
           },
-        },
-        allIds: [...state.allIds, id],
+          allIds: [...state.allIds, id],
+        }
       }
     }
     case Categories.ActionTypes.CATEGORY_REMOVE: {
