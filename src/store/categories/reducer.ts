@@ -17,6 +17,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_CREATE_CATEGORY: {
       const {
         payload: {
+          timestamp,
           data: { id, name },
         },
       } = action as Commands.Actions.CreateCategoryCommand
@@ -33,8 +34,9 @@ export const categories: Reducer<Categories.State, App.Action> = (
           byId: {
             ...state.byId,
             [id]: {
-              id: id,
-              name: name,
+              id,
+              name,
+              createdAt: timestamp,
               commandIds: [],
             },
           },

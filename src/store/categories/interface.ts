@@ -6,6 +6,7 @@ export namespace Categories {
       [id: string]: {
         id: string,
         name: string,
+        createdAt: number,
         commandIds: Array<string>
       }
     }

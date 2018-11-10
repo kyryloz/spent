@@ -42,10 +42,9 @@ export namespace accountsSelector {
   export const balances = (timestampFrom: number, timestampTo: number) => (state: App.State) =>
     createSelector(byId, byId => {
       return fromPairs(
-        values(byId).map(account => [
-          account.name,
-          balance(account.id, timestampFrom, timestampTo)(state),
-        ])
+        values(byId)
+          .filter(account => account.createdAt <= timestampTo)
+          .map(account => [account.name, balance(account.id, timestampFrom, timestampTo)(state)])
       )
     })(state)
 }

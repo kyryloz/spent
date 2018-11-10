@@ -17,6 +17,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT: {
       const {
         payload: {
+          timestamp,
           data: { id, name },
         },
       } = action as Commands.Actions.CreateAccountCommand
@@ -33,8 +34,9 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
           byId: {
             ...state.byId,
             [id]: {
-              id: id,
-              name: name,
+              id,
+              name,
+              createdAt: timestamp,
               commandIds: [],
             },
           },
