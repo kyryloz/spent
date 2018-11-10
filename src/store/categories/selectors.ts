@@ -1,4 +1,4 @@
-import { values } from 'lodash'
+import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
 import { calculateBalance } from 'src/utils/selectorUtils'
 import { Commands } from '../commands/interface'
@@ -26,4 +26,13 @@ export namespace categoriesSelector {
     createSelector(commandIds(categoryId), commandIds => {
       return calculateBalance(commandIds, Commands.DataType.EXPENSE, timestampFrom, timestampTo)
     })
+
+  export const expenses = (timestampFrom: number, timestampTo: number) => (state: App.State) =>
+    createSelector(byId, byId => {
+      return fromPairs(
+        values(byId)
+          .filter(category => category.createdAt <= timestampTo)
+          .map(category => [category.name, expense(category.id, timestampFrom, timestampTo)(state)])
+      )
+    })(state)
 }

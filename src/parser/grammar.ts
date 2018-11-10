@@ -54,7 +54,7 @@ export const grammar = ohm.grammar(`
 
     status =
       | "accounts"
-      | "transactions"
+      | "categories"
 
     number     = digit+ ("." digit+)?
     word       = ~keyword wordprefix+ alnum*

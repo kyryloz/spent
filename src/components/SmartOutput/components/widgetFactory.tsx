@@ -1,4 +1,3 @@
-import { ListItem, ListItemText } from '@material-ui/core'
 import * as React from 'react'
 import { Commands } from '../../../store/commands/interface'
 import { CreateAccount } from './CreateAccount'
@@ -6,6 +5,7 @@ import { CreateCategory } from './CreateCategory'
 import { Expense } from './Expense'
 import { Income } from './Income'
 import { StatusAccounts } from './StatusAccounts'
+import { StatusCategories } from './StatusCategories'
 
 export const createWidget = (command: Commands.CommandData) => {
   switch (command.data.dataType) {
@@ -23,23 +23,15 @@ export const createWidget = (command: Commands.CommandData) => {
     }
     case Commands.DataType.STATUS: {
       const statusCommand = command as Commands.StatusData
+
       switch (statusCommand.data.entity) {
         case Commands.Entity.ACCOUNT:
           return <StatusAccounts command={statusCommand} />
         case Commands.Entity.CATEGORY:
-          return (
-            <ListItem>
-              <ListItemText primary={command.raw} />
-            </ListItem>
-          )
+          return <StatusCategories command={statusCommand} />
       }
     }
-    default: {
-      return (
-        <ListItem>
-          <ListItemText primary={command.raw} secondary={JSON.stringify(command.data, null, 2)} />
-        </ListItem>
-      )
-    }
+    default:
+      throw new Error(`Unknown command type ${command.data.dataType}`)
   }
 }
