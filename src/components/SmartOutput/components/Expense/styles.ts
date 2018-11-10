@@ -12,7 +12,7 @@ export const styles = (theme: Theme) =>
     body: {
       border: `1px solid ${red[300]}`,
       borderRadius: 5,
-      padding: theme.spacing.unit,
+      padding: theme.spacing.unit * 2,
     },
     bodyTitle: {
       color: red[300],
@@ -20,7 +20,7 @@ export const styles = (theme: Theme) =>
     detailsContainer: {
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'flex-end'
+      alignItems: 'flex-end',
     },
     amount: {
       color: grey.A100,
@@ -29,9 +29,14 @@ export const styles = (theme: Theme) =>
       color: grey[700],
     },
     account: {
-      color: teal[200]
+      color: teal[200],
     },
     category: {
-      color: amber[200]
+      color: amber[200],
+    },
+    line: {
+      borderTop: `1px solid ${red[300]}`,
+      margin: '8px 0 8px 0',
+      opacity: 0.3,
     },
   })

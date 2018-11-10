@@ -23,7 +23,7 @@ const theme = createMuiTheme({
   },
 })
 
-const createTestAccountAction: Commands.Actions.CreateAccountCommand = {
+const testAccountAction: Commands.Actions.CreateAccountCommand = {
   type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
   payload: {
     id: 'commandId1',
@@ -37,7 +37,7 @@ const createTestAccountAction: Commands.Actions.CreateAccountCommand = {
   },
 }
 
-const createTestCategoryAction: Commands.Actions.CreateCategoryCommand = {
+const testCategoryAction: Commands.Actions.CreateCategoryCommand = {
   type: Commands.ActionTypes.COMMAND_CREATE_CATEGORY,
   payload: {
     id: 'commandId2',
@@ -51,10 +51,24 @@ const createTestCategoryAction: Commands.Actions.CreateCategoryCommand = {
   },
 }
 
-const createTestExpenseAction: Commands.Actions.ExpenseCommand = {
-  type: Commands.ActionTypes.COMMAND_EXPENSE,
+const testIncomeAction: Commands.Actions.IncomeCommand = {
+  type: Commands.ActionTypes.COMMAND_INCOME,
   payload: {
     id: 'commandId3',
+    raw: 'income 1000 to wallet',
+    timestamp: 1541701827,
+    data: {
+      dataType: Commands.DataType.INCOME,
+      accountId: 'accountId1',
+      amount: 1000,
+    },
+  },
+}
+
+const testExpenseAction: Commands.Actions.ExpenseCommand = {
+  type: Commands.ActionTypes.COMMAND_EXPENSE,
+  payload: {
+    id: 'commandId4',
     raw: 'expense 100 on clothes from wallet',
     timestamp: 1541701827,
     data: {
@@ -66,9 +80,10 @@ const createTestExpenseAction: Commands.Actions.ExpenseCommand = {
   },
 }
 
-store.dispatch(createTestAccountAction)
-store.dispatch(createTestCategoryAction)
-store.dispatch(createTestExpenseAction)
+store.dispatch(testAccountAction)
+store.dispatch(testCategoryAction)
+store.dispatch(testIncomeAction)
+store.dispatch(testExpenseAction)
 
 export const App = () => (
   <Provider store={store}>
