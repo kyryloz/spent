@@ -31,6 +31,7 @@ export const spentTheme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: ['Inconsolata', 'monospace'].join(','),
+    fontSize: 14,
   },
   palette: {
     type: 'dark',

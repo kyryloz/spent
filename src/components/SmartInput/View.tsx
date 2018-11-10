@@ -13,7 +13,7 @@ export const View: React.SFC<ViewProps> = ({
     autoFocus
     variant="outlined"
     label="CLI"
-    fullWidth={true}
+    fullWidth
     onChange={handleInputChange}
     value={input}
     InputProps={{

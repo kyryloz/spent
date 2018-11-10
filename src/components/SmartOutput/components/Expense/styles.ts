@@ -5,9 +5,6 @@ export const styles = (theme: Theme) =>
     root: {
       marginTop: theme.spacing.unit * 2,
     },
-    rawContent: {
-      fontSize: 16,
-    },
     body: {
       border: `1px solid ${theme.colors.expense}`,
       borderRadius: 5,

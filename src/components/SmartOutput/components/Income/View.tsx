@@ -5,7 +5,7 @@ import { ViewProps } from '.'
 
 export const View: React.SFC<ViewProps> = ({ command, accountBalance, accountName, classes }) => (
   <div className={classes.root}>
-    <Typography gutterBottom className={classes.rawContent}>
+    <Typography gutterBottom variant={'body1'}>
       > {command.raw}
     </Typography>
     <div className={classes.body}>

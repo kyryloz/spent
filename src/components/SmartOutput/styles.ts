@@ -12,6 +12,5 @@ export const styles = (theme: Theme) =>
     },
     list: {
       padding: theme.spacing.unit * 2,
-      lineHeightStep: 30,
     },
   })
