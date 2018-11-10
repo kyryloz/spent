@@ -42,7 +42,7 @@ const testCategoryAction: Commands.Actions.CreateCategoryCommand = {
   payload: {
     id: 'commandId2',
     raw: 'create category clothes',
-    timestamp: 1541701827,
+    timestamp: 1541701828,
     data: {
       dataType: Commands.DataType.CREATE_CATEGORY,
       id: 'categoryId1',
@@ -56,7 +56,7 @@ const testIncomeAction: Commands.Actions.IncomeCommand = {
   payload: {
     id: 'commandId3',
     raw: 'income 1000 to wallet',
-    timestamp: 1541701827,
+    timestamp: 1541701829,
     data: {
       dataType: Commands.DataType.INCOME,
       accountId: 'accountId1',
@@ -70,7 +70,7 @@ const testExpenseAction: Commands.Actions.ExpenseCommand = {
   payload: {
     id: 'commandId4',
     raw: 'expense 100 on clothes from wallet',
-    timestamp: 1541701827,
+    timestamp: 1541701830,
     data: {
       dataType: Commands.DataType.EXPENSE,
       accountId: 'accountId1',

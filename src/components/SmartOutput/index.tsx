@@ -4,7 +4,7 @@ import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { Commands } from '../../store/commands/interface'
 import { commandsSelector } from '../../store/commands/selectors'
 import { App } from '../../store/interface'
-import { SmartOutputView } from './SmartOutputView'
+import { View } from './View'
 import { styles } from './styles'
 
 interface OutterProps {}
@@ -30,4 +30,4 @@ export const SmartOutput = compose<ViewProps, OutterProps>(
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
   pure,
   setDisplayName('SmartOuput')
-)(SmartOutputView)
+)(View)

@@ -3,7 +3,7 @@ import { compose, pure, setDisplayName, withHandlers, withState } from 'recompos
 import { withConnectedProps } from '../../hoc/withConnectedProps'
 import { commandsActionCreator } from '../../store/commands/actions'
 import { App } from '../../store/interface'
-import { SmartInputView } from './SmartInputView'
+import { View } from './View'
 import { styles } from './styles'
 
 interface OutterProps {}
@@ -39,4 +39,4 @@ export const SmartInput = compose<ViewProps, OutterProps>(
   }),
   pure,
   setDisplayName('SmartInput')
-)(SmartInputView)
+)(View)

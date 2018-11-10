@@ -2,6 +2,7 @@ import { ListItem, ListItemText } from '@material-ui/core'
 import * as React from 'react'
 import { Commands } from '../../../store/commands/interface'
 import { Expense } from './Expense'
+import { Income } from './Income'
 
 export const createWidget = (command: Commands.CommandData) => {
   switch (command.data.dataType) {
@@ -33,16 +34,7 @@ export const createWidget = (command: Commands.CommandData) => {
       return <Expense command={command as Commands.ExpenseData} />
     }
     case Commands.DataType.INCOME: {
-      const details = command as Commands.IncomeData
-
-      return (
-        <ListItem>
-          <ListItemText
-            primary={details.raw}
-            secondary={`Income $${details.data.amount} to '${details.data.accountId}' recorded`}
-          />
-        </ListItem>
-      )
+      return <Income command={command as Commands.IncomeData} />
     }
     case Commands.DataType.STATUS: {
       return (

@@ -3,9 +3,9 @@ import { ViewProps } from '.'
 import { createWidget } from './components/widgetFactory'
 import { List } from '@material-ui/core';
 
-export const SmartOutputView: React.SFC<ViewProps> = ({ commands, classes }) => (
+export const View: React.SFC<ViewProps> = ({ commands, classes }) => (
   <div className={classes.root}>
-    <List component="nav">
+    <List component="nav" className={classes.list}>
       {commands.map(command => (
         <div key={command.id}>{createWidget(command)}</div>
       ))}
