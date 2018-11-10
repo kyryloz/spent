@@ -1,5 +1,4 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
-import { cyan } from '@material-ui/core/colors'
+import { MuiThemeProvider } from '@material-ui/core'
 import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import * as React from 'react'
@@ -7,21 +6,11 @@ import { Provider } from 'react-redux'
 import { Routes } from './routes'
 import { Commands } from './store/commands/interface'
 import { configureStore } from './store/configureStore'
+import { spentTheme } from './theme'
 
 const history = createHashHistory()
 
 const store = configureStore(history)
-
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-    fontFamily: ['Inconsolata', 'monospace'].join(','),
-  },
-  palette: {
-    type: 'dark',
-    primary: { main: cyan[500] },
-  },
-})
 
 const testAccountAction: Commands.Actions.CreateAccountCommand = {
   type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
@@ -88,7 +77,7 @@ store.dispatch(testExpenseAction)
 export const App = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={spentTheme}>
         <Routes />
       </MuiThemeProvider>
     </ConnectedRouter>

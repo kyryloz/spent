@@ -1,5 +1,4 @@
 import { createStyles, Theme } from '@material-ui/core'
-import { grey, red, teal, amber } from '@material-ui/core/colors'
 
 export const styles = (theme: Theme) =>
   createStyles({
@@ -10,14 +9,14 @@ export const styles = (theme: Theme) =>
       fontSize: 16,
     },
     body: {
-      border: `1px solid ${red[300]}`,
+      border: `1px solid ${theme.colors.expense}`,
       borderRadius: 5,
       padding: theme.spacing.unit,
       paddingLeft: theme.spacing.unit * 2,
       paddingRight: theme.spacing.unit * 2,
     },
     bodyTitle: {
-      color: red[300],
+      color: theme.colors.expense,
     },
     detailsContainer: {
       display: 'flex',
@@ -25,19 +24,19 @@ export const styles = (theme: Theme) =>
       alignItems: 'flex-end',
     },
     amount: {
-      color: grey.A100,
+      color: theme.colors.number,
     },
     date: {
-      color: grey[700],
+      color: theme.colors.date,
     },
     account: {
-      color: teal[200],
+      color: theme.colors.account,
     },
     category: {
-      color: amber[200],
+      color: theme.colors.category,
     },
     line: {
-      borderTop: `1px solid ${red[300]}`,
+      borderTop: `1px solid ${theme.colors.expense}`,
       margin: '8px 0 8px 0',
       opacity: 0.3,
     },

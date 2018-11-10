@@ -1,5 +1,4 @@
 import { createStyles, Theme } from '@material-ui/core'
-import { grey, teal } from '@material-ui/core/colors'
 
 export const styles = (theme: Theme) =>
   createStyles({
@@ -14,7 +13,7 @@ export const styles = (theme: Theme) =>
       paddingRight: theme.spacing.unit * 2,
     },
     bodyTitle: {
-      color: grey[500],
+      color: theme.colors.info,
     },
     detailsContainer: {
       display: 'flex',
@@ -22,9 +21,9 @@ export const styles = (theme: Theme) =>
       alignItems: 'flex-end',
     },
     date: {
-      color: grey[700],
+      color: theme.colors.date,
     },
     account: {
-      color: teal[200],
+      color: theme.colors.account,
     },
   })
