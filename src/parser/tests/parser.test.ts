@@ -171,7 +171,7 @@ describe('parser.ts', () => {
 
       describe('status', () => {
         test('case1', () => {
-          const input = 'status transactions'
+          const input = 'status categories'
           expect(parseGrammar(input).success).toBeTruthy()
         })
 

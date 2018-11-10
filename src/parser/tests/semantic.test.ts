@@ -33,9 +33,9 @@ describe('semantic.ts', () => {
     })
 
     test('status', () => {
-      const input = 'status transactions'
+      const input = 'status categories'
       runSemantic(parseGrammar(input).match, mockCallback)
-      expect(mockCallback.status).toBeCalledWith('transactions')
+      expect(mockCallback.status).toBeCalledWith('categories')
     })
   })
 })
