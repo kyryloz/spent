@@ -1,6 +1,7 @@
 import { Typography } from '@material-ui/core'
 import { toPairs } from 'lodash'
 import * as React from 'react'
+import { formatTimestamp } from 'src/utils/dateUtils'
 import { ViewProps } from '.'
 
 export const View: React.SFC<ViewProps> = ({ command, accounts, classes }) => (
@@ -17,6 +18,7 @@ export const View: React.SFC<ViewProps> = ({ command, accounts, classes }) => (
             </Typography>
           ))}
         </div>
+        <Typography className={classes.date}>{formatTimestamp(command.timestamp)}</Typography>
       </div>
     </div>
   </div>

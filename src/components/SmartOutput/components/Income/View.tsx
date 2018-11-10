@@ -1,22 +1,15 @@
 import { Typography } from '@material-ui/core'
-import * as moment from 'moment'
 import * as React from 'react'
+import { formatTimestamp } from 'src/utils/dateUtils'
 import { ViewProps } from '.'
 
-export const View: React.SFC<ViewProps> = ({
-  command,
-  accountBalance,
-  accountName,
-  classes,
-}) => (
+export const View: React.SFC<ViewProps> = ({ command, accountBalance, accountName, classes }) => (
   <div className={classes.root}>
     <Typography gutterBottom className={classes.rawContent}>
       > {command.raw}
     </Typography>
     <div className={classes.body}>
-      <Typography className={classes.bodyTitle}>
-        Income
-      </Typography>
+      <Typography className={classes.bodyTitle}>Income</Typography>
       <div className={classes.detailsContainer}>
         <div>
           <Typography className={classes.amount}>
@@ -27,9 +20,7 @@ export const View: React.SFC<ViewProps> = ({
             <span className={classes.account}>{accountName}</span> = {accountBalance} USD
           </Typography>
         </div>
-        <Typography className={classes.date}>
-          {moment.unix(command.timestamp).format('MM MMM YYYY')}
-        </Typography>
+        <Typography className={classes.date}>{formatTimestamp(command.timestamp)}</Typography>
       </div>
     </div>
   </div>

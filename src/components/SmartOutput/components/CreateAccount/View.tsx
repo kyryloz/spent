@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core'
-import * as moment from 'moment'
 import * as React from 'react'
+import { formatTimestamp } from 'src/utils/dateUtils'
 import { ViewProps } from '.'
 
 export const View: React.SFC<ViewProps> = ({ command, classes }) => (
@@ -16,9 +16,7 @@ export const View: React.SFC<ViewProps> = ({ command, classes }) => (
             created.
           </Typography>
         </div>
-        <Typography className={classes.date}>
-          {moment.unix(command.timestamp).format('MM MMM YYYY')}
-        </Typography>
+        <Typography className={classes.date}>{formatTimestamp(command.timestamp)}</Typography>
       </div>
     </div>
   </div>
