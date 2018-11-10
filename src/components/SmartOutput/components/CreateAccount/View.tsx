@@ -12,7 +12,7 @@ export const View: React.SFC<ViewProps> = ({ command, classes }) => (
       <div className={classes.detailsContainer}>
         <div>
           <Typography className={classes.bodyTitle}>
-            Category <span className={classes.category}>{command.data.name}</span> successfully
+            Account <span className={classes.account}>{command.data.name}</span> successfully
             created.
           </Typography>
         </div>

@@ -6,7 +6,7 @@ import { styles } from './styles'
 import { View } from './View'
 
 interface OutterProps {
-  command: Commands.CreateCategoryData
+  command: Commands.CreateAccountData
 }
 
 interface ConnectedProps {}
@@ -19,9 +19,9 @@ interface HandlerProps {}
 
 export type ViewProps = OutterProps & InnerProps & HandlerProps
 
-export const CreateCategory = compose<ViewProps, OutterProps>(
+export const CreateAccount = compose<ViewProps, OutterProps>(
   pure,
   withStyles(styles),
   withHandlers<OutterProps & InnerProps, HandlerProps>({}),
-  setDisplayName('CreateCategory')
+  setDisplayName('CreateAccount')
 )(View)

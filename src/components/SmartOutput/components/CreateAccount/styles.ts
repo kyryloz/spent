@@ -1,5 +1,5 @@
 import { createStyles, Theme } from '@material-ui/core'
-import { amber, grey } from '@material-ui/core/colors'
+import { grey, teal } from '@material-ui/core/colors'
 
 export const styles = (theme: Theme) =>
   createStyles({
@@ -24,7 +24,7 @@ export const styles = (theme: Theme) =>
     date: {
       color: grey[700],
     },
-    category: {
-      color: amber[200],
+    account: {
+      color: teal[200],
     },
   })
