@@ -42,13 +42,35 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         }
       }
     }
+    case Commands.ActionTypes.COMMAND_INCOME:
+    case Commands.ActionTypes.COMMAND_EXPENSE: {
+      const {
+        payload: {
+          id,
+          data: { accountId },
+        },
+      } = action as Commands.Actions.ExpenseCommand
+
+      return {
+        ...state,
+        byId: {
+          [accountId]: {
+            ...state.byId[accountId],
+            commandIds: [
+              ...state.byId[accountId].commandIds,
+              id,
+            ]
+          }
+        }
+      }
+    }
     case Accounts.ActionTypes.ACCOUNT_REMOVE: {
       const {
         payload: { id },
       } = action as Accounts.Actions.Remove
 
       const allIds = removeItem(state.allIds, id)
-      const { [id]: value, ...byId } = state.byId
+      const { [id]: _, ...byId } = state.byId
 
       return {
         byId,

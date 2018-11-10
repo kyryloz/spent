@@ -4,7 +4,6 @@ import { withConnectedProps } from '../../../../hoc/withConnectedProps'
 import { accountsSelector } from '../../../../store/accounts/selectors'
 import { categoriesSelector } from '../../../../store/categories/selectors'
 import { Commands } from '../../../../store/commands/interface'
-import { commandsSelector } from '../../../../store/commands/selectors'
 import { App } from '../../../../store/interface'
 import { styles } from './styles'
 import { View } from './View'
@@ -16,6 +15,7 @@ interface OutterProps {
 interface ConnectedProps {
   accountBalance: number
   accountName: string
+  categoryExpenses: number
   categoryName: string
 }
 
@@ -31,7 +31,16 @@ export const Expense = compose<ViewProps, OutterProps>(
   pure,
   withStyles(styles),
   withConnectedProps<ConnectedProps, OutterProps & InnerProps>((state, ownProps) => ({
-    accountBalance: commandsSelector.balance(ownProps.command.data.accountId)(state),
+    accountBalance: accountsSelector.balance(
+      ownProps.command.data.accountId,
+      0,
+      ownProps.command.timestamp
+    )(state),
+    categoryExpenses: categoriesSelector.expense(
+      ownProps.command.data.categoryId,
+      0,
+      ownProps.command.timestamp
+    )(state),
     accountName: accountsSelector.findById(ownProps.command.data.accountId)(state),
     categoryName: categoriesSelector.findById(ownProps.command.data.categoryId)(state),
   })),

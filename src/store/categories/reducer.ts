@@ -42,13 +42,34 @@ export const categories: Reducer<Categories.State, App.Action> = (
         }
       }
     }
+    case Commands.ActionTypes.COMMAND_EXPENSE: {
+      const {
+        payload: {
+          id,
+          data: { categoryId },
+        },
+      } = action as Commands.Actions.ExpenseCommand
+
+      return {
+        ...state,
+        byId: {
+          [categoryId]: {
+            ...state.byId[categoryId],
+            commandIds: [
+              ...state.byId[categoryId].commandIds,
+              id,
+            ]
+          }
+        }
+      }
+    }
     case Categories.ActionTypes.CATEGORY_REMOVE: {
       const {
         payload: { id },
       } = action as Categories.Actions.Remove
 
       const allIds = removeItem(state.allIds, id)
-      const { [id]: value, ...byId } = state.byId
+      const { [id]: _, ...byId } = state.byId
 
       return {
         byId,

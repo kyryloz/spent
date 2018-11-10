@@ -7,6 +7,7 @@ export const View: React.SFC<ViewProps> = ({
   command,
   accountBalance,
   accountName,
+  categoryExpenses,
   categoryName,
   classes,
 }) => (
@@ -25,6 +26,9 @@ export const View: React.SFC<ViewProps> = ({
           </Typography>
           <Typography className={classes.amount}>
             <span className={classes.account}>{accountName}</span> = {accountBalance} USD
+          </Typography>
+          <Typography className={classes.amount}>
+            <span className={classes.category}>{categoryName}</span> = {categoryExpenses} USD
           </Typography>
         </div>
         <Typography className={classes.date}>

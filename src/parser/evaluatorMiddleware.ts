@@ -5,7 +5,7 @@ import { categoriesSelector } from '../store/categories/selectors'
 import { commandsActionCreator } from '../store/commands/actions'
 import { Commands } from '../store/commands/interface'
 import { App } from '../store/interface'
-import { uuidv4 } from '../utils/math'
+import { uuidv4 } from '../utils/mathUtils'
 import { parseGrammar } from './parser'
 import { runSemantic } from './semantic'
 
@@ -43,7 +43,7 @@ const evaluateCreate = (
       }
       break
     case 'category':
-      const category = categoriesSelector.findCategoryByName(name)(getState())
+      const category = categoriesSelector.findByName(name)(getState())
 
       if (category) {
         action = {
@@ -79,7 +79,7 @@ const evaluateExpense = (
   amount: number,
   accountName: string
 ): App.Action => {
-  const category = categoriesSelector.findCategoryByName(categoryName)(getState())
+  const category = categoriesSelector.findByName(categoryName)(getState())
   const categoryId = category ? category.id : 'not found'
 
   const account = accountsSelector.findByName(accountName)(getState())
