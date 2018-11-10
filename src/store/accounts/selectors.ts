@@ -1,8 +1,9 @@
+import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
+import { calculateBalance } from 'src/utils/selectorUtils'
 import { Commands } from '../commands/interface'
 import { commandsSelector } from '../commands/selectors'
 import { App } from '../interface'
-import { calculateBalance } from 'src/utils/selectorUtils'
 
 export namespace accountsSelector {
   const byId = (state: App.State) => state.entities.accounts.byId
@@ -14,9 +15,7 @@ export namespace accountsSelector {
 
   export const findByName = (name: string) =>
     createSelector(byId, resultById => {
-      return Object.keys(resultById)
-        .map(key => resultById[key])
-        .find(value => value.name === name)
+      return values(resultById).find(value => value.name === name)
     })
 
   export const findById = (id: string) => createSelector(byId, resultById => resultById[id].name)
@@ -39,4 +38,14 @@ export namespace accountsSelector {
       ],
       (income, expense) => income - expense
     )
+
+  export const balances = (timestampFrom: number, timestampTo: number) => (state: App.State) =>
+    createSelector(byId, byId => {
+      return fromPairs(
+        values(byId).map(account => [
+          account.name,
+          balance(account.id, timestampFrom, timestampTo)(state),
+        ])
+      )
+    })(state)
 }

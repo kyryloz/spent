@@ -40,6 +40,11 @@ export namespace Commands {
     CREATE_CATEGORY = 'CREATE_CATEGORY',
   }
 
+  export const enum Entity {
+    ACCOUNT = 'account',
+    CATEGORY = 'category'
+  }
+
   export interface CommandData extends App.Identifiable {
     readonly raw: string
     readonly timestamp: number
@@ -67,7 +72,7 @@ export namespace Commands {
   export interface StatusData extends CommandData {
     readonly data: {
       readonly dataType: DataType.STATUS
-      readonly what: string
+      readonly entity: Entity
     }
   }
 

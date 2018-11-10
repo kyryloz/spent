@@ -49,11 +49,12 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
           id,
           data: { accountId },
         },
-      } = action as Commands.Actions.ExpenseCommand
+      } = action as Commands.Actions.ExpenseCommand | Commands.Actions.IncomeCommand
 
       return {
         ...state,
         byId: {
+          ...state.byId,
           [accountId]: {
             ...state.byId[accountId],
             commandIds: [

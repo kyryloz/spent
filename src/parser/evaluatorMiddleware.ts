@@ -27,7 +27,7 @@ const evaluateCreate = (
           type: '@@evaluate/ERROR',
           payload: {
             error: `Account '${name}' is already existed`,
-          }
+          },
         }
       } else {
         action = commandsActionCreator.addCreateAccountCommand({
@@ -50,7 +50,7 @@ const evaluateCreate = (
           type: '@@evaluate/ERROR',
           payload: {
             error: `Category '${name}' is already existed`,
-          }
+          },
         }
       } else {
         action = commandsActionCreator.addCreateCategoryCommand({
@@ -120,13 +120,25 @@ const evaluateIncome = (
 }
 
 const evaluateStatus = (input: string, what: string): App.Action => {
+  let entity
+  switch (what) {
+    case 'categories':
+      entity = Commands.Entity.CATEGORY
+      break
+    case 'accounts':
+      entity = Commands.Entity.ACCOUNT
+      break
+    default:
+      throw new Error(`Unknown entity: ${what}`)
+  }
+
   return commandsActionCreator.addStatusCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
     data: {
       dataType: Commands.DataType.STATUS,
-      what,
+      entity,
     },
   })
 }
@@ -139,7 +151,7 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
       type: '@@evaluate/ERROR',
       payload: {
         error: parseResult.message,
-      }
+      },
     })
     return
   }

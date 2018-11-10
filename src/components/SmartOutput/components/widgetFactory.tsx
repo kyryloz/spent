@@ -5,6 +5,7 @@ import { CreateAccount } from './CreateAccount'
 import { CreateCategory } from './CreateCategory'
 import { Expense } from './Expense'
 import { Income } from './Income'
+import { StatusAccounts } from './StatusAccounts'
 
 export const createWidget = (command: Commands.CommandData) => {
   switch (command.data.dataType) {
@@ -21,11 +22,17 @@ export const createWidget = (command: Commands.CommandData) => {
       return <Income command={command as Commands.IncomeData} />
     }
     case Commands.DataType.STATUS: {
-      return (
-        <ListItem>
-          <ListItemText primary={command.raw} />
-        </ListItem>
-      )
+      const statusCommand = command as Commands.StatusData
+      switch (statusCommand.data.entity) {
+        case Commands.Entity.ACCOUNT:
+          return <StatusAccounts command={statusCommand} />
+        case Commands.Entity.CATEGORY:
+          return (
+            <ListItem>
+              <ListItemText primary={command.raw} />
+            </ListItem>
+          )
+      }
     }
     default: {
       return (

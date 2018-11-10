@@ -1,3 +1,4 @@
+import { values } from 'lodash'
 import { createSelector } from 'reselect'
 import { calculateBalance } from 'src/utils/selectorUtils'
 import { Commands } from '../commands/interface'
@@ -16,9 +17,7 @@ export namespace categoriesSelector {
 
   export const findByName = (name: string) =>
     createSelector(byId, resultById => {
-      return Object.keys(resultById)
-        .map(key => resultById[key])
-        .find(value => value.name === name)
+      return values(resultById).find(value => value.name === name)
     })
 
   export const findById = (id: string) => createSelector(byId, resultById => resultById[id].name)

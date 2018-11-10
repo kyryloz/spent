@@ -53,6 +53,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
       return {
         ...state,
         byId: {
+          ...state.byId,
           [categoryId]: {
             ...state.byId[categoryId],
             commandIds: [
