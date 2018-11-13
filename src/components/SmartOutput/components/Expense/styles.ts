@@ -2,9 +2,6 @@ import { createStyles, Theme } from '@material-ui/core'
 
 export const styles = (theme: Theme) =>
   createStyles({
-    root: {
-      marginTop: theme.spacing.unit * 2,
-    },
     body: {
       border: `1px solid ${theme.colors.expense}`,
       borderRadius: 5,
@@ -15,16 +12,8 @@ export const styles = (theme: Theme) =>
     bodyTitle: {
       color: theme.colors.expense,
     },
-    detailsContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'flex-end',
-    },
     amount: {
       color: theme.colors.number,
-    },
-    date: {
-      color: theme.colors.date,
     },
     account: {
       color: theme.colors.account,
