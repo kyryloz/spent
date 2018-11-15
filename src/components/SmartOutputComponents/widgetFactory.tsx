@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Commands } from '../../../store/commands/interface'
+import { Commands } from '../../store/commands/interface'
 import { CommandWrapper } from './CommandWrapper'
 import { CreateAccount } from './CreateAccount'
 import { CreateCategory } from './CreateCategory'

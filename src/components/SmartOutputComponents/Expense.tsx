@@ -2,11 +2,11 @@ import { Typography, Theme, createStyles } from '@material-ui/core'
 import * as React from 'react'
 import { withStyles, WithStyles } from '@material-ui/core'
 import { compose, pure, setDisplayName, withHandlers } from 'recompose'
-import { withConnectedProps } from '../../../hoc/withConnectedProps'
-import { accountsSelector } from '../../../store/accounts/selectors'
-import { categoriesSelector } from '../../../store/categories/selectors'
-import { Commands } from '../../../store/commands/interface'
-import { App } from '../../../store/interface'
+import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { accountsSelector } from '../../store/accounts/selectors'
+import { categoriesSelector } from '../../store/categories/selectors'
+import { Commands } from '../../store/commands/interface'
+import { App } from '../../store/interface'
 
 interface OutterProps {
   command: Commands.ExpenseData
@@ -25,7 +25,7 @@ interface InnerProps
 
 interface HandlerProps {}
 
-export type ViewProps = OutterProps & InnerProps & HandlerProps
+type ViewProps = OutterProps & InnerProps & HandlerProps
 
 const styles = (theme: Theme) =>
   createStyles({

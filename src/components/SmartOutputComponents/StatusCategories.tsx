@@ -1,11 +1,11 @@
-import { withStyles, WithStyles } from '@material-ui/core'
+import { createStyles, Theme, Typography, withStyles, WithStyles } from '@material-ui/core'
+import { toPairs } from 'lodash'
+import * as React from 'react'
 import { compose, pure, setDisplayName, withHandlers } from 'recompose'
 import { categoriesSelector } from 'src/store/categories/selectors'
 import { Commands } from 'src/store/commands/interface'
-import { withConnectedProps } from '../../../../hoc/withConnectedProps'
-import { App } from '../../../../store/interface'
-import { styles } from './styles'
-import { View } from './View'
+import { withConnectedProps } from '../../hoc/withConnectedProps'
+import { App } from '../../store/interface'
 
 interface OutterProps {
   command: Commands.StatusData
@@ -23,7 +23,27 @@ interface InnerProps
 
 interface HandlerProps {}
 
-export type ViewProps = OutterProps & InnerProps & HandlerProps
+type ViewProps = OutterProps & InnerProps & HandlerProps
+
+const styles = (theme: Theme) =>
+  createStyles({
+    amount: {
+      color: theme.colors.number,
+    },
+    category: {
+      color: theme.colors.category,
+    },
+  })
+
+const View: React.SFC<ViewProps> = ({ categories, classes }) => (
+  <React.Fragment>
+    {toPairs(categories).map(([name, balance]) => (
+      <Typography className={classes.amount}>
+        Spent {balance} USD on <span className={classes.category}>{name}</span>
+      </Typography>
+    ))}
+  </React.Fragment>
+)
 
 export const StatusCategories = compose<ViewProps, OutterProps>(
   pure,
