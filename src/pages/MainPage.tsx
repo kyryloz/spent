@@ -7,23 +7,12 @@ import {
   WithStyles,
 } from '@material-ui/core'
 import * as React from 'react'
-import { compose, pure, setDisplayName } from 'recompose'
 import { SmartInput } from '../components/SmartInput'
 import { SmartOutput } from '../components/SmartOutput'
-import { withConnectedProps } from '../hoc/withConnectedProps'
-import { App } from '../store/interface'
 
-interface OutterProps {}
-
-interface ConnectedProps {}
-
-interface InnerProps
-  extends App.ConnectedComponentProps<ConnectedProps>,
-    WithStyles<typeof styles> {}
-
-interface HandlerProps {}
-
-type ViewProps = OutterProps & InnerProps & HandlerProps
+namespace Interface {
+  export type ViewProps = WithStyles<typeof styles>
+}
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -31,9 +20,8 @@ const styles = (theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      backgroundColor: theme.palette.background.default,
-      paddingLeft: theme.spacing.unit * 20,
-      paddingRight: theme.spacing.unit * 20,
+      paddingLeft: '10%',
+      paddingRight: '10%',
     },
     logo: {
       textAlign: 'center',
@@ -42,19 +30,19 @@ const styles = (theme: Theme) =>
       fontWeight: 100,
     },
     header: {
-      padding: theme.spacing.unit * 4,
+      padding: theme.spacing.unit * 2,
     },
     main: {
       flex: 1,
       overflow: 'auto',
     },
     footer: {
-      marginTop: theme.spacing.unit * 4,
+      marginTop: theme.spacing.unit * 2,
       marginBottom: theme.spacing.unit * 4,
     },
   })
 
-const View: React.SFC<ViewProps> = ({ classes }) => (
+const View = withStyles(styles)(({ classes }: Interface.ViewProps) => (
   <div className={classes.root}>
     <CssBaseline />
     <header className={classes.header}>
@@ -69,11 +57,10 @@ const View: React.SFC<ViewProps> = ({ classes }) => (
       <SmartInput />
     </footer>
   </div>
-)
+))
 
-export const MainPage = compose<ViewProps, OutterProps>(
-  withStyles(styles),
-  withConnectedProps<ConnectedProps>(() => ({})),
-  pure,
-  setDisplayName('MainPage')
-)(View)
+export class MainPage extends React.PureComponent<Interface.ViewProps> {
+  render() {
+    return <View {...this.props} />
+  }
+}
