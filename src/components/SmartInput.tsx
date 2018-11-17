@@ -7,28 +7,27 @@ import {
   WithStyles,
 } from '@material-ui/core'
 import * as React from 'react'
-import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
-import { withConnectedProps } from '../hoc/withConnectedProps'
+import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import { commandsActionCreator } from '../store/commands/actions'
 import { App } from '../store/interface'
 
-interface OutterProps {}
+namespace Component {
+  export interface Props {
+    evaluateInput: (input: string) => void
+  }
 
-interface ConnectedProps {}
+  export interface State {
+    input: string
+  }
 
-interface InnerProps
-  extends App.ConnectedComponentProps<ConnectedProps>,
-    WithStyles<typeof styles> {
-  input: string
-  setInput: (input: string) => void
+  export interface Handler {
+    handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    handleInputSubmit: () => void
+  }
+
+  export type ViewProps = Props & State & Handler & WithStyles<typeof styles>
 }
-
-interface HandlerProps {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  handleInputSubmit: () => void
-}
-
-type ViewProps = OutterProps & InnerProps & HandlerProps
 
 const styles = (_: Theme) =>
   createStyles({
@@ -40,41 +39,57 @@ const styles = (_: Theme) =>
     },
   })
 
-const View: React.SFC<ViewProps> = ({ input, handleInputChange, handleInputSubmit, classes }) => (
-  <TextField
-    className={classes.textField}
-    autoFocus
-    variant="outlined"
-    label="CLI"
-    fullWidth
-    onChange={handleInputChange}
-    value={input}
-    InputProps={{
-      startAdornment: <InputAdornment position="start">></InputAdornment>,
-      className: classes.textFieldInput,
-    }}
-    onKeyPress={event => {
-      if (event.key === 'Enter') {
-        event.preventDefault()
-        handleInputSubmit()
-      }
-    }}
-  />
+const View = withStyles(styles)(
+  ({ input, handleInputChange, handleInputSubmit, classes }: Component.ViewProps) => (
+    <TextField
+      className={classes.textField}
+      autoFocus
+      variant="outlined"
+      label="CLI"
+      fullWidth
+      onChange={handleInputChange}
+      value={input}
+      InputProps={{
+        startAdornment: <InputAdornment position="start">></InputAdornment>,
+        className: classes.textFieldInput,
+      }}
+      onKeyPress={event => {
+        if (event.key === 'Enter') {
+          event.preventDefault()
+          handleInputSubmit()
+        }
+      }}
+    />
+  )
 )
 
-export const SmartInput = compose<ViewProps, OutterProps>(
-  withStyles(styles),
-  withState('input', 'setInput', ''),
-  withConnectedProps<ConnectedProps>(() => ({})),
-  withHandlers<OutterProps & InnerProps, HandlerProps>({
-    handleInputChange: ({ setInput }) => event => {
-      setInput(event.target.value)
-    },
-    handleInputSubmit: ({ dispatch, setInput, input }) => () => {
-      dispatch(commandsActionCreator.evaluateInput(input))
-      setInput('')
-    },
-  }),
-  pure,
-  setDisplayName('SmartInput')
-)(View)
+class SmartInputCmp extends React.PureComponent<Component.Props, Component.State> {
+  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ input: event.target.value })
+  }
+
+  handleInputSubmit = () => {
+    this.props.evaluateInput(this.state.input)
+    this.setState({ input: '' })
+  }
+
+  render() {
+    return (
+      <View
+        {...this.props}
+        {...this.state}
+        handleInputChange={this.handleInputChange}
+        handleInputSubmit={this.handleInputSubmit}
+      />
+    )
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<App.Action>) => ({
+  evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
+})
+
+export const SmartInput = connect(
+  null,
+  mapDispatchToProps
+)(SmartInputCmp)
