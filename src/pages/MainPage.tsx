@@ -11,7 +11,7 @@ import { SmartInput } from '../components/SmartInput'
 import { SmartOutput } from '../components/SmartOutput'
 
 namespace Interface {
-  export type ViewProps = WithStyles<typeof styles>
+  export interface ViewProps extends WithStyles<typeof styles> {}
 }
 
 const styles = (theme: Theme) =>
@@ -59,7 +59,7 @@ const View = withStyles(styles)(({ classes }: Interface.ViewProps) => (
   </div>
 ))
 
-export class MainPage extends React.PureComponent<Interface.ViewProps> {
+export class MainPage extends React.PureComponent<{}> {
   render() {
     return <View {...this.props} />
   }

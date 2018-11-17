@@ -1,25 +1,10 @@
 import { createStyles, List, Theme, WithStyles, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { compose, pure, setDisplayName, withHandlers, withState } from 'recompose'
-import { withConnectedProps } from '../hoc/withConnectedProps'
+import { connect } from 'react-redux'
 import { Commands } from '../store/commands/interface'
 import { commandsSelector } from '../store/commands/selectors'
 import { App } from '../store/interface'
 import { createWidget } from './SmartOutputComponents/widgetFactory'
-
-interface OutterProps {}
-
-interface ConnectedProps {
-  commands: Array<Commands.CommandData>
-}
-
-interface InnerProps
-  extends App.ConnectedComponentProps<ConnectedProps>,
-    WithStyles<typeof styles> {}
-
-interface HandlerProps {}
-
-type ViewProps = OutterProps & InnerProps & HandlerProps
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -36,7 +21,7 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View: React.SFC<ViewProps> = ({ commands, classes }) => (
+const View = withStyles(styles)(({ commands, classes }: ViewProps) => (
   <div className={classes.root}>
     <List component="nav" className={classes.list}>
       {commands.map(command => (
@@ -44,15 +29,24 @@ const View: React.SFC<ViewProps> = ({ commands, classes }) => (
       ))}
     </List>
   </div>
-)
+))
 
-export const SmartOutput = compose<ViewProps, OutterProps>(
-  withStyles(styles),
-  withState('input', 'setInput', ''),
-  withConnectedProps<ConnectedProps>(state => ({
-    commands: commandsSelector.items(state),
-  })),
-  withHandlers<OutterProps & InnerProps, HandlerProps>({}),
-  pure,
-  setDisplayName('SmartOuput')
-)(View)
+interface Props {
+  commands: Array<Commands.CommandData>
+}
+
+interface State {}
+
+interface ViewProps extends WithStyles<typeof styles>, Props {}
+
+class SmartOutputCmp extends React.PureComponent<Props, State> {
+  render() {
+    return <View {...this.props} />
+  }
+}
+
+const mapStateToProps = (state: App.State) => ({
+  commands: commandsSelector.items(state),
+})
+
+export const SmartOutput = connect(mapStateToProps)(SmartOutputCmp)
