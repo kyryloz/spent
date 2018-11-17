@@ -10,8 +10,12 @@ import * as React from 'react'
 import { SmartInput } from '../components/SmartInput'
 import { SmartOutput } from '../components/SmartOutput'
 
-namespace Interface {
-  export interface ViewProps extends WithStyles<typeof styles> {}
+namespace Component {
+  export interface Props {}
+
+  export interface State {}
+
+  export type ViewProps = Props & State & WithStyles<typeof styles>
 }
 
 const styles = (theme: Theme) =>
@@ -42,7 +46,7 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View = withStyles(styles)(({ classes }: Interface.ViewProps) => (
+const View = withStyles(styles)(({ classes }: Component.ViewProps) => (
   <div className={classes.root}>
     <CssBaseline />
     <header className={classes.header}>
@@ -59,7 +63,7 @@ const View = withStyles(styles)(({ classes }: Interface.ViewProps) => (
   </div>
 ))
 
-export class MainPage extends React.PureComponent<{}> {
+export class MainPage extends React.PureComponent<Component.State, Component.Props> {
   render() {
     return <View {...this.props} />
   }

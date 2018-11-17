@@ -6,6 +6,16 @@ import { commandsSelector } from '../store/commands/selectors'
 import { App } from '../store/interface'
 import { createWidget } from './SmartOutputComponents/widgetFactory'
 
+namespace Component {
+  export interface Props {
+    commands: Array<Commands.CommandData>
+  }
+
+  export interface State {}
+
+  export type ViewProps = Props & State & WithStyles<typeof styles> & Props
+}
+
 const styles = (theme: Theme) =>
   createStyles({
     root: {
@@ -21,7 +31,7 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View = withStyles(styles)(({ commands, classes }: ViewProps) => (
+const View = withStyles(styles)(({ commands, classes }: Component.ViewProps) => (
   <div className={classes.root}>
     <List component="nav" className={classes.list}>
       {commands.map(command => (
@@ -31,15 +41,7 @@ const View = withStyles(styles)(({ commands, classes }: ViewProps) => (
   </div>
 ))
 
-interface Props {
-  commands: Array<Commands.CommandData>
-}
-
-interface State {}
-
-interface ViewProps extends WithStyles<typeof styles>, Props {}
-
-class SmartOutputCmp extends React.PureComponent<Props, State> {
+class SmartOutputCmp extends React.PureComponent<Component.Props, Component.State> {
   render() {
     return <View {...this.props} />
   }
