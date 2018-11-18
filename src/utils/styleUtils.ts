@@ -1,6 +1,6 @@
 import { StyleRulesCallback, withStyles } from '@material-ui/core'
 import { StyleRules } from '@material-ui/core/styles'
-import { WithStylesOptions } from '@material-ui/core/styles/withStyles'
+import { WithStylesOptions, WithStyles, CSSProperties } from '@material-ui/core/styles/withStyles'
 
 export const createStyled = <
   ClassKey extends string,
@@ -19,3 +19,7 @@ export const createStyled = <
 
   return StyledWrapped
 }
+
+export type Classes<
+  T extends string | Record<string, CSSProperties> | StyleRulesCallback<string>
+> = WithStyles<T>['classes']

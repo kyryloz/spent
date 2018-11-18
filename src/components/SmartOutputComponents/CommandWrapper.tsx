@@ -1,7 +1,7 @@
-import { createStyles, Theme, Typography, WithStyles } from '@material-ui/core'
+import { createStyles, Theme, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { formatTimestamp } from 'src/utils/dateUtils'
-import { createStyled } from 'src/utils/styleUtils'
+import { Classes, createStyled } from 'src/utils/styleUtils'
 
 namespace Component {
   export interface OutterProps {
@@ -46,7 +46,7 @@ export class CommandWrapper extends React.PureComponent<Component.ComponentProps
 
     return (
       <Styled>
-        {(classes: WithStyles<typeof styles>['classes']) => (
+        {(classes: Classes<typeof styles>) => (
           <div className={classes.root}>
             <Typography gutterBottom variant={'body1'}>
               > {rawCommand}
