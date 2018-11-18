@@ -3,21 +3,20 @@ import * as React from 'react'
 import { compose, pure, setDisplayName, withHandlers } from 'recompose'
 import { formatTimestamp } from 'src/utils/dateUtils'
 import { App } from '../../store/interface'
+import { Dispatch } from 'redux'
 
-interface OutterProps {
-  rawCommand: string
-  timestamp: number
+namespace Component {
+  export interface OutterProps {
+    rawCommand: string
+    timestamp: number
+  }
+
+  export interface HandlerProps {}
+
+  export type ComponentProps = OutterProps
+
+  export type ViewProps = OutterProps & HandlerProps
 }
-
-interface ConnectedProps {}
-
-interface InnerProps
-  extends App.ConnectedComponentProps<ConnectedProps>,
-    WithStyles<typeof styles> {}
-
-interface HandlerProps {}
-
-type ViewProps = OutterProps & InnerProps & HandlerProps
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -38,23 +37,47 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View: React.SFC<ViewProps> = ({ rawCommand, timestamp, classes, children }) => (
-  <div className={classes.root}>
-    <Typography gutterBottom variant={'body1'}>
-      > {rawCommand}
-    </Typography>
-    <div className={classes.body}>
-      <div className={classes.detailsContainer}>
-        <div>{children}</div>
-        <Typography className={classes.date}>{formatTimestamp(timestamp)}</Typography>
+function createStyled(styles: any, options?: any) {
+  function Styled(props: any) {
+    const { children, classes, theme } = props
+
+    return children({
+      classes,
+      theme,
+    })
+  }
+
+  const StyledWrapped = withStyles(styles, options)(Styled)
+
+  return StyledWrapped
+}
+
+const Styled = createStyled(styles)
+
+export const CommandWrapperView: React.SFC<Component.ViewProps> = ({
+  rawCommand,
+  timestamp,
+  children,
+}) => (
+  <Styled styles={styles}>
+    {({ classes }: any) => (
+      <div className={classes.root}>
+        <Typography gutterBottom variant={'body1'}>
+          > {rawCommand}
+        </Typography>
+        <div className={classes.body}>
+          <div className={classes.detailsContainer}>
+            <div>{children}</div>
+            <Typography className={classes.date}>{formatTimestamp(timestamp)}</Typography>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    )}
+  </Styled>
 )
 
-export const CommandWrapper = compose<ViewProps, OutterProps>(
-  pure,
-  withStyles(styles),
-  withHandlers<OutterProps & InnerProps, HandlerProps>({}),
-  setDisplayName('CommandWrapper')
-)(View)
+export class CommandWrapper extends React.PureComponent<Component.ComponentProps, {}> {
+  render() {
+    return <CommandWrapperView {...this.props} />
+  }
+}
