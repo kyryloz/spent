@@ -1,22 +1,9 @@
-import { createStyles, Theme, Typography } from '@material-ui/core'
+import { createStyles, StyleRulesCallback, Typography } from '@material-ui/core'
 import * as React from 'react'
 import { formatTimestamp } from 'src/utils/dateUtils'
 import { Classes, createStyled } from 'src/utils/styleUtils'
 
-namespace Component {
-  export interface OutterProps {
-    rawCommand: string
-    timestamp: number
-  }
-
-  export interface HandlerProps {}
-
-  export type ComponentProps = OutterProps
-
-  export type ViewProps = OutterProps & HandlerProps
-}
-
-const styles = (theme: Theme) =>
+const styles: StyleRulesCallback = theme =>
   createStyles({
     textFieldInput: {
       fontFamily: '10',
@@ -40,7 +27,12 @@ const styles = (theme: Theme) =>
 
 const Styled = createStyled(styles)
 
-export class CommandWrapper extends React.PureComponent<Component.ComponentProps, {}> {
+interface OutterProps {
+  rawCommand: string
+  timestamp: number
+}
+
+export class CommandWrapper extends React.PureComponent<OutterProps> {
   render() {
     const { rawCommand, timestamp, children } = this.props
 
