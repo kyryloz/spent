@@ -2,6 +2,15 @@ import { StyleRulesCallback, withStyles } from '@material-ui/core'
 import { StyleRules } from '@material-ui/core/styles'
 import { CSSProperties, WithStyles, WithStylesOptions } from '@material-ui/core/styles/withStyles'
 
+interface Props {
+  styles: StyleRulesCallback<string>
+  children: (props: any) => React.Component
+}
+
+export const Styled: React.SFC<Props> = ({ styles, children }) => {
+  return withStyles(styles)((props) => children(props))
+}
+
 export const createStyled = <
   ClassKey extends string,
   Options extends WithStylesOptions<ClassKey> = {}

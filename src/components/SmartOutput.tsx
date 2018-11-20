@@ -1,7 +1,7 @@
 import { createStyles, List, StyleRulesCallback } from '@material-ui/core'
 import * as React from 'react'
 import { createConnect } from 'src/utils/reduxUtils'
-import { Classes, createStyled } from 'src/utils/styleUtils'
+import { Classes, createStyled, Styled } from 'src/utils/styleUtils'
 import { commandsSelector } from '../store/commands/selectors'
 import { App } from '../store/interface'
 import { createWidget } from './SmartOutputComponents/widgetFactory'
@@ -21,7 +21,7 @@ const styles: StyleRulesCallback = theme =>
     },
   })
 
-const Styled = createStyled(styles)
+// const Styled = createStyled(styles)
 
 const Connect = createConnect<App.State>({
   mapState: state => ({
@@ -34,7 +34,7 @@ export class SmartOutput extends React.PureComponent {
     return (
       <Connect>
         {({ commands }: any) => (
-          <Styled>
+          <Styled styles={styles}>
             {(classes: Classes<typeof styles>) => (
               <div className={classes.root}>
                 <List component="nav" className={classes.list}>
