@@ -1,8 +1,7 @@
 import { createStyles, List, StyleRulesCallback } from '@material-ui/core'
 import * as React from 'react'
-import { connect } from 'react-redux'
+import { createConnect } from 'src/utils/reduxUtils'
 import { Classes, createStyled } from 'src/utils/styleUtils'
-import { Commands } from '../store/commands/interface'
 import { commandsSelector } from '../store/commands/selectors'
 import { App } from '../store/interface'
 import { createWidget } from './SmartOutputComponents/widgetFactory'
@@ -24,32 +23,30 @@ const styles: StyleRulesCallback = theme =>
 
 const Styled = createStyled(styles)
 
-interface Props {
-  commands: Array<Commands.CommandData>
-}
+const Connect = createConnect<App.State>({
+  mapState: state => ({
+    commands: commandsSelector.items(state),
+  }),
+})
 
-class SmartOutputCmp extends React.PureComponent<Props> {
+export class SmartOutput extends React.PureComponent {
   render() {
-    const { commands } = this.props
-
     return (
-      <Styled>
-        {(classes: Classes<typeof styles>) => (
-          <div className={classes.root}>
-            <List component="nav" className={classes.list}>
-              {commands.map(command => (
-                <div key={command.id}>{createWidget(command)}</div>
-              ))}
-            </List>
-          </div>
+      <Connect>
+        {({ commands }: any) => (
+          <Styled>
+            {(classes: Classes<typeof styles>) => (
+              <div className={classes.root}>
+                <List component="nav" className={classes.list}>
+                  {commands.map((command: any) => (
+                    <div key={command.id}>{createWidget(command)}</div>
+                  ))}
+                </List>
+              </div>
+            )}
+          </Styled>
         )}
-      </Styled>
+      </Connect>
     )
   }
 }
-
-const mapStateToProps = (state: App.State) => ({
-  commands: commandsSelector.items(state),
-})
-
-export const SmartOutput = connect(mapStateToProps)(SmartOutputCmp)
