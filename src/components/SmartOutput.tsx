@@ -28,25 +28,19 @@ interface Props {
   classes: Classes<typeof styles>
 }
 
-class SmartOutputCmp extends React.PureComponent<Props> {
-  render() {
-    const { classes, commands } = this.props
-
-    return (
-      <div className={classes.root}>
-        <List component="nav" className={classes.list}>
-          {commands.map((command: any) => (
-            <div key={command.id}>{createWidget(command)}</div>
-          ))}
-        </List>
-      </div>
-    )
-  }
-}
+const SmartOutputCmp: React.SFC<Props> = ({ classes, commands }) => (
+  <div className={classes.root}>
+    <List component="nav" className={classes.list}>
+      {commands.map((command: any) => (
+        <div key={command.id}>{createWidget(command)}</div>
+      ))}
+    </List>
+  </div>
+)
 
 export const SmartOutput = compose(
-  withStyles(styles),
   connect((state: App.State) => ({
     commands: commandsSelector.items(state),
-  }))
+  })),
+  withStyles(styles)
 )(SmartOutputCmp)

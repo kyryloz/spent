@@ -1,10 +1,7 @@
-import { createStyles, Theme, Typography, withStyles, WithStyles } from '@material-ui/core'
+import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
 import { Commands } from 'src/store/commands/interface'
-
-interface ViewProps extends WithStyles<typeof styles> {
-  command: Commands.CreateAccountData
-}
+import { Classes } from 'src/utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -16,10 +13,15 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View: React.SFC<ViewProps> = ({ command, classes }) => (
+interface Props {
+  classes: Classes<typeof styles>
+  command: Commands.CreateAccountData
+}
+
+const CreateAccountCmp: React.SFC<Props> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
     Account <span className={classes.account}>{command.data.name}</span> successfully created.
   </Typography>
 )
 
-export const CreateAccount = withStyles(styles)(View)
+export const CreateAccount = withStyles(styles)(CreateAccountCmp)

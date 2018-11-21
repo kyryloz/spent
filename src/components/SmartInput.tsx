@@ -1,33 +1,10 @@
-import {
-  createStyles,
-  InputAdornment,
-  TextField,
-  Theme,
-  withStyles,
-  WithStyles,
-} from '@material-ui/core'
+import { createStyles, InputAdornment, TextField, Theme, withStyles } from '@material-ui/core'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
+import { compose, Dispatch } from 'redux'
+import { Classes } from 'src/utils/styleUtils'
 import { commandsActionCreator } from '../store/commands/actions'
 import { App } from '../store/interface'
-
-namespace Component {
-  export interface Props {
-    evaluateInput: (input: string) => void
-  }
-
-  export interface State {
-    input: string
-  }
-
-  export interface Handler {
-    handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    handleInputSubmit: () => void
-  }
-
-  export type ViewProps = Props & State & Handler & WithStyles<typeof styles>
-}
 
 const styles = (_: Theme) =>
   createStyles({
@@ -39,31 +16,20 @@ const styles = (_: Theme) =>
     },
   })
 
-const View = withStyles(styles)(
-  ({ input, handleInputChange, handleInputSubmit, classes }: Component.ViewProps) => (
-    <TextField
-      className={classes.textField}
-      autoFocus
-      variant="outlined"
-      label="CLI"
-      fullWidth
-      onChange={handleInputChange}
-      value={input}
-      InputProps={{
-        startAdornment: <InputAdornment position="start">></InputAdornment>,
-        className: classes.textFieldInput,
-      }}
-      onKeyPress={event => {
-        if (event.key === 'Enter') {
-          event.preventDefault()
-          handleInputSubmit()
-        }
-      }}
-    />
-  )
-)
+interface Props {
+  classes: Classes<typeof styles>
+  evaluateInput: (input: string) => void
+}
 
-class SmartInputCmp extends React.PureComponent<Component.Props, Component.State> {
+interface State {
+  input: string
+}
+
+class SmartInputCmp extends React.PureComponent<Props, State> {
+  readonly state = {
+    input: '',
+  }
+
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ input: event.target.value })
   }
@@ -74,22 +40,38 @@ class SmartInputCmp extends React.PureComponent<Component.Props, Component.State
   }
 
   render() {
+    const { classes } = this.props
+
     return (
-      <View
-        {...this.props}
-        {...this.state}
-        handleInputChange={this.handleInputChange}
-        handleInputSubmit={this.handleInputSubmit}
+      <TextField
+        className={classes.textField}
+        autoFocus
+        variant="outlined"
+        label="CLI"
+        fullWidth
+        onChange={this.handleInputChange}
+        value={this.state.input}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">></InputAdornment>,
+          className: classes.textFieldInput,
+        }}
+        onKeyPress={event => {
+          if (event.key === 'Enter') {
+            event.preventDefault()
+            this.handleInputSubmit()
+          }
+        }}
       />
     )
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<App.Action>) => ({
-  evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
-})
-
-export const SmartInput = connect(
-  null,
-  mapDispatchToProps
+export const SmartInput = compose(
+  connect(
+    null,
+    (dispatch: Dispatch<App.Action>) => ({
+      evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
+    })
+  ),
+  withStyles(styles),
 )(SmartInputCmp)
