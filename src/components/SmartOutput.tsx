@@ -1,12 +1,14 @@
-import { createStyles, List, StyleRulesCallback } from '@material-ui/core'
+import { createStyles, List, Theme, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { createConnect } from 'src/utils/reduxUtils'
-import { Classes, createStyled, Styled } from 'src/utils/styleUtils'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { Commands } from '../store/commands/interface'
 import { commandsSelector } from '../store/commands/selectors'
 import { App } from '../store/interface'
+import { Classes } from '../utils/styleUtils'
 import { createWidget } from './SmartOutputComponents/widgetFactory'
 
-const styles: StyleRulesCallback = theme =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -21,32 +23,30 @@ const styles: StyleRulesCallback = theme =>
     },
   })
 
-// const Styled = createStyled(styles)
+interface Props {
+  commands: Array<Commands.CommandData>
+  classes: Classes<typeof styles>
+}
 
-const Connect = createConnect<App.State>({
-  mapState: state => ({
-    commands: commandsSelector.items(state),
-  }),
-})
-
-export class SmartOutput extends React.PureComponent {
+class SmartOutputCmp extends React.PureComponent<Props> {
   render() {
+    const { classes, commands } = this.props
+
     return (
-      <Connect>
-        {({ commands }: any) => (
-          <Styled styles={styles}>
-            {(classes: Classes<typeof styles>) => (
-              <div className={classes.root}>
-                <List component="nav" className={classes.list}>
-                  {commands.map((command: any) => (
-                    <div key={command.id}>{createWidget(command)}</div>
-                  ))}
-                </List>
-              </div>
-            )}
-          </Styled>
-        )}
-      </Connect>
+      <div className={classes.root}>
+        <List component="nav" className={classes.list}>
+          {commands.map((command: any) => (
+            <div key={command.id}>{createWidget(command)}</div>
+          ))}
+        </List>
+      </div>
     )
   }
 }
+
+export const SmartOutput = compose(
+  withStyles(styles),
+  connect((state: App.State) => ({
+    commands: commandsSelector.items(state),
+  }))
+)(SmartOutputCmp)
