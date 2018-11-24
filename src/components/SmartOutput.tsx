@@ -38,9 +38,11 @@ const SmartOutputCmp: React.SFC<Props> = ({ classes, commands }) => (
   </div>
 )
 
+const mapStateToProps = (state: App.State) => ({
+  commands: commandsSelector.items(state),
+})
+
 export const SmartOutput = compose(
-  connect((state: App.State) => ({
-    commands: commandsSelector.items(state),
-  })),
+  connect(mapStateToProps),
   withStyles(styles)
 )(SmartOutputCmp)

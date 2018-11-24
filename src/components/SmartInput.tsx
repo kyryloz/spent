@@ -66,12 +66,14 @@ class SmartInputCmp extends React.PureComponent<Props, State> {
   }
 }
 
+const mapDispatchToProps = (dispatch: Dispatch<App.Action>) => ({
+  evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
+})
+
 export const SmartInput = compose(
   connect(
     null,
-    (dispatch: Dispatch<App.Action>) => ({
-      evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
-    })
+    mapDispatchToProps
   ),
   withStyles(styles),
 )(SmartInputCmp)
