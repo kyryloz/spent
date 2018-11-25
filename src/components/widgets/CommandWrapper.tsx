@@ -42,9 +42,18 @@ interface Props {
   classes: Classes<typeof styles>
   rawCommand: string
   timestamp: number
+  onEditClick: () => void
+  onDeleteClick: () => void
 }
 
-const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, timestamp, children }) => (
+const CommandWrapperCmp: React.SFC<Props> = ({
+  classes,
+  rawCommand,
+  timestamp,
+  children,
+  onEditClick,
+  onDeleteClick,
+}) => (
   <Grid container className={classes.root}>
     <Grid item container direction={'row'} alignItems="center" spacing={16}>
       <Grid item>
@@ -53,8 +62,8 @@ const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, timestamp, c
         </Typography>
       </Grid>
       <Grid item>
-        <EditIcon fontSize="small" color="default" className={classes.editIcon} />
-        <DeleteIcon fontSize="small" color="default" className={classes.editIcon} />
+        <EditIcon onClick={onEditClick} fontSize="small" className={classes.editIcon} />
+        <DeleteIcon onClick={onDeleteClick} fontSize="small" className={classes.editIcon} />
       </Grid>
     </Grid>
 

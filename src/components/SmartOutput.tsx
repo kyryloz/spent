@@ -7,6 +7,7 @@ import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
+import { commandsActionCreator } from 'store/commands/actions'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -31,19 +32,40 @@ interface StateProps {
   commands: Array<Commands.CommandData>
 }
 
-const SmartOutputCmp: React.SFC<StyleProps & StateProps> = ({ classes, commands }) => (
+interface DispatchProps {
+  editCommand: (command: Commands.CommandData) => void
+  deleteCommand: (command: Commands.CommandData) => void
+}
+
+const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({
+  classes,
+  commands,
+  editCommand,
+  deleteCommand,
+}) => (
   <div className={classes.root}>
     <List className={classes.list}>
       {commands.map(command => (
-        <div key={command.id}>{createWidget(command)}</div>
+        <div key={command.id}>
+          {createWidget(command, {
+            onEditClick: () => editCommand(command),
+            onDeleteClick: () => deleteCommand(command)
+          })}
+        </div>
       ))}
     </List>
   </div>
 )
 
 export const SmartOutput = flow(
-  connect<StateProps, {}, {}, App.State>(state => ({
-    commands: commandsSelector.items(state),
-  })),
+  connect<StateProps, DispatchProps, {}, App.State>(
+    state => ({
+      commands: commandsSelector.items(state),
+    }),
+    dispatch => ({
+      editCommand: command => dispatch(commandsActionCreator.edit(command.id)),
+      deleteCommand: command => dispatch(commandsActionCreator.remove(command.id)),
+    })
+  ),
   withStyles(styles)
 )(SmartOutputCmp)

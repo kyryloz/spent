@@ -62,6 +62,13 @@ export namespace commandsActionCreator {
     },
   })
 
+  export const edit = (id: string): Commands.Actions.Edit => ({
+    type: Commands.ActionTypes.COMMAND_EDIT,
+    payload: {
+      id,
+    },
+  })
+
   export const error = (payload: Commands.ErrorData): Commands.Actions.Error => ({
     type: Commands.ActionTypes.COMMAND_ERROR,
     payload,

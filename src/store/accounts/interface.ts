@@ -7,6 +7,7 @@ export namespace Accounts {
         id: string,
         name: string,
         createdAt: number,
+        createdByCommandId: string,
         commandIds: Array<string>
       }
     }

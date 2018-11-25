@@ -3,6 +3,7 @@ import { removeItem } from '../../utils/storeUtils'
 import { Commands } from '../commands/interface'
 import { App } from '../interface'
 import { Categories } from './interface'
+import { values, fromPairs } from 'lodash';
 
 const initialState: Categories.State = {
   byId: {},
@@ -17,6 +18,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_CREATE_CATEGORY: {
       const {
         payload: {
+          id: commandId,
           timestamp,
           data: { id, name },
         },
@@ -37,6 +39,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
               id,
               name,
               createdAt: timestamp,
+              createdByCommandId: commandId,
               commandIds: [],
             },
           },
@@ -77,6 +80,23 @@ export const categories: Reducer<Categories.State, App.Action> = (
       return {
         byId,
         allIds,
+      }
+    }
+    case Commands.ActionTypes.COMMAND_REMOVE: {
+      const {
+        payload: { id },
+      } = action as Commands.Actions.Remove
+
+      const categories = values(state.byId)
+        .map(category => ({
+          ...category,
+          commandIds: category.commandIds.filter(commandId => commandId !== id),
+        }))
+        .filter(category => category.createdByCommandId !== id)
+
+      return {
+        byId: fromPairs(categories.map(category => [category.id, category])),
+        allIds: categories.map(category => category.id),
       }
     }
     default: {

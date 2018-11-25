@@ -8,7 +8,15 @@ import { StatusCategories } from 'components/widgets/StatusCategories'
 import * as React from 'react'
 import { Commands } from 'store/commands/interface'
 
-export const createWidget = (command: Commands.CommandData) => {
+interface ActionClickHandlers {
+  onEditClick: () => void
+  onDeleteClick: () => void
+}
+
+export const createWidget = (
+  command: Commands.CommandData,
+  actionClickHandlers: ActionClickHandlers
+) => {
   let widgetComponent
 
   switch (command.data.dataType) {
@@ -47,7 +55,12 @@ export const createWidget = (command: Commands.CommandData) => {
   }
 
   return (
-    <CommandWrapper rawCommand={command.raw} timestamp={command.timestamp}>
+    <CommandWrapper
+      rawCommand={command.raw}
+      timestamp={command.timestamp}
+      onEditClick={actionClickHandlers.onEditClick}
+      onDeleteClick={actionClickHandlers.onDeleteClick}
+    >
       {widgetComponent}
     </CommandWrapper>
   )

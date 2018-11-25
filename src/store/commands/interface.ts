@@ -12,6 +12,7 @@ export namespace Commands {
     COMMAND_EVALUATE = '@@command/EVALUATE',
     COMMAND_ERROR = '@@command/ERROR',
     COMMAND_REMOVE = '@@command/REMOVE',
+    COMMAND_EDIT = '@@command/EDIT',
     COMMAND_EXPENSE = '@@command/EXPENSE',
     COMMAND_INCOME = '@@command/INCOME',
     COMMAND_STATUS = '@@command/STATUS',
@@ -22,7 +23,8 @@ export namespace Commands {
   export type Action<Payload> = App.Action<Payload, ActionTypes>
 
   export namespace Actions {
-    export type Remove = App.Action<App.Identifiable, ActionTypes>
+    export type Remove = App.Action<App.Identifiable, ActionTypes.COMMAND_REMOVE>
+    export type Edit = App.Action<App.Identifiable, ActionTypes.COMMAND_EDIT>
     export type ExpenseCommand = App.Action<ExpenseData, ActionTypes.COMMAND_EXPENSE>
     export type IncomeCommand = App.Action<IncomeData, ActionTypes.COMMAND_INCOME>
     export type StatusCommand = App.Action<StatusData, ActionTypes.COMMAND_STATUS>
