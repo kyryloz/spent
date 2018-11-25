@@ -2,21 +2,20 @@ import { App } from '../../interface'
 
 export namespace SmartInput {
   export interface State {
-    readonly error: string
+    readonly input: string
   }
 
   export const enum ActionTypes {
-    ACCOUNT_REMOVE = '@@smartInput/REMOVE',
+    SET_INPUT = '@@smartInput/SET',
   }
 
   export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Remove = App.Action<App.Identifiable, ActionTypes>
+    export type Set = App.Action<SetData, ActionTypes.SET_INPUT>
   }
 
-  export interface AccountPayload extends App.Identifiable {
-    readonly name: string
-    readonly commandIds: Array<string>
+  export interface SetData {
+    readonly input: string
   }
 }

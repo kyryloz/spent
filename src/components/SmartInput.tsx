@@ -3,17 +3,19 @@ import {
   InputAdornment,
   TextField,
   Theme,
-  withStyles,
   Typography,
+  withStyles,
 } from '@material-ui/core'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { commandsActionCreator } from 'store/commands/actions'
+import { Commands } from 'store/commands/interface'
+import { commandsSelector } from 'store/commands/selectors'
+import { smartInputSelector } from 'store/ui/smartInput/selectors'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
-import { commandsSelector } from 'store/commands/selectors'
-import { Commands } from 'store/commands/interface'
+import { smartInputActionCreator } from 'store/ui/smartInput/actions';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -39,34 +41,28 @@ interface StyleProps {
 }
 
 interface StateProps {
+  input: string
   error: Commands.ErrorData
 }
 
 interface DispatchProps {
   evaluateInput: (input: string) => void
+  setInput: (input: string) => void
 }
 
-interface State {
-  input: string
-}
-
-class SmartInputCmp extends React.PureComponent<StyleProps & StateProps & DispatchProps, State> {
-  readonly state = {
-    input: '',
-  }
+class SmartInputCmp extends React.PureComponent<StyleProps & StateProps & DispatchProps> {
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value
-    this.setState({ input })
+    this.props.setInput(input)
   }
 
   handleInputSubmit = () => {
-    this.props.evaluateInput(this.state.input)
-    this.setState({ input: '' })
+    this.props.evaluateInput(this.props.input)
   }
 
   render() {
-    const { classes, error } = this.props
+    const { classes, input, error } = this.props
 
     return (
       <React.Fragment>
@@ -80,7 +76,7 @@ class SmartInputCmp extends React.PureComponent<StyleProps & StateProps & Dispat
           label="CLI"
           fullWidth
           onChange={this.handleInputChange}
-          value={this.state.input}
+          value={input}
           InputProps={{
             startAdornment: <InputAdornment position="start">></InputAdornment>,
             className: classes.textFieldInput,
@@ -102,9 +98,11 @@ export const SmartInput = flow(
   connect<StateProps, DispatchProps, {}, App.State>(
     state => ({
       error: commandsSelector.error(state),
+      input: smartInputSelector.input(state),
     }),
     dispatch => ({
       evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
+      setInput: (input: string) => dispatch(smartInputActionCreator.setInput({ input }))
     })
   )
 )(SmartInputCmp)

@@ -7,6 +7,7 @@ import { categoriesSelector } from 'store/categories/selectors'
 import { commandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { App } from 'store/interface'
+import { smartInputActionCreator } from 'store/ui/smartInput/actions'
 import { uuidv4 } from 'utils/mathUtils'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
 
@@ -30,14 +31,11 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
       human = capitalizeFirstLetter(human)
     }
 
-    dispatch({
-      type: Commands.ActionTypes.COMMAND_ERROR,
-      payload: {
-        human,
-      },
-    })
+    dispatch(commandsActionCreator.error({ human }))
     return
   }
+
+  dispatch(smartInputActionCreator.setInput({ input: '' }))
 
   runSemantic(parseResult.match, {
     create: (entityName, name) => {

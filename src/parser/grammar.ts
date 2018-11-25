@@ -56,10 +56,10 @@ export const grammar = ohm.grammar(`
       | "accounts"
       | "categories"
 
-    number     = digit+ ("." digit+)?
-    word       = ~keyword wordprefix+ alnum*
-    string     = "'" char+ "'"
-    char       = ~"\\\\" ~"\\"" ~"'" ~"\\n" any
+    number (an amount)    = digit+ ("." digit+)?          --number
+    word                  = ~keyword wordprefix+ alnum*   --word
+    string                = "'" char+ "'"
+    char                  = ~"\\\\" ~"\\"" ~"'" ~"\\n" any
 
     wordprefix =
       | letter

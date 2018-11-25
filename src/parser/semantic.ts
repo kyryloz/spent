@@ -39,11 +39,9 @@ semantic.addOperation('eval', {
     }
     semanticCallback = undefined
   },
-  number: (value, _, fraction) => parseFloat(`${value.sourceString}${fraction.sourceString}`),
+  number: node => parseFloat(node.sourceString),
   string: (_, str, _0) => str.sourceString,
-  word: function(this: any, _, _0) {
-    return this.sourceString
-  },
+  word: node => node.sourceString,
 })
 
 export const runSemantic = (match: ohm.MatchResult, callback: SemanticCallback) => {
