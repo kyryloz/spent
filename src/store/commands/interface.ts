@@ -3,10 +3,14 @@ import { App } from '../interface'
 export namespace Commands {
   export interface State {
     readonly items: Array<CommandData>
+    readonly error: {
+      human: string
+    }
   }
 
   export const enum ActionTypes {
     COMMAND_EVALUATE = '@@command/EVALUATE',
+    COMMAND_ERROR = '@@command/ERROR',
     COMMAND_REMOVE = '@@command/REMOVE',
     COMMAND_EXPENSE = '@@command/EXPENSE',
     COMMAND_INCOME = '@@command/INCOME',
@@ -30,6 +34,7 @@ export namespace Commands {
       CreateCategoryData,
       ActionTypes.COMMAND_CREATE_CATEGORY
     >
+    export type Error = App.Action<ErrorData, ActionTypes.COMMAND_ERROR>
   }
 
   export const enum DataType {
@@ -42,7 +47,7 @@ export namespace Commands {
 
   export const enum Entity {
     ACCOUNT = 'account',
-    CATEGORY = 'category'
+    CATEGORY = 'category',
   }
 
   export interface CommandData extends App.Identifiable {
@@ -91,5 +96,9 @@ export namespace Commands {
       readonly accountId: string
       readonly amount: number
     }
+  }
+
+  export interface ErrorData {
+    human: string,
   }
 }

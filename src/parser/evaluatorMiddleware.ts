@@ -24,9 +24,9 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
 
   if (parseResult.error) {
     dispatch({
-      type: '@@evaluate/ERROR',
+      type: Commands.ActionTypes.COMMAND_ERROR,
       payload: {
-        error: parseResult.message,
+        human: parseResult.message,
       },
     })
     return

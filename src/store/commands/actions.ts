@@ -61,4 +61,9 @@ export namespace commandsActionCreator {
       id,
     },
   })
+
+  export const error = (payload: Commands.ErrorData): Commands.Actions.Error => ({
+    type: Commands.ActionTypes.COMMAND_ERROR,
+    payload,
+  })
 }
