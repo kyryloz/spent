@@ -8,6 +8,7 @@ import { commandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { App } from 'store/interface'
 import { uuidv4 } from 'utils/mathUtils'
+import { capitalizeFirstLetter } from 'utils/stringUtils'
 
 export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
   next: Dispatch<App.Action>
@@ -23,10 +24,16 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
   const parseResult = parseGrammar(input)
 
   if (parseResult.error) {
+    let human = 'Unknown error'
+    if (parseResult.match.shortMessage) {
+      human = parseResult.match.shortMessage.split(':')[1].trim()
+      human = capitalizeFirstLetter(human)
+    }
+
     dispatch({
       type: Commands.ActionTypes.COMMAND_ERROR,
       payload: {
-        human: parseResult.message,
+        human,
       },
     })
     return

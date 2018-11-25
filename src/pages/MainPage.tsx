@@ -27,7 +27,6 @@ const styles = (theme: Theme) =>
       overflow: 'auto',
     },
     footer: {
-      marginTop: theme.spacing.unit * 2,
       marginBottom: theme.spacing.unit * 4,
     },
   })

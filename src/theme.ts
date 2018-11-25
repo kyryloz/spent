@@ -11,6 +11,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       number: React.CSSProperties['color']
       date: React.CSSProperties['color']
       info: React.CSSProperties['color']
+      error: React.CSSProperties['color']
     }
   }
 
@@ -23,6 +24,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       number: React.CSSProperties['color']
       date: React.CSSProperties['color']
       info: React.CSSProperties['color']
+      error: React.CSSProperties['color']
     }
   }
 }
@@ -45,5 +47,6 @@ export const spentTheme = createMuiTheme({
     number: grey.A100,
     date: grey[700],
     info: grey[500],
+    error: red[400]
   },
 })

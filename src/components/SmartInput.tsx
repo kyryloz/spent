@@ -13,15 +13,24 @@ import { commandsActionCreator } from 'store/commands/actions'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
 import { commandsSelector } from 'store/commands/selectors'
-import { Commands } from 'store/commands/interface';
+import { Commands } from 'store/commands/interface'
 
-const styles = (_: Theme) =>
+const styles = (theme: Theme) =>
   createStyles({
     textField: {
       flexBasis: 200,
     },
     textFieldInput: {
       fontFamily: 'Inconsolata',
+    },
+    errorWrapper: {
+      display: 'flex',
+      height: 30,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    error: {
+      color: theme.colors.error,
     },
   })
 
@@ -61,7 +70,9 @@ class SmartInputCmp extends React.PureComponent<StyleProps & StateProps & Dispat
 
     return (
       <React.Fragment>
-        <Typography>{error.human}</Typography>
+        <div className={classes.errorWrapper}>
+          <Typography className={classes.error}>{error.human}</Typography>
+        </div>
         <TextField
           className={classes.textField}
           autoFocus
