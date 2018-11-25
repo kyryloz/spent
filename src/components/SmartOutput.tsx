@@ -1,5 +1,5 @@
 import { createStyles, List, Theme, withStyles } from '@material-ui/core'
-import { createWidget } from 'components/SmartOutputComponents/widgetFactory'
+import { createWidget } from 'components/widgets/widgetFactory'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
