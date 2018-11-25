@@ -1,22 +1,8 @@
-import {
-  createStyles,
-  CssBaseline,
-  Theme,
-  Typography,
-  withStyles,
-  WithStyles,
-} from '@material-ui/core'
+import { createStyles, CssBaseline, Theme, Typography, withStyles } from '@material-ui/core'
+import { SmartInput } from 'components/SmartInput'
+import { SmartOutput } from 'components/SmartOutput'
 import * as React from 'react'
-import { SmartInput } from '../components/SmartInput'
-import { SmartOutput } from '../components/SmartOutput'
-
-namespace Component {
-  export interface Props {}
-
-  export interface State {}
-
-  export type ViewProps = Props & State & WithStyles<typeof styles>
-}
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -46,7 +32,11 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View = withStyles(styles)(({ classes }: Component.ViewProps) => (
+interface StyleProps {
+  classes: Classes<typeof styles>
+}
+
+const MainPageCmp: React.SFC<StyleProps> = ({ classes }) => (
   <div className={classes.root}>
     <CssBaseline />
     <header className={classes.header}>
@@ -61,10 +51,6 @@ const View = withStyles(styles)(({ classes }: Component.ViewProps) => (
       <SmartInput />
     </footer>
   </div>
-))
+)
 
-export class MainPage extends React.PureComponent<Component.State, Component.Props> {
-  render() {
-    return <View {...this.props} />
-  }
-}
+export const MainPage = withStyles(styles)(MainPageCmp)

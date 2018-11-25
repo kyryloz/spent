@@ -1,5 +1,5 @@
-import { parseGrammar } from '../parser'
-import { runSemantic, SemanticCallback } from '../semantic'
+import { parseGrammar } from 'parser/parser'
+import { runSemantic, SemanticCallback } from 'parser/semantic'
 
 describe('semantic.ts', () => {
   describe('runSemantic()', () => {

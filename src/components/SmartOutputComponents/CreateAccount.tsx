@@ -13,12 +13,15 @@ const styles = (theme: Theme) =>
     },
   })
 
-interface Props {
-  classes: Classes<typeof styles>
+interface OwnProps {
   command: Commands.CreateAccountData
 }
 
-const CreateAccountCmp: React.SFC<Props> = ({ command, classes }) => (
+interface StyleProps {
+  classes: Classes<typeof styles>
+}
+
+const CreateAccountCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
     Account <span className={classes.account}>{command.data.name}</span> successfully created.
   </Typography>

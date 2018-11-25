@@ -1,13 +1,13 @@
 import * as moment from 'moment'
+import { parseGrammar } from 'parser/parser'
+import { runSemantic } from 'parser/semantic'
 import { Dispatch, Store } from 'redux'
-import { accountsSelector } from '../store/accounts/selectors'
-import { categoriesSelector } from '../store/categories/selectors'
-import { commandsActionCreator } from '../store/commands/actions'
-import { Commands } from '../store/commands/interface'
-import { App } from '../store/interface'
-import { uuidv4 } from '../utils/mathUtils'
-import { parseGrammar } from './parser'
-import { runSemantic } from './semantic'
+import { accountsSelector } from 'store/accounts/selectors'
+import { categoriesSelector } from 'store/categories/selectors'
+import { commandsActionCreator } from 'store/commands/actions'
+import { Commands } from 'store/commands/interface'
+import { App } from 'store/interface'
+import { uuidv4 } from 'utils/mathUtils'
 
 const evaluateCreate = (
   getState: () => App.State,

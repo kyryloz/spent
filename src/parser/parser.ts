@@ -1,5 +1,5 @@
 import * as ohm from 'ohm-js'
-import { grammar } from './grammar'
+import { grammar } from 'parser/grammar'
 
 export interface ParseGrammarResult {
   error: boolean

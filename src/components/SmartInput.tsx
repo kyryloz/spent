@@ -3,9 +3,9 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
+import { commandsActionCreator } from 'store/commands/actions'
+import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
-import { commandsActionCreator } from '../store/commands/actions'
-import { App } from '../store/interface'
 
 const styles = (_: Theme) =>
   createStyles({
@@ -17,8 +17,11 @@ const styles = (_: Theme) =>
     },
   })
 
-interface Props {
+interface StyleProps {
   classes: Classes<typeof styles>
+}
+
+interface DispatchProps {
   evaluateInput: (input: string) => void
 }
 
@@ -26,7 +29,7 @@ interface State {
   input: string
 }
 
-class SmartInputCmp extends React.PureComponent<Props, State> {
+class SmartInputCmp extends React.PureComponent<StyleProps & DispatchProps, State> {
   readonly state = {
     input: '',
   }
@@ -67,14 +70,12 @@ class SmartInputCmp extends React.PureComponent<Props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<App.Action>) => ({
-  evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
-})
-
 export const SmartInput = flow(
-  connect(
+  withStyles(styles),
+  connect<{}, DispatchProps, {}, App.State>(
     null,
-    mapDispatchToProps
-  ),
-  withStyles(styles)
+    (dispatch: Dispatch<App.Action>) => ({
+      evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
+    })
+  )
 )(SmartInputCmp)

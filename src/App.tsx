@@ -73,8 +73,6 @@ store.dispatch(testAccountAction)
 store.dispatch(testCategoryAction)
 store.dispatch(testIncomeAction)
 store.dispatch(testExpenseAction)
-store.dispatch(testExpenseAction)
-store.dispatch(testExpenseAction)
 
 export const App = () => (
   <Provider store={store}>

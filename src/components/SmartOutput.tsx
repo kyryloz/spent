@@ -1,12 +1,12 @@
 import { createStyles, List, Theme, withStyles } from '@material-ui/core'
+import { createWidget } from 'components/SmartOutputComponents/widgetFactory'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { Commands } from '../store/commands/interface'
-import { commandsSelector } from '../store/commands/selectors'
-import { App } from '../store/interface'
-import { Classes } from '../utils/styleUtils'
-import { createWidget } from './SmartOutputComponents/widgetFactory'
+import { Commands } from 'store/commands/interface'
+import { commandsSelector } from 'store/commands/selectors'
+import { App } from 'store/interface'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -23,12 +23,15 @@ const styles = (theme: Theme) =>
     },
   })
 
-interface Props {
-  commands: Array<Commands.CommandData>
+interface StyleProps {
   classes: Classes<typeof styles>
 }
 
-const SmartOutputCmp: React.SFC<Props> = ({ classes, commands }) => (
+interface StateProps {
+  commands: Array<Commands.CommandData>
+}
+
+const SmartOutputCmp: React.SFC<StyleProps & StateProps> = ({ classes, commands }) => (
   <div className={classes.root}>
     <List component="nav" className={classes.list}>
       {commands.map((command: any) => (
@@ -38,11 +41,9 @@ const SmartOutputCmp: React.SFC<Props> = ({ classes, commands }) => (
   </div>
 )
 
-const mapStateToProps = (state: App.State) => ({
-  commands: commandsSelector.items(state),
-})
-
 export const SmartOutput = compose(
-  connect(mapStateToProps),
+  connect<StateProps, {}, {}, App.State>(state => ({
+    commands: commandsSelector.items(state),
+  })),
   withStyles(styles)
 )(SmartOutputCmp)

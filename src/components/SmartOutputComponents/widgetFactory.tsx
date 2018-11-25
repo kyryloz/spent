@@ -1,12 +1,12 @@
+import { CommandWrapper } from 'components/SmartOutputComponents/CommandWrapper'
+import { CreateAccount } from 'components/SmartOutputComponents/CreateAccount'
+import { CreateCategory } from 'components/SmartOutputComponents/CreateCategory'
+import { Expense } from 'components/SmartOutputComponents/Expense'
+import { Income } from 'components/SmartOutputComponents/Income'
+import { StatusAccounts } from 'components/SmartOutputComponents/StatusAccounts'
+import { StatusCategories } from 'components/SmartOutputComponents/StatusCategories'
 import * as React from 'react'
 import { Commands } from 'store/commands/interface'
-import { CommandWrapper } from './CommandWrapper'
-import { CreateAccount } from './CreateAccount'
-import { CreateCategory } from './CreateCategory'
-import { Expense } from './Expense'
-import { Income } from './Income'
-import { StatusAccounts } from './StatusAccounts'
-import { StatusCategories } from './StatusCategories'
 
 export const createWidget = (command: Commands.CommandData) => {
   let widgetComponent
