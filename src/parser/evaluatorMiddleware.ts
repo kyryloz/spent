@@ -9,6 +9,45 @@ import { Commands } from 'store/commands/interface'
 import { App } from 'store/interface'
 import { uuidv4 } from 'utils/mathUtils'
 
+export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
+  next: Dispatch<App.Action>
+) => (action: App.Action) => {
+  if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
+    evaluate(action.payload.input, store)
+  } else {
+    next(action)
+  }
+}
+
+const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Action>) => {
+  const parseResult = parseGrammar(input)
+
+  if (parseResult.error) {
+    dispatch({
+      type: '@@evaluate/ERROR',
+      payload: {
+        error: parseResult.message,
+      },
+    })
+    return
+  }
+
+  runSemantic(parseResult.match, {
+    create: (entityName, name) => {
+      dispatch(evaluateCreate(getState, input, entityName, name))
+    },
+    expense: (category, amount, fromAccount) => {
+      dispatch(evaluateExpense(getState, input, category, amount, fromAccount))
+    },
+    income: (accountName, amount) => {
+      dispatch(evaluateIncome(getState, input, accountName, amount))
+    },
+    status: what => {
+      dispatch(evaluateStatus(input, what))
+    },
+  })
+}
+
 const evaluateCreate = (
   getState: () => App.State,
   input: string,
@@ -20,7 +59,6 @@ const evaluateCreate = (
   switch (entityName) {
     case 'account':
       const account = accountsSelector.findByName(name)(getState())
-      console.log(account)
 
       if (account) {
         action = {
@@ -141,43 +179,4 @@ const evaluateStatus = (input: string, what: string): App.Action => {
       entity,
     },
   })
-}
-
-const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Action>) => {
-  const parseResult = parseGrammar(input)
-
-  if (parseResult.error) {
-    dispatch({
-      type: '@@evaluate/ERROR',
-      payload: {
-        error: parseResult.message,
-      },
-    })
-    return
-  }
-
-  runSemantic(parseResult.match, {
-    create: (entityName, name) => {
-      dispatch(evaluateCreate(getState, input, entityName, name))
-    },
-    expense: (category, amount, fromAccount) => {
-      dispatch(evaluateExpense(getState, input, category, amount, fromAccount))
-    },
-    income: (accountName, amount) => {
-      dispatch(evaluateIncome(getState, input, accountName, amount))
-    },
-    status: what => {
-      dispatch(evaluateStatus(input, what))
-    },
-  })
-}
-
-export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
-  next: Dispatch<App.Action>
-) => (action: App.Action) => {
-  if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
-    evaluate(action.payload.input, store)
-  } else {
-    next(action)
-  }
 }
