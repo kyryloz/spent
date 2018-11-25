@@ -1,29 +1,11 @@
-import { createStyles, Theme, Typography, withStyles, WithStyles } from '@material-ui/core'
-import { toPairs } from 'lodash'
+import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
+import { flow, toPairs } from 'lodash'
 import * as React from 'react'
-import { compose, pure, setDisplayName, withHandlers } from 'recompose'
-import { Commands } from 'src/store/commands/interface'
-import { withConnectedProps } from '../../hoc/withConnectedProps'
-import { accountsSelector } from '../../store/accounts/selectors'
-import { App } from '../../store/interface'
-
-interface OutterProps {
-  command: Commands.StatusData
-}
-
-interface ConnectedProps {
-  accounts: {
-    [name: string]: number
-  }
-}
-
-interface InnerProps
-  extends App.ConnectedComponentProps<ConnectedProps>,
-    WithStyles<typeof styles> {}
-
-interface HandlerProps {}
-
-type ViewProps = OutterProps & InnerProps & HandlerProps
+import { connect } from 'react-redux'
+import { accountsSelector } from 'store/accounts/selectors'
+import { Commands } from 'store/commands/interface'
+import { App } from 'store/interface'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -35,7 +17,24 @@ const styles = (theme: Theme) =>
     },
   })
 
-const View: React.SFC<ViewProps> = ({ accounts, classes }) => (
+interface OwnProps {
+  command: Commands.StatusData
+}
+
+interface StyleProps {
+  classes: Classes<typeof styles>
+}
+
+interface StateProps {
+  accounts: {
+    [name: string]: number
+  }
+}
+
+const StatusAccountsCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
+  accounts,
+  classes,
+}) => (
   <React.Fragment>
     {toPairs(accounts).map(([name, balance]) => (
       <Typography className={classes.amount}>
@@ -45,12 +44,9 @@ const View: React.SFC<ViewProps> = ({ accounts, classes }) => (
   </React.Fragment>
 )
 
-export const StatusAccounts = compose<ViewProps, OutterProps>(
-  pure,
+export const StatusAccounts = flow(
   withStyles(styles),
-  withConnectedProps<ConnectedProps, OutterProps & InnerProps>((state, ownProps) => ({
+  connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     accounts: accountsSelector.balances(0, ownProps.command.timestamp)(state),
-  })),
-  withHandlers<OutterProps & InnerProps, HandlerProps>({}),
-  setDisplayName('StatusAccounts')
-)(View)
+  }))
+)(StatusAccountsCmp)

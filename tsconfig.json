@@ -18,7 +18,7 @@
     "pretty": true,
     "target": "es2015",
     "jsx": "react",
-    "baseUrl": "."
+    "baseUrl": "src"
   },
   "formatCodeOptions": {
     "indentSize": 2,

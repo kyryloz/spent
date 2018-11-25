@@ -1,6 +1,6 @@
 import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
-import { calculateBalance } from 'src/utils/selectorUtils'
+import { calculateBalance } from 'utils/selectorUtils'
 import { Commands } from '../commands/interface'
 import { commandsSelector } from '../commands/selectors'
 import { App } from '../interface'

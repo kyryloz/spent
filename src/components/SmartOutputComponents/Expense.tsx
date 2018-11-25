@@ -1,31 +1,12 @@
-import { Typography, Theme, createStyles } from '@material-ui/core'
+import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
+import { flow } from 'lodash'
 import * as React from 'react'
-import { withStyles, WithStyles } from '@material-ui/core'
-import { compose, pure, setDisplayName, withHandlers } from 'recompose'
-import { withConnectedProps } from '../../hoc/withConnectedProps'
-import { accountsSelector } from '../../store/accounts/selectors'
-import { categoriesSelector } from '../../store/categories/selectors'
-import { Commands } from '../../store/commands/interface'
-import { App } from '../../store/interface'
-
-interface OutterProps {
-  command: Commands.ExpenseData
-}
-
-interface ConnectedProps {
-  accountBalance: number
-  accountName: string
-  categoryExpenses: number
-  categoryName: string
-}
-
-interface InnerProps
-  extends App.ConnectedComponentProps<ConnectedProps>,
-    WithStyles<typeof styles> {}
-
-interface HandlerProps {}
-
-type ViewProps = OutterProps & InnerProps & HandlerProps
+import { connect } from 'react-redux'
+import { accountsSelector } from 'store/accounts/selectors'
+import { categoriesSelector } from 'store/categories/selectors'
+import { Commands } from 'store/commands/interface'
+import { App } from 'store/interface'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -55,7 +36,22 @@ const styles = (theme: Theme) =>
     },
   })
 
-export const View: React.SFC<ViewProps> = ({
+interface OwnProps {
+  command: Commands.ExpenseData
+}
+
+interface StyleProps {
+  classes: Classes<typeof styles>
+}
+
+interface StateProps {
+  accountBalance: number
+  accountName: string
+  categoryExpenses: number
+  categoryName: string
+}
+
+export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
   command,
   accountBalance,
   accountName,
@@ -77,10 +73,9 @@ export const View: React.SFC<ViewProps> = ({
   </div>
 )
 
-export const Expense = compose<ViewProps, OutterProps>(
-  pure,
+export const Expense = flow(
   withStyles(styles),
-  withConnectedProps<ConnectedProps, OutterProps & InnerProps>((state, ownProps) => ({
+  connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     accountBalance: accountsSelector.balance(
       ownProps.command.data.accountId,
       0,
@@ -93,7 +88,5 @@ export const Expense = compose<ViewProps, OutterProps>(
     )(state),
     accountName: accountsSelector.findById(ownProps.command.data.accountId)(state),
     categoryName: categoriesSelector.findById(ownProps.command.data.categoryId)(state),
-  })),
-  withHandlers<OutterProps & InnerProps, HandlerProps>({}),
-  setDisplayName('Expense')
-)(View)
+  }))
+)(ExpenseCmp)

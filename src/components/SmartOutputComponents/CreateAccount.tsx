@@ -1,7 +1,7 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { Commands } from 'src/store/commands/interface'
-import { Classes } from 'src/utils/styleUtils'
+import { Commands } from 'store/commands/interface'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({

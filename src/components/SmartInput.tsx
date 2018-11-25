@@ -1,8 +1,9 @@
 import { createStyles, InputAdornment, TextField, Theme, withStyles } from '@material-ui/core'
+import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { compose, Dispatch } from 'redux'
-import { Classes } from 'src/utils/styleUtils'
+import { Dispatch } from 'redux'
+import { Classes } from 'utils/styleUtils'
 import { commandsActionCreator } from '../store/commands/actions'
 import { App } from '../store/interface'
 
@@ -70,10 +71,10 @@ const mapDispatchToProps = (dispatch: Dispatch<App.Action>) => ({
   evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
 })
 
-export const SmartInput = compose(
+export const SmartInput = flow(
   connect(
     null,
     mapDispatchToProps
   ),
-  withStyles(styles),
+  withStyles(styles)
 )(SmartInputCmp)

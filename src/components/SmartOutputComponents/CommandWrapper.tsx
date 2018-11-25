@@ -1,7 +1,7 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { formatTimestamp } from 'src/utils/dateUtils'
-import { Classes } from 'src/utils/styleUtils'
+import { formatTimestamp } from 'utils/dateUtils'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
