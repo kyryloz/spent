@@ -35,8 +35,6 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
     return
   }
 
-  dispatch(smartInputActionCreator.setInput({ input: '' }))
-
   runSemantic(parseResult.match, {
     create: (entityName, name) => {
       dispatch(evaluateCreate(getState, input, entityName, name))
@@ -66,12 +64,7 @@ const evaluateCreate = (
       const account = accountsSelector.findByName(name)(getState())
 
       if (account) {
-        action = {
-          type: '@@evaluate/ERROR',
-          payload: {
-            error: `Account '${name}' is already existed`,
-          },
-        }
+        action = commandsActionCreator.error({ human: `Account '${name}' is already existed` })
       } else {
         action = commandsActionCreator.addCreateAccountCommand({
           id: uuidv4(),
@@ -89,12 +82,7 @@ const evaluateCreate = (
       const category = categoriesSelector.findByName(name)(getState())
 
       if (category) {
-        action = {
-          type: '@@evaluate/ERROR',
-          payload: {
-            error: `Category '${name}' is already existed`,
-          },
-        }
+        action = commandsActionCreator.error({ human: `Category '${name}' is already existed` })
       } else {
         action = commandsActionCreator.addCreateCategoryCommand({
           id: uuidv4(),
@@ -123,10 +111,18 @@ const evaluateExpense = (
   accountName: string
 ): App.Action => {
   const category = categoriesSelector.findByName(categoryName)(getState())
-  const categoryId = category ? category.id : 'not found'
+  const categoryId = category && category.id
 
   const account = accountsSelector.findByName(accountName)(getState())
-  const accountId = account ? account.id : 'not found'
+  const accountId = account && account.id
+
+  if (!categoryId) {
+    return commandsActionCreator.error({ human: `Category '${categoryName}' not found` })
+  }
+
+  if (!accountId) {
+    return commandsActionCreator.error({ human: `Account '${accountName}' not found` })
+  }
 
   return commandsActionCreator.addExpenseCommand({
     id: uuidv4(),

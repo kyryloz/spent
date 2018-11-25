@@ -1,4 +1,5 @@
 import { Reducer } from 'redux'
+import { Commands } from 'store/commands/interface'
 import { App } from 'store/interface'
 import { SmartInput } from './interface'
 
@@ -15,6 +16,15 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
       const payload = (<SmartInput.Actions.Set>action).payload
       return {
         input: payload.input,
+      }
+    }
+    case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT:
+    case Commands.ActionTypes.COMMAND_CREATE_CATEGORY:
+    case Commands.ActionTypes.COMMAND_EXPENSE:
+    case Commands.ActionTypes.COMMAND_INCOME:
+    case Commands.ActionTypes.COMMAND_STATUS: {
+      return {
+        input: '',
       }
     }
     default: {
