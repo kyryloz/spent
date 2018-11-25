@@ -46,7 +46,7 @@ interface Props {
 
 const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, timestamp, children }) => (
   <Grid container className={classes.root}>
-    <Grid item container direction={'row'} alignItems="center" spacing={24}>
+    <Grid item container direction={'row'} alignItems="center" spacing={16}>
       <Grid item>
         <Typography gutterBottom variant={'body1'}>
           > {rawCommand}{' '}
