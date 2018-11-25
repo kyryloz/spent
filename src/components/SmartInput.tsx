@@ -2,7 +2,6 @@ import { createStyles, InputAdornment, TextField, Theme, withStyles } from '@mat
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { commandsActionCreator } from 'store/commands/actions'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
@@ -35,7 +34,8 @@ class SmartInputCmp extends React.PureComponent<StyleProps & DispatchProps, Stat
   }
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ input: event.target.value })
+    const input = event.target.value
+    this.setState({ input })
   }
 
   handleInputSubmit = () => {
@@ -74,7 +74,7 @@ export const SmartInput = flow(
   withStyles(styles),
   connect<{}, DispatchProps, {}, App.State>(
     null,
-    (dispatch: Dispatch<App.Action>) => ({
+    dispatch => ({
       evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
     })
   )
