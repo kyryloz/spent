@@ -1,8 +1,8 @@
 import { createStyles, List, Theme, withStyles } from '@material-ui/core'
 import { createWidget } from 'components/SmartOutputComponents/widgetFactory'
+import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
@@ -41,7 +41,7 @@ const SmartOutputCmp: React.SFC<StyleProps & StateProps> = ({ classes, commands 
   </div>
 )
 
-export const SmartOutput = compose(
+export const SmartOutput = flow(
   connect<StateProps, {}, {}, App.State>(state => ({
     commands: commandsSelector.items(state),
   })),
