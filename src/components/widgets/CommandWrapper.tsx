@@ -1,7 +1,4 @@
 import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core'
-import { grey } from '@material-ui/core/colors'
-import DeleteIcon from '@material-ui/icons/DeleteSharp'
-import EditIcon from '@material-ui/icons/EditSharp'
 import * as React from 'react'
 import { formatTimestamp } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
@@ -22,48 +19,21 @@ const styles = (theme: Theme) =>
     date: {
       color: theme.colors.date,
     },
-    actionButtons: {
-      marginRight: theme.spacing.unit,
-    },
-    editIcon: {
-      marginLeft: theme.spacing.unit / 2,
-      color: grey[100],
-      opacity: 0.2,
-      '&:hover': {
-        opacity: 0.6,
-      },
-      '&:active': {
-        opacity: 1,
-      },
-    },
   })
 
 interface Props {
   classes: Classes<typeof styles>
   rawCommand: string
   timestamp: number
-  onEditClick: () => void
-  onDeleteClick: () => void
 }
 
-const CommandWrapperCmp: React.SFC<Props> = ({
-  classes,
-  rawCommand,
-  timestamp,
-  children,
-  onEditClick,
-  onDeleteClick,
-}) => (
+const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, timestamp, children }) => (
   <Grid container className={classes.root}>
     <Grid item container direction={'row'} alignItems="center" spacing={16}>
       <Grid item>
         <Typography gutterBottom variant={'body1'}>
           > {rawCommand}{' '}
         </Typography>
-      </Grid>
-      <Grid item>
-        <EditIcon onClick={onEditClick} fontSize="small" className={classes.editIcon} />
-        <DeleteIcon onClick={onDeleteClick} fontSize="small" className={classes.editIcon} />
       </Grid>
     </Grid>
 

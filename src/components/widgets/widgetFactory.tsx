@@ -33,11 +33,23 @@ export const createWidget = (
       break
     }
     case Commands.DataType.EXPENSE: {
-      widgetComponent = <Expense command={command as Commands.ExpenseData} />
+      widgetComponent = (
+        <Expense
+          onEditClick={actionClickHandlers.onEditClick}
+          onDeleteClick={actionClickHandlers.onDeleteClick}
+          command={command as Commands.ExpenseData}
+        />
+      )
       break
     }
     case Commands.DataType.INCOME: {
-      widgetComponent = <Income command={command as Commands.IncomeData} />
+      widgetComponent = (
+        <Income
+          onEditClick={actionClickHandlers.onEditClick}
+          onDeleteClick={actionClickHandlers.onDeleteClick}
+          command={command as Commands.IncomeData}
+        />
+      )
       break
     }
     case Commands.DataType.STATUS: {
@@ -87,12 +99,7 @@ export const createWidget = (
   }
 
   return (
-    <CommandWrapper
-      rawCommand={command.raw}
-      timestamp={command.timestamp}
-      onEditClick={actionClickHandlers.onEditClick}
-      onDeleteClick={actionClickHandlers.onDeleteClick}
-    >
+    <CommandWrapper rawCommand={command.raw} timestamp={command.timestamp}>
       {widgetComponent}
     </CommandWrapper>
   )
