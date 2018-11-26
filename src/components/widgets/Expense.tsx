@@ -33,7 +33,8 @@ const styles = (theme: Theme) =>
       color: theme.colors.category,
     },
     id: {
-      color: theme.colors.info,
+      color: theme.colors.actionIcon,
+      opacity: 0.2,
     },
     line: {
       borderTop: `1px solid ${theme.colors.expense}`,
@@ -43,7 +44,7 @@ const styles = (theme: Theme) =>
     actionIcon: {
       marginTop: theme.spacing.unit / 2,
       marginLeft: theme.spacing.unit / 2,
-      color: grey[100],
+      color: theme.colors.actionIcon,
       opacity: 0.2,
       '&:hover': {
         opacity: 0.6,

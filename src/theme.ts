@@ -12,7 +12,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       date: React.CSSProperties['color']
       info: React.CSSProperties['color']
       error: React.CSSProperties['color']
-      editButtonInactive: React.CSSProperties['color']
+      actionIcon: React.CSSProperties['color']
     }
   }
 
@@ -26,7 +26,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       date: React.CSSProperties['color']
       info: React.CSSProperties['color']
       error: React.CSSProperties['color']
-      editButtonInactive: React.CSSProperties['color']
+      actionIcon: React.CSSProperties['color']
     }
   }
 }
@@ -50,6 +50,6 @@ export const spentTheme = createMuiTheme({
     date: grey[700],
     info: grey[500],
     error: red[400],
-    editButtonInactive: grey[100]
+    actionIcon: grey[100]
   },
 })

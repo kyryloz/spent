@@ -30,10 +30,14 @@ const styles = (theme: Theme) =>
       margin: '8px 0 8px 0',
       opacity: 0.3,
     },
+    id: {
+      color: theme.colors.actionIcon,
+      opacity: 0.2,
+    },
     actionIcon: {
       marginTop: theme.spacing.unit / 2,
       marginLeft: theme.spacing.unit / 2,
-      color: grey[100],
+      color: theme.colors.actionIcon,
       opacity: 0.2,
       '&:hover': {
         opacity: 0.6,
@@ -82,9 +86,10 @@ const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
 
     <div className={classes.line} />
 
-    <Typography className={classes.amount}>
+    <Typography className={classes.amount} gutterBottom>
       <span className={classes.account}>{accountName}</span> = {accountBalance} USD
     </Typography>
+    <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )
 
