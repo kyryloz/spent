@@ -9,6 +9,13 @@ import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
+    body: {
+      border: `1px solid ${theme.colors.info}`,
+      borderRadius: 5,
+      padding: theme.spacing.unit,
+      paddingLeft: theme.spacing.unit * 2,
+      paddingRight: theme.spacing.unit * 2,
+    },
     amount: {
       color: theme.colors.number,
     },
@@ -38,7 +45,7 @@ const StatusAccountsCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
   accounts,
   classes,
 }) => (
-  <React.Fragment>
+  <div className={classes.body}>
     {toPairs(accounts).map(([name, balance]) => (
       <Typography key={name} className={classes.amount}>
         <span className={classes.account}>{name}</span> = {balance} USD
@@ -47,7 +54,7 @@ const StatusAccountsCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
     {isEmpty(accounts) && (
       <Typography className={classes.bodyTitle}>Don't have any accounts</Typography>
     )}
-  </React.Fragment>
+  </div>
 )
 
 export const StatusAccounts = flow(
