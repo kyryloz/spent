@@ -1,5 +1,5 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
-import { flow, toPairs } from 'lodash'
+import { flow, isEmpty, toPairs } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { categoriesSelector } from 'store/categories/selectors'
@@ -14,6 +14,9 @@ const styles = (theme: Theme) =>
     },
     category: {
       color: theme.colors.category,
+    },
+    bodyTitle: {
+      color: theme.colors.info,
     },
   })
 
@@ -41,6 +44,9 @@ const StatusCategoriesCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
         Spent {balance} USD on <span className={classes.category}>{name}</span>
       </Typography>
     ))}
+    {isEmpty(categories) && (
+      <Typography className={classes.bodyTitle}>Don't have any categories</Typography>
+    )}
   </React.Fragment>
 )
 

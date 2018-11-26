@@ -8,6 +8,7 @@ describe('semantic.ts', () => {
       expense: jest.fn(),
       income: jest.fn(),
       status: jest.fn(),
+      remove: jest.fn(),
     }
 
     beforeEach(() => {
@@ -36,6 +37,12 @@ describe('semantic.ts', () => {
       const input = 'status categories'
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.status).toBeCalledWith('categories')
+    })
+
+    test('delete', () => {
+      const input = 'delete category clothes'
+      runSemantic(parseGrammar(input).match, mockCallback)
+      expect(mockCallback.remove).toBeCalledWith('category', 'clothes')
     })
   })
 })

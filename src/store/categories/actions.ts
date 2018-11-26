@@ -1,10 +1,9 @@
-import { Categories } from './interface'
+import { App } from 'store/interface'
+import { Categories } from 'store/categories/interface'
 
 export namespace categoriesActionCreator {
-  export const removeCategory = (id: string): Categories.Actions.Remove => ({
+  export const removeCategory = (payload: Categories.Category): Categories.Actions.Remove => ({
     type: Categories.ActionTypes.CATEGORY_REMOVE,
-    payload: {
-      id,
-    },
+    payload,
   })
 }

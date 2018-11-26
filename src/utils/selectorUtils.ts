@@ -7,6 +7,8 @@ export const calculateBalance = (
   timestampTo: number,
   inclusive: boolean = true
 ) => {
+  console.log('balance for', commands)
+
   return commands
     .filter(command => command.data.dataType === dataType)
     .map(data => data as Commands.IncomeData | Commands.ExpenseData)

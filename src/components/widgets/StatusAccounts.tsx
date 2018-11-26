@@ -1,5 +1,5 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
-import { flow, toPairs } from 'lodash'
+import { flow, isEmpty, toPairs } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { accountsSelector } from 'store/accounts/selectors'
@@ -14,6 +14,9 @@ const styles = (theme: Theme) =>
     },
     account: {
       color: theme.colors.account,
+    },
+    bodyTitle: {
+      color: theme.colors.info,
     },
   })
 
@@ -41,6 +44,9 @@ const StatusAccountsCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
         <span className={classes.account}>{name}</span> = {balance} USD
       </Typography>
     ))}
+    {isEmpty(accounts) && (
+      <Typography className={classes.bodyTitle}>Don't have any accounts</Typography>
+    )}
   </React.Fragment>
 )
 

@@ -100,6 +100,7 @@ describe('parser.ts', () => {
           expect(parseGrammar(input).success).toBeTruthy()
         })
       })
+
       describe('expense', () => {
         test('case1', () => {
           const input = 'expense'
@@ -177,6 +178,33 @@ describe('parser.ts', () => {
 
         test('case2', () => {
           const input = 'status accounts'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+      })
+
+      describe('delete', () => {
+        test('case1', () => {
+          const input = 'delete'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case2', () => {
+          const input = 'delete account'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case3', () => {
+          const input = 'delete category'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case4', () => {
+          const input = 'delete account Wallet'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case5', () => {
+          const input = "delete category 'My Clothes'"
           expect(parseGrammar(input).success).toBeTruthy()
         })
       })

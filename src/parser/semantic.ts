@@ -6,6 +6,7 @@ export interface SemanticCallback {
   expense: (category: string, amount: number, source: string) => void
   income: (accountName: string, amount: number) => void
   status: (what: string) => void
+  remove: (entity: string, name: string) => void
 }
 
 let semantic: ohm.Semantics | undefined = undefined
@@ -36,6 +37,12 @@ semantic.addOperation('eval', {
   Status: (_, entity) => {
     if (semanticCallback) {
       semanticCallback.status(entity.sourceString)
+    }
+    semanticCallback = undefined
+  },
+  Delete: (_, entity, name) => {
+    if (semanticCallback) {
+      semanticCallback.remove(entity.sourceString, name.eval())
     }
     semanticCallback = undefined
   },

@@ -33,11 +33,13 @@ export const grammar = ohm.grammar(`
       | Expense
       | Income
       | Status
+      | Delete
 
     Create     = "create" entity identifier
     Expense    = "expense" number "on" category "from" account
     Income     = "income" number "to" account
     Status     = "status" status
+    Delete     = "delete" entity (category | account)
 
     category (a category)  = identifier
     account (an account)   = identifier

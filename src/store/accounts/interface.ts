@@ -1,15 +1,9 @@
-import { App } from '../interface'
+import { App } from 'store/interface'
 
 export namespace Accounts {
   export interface State {
     readonly byId: {
-      [id: string]: {
-        id: string,
-        name: string,
-        createdAt: number,
-        createdByCommandId: string,
-        commandIds: Array<string>
-      }
+      [id: string]: Account
     }
     readonly allIds: Array<string>
   }
@@ -21,11 +15,13 @@ export namespace Accounts {
   export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Remove = App.Action<App.Identifiable, ActionTypes>
+    export type Remove = App.Action<Account, ActionTypes>
   }
 
-  export interface AccountPayload extends App.Identifiable {
+  export interface Account extends App.Identifiable {
     readonly name: string
+    readonly createdAt: number
+    readonly createdByCommandId: string
     readonly commandIds: Array<string>
   }
 }

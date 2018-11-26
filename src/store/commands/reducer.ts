@@ -1,12 +1,15 @@
+import { includes } from 'lodash'
 import { Reducer } from 'redux'
-import { Commands } from './interface'
+import { Accounts } from 'store/accounts/interface'
+import { Categories } from 'store/categories/interface'
 import { App } from '../interface'
+import { Commands } from './interface'
 
 const initialState: Commands.State = {
   items: [],
   error: {
-    human: ''
-  }
+    human: '',
+  },
 }
 
 export const commands: Reducer<Commands.State, App.Action> = (
@@ -23,8 +26,8 @@ export const commands: Reducer<Commands.State, App.Action> = (
         ...state,
         items: [...state.items, action.payload],
         error: {
-          human: ''
-        }
+          human: '',
+        },
       }
     }
     case Commands.ActionTypes.COMMAND_REMOVE: {
@@ -32,7 +35,7 @@ export const commands: Reducer<Commands.State, App.Action> = (
 
       return {
         ...state,
-        items: state.items.filter(entry => entry.id !== payload.id),
+        items: state.items.filter(item => item.id !== payload.id),
       }
     }
     case Commands.ActionTypes.COMMAND_ERROR: {
@@ -40,7 +43,7 @@ export const commands: Reducer<Commands.State, App.Action> = (
 
       return {
         ...state,
-        error: payload
+        error: payload,
       }
     }
     default: {

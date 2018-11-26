@@ -3,13 +3,7 @@ import { App } from '../interface'
 export namespace Categories {
   export interface State {
     readonly byId: {
-      [id: string]: {
-        id: string,
-        name: string,
-        createdAt: number,
-        createdByCommandId: string,
-        commandIds: Array<string>
-      }
+      [id: string]: Category
     }
     readonly allIds: Array<string>
   }
@@ -21,11 +15,13 @@ export namespace Categories {
   export type Action = App.Action<any, ActionTypes>
 
   export namespace Actions {
-    export type Remove = App.Action<App.Identifiable, ActionTypes>
+    export type Remove = App.Action<Category, ActionTypes>
   }
 
   export interface Category extends App.Identifiable {
     readonly name: string
+    readonly createdAt: number
+    readonly createdByCommandId: string
     readonly commandIds: Array<string>
   }
 }

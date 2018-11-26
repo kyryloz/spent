@@ -22,6 +22,7 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_CREATE_CATEGORY:
     case Commands.ActionTypes.COMMAND_EXPENSE:
     case Commands.ActionTypes.COMMAND_INCOME:
+    case Commands.ActionTypes.COMMAND_REMOVE:
     case Commands.ActionTypes.COMMAND_STATUS: {
       return {
         input: '',

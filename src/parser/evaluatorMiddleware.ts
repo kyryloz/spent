@@ -10,6 +10,8 @@ import { App } from 'store/interface'
 import { smartInputActionCreator } from 'store/ui/smartInput/actions'
 import { uuidv4 } from 'utils/mathUtils'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
+import { accountsActionCreator } from 'store/accounts/actions'
+import { categoriesActionCreator } from 'store/categories/actions'
 
 export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
   next: Dispatch<App.Action>
@@ -47,6 +49,9 @@ const evaluate = (input: string, { dispatch, getState }: Store<App.State, App.Ac
     },
     status: what => {
       dispatch(evaluateStatus(input, what))
+    },
+    remove: (entityName, name) => {
+      dispatch(evaluateRemove(getState, input, entityName, name))
     },
   })
 }
@@ -180,4 +185,38 @@ const evaluateStatus = (input: string, what: string): App.Action => {
       entity,
     },
   })
+}
+
+const evaluateRemove = (
+  getState: () => App.State,
+  input: string,
+  entityName: string,
+  name: string
+): App.Action => {
+  let action: App.Action
+
+  switch (entityName) {
+    case 'account':
+      const account = accountsSelector.findByName(name)(getState())
+
+      if (!account) {
+        action = commandsActionCreator.error({ human: `You do not have '${name}' account` })
+      } else {
+        action = accountsActionCreator.removeAccount(account)
+      }
+      break
+    case 'category':
+      const category = categoriesSelector.findByName(name)(getState())
+
+      if (!category) {
+        action = commandsActionCreator.error({ human: `You do not have '${name}' category` })
+      } else {
+        action = categoriesActionCreator.removeCategory(category)
+      }
+      break
+    default:
+      throw new Error(`Unknown entity name: '${entityName}'`)
+  }
+
+  return action
 }
