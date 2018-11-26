@@ -6,7 +6,7 @@ import { commandsSelector } from '../commands/selectors'
 import { App } from '../interface'
 
 export namespace accountsSelector {
-  const byId = (state: App.State) => state.entities.accounts.byId
+  export const byId = (state: App.State) => state.entities.accounts.byId
 
   const commandIds = (accountId: string) =>
     createSelector([byId, commandsSelector.items], (byId, items) => {

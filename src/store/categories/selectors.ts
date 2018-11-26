@@ -6,9 +6,9 @@ import { commandsSelector } from '../commands/selectors'
 import { App } from '../interface'
 
 export namespace categoriesSelector {
-  const byId = (state: App.State) => state.entities.categories.byId
+  export const byId = (state: App.State) => state.entities.categories.byId
 
-  const commandIds = (categoryId: string) =>
+  export const commandIds = (categoryId: string) =>
     createSelector([byId, commandsSelector.items], (byId, items) => {
       return byId[categoryId].commandIds.map(
         commandId => items.find(item => item.id === commandId)!
