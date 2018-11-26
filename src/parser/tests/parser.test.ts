@@ -208,6 +208,33 @@ describe('parser.ts', () => {
           expect(parseGrammar(input).success).toBeTruthy()
         })
       })
+
+      describe('rename', () => {
+        test('case1', () => {
+          const input = 'rename'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case2', () => {
+          const input = 'rename account'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case3', () => {
+          const input = 'rename category'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case4', () => {
+          const input = 'rename account Wallet to wallet'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case5', () => {
+          const input = "rename category 'My Clothes' to clothes"
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+      })
     })
   })
 })

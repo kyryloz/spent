@@ -48,10 +48,11 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateStatus(input, what))
     },
     remove: (entityName, name) => {
-      const commands = evaluateRemove(state, input, entityName, name)
-      console.log(commands)
-      commands.forEach(dispatch)
+      evaluateRemove(state, input, entityName, name).forEach(dispatch)
     },
+    rename: (entityName, oldName, newName) => {
+      console.log(entityName, oldName, newName)
+    }
   })
 }
 
