@@ -17,6 +17,7 @@ export namespace Commands {
     COMMAND_INCOME = '@@command/INCOME',
     COMMAND_STATUS = '@@command/STATUS',
     COMMAND_DELETE_ENTITY = '@@command/DELETE_ENTITY',
+    COMMAND_RENAME_ENTITY = '@@command/RENAME_ENTITY',
     COMMAND_CREATE_ACCOUNT = '@@command/CREATE_ACCOUNT',
     COMMAND_CREATE_CATEGORY = '@@command/CREATE_CATEGORY',
   }
@@ -29,7 +30,14 @@ export namespace Commands {
     export type ExpenseCommand = App.Action<ExpenseData, ActionTypes.COMMAND_EXPENSE>
     export type IncomeCommand = App.Action<IncomeData, ActionTypes.COMMAND_INCOME>
     export type StatusCommand = App.Action<StatusData, ActionTypes.COMMAND_STATUS>
-    export type DeleteEntityCommand = App.Action<DeleteEntityData, ActionTypes.COMMAND_DELETE_ENTITY>
+    export type DeleteEntityCommand = App.Action<
+      DeleteEntityData,
+      ActionTypes.COMMAND_DELETE_ENTITY
+    >
+    export type RenameEntityCommand = App.Action<
+      RenameEntityData,
+      ActionTypes.COMMAND_RENAME_ENTITY
+    >
     export type CreateAccountCommand = App.Action<
       CreateAccountData,
       ActionTypes.COMMAND_CREATE_ACCOUNT
@@ -48,6 +56,7 @@ export namespace Commands {
     CREATE_ACCOUNT = 'CREATE_ACCOUNT',
     CREATE_CATEGORY = 'CREATE_CATEGORY',
     DELETE_ENTITY = 'DELETE_ENTITY',
+    RENAME_ENTITY = 'RENAME_ENTITY',
   }
 
   export const enum Entity {
@@ -90,8 +99,18 @@ export namespace Commands {
     readonly data: {
       readonly dataType: DataType.DELETE_ENTITY
       readonly entity: Entity
-      readonly entityId: string,
+      readonly entityId: string
       readonly entityName: string
+    }
+  }
+
+  export interface RenameEntityData extends CommandData {
+    readonly data: {
+      readonly dataType: DataType.RENAME_ENTITY
+      readonly entity: Entity
+      readonly entityId: string
+      readonly entityOldName: string
+      readonly entityNewName: string
     }
   }
 
@@ -113,6 +132,6 @@ export namespace Commands {
   }
 
   export interface ErrorData {
-    human: string,
+    human: string
   }
 }

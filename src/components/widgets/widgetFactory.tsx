@@ -7,7 +7,10 @@ import { StatusAccounts } from 'components/widgets/StatusAccounts'
 import { StatusCategories } from 'components/widgets/StatusCategories'
 import * as React from 'react'
 import { Commands } from 'store/commands/interface'
-import { DeleteAccount } from './DeleteAccount';
+import { DeleteAccount } from './DeleteAccount'
+import { DeleteCategory } from './DeleteCategory'
+import { RenameAccount } from './RenameAccount'
+import { RenameCategory } from './RenameCategory'
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -60,7 +63,21 @@ export const createWidget = (
           break
 
         case Commands.Entity.CATEGORY:
-          widgetComponent = <DeleteAccount command={deleteCommand} />
+          widgetComponent = <DeleteCategory command={deleteCommand} />
+          break
+      }
+      break
+    }
+    case Commands.DataType.RENAME_ENTITY: {
+      const renameCommand = command as Commands.RenameEntityData
+
+      switch (renameCommand.data.entity) {
+        case Commands.Entity.ACCOUNT:
+          widgetComponent = <RenameAccount command={renameCommand} />
+          break
+
+        case Commands.Entity.CATEGORY:
+          widgetComponent = <RenameCategory command={renameCommand} />
           break
       }
       break

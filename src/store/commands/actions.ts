@@ -64,6 +64,15 @@ export namespace commandsActionCreator {
     }
   }
 
+  export const addRenameEntityCommand = (
+    payload: Commands.RenameEntityData
+  ): Commands.Actions.RenameEntityCommand => {
+    return {
+      type: Commands.ActionTypes.COMMAND_RENAME_ENTITY,
+      payload,
+    }
+  }
+
   export const remove = (id: string): Commands.Actions.Remove => ({
     type: Commands.ActionTypes.COMMAND_REMOVE,
     payload: {

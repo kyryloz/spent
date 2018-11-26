@@ -82,6 +82,27 @@ export const categories: Reducer<Categories.State, App.Action> = (
         allIds,
       }
     }
+    case Commands.ActionTypes.COMMAND_RENAME_ENTITY: {
+      const {
+        payload: {
+          data: { entityId, entity, entityNewName },
+        },
+      } = action as Commands.Actions.RenameEntityCommand
+
+      if (entity === Commands.Entity.CATEGORY) {
+        return {
+          ...state,
+          byId: {
+            [entityId]: {
+              ...state.byId[entityId],
+              name: entityNewName,
+            },
+          },
+        }
+      } else {
+        return state
+      }
+    }
     case Commands.ActionTypes.COMMAND_REMOVE: {
       const {
         payload: { id },

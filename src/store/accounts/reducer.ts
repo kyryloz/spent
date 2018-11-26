@@ -1,4 +1,4 @@
-import { fromPairs, isEmpty, values } from 'lodash'
+import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
 import { removeItem } from '../../utils/storeUtils'
 import { Commands } from '../commands/interface'
@@ -69,7 +69,9 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
     }
     case Commands.ActionTypes.COMMAND_DELETE_ENTITY: {
       const {
-        payload: { data: { entityId} },
+        payload: {
+          data: { entityId },
+        },
       } = action as Commands.Actions.DeleteEntityCommand
 
       const allIds = removeItem(state.allIds, entityId)
@@ -78,6 +80,27 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
       return {
         byId,
         allIds,
+      }
+    }
+    case Commands.ActionTypes.COMMAND_RENAME_ENTITY: {
+      const {
+        payload: {
+          data: { entityId, entity, entityNewName },
+        },
+      } = action as Commands.Actions.RenameEntityCommand
+
+      if (entity === Commands.Entity.ACCOUNT) {
+        return {
+          ...state,
+          byId: {
+            [entityId]: {
+              ...state.byId[entityId],
+              name: entityNewName,
+            },
+          },
+        }
+      } else {
+        return state
       }
     }
     case Commands.ActionTypes.COMMAND_REMOVE: {

@@ -47,12 +47,12 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
     status: what => {
       dispatch(evaluateStatus(input, what))
     },
-    remove: (entityName, name) => {
-      evaluateRemove(state, input, entityName, name).forEach(dispatch)
+    remove: (entity, name) => {
+      evaluateRemove(state, input, entity, name).forEach(dispatch)
     },
-    rename: (entityName, oldName, newName) => {
-      console.log(entityName, oldName, newName)
-    }
+    rename: (entity, oldName, newName) => {
+      dispatch(evaluateRename(state, input, entity, oldName, newName))
+    },
   })
 }
 
@@ -187,15 +187,75 @@ const evaluateStatus = (input: string, what: string): App.Action => {
   })
 }
 
+const evaluateRename = (
+  state: App.State,
+  input: string,
+  entity: string,
+  oldName: string,
+  newName: string
+): App.Action => {
+  let action: App.Action
+
+  switch (entity) {
+    case 'account': {
+      const account = accountsSelector.findByName(oldName)(state)
+
+      if (!account) {
+        action = commandsActionCreator.error({ human: `You do not have '${oldName}' account` })
+      } else {
+        action = commandsActionCreator.addRenameEntityCommand({
+          id: uuidv4(),
+          timestamp: moment().unix(),
+          raw: input,
+          data: {
+            dataType: Commands.DataType.RENAME_ENTITY,
+            entity: Commands.Entity.ACCOUNT,
+            entityId: account.id,
+            entityOldName: oldName,
+            entityNewName: newName,
+          },
+        })
+      }
+      break
+    }
+    case 'category': {
+      const category = categoriesSelector.findByName(oldName)(state)
+
+      if (!category) {
+        action = commandsActionCreator.error({ human: `You do not have '${oldName}' category` })
+      } else {
+        action = commandsActionCreator.addRenameEntityCommand({
+          id: uuidv4(),
+          timestamp: moment().unix(),
+          raw: input,
+          data: {
+            dataType: Commands.DataType.RENAME_ENTITY,
+            entity: Commands.Entity.CATEGORY,
+            entityId: category.id,
+            entityOldName: oldName,
+            entityNewName: newName,
+          },
+        })
+      }
+      break
+    }
+    default: {
+      throw new Error(`Unknown entity name: '${entity}'`)
+    }
+  }
+
+  return action
+}
+
 const evaluateRemove = (
   state: App.State,
   input: string,
-  entityName: string,
+  entity: string,
   name: string
 ): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
-  switch (entityName) {
+  switch (entity) {
     case 'account':
       const account = accountsSelector.findByName(name)(state)
 
@@ -241,7 +301,7 @@ const evaluateRemove = (
       }
       break
     default:
-      throw new Error(`Unknown entity name: '${entityName}'`)
+      throw new Error(`Unknown entity name: '${entity}'`)
   }
 
   return actions
