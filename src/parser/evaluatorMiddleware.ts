@@ -6,6 +6,7 @@ import { accountsSelector } from 'store/accounts/selectors'
 import { categoriesSelector } from 'store/categories/selectors'
 import { commandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
+import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
 import { uuidv4 } from 'utils/mathUtils'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
@@ -262,7 +263,7 @@ const evaluateRemove = (
       if (!account) {
         actions.push(commandsActionCreator.error({ human: `You do not have '${name}' account` }))
       } else {
-        actions.push(...account.commandIds.map(id => commandsActionCreator.remove(id)))
+        actions.push(...account.commandIds.map(id => commandsActionCreator.remove({ id })))
         actions.push(
           commandsActionCreator.addDeleteEntityCommand({
             id: uuidv4(),
@@ -284,7 +285,7 @@ const evaluateRemove = (
       if (!category) {
         actions.push(commandsActionCreator.error({ human: `You do not have '${name}' category` }))
       } else {
-        actions.push(...category.commandIds.map(id => commandsActionCreator.remove(id)))
+        actions.push(...category.commandIds.map(id => commandsActionCreator.remove({ id })))
         actions.push(
           commandsActionCreator.addDeleteEntityCommand({
             id: uuidv4(),
@@ -298,6 +299,17 @@ const evaluateRemove = (
             },
           })
         )
+      }
+      break
+    case 'transaction':
+      const command = commandsSelector.findById(name)(state)
+
+      if (!command) {
+        actions.push(
+          commandsActionCreator.error({ human: `Can't find a transaction with id '${name}'` })
+        )
+      } else {
+        actions.push(commandsActionCreator.remove(command))
       }
       break
     default:

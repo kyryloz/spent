@@ -207,6 +207,11 @@ describe('parser.ts', () => {
           const input = "delete category 'My Clothes'"
           expect(parseGrammar(input).success).toBeTruthy()
         })
+
+        test('case6', () => {
+          const input = 'delete transaction sdf234'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
       })
 
       describe('rename', () => {

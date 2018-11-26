@@ -40,7 +40,7 @@ export const grammar = ohm.grammar(`
     Expense    = "expense" number "on" category "from" account
     Income     = "income" number "to" account
     Status     = "status" status
-    Delete     = "delete" entity (category | account)
+    Delete     = "delete" deletableEntity identifier
     Rename     = "rename" entity identifier "to" identifier
 
     category (a category)  = identifier
@@ -59,6 +59,11 @@ export const grammar = ohm.grammar(`
     status =
       | "accounts"
       | "categories"
+
+    deletableEntity =
+      | "account"
+      | "category"
+      | "transaction"
 
     number (an amount)    = digit+ ("." digit+)?          --number
     word                  = ~keyword wordprefix+ alnum*   --word

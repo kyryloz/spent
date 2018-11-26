@@ -3,11 +3,12 @@ import { createWidget } from 'components/widgets/widgetFactory'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { commandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
+import { smartInputActionCreator } from 'store/ui/smartInput/actions'
 import { Classes } from 'utils/styleUtils'
-import { commandsActionCreator } from 'store/commands/actions'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -49,7 +50,7 @@ const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({
         <div key={command.id}>
           {createWidget(command, {
             onEditClick: () => editCommand(command),
-            onDeleteClick: () => deleteCommand(command)
+            onDeleteClick: () => deleteCommand(command),
           })}
         </div>
       ))}
@@ -64,7 +65,8 @@ export const SmartOutput = flow(
     }),
     dispatch => ({
       editCommand: command => dispatch(commandsActionCreator.edit(command.id)),
-      deleteCommand: command => dispatch(commandsActionCreator.remove(command.id)),
+      deleteCommand: command =>
+        dispatch(smartInputActionCreator.setInput({ input: `delete transaction ${command.id}` })),
     })
   ),
   withStyles(styles)

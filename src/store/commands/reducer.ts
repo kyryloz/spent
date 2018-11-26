@@ -38,6 +38,9 @@ export const commands: Reducer<Commands.State, App.Action> = (
       return {
         ...state,
         items: state.items.filter(item => item.id !== payload.id),
+        error: {
+          human: '',
+        },
       }
     }
     case Commands.ActionTypes.COMMAND_ERROR: {

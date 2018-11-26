@@ -1,4 +1,5 @@
 import { Commands } from './interface'
+import { App } from 'store/interface';
 
 export namespace commandsActionCreator {
   export const evaluateInput = (input: string) => {
@@ -73,11 +74,9 @@ export namespace commandsActionCreator {
     }
   }
 
-  export const remove = (id: string): Commands.Actions.Remove => ({
+  export const remove = (payload: App.Identifiable): Commands.Actions.Remove => ({
     type: Commands.ActionTypes.COMMAND_REMOVE,
-    payload: {
-      id,
-    },
+    payload,
   })
 
   export const edit = (id: string): Commands.Actions.Edit => ({

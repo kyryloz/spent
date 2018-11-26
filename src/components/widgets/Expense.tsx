@@ -32,6 +32,9 @@ const styles = (theme: Theme) =>
     category: {
       color: theme.colors.category,
     },
+    id: {
+      color: theme.colors.info,
+    },
     line: {
       borderTop: `1px solid ${theme.colors.expense}`,
       margin: '8px 0 8px 0',
@@ -96,9 +99,10 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
     <Typography className={classes.amount}>
       <span className={classes.account}>{accountName}</span> = {accountBalance} USD
     </Typography>
-    <Typography className={classes.amount}>
+    <Typography className={classes.amount} gutterBottom>
       Spent on <span className={classes.category}>{categoryName}</span> {categoryExpenses} USD
     </Typography>
+    <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )
 
