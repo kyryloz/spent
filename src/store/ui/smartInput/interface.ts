@@ -3,6 +3,7 @@ import { App } from '../../interface'
 export namespace SmartInput {
   export interface State {
     readonly input: string
+    readonly focus?: boolean
   }
 
   export const enum ActionTypes {
@@ -17,5 +18,6 @@ export namespace SmartInput {
 
   export interface SetData {
     readonly input: string
+    readonly focus?: boolean
   }
 }

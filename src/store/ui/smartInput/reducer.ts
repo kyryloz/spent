@@ -5,6 +5,7 @@ import { SmartInput } from './interface'
 
 const initialState: SmartInput.State = {
   input: '',
+  focus: true,
 }
 
 export const smartInput: Reducer<SmartInput.State, App.Action> = (
@@ -13,10 +14,9 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
 ): SmartInput.State => {
   switch (action.type) {
     case SmartInput.ActionTypes.SET_INPUT: {
-      const payload = (<SmartInput.Actions.Set>action).payload
-      return {
-        input: payload.input,
-      }
+      const { payload } = action as SmartInput.Actions.Set
+
+      return payload
     }
     case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT:
     case Commands.ActionTypes.COMMAND_CREATE_CATEGORY:
@@ -28,6 +28,7 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_STATUS: {
       return {
         input: '',
+        focus: false,
       }
     }
     default: {
