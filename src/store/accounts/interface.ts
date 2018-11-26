@@ -8,15 +8,11 @@ export namespace Accounts {
     readonly allIds: Array<string>
   }
 
-  export const enum ActionTypes {
-    ACCOUNT_REMOVE = '@@account/REMOVE',
-  }
+  export const enum ActionTypes {}
 
   export type Action = App.Action<any, ActionTypes>
 
-  export namespace Actions {
-    export type Remove = App.Action<Account, ActionTypes>
-  }
+  export namespace Actions {}
 
   export interface Account extends App.Identifiable {
     readonly name: string

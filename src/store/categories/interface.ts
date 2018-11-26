@@ -8,15 +8,11 @@ export namespace Categories {
     readonly allIds: Array<string>
   }
 
-  export const enum ActionTypes {
-    CATEGORY_REMOVE = '@@category/REMOVE',
-  }
+  export const enum ActionTypes {}
 
   export type Action = App.Action<any, ActionTypes>
 
-  export namespace Actions {
-    export type Remove = App.Action<Category, ActionTypes>
-  }
+  export namespace Actions {}
 
   export interface Category extends App.Identifiable {
     readonly name: string

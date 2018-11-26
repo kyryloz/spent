@@ -7,6 +7,7 @@ import { StatusAccounts } from 'components/widgets/StatusAccounts'
 import { StatusCategories } from 'components/widgets/StatusCategories'
 import * as React from 'react'
 import { Commands } from 'store/commands/interface'
+import { DeleteAccount } from './DeleteAccount';
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -46,6 +47,20 @@ export const createWidget = (
 
         case Commands.Entity.CATEGORY:
           widgetComponent = <StatusCategories command={statusCommand} />
+          break
+      }
+      break
+    }
+    case Commands.DataType.DELETE_ENTITY: {
+      const deleteCommand = command as Commands.DeleteEntityData
+
+      switch (deleteCommand.data.entity) {
+        case Commands.Entity.ACCOUNT:
+          widgetComponent = <DeleteAccount command={deleteCommand} />
+          break
+
+        case Commands.Entity.CATEGORY:
+          widgetComponent = <DeleteAccount command={deleteCommand} />
           break
       }
       break

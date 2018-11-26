@@ -40,7 +40,7 @@ const StatusCategoriesCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
 }) => (
   <React.Fragment>
     {toPairs(categories).map(([name, balance]) => (
-      <Typography className={classes.amount}>
+      <Typography key={name} className={classes.amount}>
         Spent {balance} USD on <span className={classes.category}>{name}</span>
       </Typography>
     ))}

@@ -67,13 +67,13 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         },
       }
     }
-    case Accounts.ActionTypes.ACCOUNT_REMOVE: {
+    case Commands.ActionTypes.COMMAND_DELETE_ENTITY: {
       const {
-        payload: { id },
-      } = action as Accounts.Actions.Remove
+        payload: { data: { entityId} },
+      } = action as Commands.Actions.DeleteEntityCommand
 
-      const allIds = removeItem(state.allIds, id)
-      const { [id]: _, ...byId } = state.byId
+      const allIds = removeItem(state.allIds, entityId)
+      const { [entityId]: _, ...byId } = state.byId
 
       return {
         byId,
