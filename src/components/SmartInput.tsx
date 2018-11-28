@@ -46,7 +46,6 @@ interface StyleProps {
 interface StateProps {
   input: string
   focus: boolean
-  prefix: string
   error: Commands.ErrorData
 }
 
@@ -93,7 +92,7 @@ class SmartInputCmp extends React.PureComponent<Props> {
   }
 
   render() {
-    const { classes, input, prefix, error } = this.props
+    const { classes, input, error } = this.props
 
     return (
       <React.Fragment>
@@ -114,8 +113,7 @@ class SmartInputCmp extends React.PureComponent<Props> {
             inputRef: this.textInput,
             startAdornment: (
               <InputAdornment className={classes.adornment} position="start">
-                {prefix}
-                {!isEmpty(prefix) ? '\u00A0' : ''}>
+                >
               </InputAdornment>
             ),
             className: classes.textFieldInput,
@@ -139,7 +137,6 @@ export const SmartInput = flow(
       error: commandsSelector.error(state),
       input: smartInputSelector.input(state),
       focus: smartInputSelector.focus(state),
-      prefix: smartInputSelector.prefix(state),
     }),
     dispatch => ({
       evaluateInput: () => dispatch(commandsActionCreator.evaluateInput()),

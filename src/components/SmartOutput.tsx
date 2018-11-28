@@ -64,18 +64,41 @@ export const SmartOutput = flow(
     }),
     dispatch => ({
       editCommand: command => {
-        const tokens = command.raw.split(' ')
-        const input = tokens.slice(1, tokens.length).join(' ')
-        const prefix = tokens[0]
+        switch (command.data.dataType) {
+          case Commands.DataType.EXPENSE: {
+            const { data } = command as Commands.ExpenseData
 
-        dispatch(smartInputActionCreator.setInput(input))
+            dispatch(
+              smartInputActionCreator.setInput(
+                `update transaction '${command.id}' set amount = '${data.amount}', account = '${
+                  data.accountId
+                }', category = '${data.categoryId}'`
+              )
+            )
+            break
+          }
+          case Commands.DataType.INCOME: {
+            const { data } = command as Commands.IncomeData
+
+            dispatch(
+              smartInputActionCreator.setInput(
+                `update transaction '${command.id}' set amount = '${data.amount}', account = '${
+                  data.accountId
+                }`
+              )
+            )
+            break
+          }
+          default: {
+            throw new Error(`Unsupported operation for '${command.data.dataType}'`)
+          }
+        }
+
         dispatch(smartInputActionCreator.setFocus(true))
-        dispatch(smartInputActionCreator.setPrefix(prefix))
       },
       deleteCommand: command => {
         dispatch(smartInputActionCreator.setInput(`delete transaction '${command.id}'`))
         dispatch(smartInputActionCreator.setFocus(true))
-        dispatch(smartInputActionCreator.setPrefix(''))
       },
     })
   ),

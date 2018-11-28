@@ -17,9 +17,9 @@ export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
 ) => (action: App.Action) => {
   if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
     const state = store.getState()
-    const input = `${smartInputSelector.prefix(state)} ${smartInputSelector.input(state)}`
+    const input = smartInputSelector.input(state)
 
-    evaluate(input.trim(), next, state)
+    evaluate(input, next, state)
   } else {
     next(action)
   }

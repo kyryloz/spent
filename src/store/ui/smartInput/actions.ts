@@ -10,9 +10,4 @@ export namespace smartInputActionCreator {
     type: SmartInput.ActionTypes.SET_FOCUS,
     payload: focus,
   })
-
-  export const setPrefix = (prefix: string): SmartInput.Actions.SetPrefix => ({
-    type: SmartInput.ActionTypes.SET_PREFIX,
-    payload: prefix,
-  })
 }
