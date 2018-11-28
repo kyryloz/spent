@@ -1,13 +1,10 @@
+import { App } from 'store/interface'
 import { Commands } from './interface'
-import { App } from 'store/interface';
 
 export namespace commandsActionCreator {
-  export const evaluateInput = (input: string) => {
+  export const evaluateInput = () => {
     return {
       type: Commands.ActionTypes.COMMAND_EVALUATE,
-      payload: {
-        input,
-      },
     }
   }
 

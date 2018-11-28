@@ -14,7 +14,6 @@ import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
 import { smartInputActionCreator } from 'store/ui/smartInput/actions'
-import { SmartInput as SmartInputInterface } from 'store/ui/smartInput/interface'
 import { smartInputSelector } from 'store/ui/smartInput/selectors'
 import { Classes } from 'utils/styleUtils'
 
@@ -35,6 +34,9 @@ const styles = (theme: Theme) =>
     error: {
       color: theme.colors.error,
     },
+    adornment: {
+      color: theme.colors.info,
+    },
   })
 
 interface StyleProps {
@@ -42,13 +44,16 @@ interface StyleProps {
 }
 
 interface StateProps {
-  inputData: SmartInputInterface.SetData
+  input: string
+  focus: boolean
+  prefix: string
   error: Commands.ErrorData
 }
 
 interface DispatchProps {
-  evaluateInput: (input: string) => void
-  setInput: (input: string, focus?: boolean) => void
+  evaluateInput: () => void
+  setInput: (input: string) => void
+  setFocus: (focus: boolean) => void
 }
 
 type Props = StyleProps & StateProps & DispatchProps
@@ -61,8 +66,8 @@ class SmartInputCmp extends React.PureComponent<Props> {
     this.textInput = React.createRef()
   }
 
-  componentDidUpdate({ inputData: { focus: prevFocus } }: Props) {
-    const focus = this.props.inputData.focus
+  componentDidUpdate({ focus: prevFocus }: Props) {
+    const focus = this.props.focus
 
     if (focus !== prevFocus) {
       if (focus) {
@@ -80,15 +85,15 @@ class SmartInputCmp extends React.PureComponent<Props> {
   }
 
   handleInputSubmit = () => {
-    this.props.evaluateInput(this.props.inputData.input)
+    this.props.evaluateInput()
   }
 
   handleFocusChange = (focus: boolean) => {
-    this.props.setInput(this.props.inputData.input, focus)
+    this.props.setFocus(focus)
   }
 
   render() {
-    const { classes, inputData, error } = this.props
+    const { classes, input, prefix, error } = this.props
 
     return (
       <React.Fragment>
@@ -102,12 +107,17 @@ class SmartInputCmp extends React.PureComponent<Props> {
           label="CLI"
           fullWidth
           onChange={this.handleInputChange}
-          value={inputData.input}
+          value={input}
           onFocus={() => this.handleFocusChange(true)}
           onBlur={() => this.handleFocusChange(false)}
           InputProps={{
             inputRef: this.textInput,
-            startAdornment: <InputAdornment position="start">></InputAdornment>,
+            startAdornment: (
+              <InputAdornment className={classes.adornment} position="start">
+                {prefix}
+                &nbsp;>
+              </InputAdornment>
+            ),
             className: classes.textFieldInput,
           }}
           onKeyPress={event => {
@@ -127,12 +137,14 @@ export const SmartInput = flow(
   connect<StateProps, DispatchProps, {}, App.State>(
     state => ({
       error: commandsSelector.error(state),
-      inputData: smartInputSelector.input(state),
+      input: smartInputSelector.input(state),
+      focus: smartInputSelector.focus(state),
+      prefix: smartInputSelector.prefix(state),
     }),
     dispatch => ({
-      evaluateInput: (input: string) => dispatch(commandsActionCreator.evaluateInput(input)),
-      setInput: (input: string, focus: boolean) =>
-        dispatch(smartInputActionCreator.setInput({ input, focus })),
+      evaluateInput: () => dispatch(commandsActionCreator.evaluateInput()),
+      setInput: (input: string) => dispatch(smartInputActionCreator.setInput(input)),
+      setFocus: (focus: boolean) => dispatch(smartInputActionCreator.setFocus(focus)),
     })
   )
 )(SmartInputCmp)

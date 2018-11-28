@@ -10,12 +10,16 @@ import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
 import { uuidv4 } from 'utils/mathUtils'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
+import { smartInputSelector } from 'store/ui/smartInput/selectors'
 
 export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
   next: Dispatch<App.Action>
 ) => (action: App.Action) => {
   if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
-    evaluate(action.payload.input, next, store.getState())
+    const state = store.getState()
+    const input = `${smartInputSelector.prefix(state)} ${smartInputSelector.input(state)}`
+
+    evaluate(input.trim(), next, state)
   } else {
     next(action)
   }

@@ -3,7 +3,6 @@ import { createWidget } from 'components/widgets/widgetFactory'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { commandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
@@ -64,14 +63,19 @@ export const SmartOutput = flow(
       commands: commandsSelector.items(state),
     }),
     dispatch => ({
-      editCommand: command => dispatch(commandsActionCreator.edit(command.id)),
-      deleteCommand: command =>
-        dispatch(
-          smartInputActionCreator.setInput({
-            input: `delete transaction '${command.id}'`,
-            focus: true,
-          })
-        ),
+      editCommand: command => {
+        const tokens = command.raw.split(' ')
+        const input = tokens.slice(1, tokens.length).join(' ')
+        const prefix = tokens[0]
+
+        dispatch(smartInputActionCreator.setInput(input))
+        dispatch(smartInputActionCreator.setFocus(true))
+        dispatch(smartInputActionCreator.setPrefix(prefix))
+      },
+      deleteCommand: command => {
+        dispatch(smartInputActionCreator.setInput(`delete transaction '${command.id}'`))
+        dispatch(smartInputActionCreator.setFocus(true))
+      },
     })
   ),
   withStyles(styles)
