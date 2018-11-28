@@ -75,6 +75,7 @@ export const SmartOutput = flow(
       deleteCommand: command => {
         dispatch(smartInputActionCreator.setInput(`delete transaction '${command.id}'`))
         dispatch(smartInputActionCreator.setFocus(true))
+        dispatch(smartInputActionCreator.setPrefix(''))
       },
     })
   ),

@@ -6,7 +6,7 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core'
-import { flow } from 'lodash'
+import { flow, isEmpty } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { commandsActionCreator } from 'store/commands/actions'
@@ -115,7 +115,7 @@ class SmartInputCmp extends React.PureComponent<Props> {
             startAdornment: (
               <InputAdornment className={classes.adornment} position="start">
                 {prefix}
-                &nbsp;>
+                {!isEmpty(prefix) ? '\u00A0' : ''}>
               </InputAdornment>
             ),
             className: classes.textFieldInput,
