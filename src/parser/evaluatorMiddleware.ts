@@ -1,7 +1,7 @@
 import * as moment from 'moment'
 import { parseGrammar } from 'parser/parser'
 import { runSemantic } from 'parser/semantic'
-import { Dispatch, Store } from 'redux'
+import { Dispatch, Middleware } from 'redux'
 import { accountsSelector } from 'store/accounts/selectors'
 import { categoriesSelector } from 'store/categories/selectors'
 import { CommandsActionCreator } from 'store/commands/actions'
@@ -12,9 +12,7 @@ import { uuidv4 } from 'utils/mathUtils'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
 import { smartInputSelector } from 'store/ui/smartInput/selectors'
 
-export const evaluatorMiddleware = (store: Store<App.State, App.Action>) => (
-  next: Dispatch<App.Action>
-) => (action: App.Action) => {
+export const evaluatorMiddleware: Middleware<{}, App.State> = store => next => action => {
   if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
     const state = store.getState()
     const input = smartInputSelector.input(state)
