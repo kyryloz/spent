@@ -1,19 +1,32 @@
 import { App } from 'store/interface'
 import { Commands } from './interface'
+import { uuidv4 } from 'utils/mathUtils'
+import moment = require('moment')
 
-export namespace commandsActionCreator {
-  export const evaluateInput = () => {
+export namespace CommandsActionCreator {
+  export const evaluate = () => {
     return {
       type: Commands.ActionTypes.COMMAND_EVALUATE,
     }
   }
 
-  export const addExpenseCommand = (
-    payload: Commands.ExpenseData
-  ): Commands.Actions.ExpenseCommand => {
+  export const expense = (
+    raw: string,
+    command: {
+      dataType: Commands.DataType.EXPENSE
+      categoryId: string
+      accountId: string
+      amount: number
+    }
+  ) => {
     return {
       type: Commands.ActionTypes.COMMAND_EXPENSE,
-      payload,
+      payload: {
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw,
+        command,
+      },
     }
   }
 
@@ -71,7 +84,7 @@ export namespace commandsActionCreator {
     }
   }
 
-  export const remove = (payload: App.Identifiable): Commands.Actions.Remove => ({
+  export const removeCommand = (payload: { id: string }) => ({
     type: Commands.ActionTypes.COMMAND_REMOVE,
     payload,
   })

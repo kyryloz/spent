@@ -25,9 +25,7 @@ export namespace Commands {
   export type Action<Payload> = App.Action<Payload, ActionTypes>
 
   export namespace Actions {
-    export type Remove = App.Action<App.Identifiable, ActionTypes.COMMAND_REMOVE>
     export type Edit = App.Action<App.Identifiable, ActionTypes.COMMAND_EDIT>
-    export type ExpenseCommand = App.Action<ExpenseData, ActionTypes.COMMAND_EXPENSE>
     export type IncomeCommand = App.Action<IncomeData, ActionTypes.COMMAND_INCOME>
     export type StatusCommand = App.Action<StatusData, ActionTypes.COMMAND_STATUS>
     export type DeleteEntityCommand = App.Action<

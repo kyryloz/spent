@@ -7,6 +7,7 @@ import { Routes } from './routes'
 import { Commands } from './store/commands/interface'
 import { configureStore } from './store/configureStore'
 import { spentTheme } from './theme'
+import { CommandsActionCreator } from 'store/commands/actions';
 
 const history = createHashHistory()
 
@@ -54,13 +55,13 @@ const testIncomeAction: Commands.Actions.IncomeCommand = {
   },
 }
 
-const testExpenseAction: Commands.Actions.ExpenseCommand = {
+const testExpenseAction: ReturnType<typeof CommandsActionCreator.expense> = {
   type: Commands.ActionTypes.COMMAND_EXPENSE,
   payload: {
     id: 'commandId4',
     raw: 'expense 100 on clothes from wallet',
     timestamp: 1541701830,
-    data: {
+    command: {
       dataType: Commands.DataType.EXPENSE,
       accountId: 'accountId1',
       categoryId: 'categoryId1',

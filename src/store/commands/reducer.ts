@@ -4,6 +4,7 @@ import { Accounts } from 'store/accounts/interface'
 import { Categories } from 'store/categories/interface'
 import { App } from '../interface'
 import { Commands } from './interface'
+import { CommandsActionCreator } from './actions'
 
 const initialState: Commands.State = {
   items: [],
@@ -33,11 +34,13 @@ export const commands: Reducer<Commands.State, App.Action> = (
       }
     }
     case Commands.ActionTypes.COMMAND_REMOVE: {
-      const payload = (<Commands.Actions.Remove>action).payload
+      const {
+        payload: { id },
+      } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
 
       return {
         ...state,
-        items: state.items.filter(item => item.id !== payload.id),
+        items: state.items.filter(item => item.id !== id),
         error: {
           human: '',
         },

@@ -9,7 +9,7 @@ import {
 import { flow, isEmpty } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { commandsActionCreator } from 'store/commands/actions'
+import { CommandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
@@ -139,7 +139,7 @@ export const SmartInput = flow(
       focus: smartInputSelector.focus(state),
     }),
     dispatch => ({
-      evaluateInput: () => dispatch(commandsActionCreator.evaluateInput()),
+      evaluateInput: () => dispatch(CommandsActionCreator.evaluate()),
       setInput: (input: string) => dispatch(smartInputActionCreator.setInput(input)),
       setFocus: (focus: boolean) => dispatch(smartInputActionCreator.setFocus(focus)),
     })

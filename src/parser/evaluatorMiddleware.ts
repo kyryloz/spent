@@ -4,7 +4,7 @@ import { runSemantic } from 'parser/semantic'
 import { Dispatch, Store } from 'redux'
 import { accountsSelector } from 'store/accounts/selectors'
 import { categoriesSelector } from 'store/categories/selectors'
-import { commandsActionCreator } from 'store/commands/actions'
+import { CommandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
@@ -35,7 +35,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       human = capitalizeFirstLetter(human)
     }
 
-    dispatch(commandsActionCreator.error({ human }))
+    dispatch(CommandsActionCreator.error({ human }))
     return
   }
 
@@ -74,9 +74,9 @@ const evaluateCreate = (
       const account = accountsSelector.findByName(name)(state)
 
       if (account) {
-        action = commandsActionCreator.error({ human: `Account '${name}' is already existed` })
+        action = CommandsActionCreator.error({ human: `Account '${name}' is already existed` })
       } else {
-        action = commandsActionCreator.addCreateAccountCommand({
+        action = CommandsActionCreator.addCreateAccountCommand({
           id: uuidv4(),
           timestamp: moment().unix(),
           raw: input,
@@ -92,9 +92,9 @@ const evaluateCreate = (
       const category = categoriesSelector.findByName(name)(state)
 
       if (category) {
-        action = commandsActionCreator.error({ human: `Category '${name}' is already existed` })
+        action = CommandsActionCreator.error({ human: `Category '${name}' is already existed` })
       } else {
-        action = commandsActionCreator.addCreateCategoryCommand({
+        action = CommandsActionCreator.addCreateCategoryCommand({
           id: uuidv4(),
           timestamp: moment().unix(),
           raw: input,
@@ -127,23 +127,18 @@ const evaluateExpense = (
   const accountId = account && account.id
 
   if (!categoryId) {
-    return commandsActionCreator.error({ human: `Category '${categoryName}' not found` })
+    return CommandsActionCreator.error({ human: `Category '${categoryName}' not found` })
   }
 
   if (!accountId) {
-    return commandsActionCreator.error({ human: `Account '${accountName}' not found` })
+    return CommandsActionCreator.error({ human: `Account '${accountName}' not found` })
   }
 
-  return commandsActionCreator.addExpenseCommand({
-    id: uuidv4(),
-    timestamp: moment().unix(),
-    raw: input,
-    data: {
-      dataType: Commands.DataType.EXPENSE,
-      categoryId,
-      accountId,
-      amount,
-    },
+  return CommandsActionCreator.expense(input, {
+    dataType: Commands.DataType.EXPENSE,
+    categoryId,
+    accountId,
+    amount,
   })
 }
 
@@ -156,7 +151,7 @@ const evaluateIncome = (
   const account = accountsSelector.findByName(accountName)(state)
   const accountId = account ? account.id : 'not found'
 
-  return commandsActionCreator.addIncomeCommand({
+  return CommandsActionCreator.addIncomeCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -181,7 +176,7 @@ const evaluateStatus = (input: string, what: string): App.Action => {
       throw new Error(`Unknown entity: ${what}`)
   }
 
-  return commandsActionCreator.addStatusCommand({
+  return CommandsActionCreator.addStatusCommand({
     id: uuidv4(),
     timestamp: moment().unix(),
     raw: input,
@@ -206,9 +201,9 @@ const evaluateRename = (
       const account = accountsSelector.findByName(oldName)(state)
 
       if (!account) {
-        action = commandsActionCreator.error({ human: `You do not have '${oldName}' account` })
+        action = CommandsActionCreator.error({ human: `You do not have '${oldName}' account` })
       } else {
-        action = commandsActionCreator.addRenameEntityCommand({
+        action = CommandsActionCreator.addRenameEntityCommand({
           id: uuidv4(),
           timestamp: moment().unix(),
           raw: input,
@@ -227,9 +222,9 @@ const evaluateRename = (
       const category = categoriesSelector.findByName(oldName)(state)
 
       if (!category) {
-        action = commandsActionCreator.error({ human: `You do not have '${oldName}' category` })
+        action = CommandsActionCreator.error({ human: `You do not have '${oldName}' category` })
       } else {
-        action = commandsActionCreator.addRenameEntityCommand({
+        action = CommandsActionCreator.addRenameEntityCommand({
           id: uuidv4(),
           timestamp: moment().unix(),
           raw: input,
@@ -265,11 +260,11 @@ const evaluateRemove = (
       const account = accountsSelector.findByName(name)(state)
 
       if (!account) {
-        actions.push(commandsActionCreator.error({ human: `You do not have '${name}' account` }))
+        actions.push(CommandsActionCreator.error({ human: `You do not have '${name}' account` }))
       } else {
-        actions.push(...account.commandIds.map(id => commandsActionCreator.remove({ id })))
+        actions.push(...account.commandIds.map(id => CommandsActionCreator.removeCommand({ id })))
         actions.push(
-          commandsActionCreator.addDeleteEntityCommand({
+          CommandsActionCreator.addDeleteEntityCommand({
             id: uuidv4(),
             timestamp: moment().unix(),
             raw: input,
@@ -287,11 +282,11 @@ const evaluateRemove = (
       const category = categoriesSelector.findByName(name)(state)
 
       if (!category) {
-        actions.push(commandsActionCreator.error({ human: `You do not have '${name}' category` }))
+        actions.push(CommandsActionCreator.error({ human: `You do not have '${name}' category` }))
       } else {
-        actions.push(...category.commandIds.map(id => commandsActionCreator.remove({ id })))
+        actions.push(...category.commandIds.map(id => CommandsActionCreator.removeCommand({ id })))
         actions.push(
-          commandsActionCreator.addDeleteEntityCommand({
+          CommandsActionCreator.addDeleteEntityCommand({
             id: uuidv4(),
             timestamp: moment().unix(),
             raw: input,
@@ -310,10 +305,10 @@ const evaluateRemove = (
 
       if (!command) {
         actions.push(
-          commandsActionCreator.error({ human: `Can't find a transaction with id '${name}'` })
+          CommandsActionCreator.error({ human: `Can't find a transaction with id '${name}'` })
         )
       } else {
-        actions.push(commandsActionCreator.remove(command))
+        actions.push(CommandsActionCreator.removeCommand(command))
       }
       break
     default:
