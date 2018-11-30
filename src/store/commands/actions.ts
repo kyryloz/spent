@@ -2,10 +2,23 @@ import * as moment from 'moment'
 import { uuidv4 } from 'utils/mathUtils'
 import { Commands } from './interface'
 
+export type CommandsActions =
+  | ReturnType<typeof CommandsActionCreator.evaluate>
+  | ReturnType<typeof CommandsActionCreator.createAccount>
+  | ReturnType<typeof CommandsActionCreator.createCategory>
+  | ReturnType<typeof CommandsActionCreator.deleteEntity>
+  | ReturnType<typeof CommandsActionCreator.error>
+  | ReturnType<typeof CommandsActionCreator.expense>
+  | ReturnType<typeof CommandsActionCreator.income>
+  | ReturnType<typeof CommandsActionCreator.removeCommand>
+  | ReturnType<typeof CommandsActionCreator.renameEntity>
+  | ReturnType<typeof CommandsActionCreator.status>
+
 export namespace CommandsActionCreator {
   export const evaluate = () => {
     return {
       type: Commands.ActionTypes.COMMAND_EVALUATE,
+      payload: {}
     }
   }
 
@@ -153,13 +166,6 @@ export namespace CommandsActionCreator {
 
   export const removeCommand = (id: string) => ({
     type: Commands.ActionTypes.COMMAND_REMOVE,
-    payload: {
-      id,
-    },
-  })
-
-  export const edit = (id: string) => ({
-    type: Commands.ActionTypes.COMMAND_EDIT,
     payload: {
       id,
     },

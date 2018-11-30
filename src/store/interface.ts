@@ -1,6 +1,6 @@
-import { Action as ReduxAction, Dispatch } from 'redux'
 import { Accounts } from './accounts/interface'
 import { Categories } from './categories/interface'
+import { CommandsActions } from './commands/actions'
 import { Commands } from './commands/interface'
 import { SmartInput } from './ui/smartInput/interface'
 
@@ -16,13 +16,7 @@ export namespace App {
     readonly commands: Commands.State
   }
 
-  export interface Action<Payload = any, Type = any> extends ReduxAction<Type> {
-    readonly payload: Payload
-  }
-
-  export type ConnectedComponentProps<StateProps> = {
-    dispatch: Dispatch<App.Action<any, any>>
-  } & StateProps
+  export type Action = CommandsActions
 
   export interface Identifiable {
     id: string
