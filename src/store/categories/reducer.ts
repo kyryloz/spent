@@ -3,7 +3,8 @@ import { removeItem } from '../../utils/storeUtils'
 import { Commands } from '../commands/interface'
 import { App } from '../interface'
 import { Categories } from './interface'
-import { values, fromPairs } from 'lodash';
+import { values, fromPairs } from 'lodash'
+import { CommandsActionCreator } from 'store/commands/actions'
 
 const initialState: Categories.State = {
   byId: {},
@@ -53,7 +54,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
           id,
           data: { categoryId },
         },
-      } = action as Commands.Actions.ExpenseCommand
+      } = action as ReturnType<typeof CommandsActionCreator.expense>
 
       return {
         ...state,
@@ -61,17 +62,16 @@ export const categories: Reducer<Categories.State, App.Action> = (
           ...state.byId,
           [categoryId]: {
             ...state.byId[categoryId],
-            commandIds: [
-              ...state.byId[categoryId].commandIds,
-              id,
-            ]
-          }
-        }
+            commandIds: [...state.byId[categoryId].commandIds, id],
+          },
+        },
       }
     }
     case Commands.ActionTypes.COMMAND_DELETE_ENTITY: {
       const {
-        payload: { data: { entityId} },
+        payload: {
+          data: { entityId },
+        },
       } = action as Commands.Actions.DeleteEntityCommand
 
       const allIds = removeItem(state.allIds, entityId)
@@ -106,7 +106,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_REMOVE: {
       const {
         payload: { id },
-      } = action as Commands.Actions.Remove
+      } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
 
       const categories = values(state.byId)
         .map(category => ({

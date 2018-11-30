@@ -4,6 +4,7 @@ import { removeItem } from '../../utils/storeUtils'
 import { Commands } from '../commands/interface'
 import { App } from '../interface'
 import { Accounts } from './interface'
+import { CommandsActionCreator } from 'store/commands/actions'
 
 const initialState: Accounts.State = {
   byId: {},
@@ -54,7 +55,9 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
           id,
           data: { accountId },
         },
-      } = action as Commands.Actions.ExpenseCommand | Commands.Actions.IncomeCommand
+      } = action as
+        | ReturnType<typeof CommandsActionCreator.expense>
+        | ReturnType<typeof CommandsActionCreator.income>
 
       return {
         ...state,
@@ -106,7 +109,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
     case Commands.ActionTypes.COMMAND_REMOVE: {
       const {
         payload: { id },
-      } = action as Commands.Actions.Remove
+      } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
 
       const accounts = values(state.byId)
         .map(account => ({

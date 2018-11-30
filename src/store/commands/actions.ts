@@ -1,7 +1,6 @@
-import { App } from 'store/interface'
 import { Commands } from './interface'
 import { uuidv4 } from 'utils/mathUtils'
-import moment = require('moment')
+import * as moment from 'moment'
 
 export namespace CommandsActionCreator {
   export const evaluate = () => {
@@ -12,7 +11,7 @@ export namespace CommandsActionCreator {
 
   export const expense = (
     raw: string,
-    command: {
+    data: {
       dataType: Commands.DataType.EXPENSE
       categoryId: string
       accountId: string
@@ -25,26 +24,46 @@ export namespace CommandsActionCreator {
         id: uuidv4(),
         timestamp: moment().unix(),
         raw,
-        command,
+        data,
       },
     }
   }
 
-  export const addIncomeCommand = (
-    payload: Commands.IncomeData
-  ): Commands.Actions.IncomeCommand => {
+  export const income = (
+    raw: string,
+    data: {
+      dataType: Commands.DataType.INCOME
+      accountId: string
+      amount: number
+    }
+  ) => {
     return {
       type: Commands.ActionTypes.COMMAND_INCOME,
-      payload,
+      payload: {
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw,
+        data,
+      },
     }
   }
 
-  export const addCreateAccountCommand = (
-    payload: Commands.CreateAccountData
-  ): Commands.Actions.CreateAccountCommand => {
+  export const createAccount = (
+    raw: string,
+    command: {
+      id: string
+      name: string
+    }
+  ) => {
     return {
       type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
-      payload,
+      payload: {
+        dataType: Commands.DataType.CREATE_ACCOUNT,
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw,
+        ...command,
+      },
     }
   }
 

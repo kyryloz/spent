@@ -3,11 +3,11 @@ import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { CommandsActionCreator } from 'store/commands/actions'
 import { Routes } from './routes'
 import { Commands } from './store/commands/interface'
 import { configureStore } from './store/configureStore'
 import { spentTheme } from './theme'
-import { CommandsActionCreator } from 'store/commands/actions';
 
 const history = createHashHistory()
 
@@ -41,34 +41,18 @@ const testCategoryAction: Commands.Actions.CreateCategoryCommand = {
   },
 }
 
-const testIncomeAction: Commands.Actions.IncomeCommand = {
-  type: Commands.ActionTypes.COMMAND_INCOME,
-  payload: {
-    id: 'commandId3',
-    raw: 'income 1000 to wallet',
-    timestamp: 1541701829,
-    data: {
-      dataType: Commands.DataType.INCOME,
-      accountId: 'accountId1',
-      amount: 1000,
-    },
-  },
-}
+const testIncomeAction = CommandsActionCreator.income('income 1000 to wallet', {
+  dataType: Commands.DataType.INCOME,
+  accountId: 'accountId1',
+  amount: 1000,
+})
 
-const testExpenseAction: ReturnType<typeof CommandsActionCreator.expense> = {
-  type: Commands.ActionTypes.COMMAND_EXPENSE,
-  payload: {
-    id: 'commandId4',
-    raw: 'expense 100 on clothes from wallet',
-    timestamp: 1541701830,
-    command: {
-      dataType: Commands.DataType.EXPENSE,
-      accountId: 'accountId1',
-      categoryId: 'categoryId1',
-      amount: 100,
-    },
-  },
-}
+const testExpenseAction = CommandsActionCreator.expense('expense 100 on clothes from wallet', {
+  dataType: Commands.DataType.EXPENSE,
+  accountId: 'accountId1',
+  categoryId: 'categoryId1',
+  amount: 100,
+})
 
 store.dispatch(testAccountAction)
 store.dispatch(testCategoryAction)

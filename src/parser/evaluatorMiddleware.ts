@@ -74,15 +74,9 @@ const evaluateCreate = (
       if (account) {
         action = CommandsActionCreator.error({ human: `Account '${name}' is already existed` })
       } else {
-        action = CommandsActionCreator.addCreateAccountCommand({
+        action = CommandsActionCreator.createAccount(input, {
           id: uuidv4(),
-          timestamp: moment().unix(),
-          raw: input,
-          data: {
-            dataType: Commands.DataType.CREATE_ACCOUNT,
-            id: uuidv4(),
-            name,
-          },
+          name,
         })
       }
       break
@@ -149,15 +143,10 @@ const evaluateIncome = (
   const account = accountsSelector.findByName(accountName)(state)
   const accountId = account ? account.id : 'not found'
 
-  return CommandsActionCreator.addIncomeCommand({
-    id: uuidv4(),
-    timestamp: moment().unix(),
-    raw: input,
-    data: {
-      dataType: Commands.DataType.INCOME,
-      accountId,
-      amount,
-    },
+  return CommandsActionCreator.income(input, {
+    dataType: Commands.DataType.INCOME,
+    accountId,
+    amount,
   })
 }
 
