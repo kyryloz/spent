@@ -23,7 +23,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
           timestamp,
           data: { id, name },
         },
-      } = action as ReturnType<typeof CommandsActionCreator.addCreateCategoryCommand>
+      } = action as ReturnType<typeof CommandsActionCreator.createCategory>
 
       const category = Object.keys(state.byId)
         .map(key => state.byId[key])
@@ -72,7 +72,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         payload: {
           data: { entityId },
         },
-      } = action as ReturnType<typeof CommandsActionCreator.addDeleteEntityCommand>
+      } = action as ReturnType<typeof CommandsActionCreator.deleteEntity>
 
       const allIds = removeItem(state.allIds, entityId)
       const { [entityId]: _, ...byId } = state.byId
@@ -87,7 +87,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         payload: {
           data: { entityId, entity, entityNewName },
         },
-      } = action as ReturnType<typeof CommandsActionCreator.addRenameEntityCommand>
+      } = action as ReturnType<typeof CommandsActionCreator.renameEntity>
 
       if (entity === Commands.Entity.CATEGORY) {
         return {

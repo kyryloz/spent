@@ -81,7 +81,7 @@ const evaluateCreate = (
       if (category) {
         action = CommandsActionCreator.error(`Category '${name}' is already existed`)
       } else {
-        action = CommandsActionCreator.addCreateCategoryCommand(input, name)
+        action = CommandsActionCreator.createCategory(input, name)
       }
       break
     default:
@@ -147,7 +147,7 @@ const evaluateStatus = (input: string, what: string): App.Action => {
       throw new Error(`Unknown entity: ${what}`)
   }
 
-  return CommandsActionCreator.addStatusCommand(input, { entity })
+  return CommandsActionCreator.status(input, { entity })
 }
 
 const evaluateRename = (
@@ -166,7 +166,7 @@ const evaluateRename = (
       if (!account) {
         action = CommandsActionCreator.error(`You do not have '${oldName}' account`)
       } else {
-        action = CommandsActionCreator.addRenameEntityCommand(input, {
+        action = CommandsActionCreator.renameEntity(input, {
           entity: Commands.Entity.ACCOUNT,
           entityId: account.id,
           entityOldName: oldName,
@@ -181,7 +181,7 @@ const evaluateRename = (
       if (!category) {
         action = CommandsActionCreator.error(`You do not have '${oldName}' category`)
       } else {
-        action = CommandsActionCreator.addRenameEntityCommand(input, {
+        action = CommandsActionCreator.renameEntity(input, {
           entity: Commands.Entity.CATEGORY,
           entityId: category.id,
           entityOldName: oldName,
@@ -215,7 +215,7 @@ const evaluateRemove = (
       } else {
         actions.push(...account.commandIds.map(id => CommandsActionCreator.removeCommand(id)))
         actions.push(
-          CommandsActionCreator.addDeleteEntityCommand(input, {
+          CommandsActionCreator.deleteEntity(input, {
             entity: Commands.Entity.ACCOUNT,
             entityId: account.id,
             entityName: name,
@@ -231,7 +231,7 @@ const evaluateRemove = (
       } else {
         actions.push(...category.commandIds.map(id => CommandsActionCreator.removeCommand(id)))
         actions.push(
-          CommandsActionCreator.addDeleteEntityCommand(input, {
+          CommandsActionCreator.deleteEntity(input, {
             entity: Commands.Entity.CATEGORY,
             entityId: category.id,
             entityName: name,

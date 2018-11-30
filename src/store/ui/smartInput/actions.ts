@@ -1,13 +1,17 @@
 import { SmartInput } from './interface'
 
-export namespace smartInputActionCreator {
-  export const setInput = (input: string): SmartInput.Actions.SetInput => ({
+export namespace SmartInputActionCreator {
+  export const setInput = (input: string) => ({
     type: SmartInput.ActionTypes.SET_INPUT,
-    payload: input,
+    payload: {
+      input,
+    },
   })
 
-  export const setFocus = (focus: boolean): SmartInput.Actions.SetFocus => ({
+  export const setFocus = (focus: boolean) => ({
     type: SmartInput.ActionTypes.SET_FOCUS,
-    payload: focus,
+    payload: {
+      focus,
+    },
   })
 }

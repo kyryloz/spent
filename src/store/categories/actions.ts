@@ -1,1 +1,1 @@
-export namespace categoriesActionCreator {}
+export namespace CategoriesActionCreator {}

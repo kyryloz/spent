@@ -13,7 +13,7 @@ import { CommandsActionCreator } from 'store/commands/actions'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
-import { smartInputActionCreator } from 'store/ui/smartInput/actions'
+import { SmartInputActionCreator } from 'store/ui/smartInput/actions'
 import { smartInputSelector } from 'store/ui/smartInput/selectors'
 import { Classes } from 'utils/styleUtils'
 
@@ -140,8 +140,8 @@ export const SmartInput = flow(
     }),
     dispatch => ({
       evaluateInput: () => dispatch(CommandsActionCreator.evaluate()),
-      setInput: (input: string) => dispatch(smartInputActionCreator.setInput(input)),
-      setFocus: (focus: boolean) => dispatch(smartInputActionCreator.setFocus(focus)),
+      setInput: (input: string) => dispatch(SmartInputActionCreator.setInput(input)),
+      setFocus: (focus: boolean) => dispatch(SmartInputActionCreator.setFocus(focus)),
     })
   )
 )(SmartInputCmp)

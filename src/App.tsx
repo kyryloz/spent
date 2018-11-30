@@ -15,7 +15,7 @@ const store = configureStore(history)
 
 const testAccountAction = CommandsActionCreator.createAccount('create account wallet', 'wallet')
 
-const testCategoryAction = CommandsActionCreator.addCreateCategoryCommand(
+const testCategoryAction = CommandsActionCreator.createCategory(
   'create category clothes',
   'clothes'
 )

@@ -75,7 +75,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         payload: {
           data: { entityId },
         },
-      } = action as ReturnType<typeof CommandsActionCreator.addDeleteEntityCommand>
+      } = action as ReturnType<typeof CommandsActionCreator.deleteEntity>
 
       const allIds = removeItem(state.allIds, entityId)
       const { [entityId]: _, ...byId } = state.byId
@@ -90,7 +90,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         payload: {
           data: { entityId, entity, entityNewName },
         },
-      } = action as ReturnType<typeof CommandsActionCreator.addRenameEntityCommand>
+      } = action as ReturnType<typeof CommandsActionCreator.renameEntity>
 
       if (entity === Commands.Entity.ACCOUNT) {
         return {

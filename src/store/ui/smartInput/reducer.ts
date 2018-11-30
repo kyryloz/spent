@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 import { Commands } from 'store/commands/interface'
 import { App } from 'store/interface'
+import { SmartInputActionCreator } from './actions'
 import { SmartInput } from './interface'
 
 const initialState: SmartInput.State = {
@@ -14,19 +15,23 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
 ): SmartInput.State => {
   switch (action.type) {
     case SmartInput.ActionTypes.SET_INPUT: {
-      const { payload: input } = action as SmartInput.Actions.SetInput
+      const {
+        payload: { input },
+      } = action as ReturnType<typeof SmartInputActionCreator.setInput>
 
       return {
         ...state,
-        input
+        input,
       }
     }
     case SmartInput.ActionTypes.SET_FOCUS: {
-      const { payload: focus } = action as SmartInput.Actions.SetFocus
+      const {
+        payload: { focus },
+      } = action as ReturnType<typeof SmartInputActionCreator.setFocus>
 
       return {
         ...state,
-        focus
+        focus,
       }
     }
     case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT:

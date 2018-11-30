@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { Commands } from 'store/commands/interface'
 import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
-import { smartInputActionCreator } from 'store/ui/smartInput/actions'
+import { SmartInputActionCreator } from 'store/ui/smartInput/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -69,7 +69,7 @@ export const SmartOutput = flow(
             const { data } = command as Commands.ExpenseData
 
             dispatch(
-              smartInputActionCreator.setInput(
+              SmartInputActionCreator.setInput(
                 `update transaction '${command.id}' set amount = '${data.amount}', account = '${
                   data.accountId
                 }', category = '${data.categoryId}'`
@@ -81,7 +81,7 @@ export const SmartOutput = flow(
             const { data } = command as Commands.IncomeData
 
             dispatch(
-              smartInputActionCreator.setInput(
+              SmartInputActionCreator.setInput(
                 `update transaction '${command.id}' set amount = '${data.amount}', account = '${
                   data.accountId
                 }`
@@ -94,11 +94,11 @@ export const SmartOutput = flow(
           }
         }
 
-        dispatch(smartInputActionCreator.setFocus(true))
+        dispatch(SmartInputActionCreator.setFocus(true))
       },
       deleteCommand: command => {
-        dispatch(smartInputActionCreator.setInput(`delete transaction '${command.id}'`))
-        dispatch(smartInputActionCreator.setFocus(true))
+        dispatch(SmartInputActionCreator.setInput(`delete transaction '${command.id}'`))
+        dispatch(SmartInputActionCreator.setFocus(true))
       },
     })
   ),

@@ -1,1 +1,1 @@
-export namespace accountsActionCreator {}
+export namespace AccountsActionCreator {}

@@ -69,7 +69,7 @@ export namespace CommandsActionCreator {
     }
   }
 
-  export const addCreateCategoryCommand = (raw: string, name: string) => {
+  export const createCategory = (raw: string, name: string) => {
     return {
       type: Commands.ActionTypes.COMMAND_CREATE_CATEGORY,
       payload: {
@@ -86,7 +86,7 @@ export namespace CommandsActionCreator {
     }
   }
 
-  export const addStatusCommand = (
+  export const status = (
     raw: string,
     data: {
       entity: Commands.Entity
@@ -106,7 +106,7 @@ export namespace CommandsActionCreator {
     }
   }
 
-  export const addDeleteEntityCommand = (
+  export const deleteEntity = (
     raw: string,
     data: {
       entity: Commands.Entity
@@ -128,7 +128,7 @@ export namespace CommandsActionCreator {
     }
   }
 
-  export const addRenameEntityCommand = (
+  export const renameEntity = (
     raw: string,
     data: {
       entity: Commands.Entity
@@ -145,7 +145,6 @@ export namespace CommandsActionCreator {
         raw,
         data: {
           dataType: Commands.DataType.RENAME_ENTITY,
-
           ...data,
         },
       },
