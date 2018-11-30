@@ -1,10 +1,10 @@
 import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
+import { CommandsActionCreator } from 'store/commands/actions'
 import { removeItem } from '../../utils/storeUtils'
 import { Commands } from '../commands/interface'
 import { App } from '../interface'
 import { Accounts } from './interface'
-import { CommandsActionCreator } from 'store/commands/actions'
 
 const initialState: Accounts.State = {
   byId: {},
@@ -23,7 +23,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
           timestamp,
           data: { id, name },
         },
-      } = action as Commands.Actions.CreateAccountCommand
+      } = action as ReturnType<typeof CommandsActionCreator.createAccount>
 
       const account = Object.keys(state.byId)
         .map(key => state.byId[key])
@@ -75,7 +75,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         payload: {
           data: { entityId },
         },
-      } = action as Commands.Actions.DeleteEntityCommand
+      } = action as ReturnType<typeof CommandsActionCreator.addDeleteEntityCommand>
 
       const allIds = removeItem(state.allIds, entityId)
       const { [entityId]: _, ...byId } = state.byId
@@ -90,7 +90,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         payload: {
           data: { entityId, entity, entityNewName },
         },
-      } = action as Commands.Actions.RenameEntityCommand
+      } = action as ReturnType<typeof CommandsActionCreator.addRenameEntityCommand>
 
       if (entity === Commands.Entity.ACCOUNT) {
         return {

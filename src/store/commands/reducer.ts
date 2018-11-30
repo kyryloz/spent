@@ -1,10 +1,7 @@
-import { includes } from 'lodash'
 import { Reducer } from 'redux'
-import { Accounts } from 'store/accounts/interface'
-import { Categories } from 'store/categories/interface'
 import { App } from '../interface'
-import { Commands } from './interface'
 import { CommandsActionCreator } from './actions'
+import { Commands } from './interface'
 
 const initialState: Commands.State = {
   items: [],
@@ -47,7 +44,7 @@ export const commands: Reducer<Commands.State, App.Action> = (
       }
     }
     case Commands.ActionTypes.COMMAND_ERROR: {
-      const payload = (<Commands.Actions.Error>action).payload
+      const { payload } = action as ReturnType<typeof CommandsActionCreator.error>
 
       return {
         ...state,

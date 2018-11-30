@@ -1,10 +1,10 @@
+import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
+import { CommandsActionCreator } from 'store/commands/actions'
 import { removeItem } from '../../utils/storeUtils'
 import { Commands } from '../commands/interface'
 import { App } from '../interface'
 import { Categories } from './interface'
-import { values, fromPairs } from 'lodash'
-import { CommandsActionCreator } from 'store/commands/actions'
 
 const initialState: Categories.State = {
   byId: {},
@@ -23,7 +23,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
           timestamp,
           data: { id, name },
         },
-      } = action as Commands.Actions.CreateCategoryCommand
+      } = action as ReturnType<typeof CommandsActionCreator.addCreateCategoryCommand>
 
       const category = Object.keys(state.byId)
         .map(key => state.byId[key])
@@ -72,7 +72,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         payload: {
           data: { entityId },
         },
-      } = action as Commands.Actions.DeleteEntityCommand
+      } = action as ReturnType<typeof CommandsActionCreator.addDeleteEntityCommand>
 
       const allIds = removeItem(state.allIds, entityId)
       const { [entityId]: _, ...byId } = state.byId
@@ -87,7 +87,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         payload: {
           data: { entityId, entity, entityNewName },
         },
-      } = action as Commands.Actions.RenameEntityCommand
+      } = action as ReturnType<typeof CommandsActionCreator.addRenameEntityCommand>
 
       if (entity === Commands.Entity.CATEGORY) {
         return {

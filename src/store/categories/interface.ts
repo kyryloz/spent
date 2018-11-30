@@ -10,10 +10,6 @@ export namespace Categories {
 
   export const enum ActionTypes {}
 
-  export type Action = App.Action<any, ActionTypes>
-
-  export namespace Actions {}
-
   export interface Category extends App.Identifiable {
     readonly name: string
     readonly createdAt: number

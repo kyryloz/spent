@@ -13,44 +13,21 @@ const history = createHashHistory()
 
 const store = configureStore(history)
 
-const testAccountAction: Commands.Actions.CreateAccountCommand = {
-  type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
-  payload: {
-    id: 'commandId1',
-    raw: 'create account wallet',
-    timestamp: 1541701827,
-    data: {
-      dataType: Commands.DataType.CREATE_ACCOUNT,
-      id: 'accountId1',
-      name: 'wallet',
-    },
-  },
-}
+const testAccountAction = CommandsActionCreator.createAccount('create account wallet', 'wallet')
 
-const testCategoryAction: Commands.Actions.CreateCategoryCommand = {
-  type: Commands.ActionTypes.COMMAND_CREATE_CATEGORY,
-  payload: {
-    id: 'commandId2',
-    raw: 'create category clothes',
-    timestamp: 1541701828,
-    data: {
-      dataType: Commands.DataType.CREATE_CATEGORY,
-      id: 'categoryId1',
-      name: 'clothes',
-    },
-  },
-}
+const testCategoryAction = CommandsActionCreator.addCreateCategoryCommand(
+  'create category clothes',
+  'clothes'
+)
 
 const testIncomeAction = CommandsActionCreator.income('income 1000 to wallet', {
-  dataType: Commands.DataType.INCOME,
-  accountId: 'accountId1',
+  accountId: testAccountAction.payload.data.id,
   amount: 1000,
 })
 
 const testExpenseAction = CommandsActionCreator.expense('expense 100 on clothes from wallet', {
-  dataType: Commands.DataType.EXPENSE,
-  accountId: 'accountId1',
-  categoryId: 'categoryId1',
+  accountId: testAccountAction.payload.data.id,
+  categoryId: testCategoryAction.payload.data.id,
   amount: 100,
 })
 

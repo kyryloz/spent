@@ -24,29 +24,6 @@ export namespace Commands {
 
   export type Action<Payload> = App.Action<Payload, ActionTypes>
 
-  export namespace Actions {
-    export type Edit = App.Action<App.Identifiable, ActionTypes.COMMAND_EDIT>
-    export type IncomeCommand = App.Action<IncomeData, ActionTypes.COMMAND_INCOME>
-    export type StatusCommand = App.Action<StatusData, ActionTypes.COMMAND_STATUS>
-    export type DeleteEntityCommand = App.Action<
-      DeleteEntityData,
-      ActionTypes.COMMAND_DELETE_ENTITY
-    >
-    export type RenameEntityCommand = App.Action<
-      RenameEntityData,
-      ActionTypes.COMMAND_RENAME_ENTITY
-    >
-    export type CreateAccountCommand = App.Action<
-      CreateAccountData,
-      ActionTypes.COMMAND_CREATE_ACCOUNT
-    >
-    export type CreateCategoryCommand = App.Action<
-      CreateCategoryData,
-      ActionTypes.COMMAND_CREATE_CATEGORY
-    >
-    export type Error = App.Action<ErrorData, ActionTypes.COMMAND_ERROR>
-  }
-
   export const enum DataType {
     EXPENSE = 'EXPENSE',
     INCOME = 'INCOME',
