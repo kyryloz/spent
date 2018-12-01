@@ -17,7 +17,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
   action
 ): Accounts.State => {
   switch (action.type) {
-    case EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT: {
+    case EvaluationActionTypes.CREATE_ACCOUNT: {
       const {
         payload: {
           id: commandId,
@@ -49,8 +49,8 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         }
       }
     }
-    case EvaluationActionTypes.EVALUATION_INCOME:
-    case EvaluationActionTypes.EVALUATION_EXPENSE: {
+    case EvaluationActionTypes.INCOME:
+    case EvaluationActionTypes.EXPENSE: {
       const {
         payload: {
           id,
@@ -71,7 +71,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         },
       }
     }
-    case EvaluationActionTypes.EVALUATION_DELETE_ENTITY: {
+    case EvaluationActionTypes.DELETE_ENTITY: {
       const {
         payload: {
           data: { entityId },
@@ -86,7 +86,7 @@ export const accounts: Reducer<Accounts.State, App.Action> = (
         allIds,
       }
     }
-    case EvaluationActionTypes.EVALUATION_RENAME_ENTITY: {
+    case EvaluationActionTypes.RENAME_ENTITY: {
       const {
         payload: {
           data: { entityId, entity, entityNewName },

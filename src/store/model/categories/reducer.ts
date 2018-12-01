@@ -17,7 +17,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
   action
 ): Categories.State => {
   switch (action.type) {
-    case EvaluationActionTypes.EVALUATION_CREATE_CATEGORY: {
+    case EvaluationActionTypes.CREATE_CATEGORY: {
       const {
         payload: {
           id: commandId,
@@ -49,7 +49,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         }
       }
     }
-    case EvaluationActionTypes.EVALUATION_EXPENSE: {
+    case EvaluationActionTypes.EXPENSE: {
       const {
         payload: {
           id,
@@ -68,7 +68,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         },
       }
     }
-    case EvaluationActionTypes.EVALUATION_DELETE_ENTITY: {
+    case EvaluationActionTypes.DELETE_ENTITY: {
       const {
         payload: {
           data: { entityId },
@@ -83,7 +83,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         allIds,
       }
     }
-    case EvaluationActionTypes.EVALUATION_RENAME_ENTITY: {
+    case EvaluationActionTypes.RENAME_ENTITY: {
       const {
         payload: {
           data: { entityId, entity, entityNewName },

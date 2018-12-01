@@ -1,6 +1,6 @@
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { History } from 'history'
-import { evaluatorMiddleware } from 'parser/evaluatorMiddleware'
+import { evaluationMiddleware } from 'store/evaluation/middleware'
 import { applyMiddleware, createStore, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { App } from 'store/interface'
@@ -12,7 +12,7 @@ export const configureStore = (history: History): Store<App.State> => {
   const store = createStore(
     connectRouter(history)(rootReducer),
     undefined,
-    composeEnhancers(applyMiddleware(routerMiddleware(history), evaluatorMiddleware))
+    composeEnhancers(applyMiddleware(routerMiddleware(history), evaluationMiddleware))
   )
 
   return store

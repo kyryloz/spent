@@ -12,13 +12,13 @@ export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreators.status>
 
 export enum EvaluationActionTypes {
-  EVALUATION_EXPENSE = '@@evaluation/EXPENSE',
-  EVALUATION_INCOME = '@@evaluation/INCOME',
-  EVALUATION_STATUS = '@@evaluation/STATUS',
-  EVALUATION_DELETE_ENTITY = '@@evaluation/DELETE_ENTITY',
-  EVALUATION_RENAME_ENTITY = '@@evaluation/RENAME_ENTITY',
-  EVALUATION_CREATE_ACCOUNT = '@@evaluation/CREATE_ACCOUNT',
-  EVALUATION_CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
+  EXPENSE = '@@evaluation/EXPENSE',
+  INCOME = '@@evaluation/INCOME',
+  STATUS = '@@evaluation/STATUS',
+  DELETE_ENTITY = '@@evaluation/DELETE_ENTITY',
+  RENAME_ENTITY = '@@evaluation/RENAME_ENTITY',
+  CREATE_ACCOUNT = '@@evaluation/CREATE_ACCOUNT',
+  CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
 }
 
 export namespace EvaluationActionCreators {
@@ -31,7 +31,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_EXPENSE,
+      type: EvaluationActionTypes.EXPENSE,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -52,7 +52,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_INCOME,
+      type: EvaluationActionTypes.INCOME,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -67,7 +67,7 @@ export namespace EvaluationActionCreators {
 
   export const createAccount = (raw: string, name: string) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT,
+      type: EvaluationActionTypes.CREATE_ACCOUNT,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -83,7 +83,7 @@ export namespace EvaluationActionCreators {
 
   export const createCategory = (raw: string, name: string) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_CREATE_CATEGORY,
+      type: EvaluationActionTypes.CREATE_CATEGORY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -104,7 +104,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_STATUS,
+      type: EvaluationActionTypes.STATUS,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -126,7 +126,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_DELETE_ENTITY,
+      type: EvaluationActionTypes.DELETE_ENTITY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -149,7 +149,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.EVALUATION_RENAME_ENTITY,
+      type: EvaluationActionTypes.RENAME_ENTITY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),

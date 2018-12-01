@@ -4,16 +4,15 @@ export type CommandAction =
   | ReturnType<typeof CommandsActionCreator.removeCommand>
 
 export const enum CommandsActionTypes {
-  COMMAND_EVALUATE = '@@command/EVALUATE',
-  COMMAND_ERROR = '@@command/ERROR',
+  EVALUATE = '@@command/EVALUATE',
+  ERROR = '@@command/ERROR',
   COMMAND_REMOVE = '@@command/REMOVE',
 }
 
 export namespace CommandsActionCreator {
   export const evaluate = () => {
     return {
-      type: CommandsActionTypes.COMMAND_EVALUATE,
-      payload: {},
+      type: CommandsActionTypes.EVALUATE,
     }
   }
 
@@ -25,7 +24,7 @@ export namespace CommandsActionCreator {
   })
 
   export const error = (human: string) => ({
-    type: CommandsActionTypes.COMMAND_ERROR,
+    type: CommandsActionTypes.ERROR,
     payload: {
       human,
     },

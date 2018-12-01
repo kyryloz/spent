@@ -11,12 +11,12 @@ import { smartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
 import { EvaluationActionCreators } from 'store/evaluation/actions';
 
-export const evaluatorMiddleware: Middleware<
+export const evaluationMiddleware: Middleware<
   {},
   App.State,
   Dispatch<App.Action>
 > = store => next => action => {
-  if (action.type === CommandsActionTypes.COMMAND_EVALUATE) {
+  if (action.type === CommandsActionTypes.EVALUATE) {
     const state = store.getState()
     const input = smartInputSelector.input(state)
 

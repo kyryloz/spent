@@ -34,13 +34,13 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
         focus,
       }
     }
-    case EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT:
-    case EvaluationActionTypes.EVALUATION_CREATE_CATEGORY:
-    case EvaluationActionTypes.EVALUATION_EXPENSE:
-    case EvaluationActionTypes.EVALUATION_INCOME:
-    case EvaluationActionTypes.EVALUATION_DELETE_ENTITY:
-    case EvaluationActionTypes.EVALUATION_RENAME_ENTITY:
-    case EvaluationActionTypes.EVALUATION_STATUS: {
+    case EvaluationActionTypes.CREATE_ACCOUNT:
+    case EvaluationActionTypes.CREATE_CATEGORY:
+    case EvaluationActionTypes.EXPENSE:
+    case EvaluationActionTypes.INCOME:
+    case EvaluationActionTypes.DELETE_ENTITY:
+    case EvaluationActionTypes.RENAME_ENTITY:
+    case EvaluationActionTypes.STATUS: {
       return {
         input: '',
         focus: false,

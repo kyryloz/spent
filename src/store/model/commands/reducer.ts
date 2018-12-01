@@ -16,13 +16,13 @@ export const commands: Reducer<Commands.State, App.Action> = (
   action
 ): Commands.State => {
   switch (action.type) {
-    case EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT:
-    case EvaluationActionTypes.EVALUATION_CREATE_CATEGORY:
-    case EvaluationActionTypes.EVALUATION_EXPENSE:
-    case EvaluationActionTypes.EVALUATION_INCOME:
-    case EvaluationActionTypes.EVALUATION_DELETE_ENTITY:
-    case EvaluationActionTypes.EVALUATION_RENAME_ENTITY:
-    case EvaluationActionTypes.EVALUATION_STATUS: {
+    case EvaluationActionTypes.CREATE_ACCOUNT:
+    case EvaluationActionTypes.CREATE_CATEGORY:
+    case EvaluationActionTypes.EXPENSE:
+    case EvaluationActionTypes.INCOME:
+    case EvaluationActionTypes.DELETE_ENTITY:
+    case EvaluationActionTypes.RENAME_ENTITY:
+    case EvaluationActionTypes.STATUS: {
       return {
         ...state,
         items: [...state.items, action.payload],
@@ -44,7 +44,7 @@ export const commands: Reducer<Commands.State, App.Action> = (
         },
       }
     }
-    case CommandsActionTypes.COMMAND_ERROR: {
+    case CommandsActionTypes.ERROR: {
       const { payload } = action as ReturnType<typeof CommandsActionCreator.error>
 
       return {
