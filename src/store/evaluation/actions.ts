@@ -1,27 +1,27 @@
 import * as moment from 'moment'
+import { Commands } from 'store/model/commands/interface'
 import { uuidv4 } from 'utils/mathUtils'
-import { Commands } from './interface'
 
-export type CommandsActions =
-  | ReturnType<typeof CommandsActionCreator.evaluate>
-  | ReturnType<typeof CommandsActionCreator.createAccount>
-  | ReturnType<typeof CommandsActionCreator.createCategory>
-  | ReturnType<typeof CommandsActionCreator.deleteEntity>
-  | ReturnType<typeof CommandsActionCreator.error>
-  | ReturnType<typeof CommandsActionCreator.expense>
-  | ReturnType<typeof CommandsActionCreator.income>
-  | ReturnType<typeof CommandsActionCreator.removeCommand>
-  | ReturnType<typeof CommandsActionCreator.renameEntity>
-  | ReturnType<typeof CommandsActionCreator.status>
+export type EvaluationAction =
+  | ReturnType<typeof EvaluationActionCreators.createAccount>
+  | ReturnType<typeof EvaluationActionCreators.createCategory>
+  | ReturnType<typeof EvaluationActionCreators.deleteEntity>
+  | ReturnType<typeof EvaluationActionCreators.expense>
+  | ReturnType<typeof EvaluationActionCreators.income>
+  | ReturnType<typeof EvaluationActionCreators.renameEntity>
+  | ReturnType<typeof EvaluationActionCreators.status>
 
-export namespace CommandsActionCreator {
-  export const evaluate = () => {
-    return {
-      type: Commands.ActionTypes.COMMAND_EVALUATE,
-      payload: {}
-    }
-  }
+export enum EvaluationActionTypes {
+  EVALUATION_EXPENSE = '@@evaluation/EXPENSE',
+  EVALUATION_INCOME = '@@evaluation/INCOME',
+  EVALUATION_STATUS = '@@evaluation/STATUS',
+  EVALUATION_DELETE_ENTITY = '@@evaluation/DELETE_ENTITY',
+  EVALUATION_RENAME_ENTITY = '@@evaluation/RENAME_ENTITY',
+  EVALUATION_CREATE_ACCOUNT = '@@evaluation/CREATE_ACCOUNT',
+  EVALUATION_CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
+}
 
+export namespace EvaluationActionCreators {
   export const expense = (
     raw: string,
     data: {
@@ -31,7 +31,7 @@ export namespace CommandsActionCreator {
     }
   ) => {
     return {
-      type: Commands.ActionTypes.COMMAND_EXPENSE,
+      type: EvaluationActionTypes.EVALUATION_EXPENSE,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -52,7 +52,7 @@ export namespace CommandsActionCreator {
     }
   ) => {
     return {
-      type: Commands.ActionTypes.COMMAND_INCOME,
+      type: EvaluationActionTypes.EVALUATION_INCOME,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -67,14 +67,13 @@ export namespace CommandsActionCreator {
 
   export const createAccount = (raw: string, name: string) => {
     return {
-      type: Commands.ActionTypes.COMMAND_CREATE_ACCOUNT,
+      type: EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
         raw,
         data: {
           dataType: Commands.DataType.CREATE_ACCOUNT,
-
           id: uuidv4(),
           name,
         },
@@ -84,14 +83,13 @@ export namespace CommandsActionCreator {
 
   export const createCategory = (raw: string, name: string) => {
     return {
-      type: Commands.ActionTypes.COMMAND_CREATE_CATEGORY,
+      type: EvaluationActionTypes.EVALUATION_CREATE_CATEGORY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
         raw,
         data: {
           dataType: Commands.DataType.CREATE_CATEGORY,
-
           id: uuidv4(),
           name,
         },
@@ -106,7 +104,7 @@ export namespace CommandsActionCreator {
     }
   ) => {
     return {
-      type: Commands.ActionTypes.COMMAND_STATUS,
+      type: EvaluationActionTypes.EVALUATION_STATUS,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -128,7 +126,7 @@ export namespace CommandsActionCreator {
     }
   ) => {
     return {
-      type: Commands.ActionTypes.COMMAND_DELETE_ENTITY,
+      type: EvaluationActionTypes.EVALUATION_DELETE_ENTITY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -151,7 +149,7 @@ export namespace CommandsActionCreator {
     }
   ) => {
     return {
-      type: Commands.ActionTypes.COMMAND_RENAME_ENTITY,
+      type: EvaluationActionTypes.EVALUATION_RENAME_ENTITY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -163,18 +161,4 @@ export namespace CommandsActionCreator {
       },
     }
   }
-
-  export const removeCommand = (id: string) => ({
-    type: Commands.ActionTypes.COMMAND_REMOVE,
-    payload: {
-      id,
-    },
-  })
-
-  export const error = (human: string) => ({
-    type: Commands.ActionTypes.COMMAND_ERROR,
-    payload: {
-      human,
-    },
-  })
 }

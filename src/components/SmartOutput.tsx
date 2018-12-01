@@ -3,10 +3,10 @@ import { createWidget } from 'components/widgets/widgetFactory'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Commands } from 'store/commands/interface'
-import { commandsSelector } from 'store/commands/selectors'
+import { Commands } from 'store/model/commands/interface'
+import { commandsSelector } from 'store/model/commands/selectors'
 import { App } from 'store/interface'
-import { SmartInputActionCreator } from 'store/ui/smartInput/actions'
+import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>

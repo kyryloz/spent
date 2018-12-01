@@ -1,4 +1,4 @@
-import { App } from '../interface'
+import { App } from 'store/interface'
 
 export namespace Commands {
   export interface State {
@@ -7,22 +7,6 @@ export namespace Commands {
       human: string
     }
   }
-
-  export const enum ActionTypes {
-    COMMAND_EVALUATE = '@@command/EVALUATE',
-    COMMAND_ERROR = '@@command/ERROR',
-    COMMAND_REMOVE = '@@command/REMOVE',
-    COMMAND_EDIT = '@@command/EDIT',
-    COMMAND_EXPENSE = '@@command/EXPENSE',
-    COMMAND_INCOME = '@@command/INCOME',
-    COMMAND_STATUS = '@@command/STATUS',
-    COMMAND_DELETE_ENTITY = '@@command/DELETE_ENTITY',
-    COMMAND_RENAME_ENTITY = '@@command/RENAME_ENTITY',
-    COMMAND_CREATE_ACCOUNT = '@@command/CREATE_ACCOUNT',
-    COMMAND_CREATE_CATEGORY = '@@command/CREATE_CATEGORY',
-  }
-
-  export type Action<Payload> = App.Action<Payload, ActionTypes>
 
   export const enum DataType {
     EXPENSE = 'EXPENSE',

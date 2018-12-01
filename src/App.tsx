@@ -3,9 +3,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { CommandsActionCreator } from 'store/commands/actions'
+import { EvaluationActionCreators } from 'store/evaluation/actions'
 import { Routes } from './routes'
-import { Commands } from './store/commands/interface'
 import { configureStore } from './store/configureStore'
 import { spentTheme } from './theme'
 
@@ -13,19 +12,19 @@ const history = createHashHistory()
 
 const store = configureStore(history)
 
-const testAccountAction = CommandsActionCreator.createAccount('create account wallet', 'wallet')
+const testAccountAction = EvaluationActionCreators.createAccount('create account wallet', 'wallet')
 
-const testCategoryAction = CommandsActionCreator.createCategory(
+const testCategoryAction = EvaluationActionCreators.createCategory(
   'create category clothes',
   'clothes'
 )
 
-const testIncomeAction = CommandsActionCreator.income('income 1000 to wallet', {
+const testIncomeAction = EvaluationActionCreators.income('income 1000 to wallet', {
   accountId: testAccountAction.payload.data.id,
   amount: 1000,
 })
 
-const testExpenseAction = CommandsActionCreator.expense('expense 100 on clothes from wallet', {
+const testExpenseAction = EvaluationActionCreators.expense('expense 100 on clothes from wallet', {
   accountId: testAccountAction.payload.data.id,
   categoryId: testCategoryAction.payload.data.id,
   amount: 100,

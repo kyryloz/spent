@@ -1,4 +1,4 @@
-import { App } from '../interface'
+import { App } from 'store/interface'
 
 export namespace Categories {
   export interface State {
@@ -7,8 +7,6 @@ export namespace Categories {
     }
     readonly allIds: Array<string>
   }
-
-  export const enum ActionTypes {}
 
   export interface Category extends App.Identifiable {
     readonly name: string

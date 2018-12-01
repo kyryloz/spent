@@ -1,4 +1,4 @@
-import { App } from '../interface'
+import { App } from 'store/interface'
 import { createSelector } from 'reselect'
 
 export namespace commandsSelector {

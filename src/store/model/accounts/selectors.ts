@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 import { calculateBalance } from 'utils/selectorUtils'
 import { Commands } from '../commands/interface'
 import { commandsSelector } from '../commands/selectors'
-import { App } from '../interface'
+import { App } from 'store/interface'
 
 export namespace accountsSelector {
   export const byId = (state: App.State) => state.entities.accounts.byId

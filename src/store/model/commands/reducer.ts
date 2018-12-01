@@ -1,7 +1,8 @@
 import { Reducer } from 'redux'
-import { App } from '../interface'
-import { CommandsActionCreator } from './actions'
-import { Commands } from './interface'
+import { App } from 'store/interface'
+import { CommandsActionCreator, CommandsActionTypes } from 'store/model/commands/actions'
+import { Commands } from 'store/model/commands/interface'
+import { EvaluationActionTypes } from 'store/evaluation/actions';
 
 const initialState: Commands.State = {
   items: [],
@@ -15,13 +16,13 @@ export const commands: Reducer<Commands.State, App.Action> = (
   action
 ): Commands.State => {
   switch (action.type) {
-    case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT:
-    case Commands.ActionTypes.COMMAND_CREATE_CATEGORY:
-    case Commands.ActionTypes.COMMAND_EXPENSE:
-    case Commands.ActionTypes.COMMAND_INCOME:
-    case Commands.ActionTypes.COMMAND_DELETE_ENTITY:
-    case Commands.ActionTypes.COMMAND_RENAME_ENTITY:
-    case Commands.ActionTypes.COMMAND_STATUS: {
+    case EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT:
+    case EvaluationActionTypes.EVALUATION_CREATE_CATEGORY:
+    case EvaluationActionTypes.EVALUATION_EXPENSE:
+    case EvaluationActionTypes.EVALUATION_INCOME:
+    case EvaluationActionTypes.EVALUATION_DELETE_ENTITY:
+    case EvaluationActionTypes.EVALUATION_RENAME_ENTITY:
+    case EvaluationActionTypes.EVALUATION_STATUS: {
       return {
         ...state,
         items: [...state.items, action.payload],
@@ -30,7 +31,7 @@ export const commands: Reducer<Commands.State, App.Action> = (
         },
       }
     }
-    case Commands.ActionTypes.COMMAND_REMOVE: {
+    case CommandsActionTypes.COMMAND_REMOVE: {
       const {
         payload: { id },
       } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
@@ -43,7 +44,7 @@ export const commands: Reducer<Commands.State, App.Action> = (
         },
       }
     }
-    case Commands.ActionTypes.COMMAND_ERROR: {
+    case CommandsActionTypes.COMMAND_ERROR: {
       const { payload } = action as ReturnType<typeof CommandsActionCreator.error>
 
       return {

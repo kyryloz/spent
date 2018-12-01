@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
-import { Commands } from 'store/commands/interface'
+import { EvaluationActionTypes } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { SmartInputActionCreator } from './actions'
-import { SmartInput } from './interface'
+import { SmartInput } from 'store/model/ui/smartInput/interface'
+import { SmartInputActionCreator, SmartInputActionTypes } from './actions'
 
 const initialState: SmartInput.State = {
   input: '',
@@ -14,7 +14,7 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
   action
 ): SmartInput.State => {
   switch (action.type) {
-    case SmartInput.ActionTypes.SET_INPUT: {
+    case SmartInputActionTypes.SET_INPUT: {
       const {
         payload: { input },
       } = action as ReturnType<typeof SmartInputActionCreator.setInput>
@@ -24,7 +24,7 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
         input,
       }
     }
-    case SmartInput.ActionTypes.SET_FOCUS: {
+    case SmartInputActionTypes.SET_FOCUS: {
       const {
         payload: { focus },
       } = action as ReturnType<typeof SmartInputActionCreator.setFocus>
@@ -34,14 +34,13 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
         focus,
       }
     }
-    case Commands.ActionTypes.COMMAND_CREATE_ACCOUNT:
-    case Commands.ActionTypes.COMMAND_CREATE_CATEGORY:
-    case Commands.ActionTypes.COMMAND_EXPENSE:
-    case Commands.ActionTypes.COMMAND_INCOME:
-    case Commands.ActionTypes.COMMAND_DELETE_ENTITY:
-    case Commands.ActionTypes.COMMAND_RENAME_ENTITY:
-    case Commands.ActionTypes.COMMAND_REMOVE:
-    case Commands.ActionTypes.COMMAND_STATUS: {
+    case EvaluationActionTypes.EVALUATION_CREATE_ACCOUNT:
+    case EvaluationActionTypes.EVALUATION_CREATE_CATEGORY:
+    case EvaluationActionTypes.EVALUATION_EXPENSE:
+    case EvaluationActionTypes.EVALUATION_INCOME:
+    case EvaluationActionTypes.EVALUATION_DELETE_ENTITY:
+    case EvaluationActionTypes.EVALUATION_RENAME_ENTITY:
+    case EvaluationActionTypes.EVALUATION_STATUS: {
       return {
         input: '',
         focus: false,

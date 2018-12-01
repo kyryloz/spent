@@ -1,21 +1,22 @@
 import { parseGrammar } from 'parser/parser'
 import { runSemantic } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
-import { accountsSelector } from 'store/accounts/selectors'
-import { categoriesSelector } from 'store/categories/selectors'
-import { CommandsActionCreator } from 'store/commands/actions'
-import { Commands } from 'store/commands/interface'
-import { commandsSelector } from 'store/commands/selectors'
+import { accountsSelector } from 'store/model/accounts/selectors'
+import { categoriesSelector } from 'store/model/categories/selectors'
+import { CommandsActionCreator, CommandsActionTypes } from 'store/model/commands/actions'
+import { Commands } from 'store/model/commands/interface'
+import { commandsSelector } from 'store/model/commands/selectors'
 import { App } from 'store/interface'
-import { smartInputSelector } from 'store/ui/smartInput/selectors'
+import { smartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
+import { EvaluationActionCreators } from 'store/evaluation/actions';
 
 export const evaluatorMiddleware: Middleware<
   {},
   App.State,
   Dispatch<App.Action>
 > = store => next => action => {
-  if (action.type === Commands.ActionTypes.COMMAND_EVALUATE) {
+  if (action.type === CommandsActionTypes.COMMAND_EVALUATE) {
     const state = store.getState()
     const input = smartInputSelector.input(state)
 
@@ -76,7 +77,7 @@ const evaluateCreate = (
       if (account) {
         action = CommandsActionCreator.error(`Account '${name}' is already existed`)
       } else {
-        action = CommandsActionCreator.createAccount(input, name)
+        action = EvaluationActionCreators.createAccount(input, name)
       }
       break
     case 'category':
@@ -85,7 +86,7 @@ const evaluateCreate = (
       if (category) {
         action = CommandsActionCreator.error(`Category '${name}' is already existed`)
       } else {
-        action = CommandsActionCreator.createCategory(input, name)
+        action = EvaluationActionCreators.createCategory(input, name)
       }
       break
     default:
@@ -116,7 +117,7 @@ const evaluateExpense = (
     return CommandsActionCreator.error(`Account '${accountName}' not found`)
   }
 
-  return CommandsActionCreator.expense(input, {
+  return EvaluationActionCreators.expense(input, {
     categoryId,
     accountId,
     amount,
@@ -132,7 +133,7 @@ const evaluateIncome = (
   const account = accountsSelector.findByName(accountName)(state)
   const accountId = account ? account.id : 'not found'
 
-  return CommandsActionCreator.income(input, {
+  return EvaluationActionCreators.income(input, {
     accountId,
     amount,
   })
@@ -151,7 +152,7 @@ const evaluateStatus = (input: string, what: string): App.Action => {
       throw new Error(`Unknown entity: ${what}`)
   }
 
-  return CommandsActionCreator.status(input, { entity })
+  return EvaluationActionCreators.status(input, { entity })
 }
 
 const evaluateRename = (
@@ -170,7 +171,7 @@ const evaluateRename = (
       if (!account) {
         action = CommandsActionCreator.error(`You do not have '${oldName}' account`)
       } else {
-        action = CommandsActionCreator.renameEntity(input, {
+        action = EvaluationActionCreators.renameEntity(input, {
           entity: Commands.Entity.ACCOUNT,
           entityId: account.id,
           entityOldName: oldName,
@@ -185,7 +186,7 @@ const evaluateRename = (
       if (!category) {
         action = CommandsActionCreator.error(`You do not have '${oldName}' category`)
       } else {
-        action = CommandsActionCreator.renameEntity(input, {
+        action = EvaluationActionCreators.renameEntity(input, {
           entity: Commands.Entity.CATEGORY,
           entityId: category.id,
           entityOldName: oldName,
@@ -219,7 +220,7 @@ const evaluateRemove = (
       } else {
         actions.push(...account.commandIds.map(id => CommandsActionCreator.removeCommand(id)))
         actions.push(
-          CommandsActionCreator.deleteEntity(input, {
+          EvaluationActionCreators.deleteEntity(input, {
             entity: Commands.Entity.ACCOUNT,
             entityId: account.id,
             entityName: name,
@@ -235,7 +236,7 @@ const evaluateRemove = (
       } else {
         actions.push(...category.commandIds.map(id => CommandsActionCreator.removeCommand(id)))
         actions.push(
-          CommandsActionCreator.deleteEntity(input, {
+          EvaluationActionCreators.deleteEntity(input, {
             entity: Commands.Entity.CATEGORY,
             entityId: category.id,
             entityName: name,

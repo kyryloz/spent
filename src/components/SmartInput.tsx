@@ -6,15 +6,15 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core'
-import { flow, isEmpty } from 'lodash'
+import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { CommandsActionCreator } from 'store/commands/actions'
-import { Commands } from 'store/commands/interface'
-import { commandsSelector } from 'store/commands/selectors'
 import { App } from 'store/interface'
-import { SmartInputActionCreator } from 'store/ui/smartInput/actions'
-import { smartInputSelector } from 'store/ui/smartInput/selectors'
+import { CommandsActionCreator } from 'store/model/commands/actions'
+import { Commands } from 'store/model/commands/interface'
+import { commandsSelector } from 'store/model/commands/selectors'
+import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
+import { smartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>

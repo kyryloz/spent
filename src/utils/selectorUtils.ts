@@ -1,4 +1,4 @@
-import { Commands } from 'store/commands/interface'
+import { Commands } from 'store/model/commands/interface'
 
 export const calculateBalance = (
   commands: Array<Commands.CommandData>,
