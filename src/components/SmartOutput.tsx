@@ -4,7 +4,7 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { CommandModel } from 'store/model/command/interface'
-import { commandsSelector } from 'store/model/command/selectors'
+import { CommandSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { Classes } from 'utils/styleUtils'
@@ -60,7 +60,7 @@ const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({
 export const SmartOutput = flow(
   connect<StateProps, DispatchProps, {}, App.State>(
     state => ({
-      commands: commandsSelector.items(state),
+      commands: CommandSelector.items(state),
     }),
     dispatch => ({
       editCommand: command => {

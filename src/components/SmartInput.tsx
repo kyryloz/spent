@@ -10,11 +10,11 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
-import { CommandsActionCreator } from 'store/model/command/actions'
+import { CommandActionCreator } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
-import { commandsSelector } from 'store/model/command/selectors'
+import { CommandSelector } from 'store/model/command/selectors'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
-import { smartInputSelector } from 'store/model/ui/smartInput/selectors'
+import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -134,12 +134,12 @@ export const SmartInput = flow(
   withStyles(styles),
   connect<StateProps, DispatchProps, {}, App.State>(
     state => ({
-      error: commandsSelector.error(state),
-      input: smartInputSelector.input(state),
-      focus: smartInputSelector.focus(state),
+      error: CommandSelector.error(state),
+      input: SmartInputSelector.input(state),
+      focus: SmartInputSelector.focus(state),
     }),
     dispatch => ({
-      evaluateInput: () => dispatch(CommandsActionCreator.evaluate()),
+      evaluateInput: () => dispatch(CommandActionCreator.evaluate()),
       setInput: (input: string) => dispatch(SmartInputActionCreator.setInput(input)),
       setFocus: (focus: boolean) => dispatch(SmartInputActionCreator.setFocus(focus)),
     })

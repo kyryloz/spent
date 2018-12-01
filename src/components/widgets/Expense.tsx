@@ -4,8 +4,8 @@ import EditIcon from '@material-ui/icons/EditSharp'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { accountsSelector } from 'store/model/account/selectors'
-import { categoriesSelector } from 'store/model/category/selectors'
+import { AccountSelector } from 'store/model/account/selectors'
+import { CategorySelector } from 'store/model/category/selectors'
 import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
@@ -109,17 +109,17 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
 export const Expense = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
-    accountBalance: accountsSelector.balance(
+    accountBalance: AccountSelector.balance(
       ownProps.command.data.accountId,
       0,
       ownProps.command.timestamp
     )(state),
-    categoryExpenses: categoriesSelector.expense(
+    categoryExpenses: CategorySelector.expense(
       ownProps.command.data.categoryId,
       0,
       ownProps.command.timestamp
     )(state),
-    accountName: accountsSelector.findById(ownProps.command.data.accountId)(state),
-    categoryName: categoriesSelector.findById(ownProps.command.data.categoryId)(state),
+    accountName: AccountSelector.findById(ownProps.command.data.accountId)(state),
+    categoryName: CategorySelector.findById(ownProps.command.data.categoryId)(state),
   }))
 )(ExpenseCmp)

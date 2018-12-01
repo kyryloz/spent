@@ -4,7 +4,7 @@ import EditIcon from '@material-ui/icons/EditSharp'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { accountsSelector } from 'store/model/account/selectors'
+import { AccountSelector } from 'store/model/account/selectors'
 import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
@@ -95,11 +95,11 @@ const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
 export const Income = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
-    accountBalance: accountsSelector.balance(
+    accountBalance: AccountSelector.balance(
       ownProps.command.data.accountId,
       0,
       ownProps.command.timestamp
     )(state),
-    accountName: accountsSelector.findById(ownProps.command.data.accountId)(state),
+    accountName: AccountSelector.findById(ownProps.command.data.accountId)(state),
   }))
 )(IncomeCmp)

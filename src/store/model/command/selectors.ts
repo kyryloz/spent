@@ -1,7 +1,7 @@
 import { App } from 'store/interface'
 import { createSelector } from 'reselect'
 
-export namespace commandsSelector {
+export namespace CommandSelector {
   export const items = (state: App.State) => state.commands.items
 
   export const findById = (id: string) =>

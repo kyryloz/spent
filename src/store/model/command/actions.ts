@@ -1,30 +1,30 @@
 export type CommandAction =
-  | ReturnType<typeof CommandsActionCreator.evaluate>
-  | ReturnType<typeof CommandsActionCreator.error>
-  | ReturnType<typeof CommandsActionCreator.removeCommand>
+  | ReturnType<typeof CommandActionCreator.evaluate>
+  | ReturnType<typeof CommandActionCreator.error>
+  | ReturnType<typeof CommandActionCreator.removeCommand>
 
-export const enum CommandsActionTypes {
+export const enum CommandActionType {
   EVALUATE = '@@command/EVALUATE',
   ERROR = '@@command/ERROR',
   COMMAND_REMOVE = '@@command/REMOVE',
 }
 
-export namespace CommandsActionCreator {
+export namespace CommandActionCreator {
   export const evaluate = () => {
     return {
-      type: CommandsActionTypes.EVALUATE,
+      type: CommandActionType.EVALUATE,
     }
   }
 
   export const removeCommand = (id: string) => ({
-    type: CommandsActionTypes.COMMAND_REMOVE,
+    type: CommandActionType.COMMAND_REMOVE,
     payload: {
       id,
     },
   })
 
   export const error = (human: string) => ({
-    type: CommandsActionTypes.ERROR,
+    type: CommandActionType.ERROR,
     payload: {
       human,
     },

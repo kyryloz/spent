@@ -2,14 +2,14 @@ import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
 import { calculateBalance } from 'utils/selectorUtils'
 import { CommandModel } from 'store/model/command/interface'
-import { commandsSelector } from 'store/model/command/selectors'
+import { CommandSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
 
-export namespace accountsSelector {
+export namespace AccountSelector {
   export const byId = (state: App.State) => state.entities.accounts.byId
 
   const commandIds = (accountId: string) =>
-    createSelector([byId, commandsSelector.items], (byId, items) => {
+    createSelector([byId, CommandSelector.items], (byId, items) => {
       return byId[accountId].commandIds.map(commandId => items.find(item => item.id === commandId)!)
     })
 

@@ -1,8 +1,8 @@
 import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
-import { EvaluationActionCreators, EvaluationActionTypes } from 'store/evaluation/actions'
+import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandsActionCreator, CommandsActionTypes } from 'store/model/command/actions'
+import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
 import { CategoryModel } from './interface'
@@ -17,14 +17,14 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
   action
 ): CategoryModel.State => {
   switch (action.type) {
-    case EvaluationActionTypes.CREATE_CATEGORY: {
+    case EvaluationActionType.CREATE_CATEGORY: {
       const {
         payload: {
           id: commandId,
           timestamp,
           data: { id, name },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.createCategory>
+      } = action as ReturnType<typeof EvaluationActionCreator.createCategory>
 
       const category = Object.keys(state.byId)
         .map(key => state.byId[key])
@@ -49,13 +49,13 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         }
       }
     }
-    case EvaluationActionTypes.EXPENSE: {
+    case EvaluationActionType.EXPENSE: {
       const {
         payload: {
           id,
           data: { categoryId },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.expense>
+      } = action as ReturnType<typeof EvaluationActionCreator.expense>
 
       return {
         ...state,
@@ -68,12 +68,12 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         },
       }
     }
-    case EvaluationActionTypes.DELETE_ENTITY: {
+    case EvaluationActionType.DELETE_ENTITY: {
       const {
         payload: {
           data: { entityId },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.deleteEntity>
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
 
       const allIds = removeItem(state.allIds, entityId)
       const { [entityId]: _, ...byId } = state.byId
@@ -83,12 +83,12 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         allIds,
       }
     }
-    case EvaluationActionTypes.RENAME_ENTITY: {
+    case EvaluationActionType.RENAME_ENTITY: {
       const {
         payload: {
           data: { entityId, entity, entityNewName },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.renameEntity>
+      } = action as ReturnType<typeof EvaluationActionCreator.renameEntity>
 
       if (entity === CommandModel.Entity.CATEGORY) {
         return {
@@ -104,10 +104,10 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         return state
       }
     }
-    case CommandsActionTypes.COMMAND_REMOVE: {
+    case CommandActionType.COMMAND_REMOVE: {
       const {
         payload: { id },
-      } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
+      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
 
       const categories = values(state.byId)
         .map(category => ({

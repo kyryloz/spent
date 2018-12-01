@@ -1,6 +1,6 @@
 import { App } from 'store/interface'
 
-export namespace smartInputSelector {
+export namespace SmartInputSelector {
   export const input = (state: App.State) => state.ui.smartInput.input
 
   export const focus = (state: App.State) => state.ui.smartInput.focus

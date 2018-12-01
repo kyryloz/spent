@@ -1,9 +1,9 @@
 import { Reducer } from 'redux'
-import { EvaluationActionTypes } from 'store/evaluation/actions'
+import { EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandsActionTypes } from 'store/model/command/actions'
+import { CommandActionType } from 'store/model/command/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
-import { SmartInputActionCreator, SmartInputActionTypes } from './actions'
+import { SmartInputActionCreator, SmartInputActionType } from './actions'
 
 const initialState: SmartInputModel.State = {
   input: '',
@@ -15,7 +15,7 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
   action
 ): SmartInputModel.State => {
   switch (action.type) {
-    case SmartInputActionTypes.SET_INPUT: {
+    case SmartInputActionType.SET_INPUT: {
       const {
         payload: { input },
       } = action as ReturnType<typeof SmartInputActionCreator.setInput>
@@ -25,7 +25,7 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         input,
       }
     }
-    case SmartInputActionTypes.SET_FOCUS: {
+    case SmartInputActionType.SET_FOCUS: {
       const {
         payload: { focus },
       } = action as ReturnType<typeof SmartInputActionCreator.setFocus>
@@ -35,14 +35,14 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         focus,
       }
     }
-    case CommandsActionTypes.COMMAND_REMOVE:
-    case EvaluationActionTypes.CREATE_ACCOUNT:
-    case EvaluationActionTypes.CREATE_CATEGORY:
-    case EvaluationActionTypes.EXPENSE:
-    case EvaluationActionTypes.INCOME:
-    case EvaluationActionTypes.DELETE_ENTITY:
-    case EvaluationActionTypes.RENAME_ENTITY:
-    case EvaluationActionTypes.STATUS: {
+    case CommandActionType.COMMAND_REMOVE:
+    case EvaluationActionType.CREATE_ACCOUNT:
+    case EvaluationActionType.CREATE_CATEGORY:
+    case EvaluationActionType.EXPENSE:
+    case EvaluationActionType.INCOME:
+    case EvaluationActionType.DELETE_ENTITY:
+    case EvaluationActionType.RENAME_ENTITY:
+    case EvaluationActionType.STATUS: {
       return {
         input: '',
         focus: false,

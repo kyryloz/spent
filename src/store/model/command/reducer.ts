@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
-import { CommandsActionCreator, CommandsActionTypes } from 'store/model/command/actions'
+import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
-import { EvaluationActionTypes } from 'store/evaluation/actions';
+import { EvaluationActionType } from 'store/evaluation/actions';
 
 const initialState: CommandModel.State = {
   items: [],
@@ -16,13 +16,13 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
   action
 ): CommandModel.State => {
   switch (action.type) {
-    case EvaluationActionTypes.CREATE_ACCOUNT:
-    case EvaluationActionTypes.CREATE_CATEGORY:
-    case EvaluationActionTypes.EXPENSE:
-    case EvaluationActionTypes.INCOME:
-    case EvaluationActionTypes.DELETE_ENTITY:
-    case EvaluationActionTypes.RENAME_ENTITY:
-    case EvaluationActionTypes.STATUS: {
+    case EvaluationActionType.CREATE_ACCOUNT:
+    case EvaluationActionType.CREATE_CATEGORY:
+    case EvaluationActionType.EXPENSE:
+    case EvaluationActionType.INCOME:
+    case EvaluationActionType.DELETE_ENTITY:
+    case EvaluationActionType.RENAME_ENTITY:
+    case EvaluationActionType.STATUS: {
       return {
         ...state,
         items: [...state.items, action.payload],
@@ -31,10 +31,10 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
         },
       }
     }
-    case CommandsActionTypes.COMMAND_REMOVE: {
+    case CommandActionType.COMMAND_REMOVE: {
       const {
         payload: { id },
-      } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
+      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
 
       return {
         ...state,
@@ -44,8 +44,8 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
         },
       }
     }
-    case CommandsActionTypes.ERROR: {
-      const { payload } = action as ReturnType<typeof CommandsActionCreator.error>
+    case CommandActionType.ERROR: {
+      const { payload } = action as ReturnType<typeof CommandActionCreator.error>
 
       return {
         ...state,

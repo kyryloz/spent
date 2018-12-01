@@ -2,7 +2,7 @@ import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import { flow, isEmpty, toPairs } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { categoriesSelector } from 'store/model/category/selectors'
+import { CategorySelector } from 'store/model/category/selectors'
 import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
@@ -60,6 +60,6 @@ const StatusCategoriesCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
 export const StatusCategories = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
-    categories: categoriesSelector.expenses(0, ownProps.command.timestamp)(state),
+    categories: CategorySelector.expenses(0, ownProps.command.timestamp)(state),
   }))
 )(StatusCategoriesCmp)

@@ -3,7 +3,7 @@ import { CategoryModel } from 'store/model/category/interface'
 import { CommandAction } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
-import { SmartInputActions } from 'store/model/ui/smartInput/actions'
+import { SmartInputAction } from 'store/model/ui/smartInput/actions'
 import { EvaluationAction } from './evaluation/actions';
 
 export namespace App {
@@ -18,7 +18,7 @@ export namespace App {
     readonly commands: CommandModel.State
   }
 
-  export type Action = CommandAction | SmartInputActions | EvaluationAction
+  export type Action = CommandAction | SmartInputAction | EvaluationAction
 
   export interface Identifiable {
     id: string

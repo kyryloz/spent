@@ -1,8 +1,8 @@
 import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
-import { EvaluationActionCreators, EvaluationActionTypes } from 'store/evaluation/actions'
+import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandsActionCreator, CommandsActionTypes } from 'store/model/command/actions'
+import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
 import { AccountModel } from './interface'
@@ -17,14 +17,14 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
   action
 ): AccountModel.State => {
   switch (action.type) {
-    case EvaluationActionTypes.CREATE_ACCOUNT: {
+    case EvaluationActionType.CREATE_ACCOUNT: {
       const {
         payload: {
           id: commandId,
           timestamp,
           data: { id, name },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.createAccount>
+      } = action as ReturnType<typeof EvaluationActionCreator.createAccount>
 
       const account = Object.keys(state.byId)
         .map(key => state.byId[key])
@@ -49,16 +49,16 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         }
       }
     }
-    case EvaluationActionTypes.INCOME:
-    case EvaluationActionTypes.EXPENSE: {
+    case EvaluationActionType.INCOME:
+    case EvaluationActionType.EXPENSE: {
       const {
         payload: {
           id,
           data: { accountId },
         },
       } = action as
-        | ReturnType<typeof EvaluationActionCreators.expense>
-        | ReturnType<typeof EvaluationActionCreators.income>
+        | ReturnType<typeof EvaluationActionCreator.expense>
+        | ReturnType<typeof EvaluationActionCreator.income>
 
       return {
         ...state,
@@ -71,12 +71,12 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         },
       }
     }
-    case EvaluationActionTypes.DELETE_ENTITY: {
+    case EvaluationActionType.DELETE_ENTITY: {
       const {
         payload: {
           data: { entityId },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.deleteEntity>
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
 
       const allIds = removeItem(state.allIds, entityId)
       const { [entityId]: _, ...byId } = state.byId
@@ -86,12 +86,12 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         allIds,
       }
     }
-    case EvaluationActionTypes.RENAME_ENTITY: {
+    case EvaluationActionType.RENAME_ENTITY: {
       const {
         payload: {
           data: { entityId, entity, entityNewName },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.renameEntity>
+      } = action as ReturnType<typeof EvaluationActionCreator.renameEntity>
 
       if (entity === CommandModel.Entity.ACCOUNT) {
         return {
@@ -107,10 +107,10 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         return state
       }
     }
-    case CommandsActionTypes.COMMAND_REMOVE: {
+    case CommandActionType.COMMAND_REMOVE: {
       const {
         payload: { id },
-      } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
+      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
 
       const accounts = values(state.byId)
         .map(account => ({

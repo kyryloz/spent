@@ -3,15 +3,15 @@ import { CommandModel } from 'store/model/command/interface'
 import { uuidv4 } from 'utils/mathUtils'
 
 export type EvaluationAction =
-  | ReturnType<typeof EvaluationActionCreators.createAccount>
-  | ReturnType<typeof EvaluationActionCreators.createCategory>
-  | ReturnType<typeof EvaluationActionCreators.deleteEntity>
-  | ReturnType<typeof EvaluationActionCreators.expense>
-  | ReturnType<typeof EvaluationActionCreators.income>
-  | ReturnType<typeof EvaluationActionCreators.renameEntity>
-  | ReturnType<typeof EvaluationActionCreators.status>
+  | ReturnType<typeof EvaluationActionCreator.createAccount>
+  | ReturnType<typeof EvaluationActionCreator.createCategory>
+  | ReturnType<typeof EvaluationActionCreator.deleteEntity>
+  | ReturnType<typeof EvaluationActionCreator.expense>
+  | ReturnType<typeof EvaluationActionCreator.income>
+  | ReturnType<typeof EvaluationActionCreator.renameEntity>
+  | ReturnType<typeof EvaluationActionCreator.status>
 
-export enum EvaluationActionTypes {
+export enum EvaluationActionType {
   EXPENSE = '@@evaluation/EXPENSE',
   INCOME = '@@evaluation/INCOME',
   STATUS = '@@evaluation/STATUS',
@@ -21,7 +21,7 @@ export enum EvaluationActionTypes {
   CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
 }
 
-export namespace EvaluationActionCreators {
+export namespace EvaluationActionCreator {
   export const expense = (
     raw: string,
     data: {
@@ -31,7 +31,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.EXPENSE,
+      type: EvaluationActionType.EXPENSE,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -52,7 +52,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.INCOME,
+      type: EvaluationActionType.INCOME,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -67,7 +67,7 @@ export namespace EvaluationActionCreators {
 
   export const createAccount = (raw: string, name: string) => {
     return {
-      type: EvaluationActionTypes.CREATE_ACCOUNT,
+      type: EvaluationActionType.CREATE_ACCOUNT,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -83,7 +83,7 @@ export namespace EvaluationActionCreators {
 
   export const createCategory = (raw: string, name: string) => {
     return {
-      type: EvaluationActionTypes.CREATE_CATEGORY,
+      type: EvaluationActionType.CREATE_CATEGORY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -104,7 +104,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.STATUS,
+      type: EvaluationActionType.STATUS,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -126,7 +126,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.DELETE_ENTITY,
+      type: EvaluationActionType.DELETE_ENTITY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
@@ -149,7 +149,7 @@ export namespace EvaluationActionCreators {
     }
   ) => {
     return {
-      type: EvaluationActionTypes.RENAME_ENTITY,
+      type: EvaluationActionType.RENAME_ENTITY,
       payload: {
         id: uuidv4(),
         timestamp: moment().unix(),
