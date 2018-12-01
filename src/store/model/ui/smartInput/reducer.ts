@@ -1,6 +1,7 @@
 import { Reducer } from 'redux'
 import { EvaluationActionTypes } from 'store/evaluation/actions'
 import { App } from 'store/interface'
+import { CommandsActionTypes } from 'store/model/commands/actions'
 import { SmartInput } from 'store/model/ui/smartInput/interface'
 import { SmartInputActionCreator, SmartInputActionTypes } from './actions'
 
@@ -34,6 +35,7 @@ export const smartInput: Reducer<SmartInput.State, App.Action> = (
         focus,
       }
     }
+    case CommandsActionTypes.COMMAND_REMOVE:
     case EvaluationActionTypes.CREATE_ACCOUNT:
     case EvaluationActionTypes.CREATE_CATEGORY:
     case EvaluationActionTypes.EXPENSE:
