@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { Commands } from 'store/model/commands/interface'
+import { CommandModel } from 'store/model/command/interface'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: Commands.CreateCategoryData
+  command: CommandModel.CreateCategoryData
 }
 
 interface StyleProps {

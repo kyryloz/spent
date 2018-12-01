@@ -1,6 +1,6 @@
 import { App } from 'store/interface'
 
-export namespace Commands {
+export namespace CommandModel {
   export interface State {
     readonly items: Array<CommandData>
     readonly error: {

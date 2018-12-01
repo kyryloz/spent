@@ -1,14 +1,14 @@
 import { App } from 'store/interface'
 
-export namespace Accounts {
+export namespace CategoryModel {
   export interface State {
     readonly byId: {
-      [id: string]: Account
+      [id: string]: Category
     }
     readonly allIds: Array<string>
   }
 
-  export interface Account extends App.Identifiable {
+  export interface Category extends App.Identifiable {
     readonly name: string
     readonly createdAt: number
     readonly createdByCommandId: string

@@ -6,7 +6,7 @@ import { Income } from 'components/widgets/Income'
 import { StatusAccounts } from 'components/widgets/StatusAccounts'
 import { StatusCategories } from 'components/widgets/StatusCategories'
 import * as React from 'react'
-import { Commands } from 'store/model/commands/interface'
+import { CommandModel } from 'store/model/command/interface'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
 import { RenameAccount } from './RenameAccount'
@@ -18,77 +18,77 @@ interface ActionClickHandlers {
 }
 
 export const createWidget = (
-  command: Commands.CommandData,
+  command: CommandModel.CommandData,
   actionClickHandlers: ActionClickHandlers
 ) => {
   let widgetComponent
 
   switch (command.data.dataType) {
-    case Commands.DataType.CREATE_ACCOUNT: {
-      widgetComponent = <CreateAccount command={command as Commands.CreateAccountData} />
+    case CommandModel.DataType.CREATE_ACCOUNT: {
+      widgetComponent = <CreateAccount command={command as CommandModel.CreateAccountData} />
       break
     }
-    case Commands.DataType.CREATE_CATEGORY: {
-      widgetComponent = <CreateCategory command={command as Commands.CreateCategoryData} />
+    case CommandModel.DataType.CREATE_CATEGORY: {
+      widgetComponent = <CreateCategory command={command as CommandModel.CreateCategoryData} />
       break
     }
-    case Commands.DataType.EXPENSE: {
+    case CommandModel.DataType.EXPENSE: {
       widgetComponent = (
         <Expense
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as Commands.ExpenseData}
+          command={command as CommandModel.ExpenseData}
         />
       )
       break
     }
-    case Commands.DataType.INCOME: {
+    case CommandModel.DataType.INCOME: {
       widgetComponent = (
         <Income
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as Commands.IncomeData}
+          command={command as CommandModel.IncomeData}
         />
       )
       break
     }
-    case Commands.DataType.STATUS: {
-      const statusCommand = command as Commands.StatusData
+    case CommandModel.DataType.STATUS: {
+      const statusCommand = command as CommandModel.StatusData
 
       switch (statusCommand.data.entity) {
-        case Commands.Entity.ACCOUNT:
+        case CommandModel.Entity.ACCOUNT:
           widgetComponent = <StatusAccounts command={statusCommand} />
           break
 
-        case Commands.Entity.CATEGORY:
+        case CommandModel.Entity.CATEGORY:
           widgetComponent = <StatusCategories command={statusCommand} />
           break
       }
       break
     }
-    case Commands.DataType.DELETE_ENTITY: {
-      const deleteCommand = command as Commands.DeleteEntityData
+    case CommandModel.DataType.DELETE_ENTITY: {
+      const deleteCommand = command as CommandModel.DeleteEntityData
 
       switch (deleteCommand.data.entity) {
-        case Commands.Entity.ACCOUNT:
+        case CommandModel.Entity.ACCOUNT:
           widgetComponent = <DeleteAccount command={deleteCommand} />
           break
 
-        case Commands.Entity.CATEGORY:
+        case CommandModel.Entity.CATEGORY:
           widgetComponent = <DeleteCategory command={deleteCommand} />
           break
       }
       break
     }
-    case Commands.DataType.RENAME_ENTITY: {
-      const renameCommand = command as Commands.RenameEntityData
+    case CommandModel.DataType.RENAME_ENTITY: {
+      const renameCommand = command as CommandModel.RenameEntityData
 
       switch (renameCommand.data.entity) {
-        case Commands.Entity.ACCOUNT:
+        case CommandModel.Entity.ACCOUNT:
           widgetComponent = <RenameAccount command={renameCommand} />
           break
 
-        case Commands.Entity.CATEGORY:
+        case CommandModel.Entity.CATEGORY:
           widgetComponent = <RenameCategory command={renameCommand} />
           break
       }

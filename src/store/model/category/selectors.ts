@@ -1,7 +1,7 @@
 import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
-import { Commands } from 'store/model/commands/interface'
-import { commandsSelector } from 'store/model/commands/selectors'
+import { CommandModel } from 'store/model/command/interface'
+import { commandsSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
 import { calculateBalance } from 'utils/selectorUtils'
 
@@ -24,7 +24,7 @@ export namespace categoriesSelector {
 
   export const expense = (categoryId: string, timestampFrom: number, timestampTo: number) =>
     createSelector(commandIds(categoryId), commandIds => {
-      return calculateBalance(commandIds, Commands.DataType.EXPENSE, timestampFrom, timestampTo)
+      return calculateBalance(commandIds, CommandModel.DataType.EXPENSE, timestampFrom, timestampTo)
     })
 
   export const expenses = (timestampFrom: number, timestampTo: number) => (state: App.State) =>

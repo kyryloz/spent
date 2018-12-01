@@ -1,5 +1,5 @@
 import * as moment from 'moment'
-import { Commands } from 'store/model/commands/interface'
+import { CommandModel } from 'store/model/command/interface'
 import { uuidv4 } from 'utils/mathUtils'
 
 export type EvaluationAction =
@@ -37,7 +37,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.EXPENSE,
+          dataType: CommandModel.DataType.EXPENSE,
           ...data,
         },
       },
@@ -58,7 +58,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.INCOME,
+          dataType: CommandModel.DataType.INCOME,
           ...data,
         },
       },
@@ -73,7 +73,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.CREATE_ACCOUNT,
+          dataType: CommandModel.DataType.CREATE_ACCOUNT,
           id: uuidv4(),
           name,
         },
@@ -89,7 +89,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.CREATE_CATEGORY,
+          dataType: CommandModel.DataType.CREATE_CATEGORY,
           id: uuidv4(),
           name,
         },
@@ -100,7 +100,7 @@ export namespace EvaluationActionCreators {
   export const status = (
     raw: string,
     data: {
-      entity: Commands.Entity
+      entity: CommandModel.Entity
     }
   ) => {
     return {
@@ -110,7 +110,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.STATUS,
+          dataType: CommandModel.DataType.STATUS,
           ...data,
         },
       },
@@ -120,7 +120,7 @@ export namespace EvaluationActionCreators {
   export const deleteEntity = (
     raw: string,
     data: {
-      entity: Commands.Entity
+      entity: CommandModel.Entity
       entityId: string
       entityName: string
     }
@@ -132,7 +132,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.DELETE_ENTITY,
+          dataType: CommandModel.DataType.DELETE_ENTITY,
           ...data,
         },
       },
@@ -142,7 +142,7 @@ export namespace EvaluationActionCreators {
   export const renameEntity = (
     raw: string,
     data: {
-      entity: Commands.Entity
+      entity: CommandModel.Entity
       entityId: string
       entityOldName: string
       entityNewName: string
@@ -155,7 +155,7 @@ export namespace EvaluationActionCreators {
         timestamp: moment().unix(),
         raw,
         data: {
-          dataType: Commands.DataType.RENAME_ENTITY,
+          dataType: CommandModel.DataType.RENAME_ENTITY,
           ...data,
         },
       },

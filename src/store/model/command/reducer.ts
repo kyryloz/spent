@@ -1,20 +1,20 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
-import { CommandsActionCreator, CommandsActionTypes } from 'store/model/commands/actions'
-import { Commands } from 'store/model/commands/interface'
+import { CommandsActionCreator, CommandsActionTypes } from 'store/model/command/actions'
+import { CommandModel } from 'store/model/command/interface'
 import { EvaluationActionTypes } from 'store/evaluation/actions';
 
-const initialState: Commands.State = {
+const initialState: CommandModel.State = {
   items: [],
   error: {
     human: '',
   },
 }
 
-export const commands: Reducer<Commands.State, App.Action> = (
+export const commands: Reducer<CommandModel.State, App.Action> = (
   state = initialState,
   action
-): Commands.State => {
+): CommandModel.State => {
   switch (action.type) {
     case EvaluationActionTypes.CREATE_ACCOUNT:
     case EvaluationActionTypes.CREATE_CATEGORY:

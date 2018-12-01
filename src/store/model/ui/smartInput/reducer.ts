@@ -1,19 +1,19 @@
 import { Reducer } from 'redux'
 import { EvaluationActionTypes } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandsActionTypes } from 'store/model/commands/actions'
-import { SmartInput } from 'store/model/ui/smartInput/interface'
+import { CommandsActionTypes } from 'store/model/command/actions'
+import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { SmartInputActionCreator, SmartInputActionTypes } from './actions'
 
-const initialState: SmartInput.State = {
+const initialState: SmartInputModel.State = {
   input: '',
   focus: true,
 }
 
-export const smartInput: Reducer<SmartInput.State, App.Action> = (
+export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
   state = initialState,
   action
-): SmartInput.State => {
+): SmartInputModel.State => {
   switch (action.type) {
     case SmartInputActionTypes.SET_INPUT: {
       const {

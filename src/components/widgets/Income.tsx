@@ -4,8 +4,8 @@ import EditIcon from '@material-ui/icons/EditSharp'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { accountsSelector } from 'store/model/accounts/selectors'
-import { Commands } from 'store/model/commands/interface'
+import { accountsSelector } from 'store/model/account/selectors'
+import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
 
@@ -48,7 +48,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: Commands.IncomeData
+  command: CommandModel.IncomeData
   onEditClick: () => void
   onDeleteClick: () => void
 }

@@ -1,13 +1,12 @@
 import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core'
-import { grey } from '@material-ui/core/colors'
 import DeleteIcon from '@material-ui/icons/DeleteSharp'
 import EditIcon from '@material-ui/icons/EditSharp'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { accountsSelector } from 'store/model/accounts/selectors'
-import { categoriesSelector } from 'store/model/categories/selectors'
-import { Commands } from 'store/model/commands/interface'
+import { accountsSelector } from 'store/model/account/selectors'
+import { categoriesSelector } from 'store/model/category/selectors'
+import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
 
@@ -56,7 +55,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: Commands.ExpenseData
+  command: CommandModel.ExpenseData
   onEditClick: () => void
   onDeleteClick: () => void
 }

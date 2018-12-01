@@ -1,11 +1,11 @@
 import { parseGrammar } from 'parser/parser'
 import { runSemantic } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
-import { accountsSelector } from 'store/model/accounts/selectors'
-import { categoriesSelector } from 'store/model/categories/selectors'
-import { CommandsActionCreator, CommandsActionTypes } from 'store/model/commands/actions'
-import { Commands } from 'store/model/commands/interface'
-import { commandsSelector } from 'store/model/commands/selectors'
+import { accountsSelector } from 'store/model/account/selectors'
+import { categoriesSelector } from 'store/model/category/selectors'
+import { CommandsActionCreator, CommandsActionTypes } from 'store/model/command/actions'
+import { CommandModel } from 'store/model/command/interface'
+import { commandsSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
 import { smartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
@@ -143,10 +143,10 @@ const evaluateStatus = (input: string, what: string): App.Action => {
   let entity
   switch (what) {
     case 'categories':
-      entity = Commands.Entity.CATEGORY
+      entity = CommandModel.Entity.CATEGORY
       break
     case 'accounts':
-      entity = Commands.Entity.ACCOUNT
+      entity = CommandModel.Entity.ACCOUNT
       break
     default:
       throw new Error(`Unknown entity: ${what}`)
@@ -172,7 +172,7 @@ const evaluateRename = (
         action = CommandsActionCreator.error(`You do not have '${oldName}' account`)
       } else {
         action = EvaluationActionCreators.renameEntity(input, {
-          entity: Commands.Entity.ACCOUNT,
+          entity: CommandModel.Entity.ACCOUNT,
           entityId: account.id,
           entityOldName: oldName,
           entityNewName: newName,
@@ -187,7 +187,7 @@ const evaluateRename = (
         action = CommandsActionCreator.error(`You do not have '${oldName}' category`)
       } else {
         action = EvaluationActionCreators.renameEntity(input, {
-          entity: Commands.Entity.CATEGORY,
+          entity: CommandModel.Entity.CATEGORY,
           entityId: category.id,
           entityOldName: oldName,
           entityNewName: newName,
@@ -221,7 +221,7 @@ const evaluateRemove = (
         actions.push(...account.commandIds.map(id => CommandsActionCreator.removeCommand(id)))
         actions.push(
           EvaluationActionCreators.deleteEntity(input, {
-            entity: Commands.Entity.ACCOUNT,
+            entity: CommandModel.Entity.ACCOUNT,
             entityId: account.id,
             entityName: name,
           })
@@ -237,7 +237,7 @@ const evaluateRemove = (
         actions.push(...category.commandIds.map(id => CommandsActionCreator.removeCommand(id)))
         actions.push(
           EvaluationActionCreators.deleteEntity(input, {
-            entity: Commands.Entity.CATEGORY,
+            entity: CommandModel.Entity.CATEGORY,
             entityId: category.id,
             entityName: name,
           })

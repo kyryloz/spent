@@ -2,35 +2,35 @@ import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
 import { EvaluationActionCreators, EvaluationActionTypes } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandsActionCreator, CommandsActionTypes } from 'store/model/commands/actions'
-import { Commands } from 'store/model/commands/interface'
+import { CommandsActionCreator, CommandsActionTypes } from 'store/model/command/actions'
+import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
-import { Categories } from './interface'
+import { AccountModel } from './interface'
 
-const initialState: Categories.State = {
+const initialState: AccountModel.State = {
   byId: {},
   allIds: [],
 }
 
-export const categories: Reducer<Categories.State, App.Action> = (
+export const accounts: Reducer<AccountModel.State, App.Action> = (
   state = initialState,
   action
-): Categories.State => {
+): AccountModel.State => {
   switch (action.type) {
-    case EvaluationActionTypes.CREATE_CATEGORY: {
+    case EvaluationActionTypes.CREATE_ACCOUNT: {
       const {
         payload: {
           id: commandId,
           timestamp,
           data: { id, name },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.createCategory>
+      } = action as ReturnType<typeof EvaluationActionCreators.createAccount>
 
-      const category = Object.keys(state.byId)
+      const account = Object.keys(state.byId)
         .map(key => state.byId[key])
         .find(value => value.name === name)
 
-      if (category) {
+      if (account) {
         return state
       } else {
         return {
@@ -49,21 +49,24 @@ export const categories: Reducer<Categories.State, App.Action> = (
         }
       }
     }
+    case EvaluationActionTypes.INCOME:
     case EvaluationActionTypes.EXPENSE: {
       const {
         payload: {
           id,
-          data: { categoryId },
+          data: { accountId },
         },
-      } = action as ReturnType<typeof EvaluationActionCreators.expense>
+      } = action as
+        | ReturnType<typeof EvaluationActionCreators.expense>
+        | ReturnType<typeof EvaluationActionCreators.income>
 
       return {
         ...state,
         byId: {
           ...state.byId,
-          [categoryId]: {
-            ...state.byId[categoryId],
-            commandIds: [...state.byId[categoryId].commandIds, id],
+          [accountId]: {
+            ...state.byId[accountId],
+            commandIds: [...state.byId[accountId].commandIds, id],
           },
         },
       }
@@ -90,7 +93,7 @@ export const categories: Reducer<Categories.State, App.Action> = (
         },
       } = action as ReturnType<typeof EvaluationActionCreators.renameEntity>
 
-      if (entity === Commands.Entity.CATEGORY) {
+      if (entity === CommandModel.Entity.ACCOUNT) {
         return {
           ...state,
           byId: {
@@ -109,16 +112,16 @@ export const categories: Reducer<Categories.State, App.Action> = (
         payload: { id },
       } = action as ReturnType<typeof CommandsActionCreator.removeCommand>
 
-      const categories = values(state.byId)
-        .map(category => ({
-          ...category,
-          commandIds: category.commandIds.filter(commandId => commandId !== id),
+      const accounts = values(state.byId)
+        .map(account => ({
+          ...account,
+          commandIds: account.commandIds.filter(commandId => commandId !== id),
         }))
-        .filter(category => category.createdByCommandId !== id)
+        .filter(account => account.createdByCommandId !== id)
 
       return {
-        byId: fromPairs(categories.map(category => [category.id, category])),
-        allIds: categories.map(category => category.id),
+        byId: fromPairs(accounts.map(account => [account.id, account])),
+        allIds: accounts.map(account => account.id),
       }
     }
     default: {

@@ -2,8 +2,8 @@ import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import { flow, isEmpty, toPairs } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { categoriesSelector } from 'store/model/categories/selectors'
-import { Commands } from 'store/model/commands/interface'
+import { categoriesSelector } from 'store/model/category/selectors'
+import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
 
@@ -28,7 +28,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: Commands.StatusData
+  command: CommandModel.StatusData
 }
 
 interface StyleProps {

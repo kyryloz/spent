@@ -10,9 +10,9 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
-import { CommandsActionCreator } from 'store/model/commands/actions'
-import { Commands } from 'store/model/commands/interface'
-import { commandsSelector } from 'store/model/commands/selectors'
+import { CommandsActionCreator } from 'store/model/command/actions'
+import { CommandModel } from 'store/model/command/interface'
+import { commandsSelector } from 'store/model/command/selectors'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { smartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { Classes } from 'utils/styleUtils'
@@ -46,7 +46,7 @@ interface StyleProps {
 interface StateProps {
   input: string
   focus: boolean
-  error: Commands.ErrorData
+  error: CommandModel.ErrorData
 }
 
 interface DispatchProps {

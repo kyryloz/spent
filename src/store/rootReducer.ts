@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import { accounts } from 'store/model/accounts/reducer'
-import { categories } from 'store/model/categories/reducer'
-import { commands } from 'store/model/commands/reducer'
+import { accounts } from 'store/model/account/reducer'
+import { categories } from 'store/model/category/reducer'
+import { commands } from 'store/model/command/reducer'
 import { smartInput } from 'store/model/ui/smartInput/reducer'
 import { App } from 'store/interface'
 

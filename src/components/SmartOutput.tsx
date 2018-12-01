@@ -3,8 +3,8 @@ import { createWidget } from 'components/widgets/widgetFactory'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Commands } from 'store/model/commands/interface'
-import { commandsSelector } from 'store/model/commands/selectors'
+import { CommandModel } from 'store/model/command/interface'
+import { commandsSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { Classes } from 'utils/styleUtils'
@@ -29,12 +29,12 @@ interface StyleProps {
 }
 
 interface StateProps {
-  commands: Array<Commands.CommandData>
+  commands: Array<CommandModel.CommandData>
 }
 
 interface DispatchProps {
-  editCommand: (command: Commands.CommandData) => void
-  deleteCommand: (command: Commands.CommandData) => void
+  editCommand: (command: CommandModel.CommandData) => void
+  deleteCommand: (command: CommandModel.CommandData) => void
 }
 
 const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({
@@ -65,8 +65,8 @@ export const SmartOutput = flow(
     dispatch => ({
       editCommand: command => {
         switch (command.data.dataType) {
-          case Commands.DataType.EXPENSE: {
-            const { data } = command as Commands.ExpenseData
+          case CommandModel.DataType.EXPENSE: {
+            const { data } = command as CommandModel.ExpenseData
 
             dispatch(
               SmartInputActionCreator.setInput(
@@ -77,8 +77,8 @@ export const SmartOutput = flow(
             )
             break
           }
-          case Commands.DataType.INCOME: {
-            const { data } = command as Commands.IncomeData
+          case CommandModel.DataType.INCOME: {
+            const { data } = command as CommandModel.IncomeData
 
             dispatch(
               SmartInputActionCreator.setInput(
