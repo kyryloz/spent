@@ -1,7 +1,8 @@
 import { CommandModel } from 'store/model/command/interface'
+import { CommandSelector } from 'store/model/command/selectors';
 
 export const calculateBalance = (
-  commands: Array<CommandModel.CommandData>,
+  commands: Array<CommandSelector.CommandItem>,
   dataType: CommandModel.DataType,
   timestampFrom: number,
   timestampTo: number,
@@ -9,7 +10,7 @@ export const calculateBalance = (
 ) => {
   return commands
     .filter(command => command.data.dataType === dataType)
-    .map(data => data as CommandModel.IncomeData | CommandModel.ExpenseData)
+    .map(data => data as CommandModel.IncomeHydratedData | CommandModel.ExpenseHydratedData)
     .filter(
       data =>
         data.timestamp >= timestampFrom && inclusive

@@ -29,12 +29,12 @@ interface StyleProps {
 }
 
 interface StateProps {
-  commands: Array<CommandModel.CommandData>
+  commands: Array<CommandSelector.CommandItem>
 }
 
 interface DispatchProps {
-  editCommand: (command: CommandModel.CommandData) => void
-  deleteCommand: (command: CommandModel.CommandData) => void
+  editCommand: (command: CommandSelector.CommandItem) => void
+  deleteCommand: (command: CommandSelector.CommandItem) => void
 }
 
 const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({

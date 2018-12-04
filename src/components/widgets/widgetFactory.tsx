@@ -7,6 +7,7 @@ import { StatusAccounts } from 'components/widgets/StatusAccounts'
 import { StatusCategories } from 'components/widgets/StatusCategories'
 import * as React from 'react'
 import { CommandModel } from 'store/model/command/interface'
+import { CommandSelector } from 'store/model/command/selectors'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
 import { RenameAccount } from './RenameAccount'
@@ -18,7 +19,7 @@ interface ActionClickHandlers {
 }
 
 export const createWidget = (
-  command: CommandModel.CommandData,
+  command: CommandSelector.CommandItem,
   actionClickHandlers: ActionClickHandlers
 ) => {
   let widgetComponent
@@ -95,7 +96,7 @@ export const createWidget = (
       break
     }
     default:
-      throw new Error(`Unknown command type ${command.data.dataType}`)
+      throw new Error(`Unknown command type ${JSON.stringify(command.data)}`)
   }
 
   return (

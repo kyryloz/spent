@@ -5,7 +5,16 @@ import { CategorySelector } from '../category/selectors'
 import { CommandModel } from './interface'
 
 export namespace CommandSelector {
-  export const items = (state: App.State) => {
+  export type CommandItem =
+    | CommandModel.ExpenseHydratedData
+    | CommandModel.IncomeHydratedData
+    | CommandModel.StatusData
+    | CommandModel.CreateAccountData
+    | CommandModel.CreateCategoryData
+    | CommandModel.DeleteEntityData
+    | CommandModel.RenameEntityData
+
+  export const items = (state: App.State): Array<CommandItem> => {
     return state.commands.items.map(item => {
       switch (item.data.dataType) {
         case CommandModel.DataType.EXPENSE: {
@@ -39,7 +48,7 @@ export namespace CommandSelector {
         }
       }
 
-      return item
+      return item as CommandItem
     })
   }
 

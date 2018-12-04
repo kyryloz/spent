@@ -25,7 +25,7 @@ export namespace CommandModel {
     CATEGORY = 'category',
   }
 
-  export interface CommandData extends App.Identifiable {
+  interface CommandData extends App.Identifiable {
     readonly raw: string
     readonly timestamp: number
     readonly data: {
