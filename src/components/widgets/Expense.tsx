@@ -9,6 +9,7 @@ import { CategorySelector } from 'store/model/category/selectors'
 import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
+import { CommandSelector } from 'store/model/command/selectors';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -55,7 +56,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.ExpenseData
+  command: CommandModel.ExpenseHydratedData
   onEditClick: () => void
   onDeleteClick: () => void
 }
@@ -66,9 +67,7 @@ interface StyleProps {
 
 interface StateProps {
   accountBalance: number
-  accountName: string
   categoryExpenses: number
-  categoryName: string
 }
 
 export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
@@ -76,16 +75,15 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
   onEditClick,
   onDeleteClick,
   accountBalance,
-  accountName,
   categoryExpenses,
-  categoryName,
   classes,
 }) => (
   <div className={classes.body}>
     <Grid container justify="space-between" alignItems="center" spacing={40}>
       <Grid item>
         <Typography className={classes.amount}>
-          -{command.data.amount} USD → <span className={classes.category}>{categoryName}</span>
+          -{command.data.amount} USD →{' '}
+          <span className={classes.category}>{command.data.category.name}</span>
         </Typography>
       </Grid>
       <Grid item>
@@ -97,10 +95,11 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
     <div className={classes.line} />
 
     <Typography className={classes.amount}>
-      <span className={classes.account}>{accountName}</span> = {accountBalance} USD
+      <span className={classes.account}>{command.data.account.name}</span> = {accountBalance} USD
     </Typography>
     <Typography className={classes.amount} gutterBottom>
-      Spent on <span className={classes.category}>{categoryName}</span> {categoryExpenses} USD
+      Spent on <span className={classes.category}>{command.data.category.name}</span>{' '}
+      {categoryExpenses} USD
     </Typography>
     <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
@@ -110,16 +109,14 @@ export const Expense = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     accountBalance: AccountSelector.balance(
-      ownProps.command.data.accountId,
+      ownProps.command.data.account.id,
       0,
       ownProps.command.timestamp
     )(state),
     categoryExpenses: CategorySelector.expense(
-      ownProps.command.data.categoryId,
+      ownProps.command.data.category.id,
       0,
       ownProps.command.timestamp
     )(state),
-    accountName: AccountSelector.findById(ownProps.command.data.accountId)(state),
-    categoryName: CategorySelector.findById(ownProps.command.data.categoryId)(state),
   }))
 )(ExpenseCmp)

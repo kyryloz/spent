@@ -48,7 +48,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.IncomeData
+  command: CommandModel.IncomeHydratedData
   onEditClick: () => void
   onDeleteClick: () => void
 }
@@ -59,7 +59,6 @@ interface StyleProps {
 
 interface StateProps {
   accountBalance: number
-  accountName: string
 }
 
 const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
@@ -67,14 +66,14 @@ const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
   onEditClick,
   onDeleteClick,
   accountBalance,
-  accountName,
   classes,
 }) => (
   <div className={classes.body}>
     <Grid container justify="space-between" alignItems="center" spacing={40}>
       <Grid item>
         <Typography className={classes.amount}>
-          +{command.data.amount} USD → <span className={classes.account}>{accountName}</span>
+          +{command.data.amount} USD →{' '}
+          <span className={classes.account}>{command.data.account.name}</span>
         </Typography>
       </Grid>
       <Grid item>
@@ -86,7 +85,7 @@ const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
     <div className={classes.line} />
 
     <Typography className={classes.amount} gutterBottom>
-      <span className={classes.account}>{accountName}</span> = {accountBalance} USD
+      <span className={classes.account}>{command.data.account.name}</span> = {accountBalance} USD
     </Typography>
     <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
@@ -96,10 +95,9 @@ export const Income = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     accountBalance: AccountSelector.balance(
-      ownProps.command.data.accountId,
+      ownProps.command.data.account.id,
       0,
       ownProps.command.timestamp
     )(state),
-    accountName: AccountSelector.findById(ownProps.command.data.accountId)(state),
   }))
 )(IncomeCmp)

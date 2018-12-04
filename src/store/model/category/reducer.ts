@@ -94,6 +94,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         return {
           ...state,
           byId: {
+            ...state.byId,
             [entityId]: {
               ...state.byId[entityId],
               name: entityNewName,

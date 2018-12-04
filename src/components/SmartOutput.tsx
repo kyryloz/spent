@@ -66,24 +66,24 @@ export const SmartOutput = flow(
       editCommand: command => {
         switch (command.data.dataType) {
           case CommandModel.DataType.EXPENSE: {
-            const { data } = command as CommandModel.ExpenseData
+            const { data } = command as CommandModel.ExpenseHydratedData
 
             dispatch(
               SmartInputActionCreator.setInput(
                 `update transaction '${command.id}' set amount = '${data.amount}', account = '${
-                  data.accountId
-                }', category = '${data.categoryId}'`
+                  data.account.name
+                }', category = '${data.category.name}'`
               )
             )
             break
           }
           case CommandModel.DataType.INCOME: {
-            const { data } = command as CommandModel.IncomeData
+            const { data } = command as CommandModel.IncomeHydratedData
 
             dispatch(
               SmartInputActionCreator.setInput(
                 `update transaction '${command.id}' set amount = '${data.amount}', account = '${
-                  data.accountId
+                  data.account.name
                 }`
               )
             )

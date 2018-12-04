@@ -97,6 +97,7 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         return {
           ...state,
           byId: {
+            ...state.byId,
             [entityId]: {
               ...state.byId[entityId],
               name: entityNewName,

@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 import { App } from 'store/interface'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
-import { EvaluationActionType } from 'store/evaluation/actions';
+import { EvaluationActionType } from 'store/evaluation/actions'
 
 const initialState: CommandModel.State = {
   items: [],

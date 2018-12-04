@@ -18,7 +18,7 @@ export namespace AccountSelector {
       return values(resultById).find(value => value.name === name)
     })
 
-  export const findById = (id: string) => createSelector(byId, resultById => resultById[id].name)
+  export const findById = (id: string) => createSelector(byId, resultById => resultById[id])
 
   export const income = (accountId: string, timestampFrom: number, timestampTo: number) =>
     createSelector(commandIds(accountId), commandIds => {

@@ -104,22 +104,19 @@ const evaluateExpense = (
   accountName: string
 ): App.Action => {
   const category = CategorySelector.findByName(categoryName)(state)
-  const categoryId = category && category.id
-
   const account = AccountSelector.findByName(accountName)(state)
-  const accountId = account && account.id
 
-  if (!categoryId) {
+  if (!category) {
     return CommandActionCreator.error(`Category '${categoryName}' not found`)
   }
 
-  if (!accountId) {
+  if (!account) {
     return CommandActionCreator.error(`Account '${accountName}' not found`)
   }
 
   return EvaluationActionCreator.expense(input, {
-    categoryId,
-    accountId,
+    categoryId: category.id,
+    accountId: account.id,
     amount,
   })
 }
@@ -131,10 +128,13 @@ const evaluateIncome = (
   amount: number
 ): App.Action => {
   const account = AccountSelector.findByName(accountName)(state)
-  const accountId = account ? account.id : 'not found'
+
+  if (!account) {
+    return CommandActionCreator.error(`Account '${accountName}' not found`)
+  }
 
   return EvaluationActionCreator.income(input, {
-    accountId,
+    accountId: account.id,
     amount,
   })
 }
