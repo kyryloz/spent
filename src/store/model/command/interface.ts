@@ -4,7 +4,7 @@ import { CategoryModel } from '../category/interface';
 
 export namespace CommandModel {
   export interface State {
-    readonly items: Array<CommandData>
+    readonly items: Array<CommandDataBase>
     readonly error: {
       human: string
     }
@@ -25,7 +25,7 @@ export namespace CommandModel {
     CATEGORY = 'category',
   }
 
-  interface CommandData extends App.Identifiable {
+  interface CommandDataBase extends App.Identifiable {
     readonly raw: string
     readonly timestamp: number
     readonly data: {
@@ -33,7 +33,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface CreateCategoryData extends CommandData {
+  export interface CreateCategoryData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.CREATE_CATEGORY
       readonly id: string
@@ -41,7 +41,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface CreateAccountData extends CommandData {
+  export interface CreateAccountData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.CREATE_ACCOUNT
       readonly id: string
@@ -49,14 +49,14 @@ export namespace CommandModel {
     }
   }
 
-  export interface StatusData extends CommandData {
+  export interface StatusData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.STATUS
       readonly entity: Entity
     }
   }
 
-  export interface DeleteEntityData extends CommandData {
+  export interface DeleteEntityData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.DELETE_ENTITY
       readonly entity: Entity
@@ -65,7 +65,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface RenameEntityData extends CommandData {
+  export interface RenameEntityData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.RENAME_ENTITY
       readonly entity: Entity
@@ -75,7 +75,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface ExpenseData extends CommandData {
+  export interface ExpenseData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.EXPENSE
       readonly amount: number
@@ -84,7 +84,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface ExpenseHydratedData extends CommandData {
+  export interface ExpenseHydratedData extends CommandDataBase {
     readonly data: {
       readonly dataType: CommandModel.DataType.EXPENSE
       readonly amount: number,
@@ -93,7 +93,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface IncomeData extends CommandData {
+  export interface IncomeData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.INCOME
       readonly accountId: string
@@ -101,7 +101,7 @@ export namespace CommandModel {
     }
   }
 
-  export interface IncomeHydratedData extends CommandData {
+  export interface IncomeHydratedData extends CommandDataBase {
     readonly data: {
       readonly dataType: CommandModel.DataType.INCOME
       readonly amount: number,
