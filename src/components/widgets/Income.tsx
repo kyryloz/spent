@@ -8,6 +8,7 @@ import { AccountSelector } from 'store/model/account/selectors'
 import { CommandModel } from 'store/model/command/interface'
 import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
+import { CommandSelector } from 'store/model/command/selectors';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -48,7 +49,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.IncomeHydratedData
+  command: CommandSelector.IncomeHydratedData
   onEditClick: () => void
   onDeleteClick: () => void
 }

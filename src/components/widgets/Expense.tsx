@@ -56,7 +56,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.ExpenseHydratedData
+  command: CommandSelector.ExpenseHydratedData
   onEditClick: () => void
   onDeleteClick: () => void
 }

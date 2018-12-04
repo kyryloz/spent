@@ -1,6 +1,4 @@
 import { App } from 'store/interface'
-import { AccountModel } from '../account/interface';
-import { CategoryModel } from '../category/interface';
 
 export namespace CommandModel {
   export interface State {
@@ -25,7 +23,7 @@ export namespace CommandModel {
     CATEGORY = 'category',
   }
 
-  interface CommandDataBase extends App.Identifiable {
+  export interface CommandDataBase extends App.Identifiable {
     readonly raw: string
     readonly timestamp: number
     readonly data: {
@@ -84,28 +82,11 @@ export namespace CommandModel {
     }
   }
 
-  export interface ExpenseHydratedData extends CommandDataBase {
-    readonly data: {
-      readonly dataType: CommandModel.DataType.EXPENSE
-      readonly amount: number,
-      readonly account: AccountModel.Account
-      readonly category: CategoryModel.Category
-    }
-  }
-
   export interface IncomeData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.INCOME
       readonly accountId: string
       readonly amount: number
-    }
-  }
-
-  export interface IncomeHydratedData extends CommandDataBase {
-    readonly data: {
-      readonly dataType: CommandModel.DataType.INCOME
-      readonly amount: number,
-      readonly account: AccountModel.Account
     }
   }
 

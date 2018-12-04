@@ -1,18 +1,37 @@
 import { createSelector } from 'reselect'
 import { App } from 'store/interface'
-import { AccountSelector } from '../account/selectors'
-import { CategorySelector } from '../category/selectors'
-import { CommandModel } from './interface'
+import { AccountModel } from 'store/model/account/interface'
+import { AccountSelector } from 'store/model/account/selectors'
+import { CategoryModel } from 'store/model/category/interface'
+import { CategorySelector } from 'store/model/category/selectors'
+import { CommandModel } from 'store/model/command/interface'
 
 export namespace CommandSelector {
   export type CommandItem =
-    | CommandModel.ExpenseHydratedData
-    | CommandModel.IncomeHydratedData
+    | ExpenseHydratedData
+    | IncomeHydratedData
     | CommandModel.StatusData
     | CommandModel.CreateAccountData
     | CommandModel.CreateCategoryData
     | CommandModel.DeleteEntityData
     | CommandModel.RenameEntityData
+
+  export interface ExpenseHydratedData extends CommandModel.CommandDataBase {
+    readonly data: {
+      readonly dataType: CommandModel.DataType.EXPENSE
+      readonly amount: number
+      readonly account: AccountModel.Account
+      readonly category: CategoryModel.Category
+    }
+  }
+
+  export interface IncomeHydratedData extends CommandModel.CommandDataBase {
+    readonly data: {
+      readonly dataType: CommandModel.DataType.INCOME
+      readonly amount: number
+      readonly account: AccountModel.Account
+    }
+  }
 
   export const items = (state: App.State): Array<CommandItem> => {
     return state.commands.items.map(item => {
@@ -20,7 +39,7 @@ export namespace CommandSelector {
         case CommandModel.DataType.EXPENSE: {
           const expenseItem = item as CommandModel.ExpenseData
 
-          const hydratedItem: CommandModel.ExpenseHydratedData = {
+          const hydratedItem: ExpenseHydratedData = {
             ...item,
             data: {
               dataType: expenseItem.data.dataType,
@@ -35,7 +54,7 @@ export namespace CommandSelector {
         case CommandModel.DataType.INCOME: {
           const incomeItem = item as CommandModel.IncomeData
 
-          const hydratedItem: CommandModel.IncomeHydratedData = {
+          const hydratedItem: IncomeHydratedData = {
             ...item,
             data: {
               dataType: incomeItem.data.dataType,

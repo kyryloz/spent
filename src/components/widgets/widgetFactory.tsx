@@ -38,7 +38,7 @@ export const createWidget = (
         <Expense
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as CommandModel.ExpenseHydratedData}
+          command={command as CommandSelector.ExpenseHydratedData}
         />
       )
       break
@@ -48,7 +48,7 @@ export const createWidget = (
         <Income
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as CommandModel.IncomeHydratedData}
+          command={command as CommandSelector.IncomeHydratedData}
         />
       )
       break
