@@ -276,6 +276,11 @@ describe('parser.ts', () => {
           const input = 'update transaction id1 set amount = 100, account = wallet, category = clothes'
           expect(parseGrammar(input).success).toBeTruthy()
         })
+
+        test('case8', () => {
+          const input = 'update transaction id1 set amount = 100,'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
       })
     })
   })
