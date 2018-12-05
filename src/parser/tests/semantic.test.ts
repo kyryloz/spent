@@ -10,6 +10,7 @@ describe('semantic.ts', () => {
       status: jest.fn(),
       remove: jest.fn(),
       rename: jest.fn(),
+      updateTransaction: jest.fn(),
     }
 
     beforeEach(() => {
@@ -50,6 +51,25 @@ describe('semantic.ts', () => {
       const input = 'rename category clothes to clothes1'
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.rename).toBeCalledWith('category', 'clothes', 'clothes1')
+    })
+
+    test('updateTransaction', () => {
+      const input =
+        "update transaction 'c7cb' set amount = 100, account = 'wallet', category = 'clothes'"
+      runSemantic(parseGrammar(input).match, mockCallback)
+      expect(mockCallback.updateTransaction).toBeCalledWith('c7cb', {
+        amount: 100,
+        account: 'wallet',
+        category: 'clothes',
+      })
+    })
+
+    test('updateTransaction2', () => {
+      const input = "update transaction 'c7cb' set account = 'wallet'"
+      runSemantic(parseGrammar(input).match, mockCallback)
+      expect(mockCallback.updateTransaction).toBeCalledWith('c7cb', {
+        account: 'wallet',
+      })
     })
   })
 })

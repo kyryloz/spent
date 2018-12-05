@@ -5,6 +5,7 @@ import * as ohm from 'ohm-js'
 // expence 100 on 'Groceries' from 'Credit Card'
 // income 100 to 'Wallet'
 // transfer 100 from 'Credit Card' to 'Wallet'
+// update transaction 'c7cb' set amount = 100, account = 'wallet', category = 'clothes'
 
 const keywords = [
   'expence',
@@ -23,6 +24,7 @@ const keywords = [
   'redo',
   'set',
   'get',
+  'update',
 ]
 
 // https://ohmlang.github.io/editor/#2aaa2dcbb7a1ee5f5c676a77f7fe1d89
@@ -35,13 +37,22 @@ export const grammar = ohm.grammar(`
       | Status
       | Delete
       | Rename
+      | UpdateTransaction
 
-    Create     = "create" entity identifier
-    Expense    = "expense" number "on" category "from" account
-    Income     = "income" number "to" account
-    Status     = "status" status
-    Delete     = "delete" deletableEntity identifier
-    Rename     = "rename" entity identifier "to" identifier
+    Create            = "create" entity identifier
+    Expense           = "expense" number "on" category "from" account
+    Income            = "income" number "to" account
+    Status            = "status" status
+    Delete            = "delete" deletableEntity identifier
+    Rename            = "rename" entity identifier "to" identifier
+    UpdateTransaction = "update transaction" identifier "set" Setters
+
+    Setters = NonemptyListOf<TransactionSetter, ",">
+
+    TransactionSetter =
+      | "amount" "=" number
+      | "account" "=" identifier
+      | "category" "=" identifier
 
     category (a category)  = identifier
     account (an account)   = identifier

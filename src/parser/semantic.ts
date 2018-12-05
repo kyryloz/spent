@@ -1,5 +1,10 @@
+import { fromPairs } from 'lodash'
 import * as ohm from 'ohm-js'
 import { grammar } from 'parser/grammar'
+
+export interface Values {
+  [valueName: string]: any
+}
 
 export interface SemanticCallback {
   create: (entity: string, name: string) => void
@@ -8,6 +13,7 @@ export interface SemanticCallback {
   status: (what: string) => void
   remove: (entity: string, name: string) => void
   rename: (entity: string, oldName: string, newName: string) => void
+  updateTransaction: (id: string, values: Values) => void
 }
 
 let semantic: ohm.Semantics | undefined = undefined
@@ -53,6 +59,14 @@ semantic.addOperation('eval', {
     }
     semanticCallback = undefined
   },
+  UpdateTransaction: (_, identifier, _0, values) => {
+    if (semanticCallback) {
+      semanticCallback.updateTransaction(identifier.eval(), values.eval())
+    }
+    semanticCallback = undefined
+  },
+  Setters: values => fromPairs(values.asIteration().eval()),
+  TransactionSetter: (name, _, value) => [name.sourceString, value.eval()],
   number: node => parseFloat(node.sourceString),
   string: (_, str, _0) => str.sourceString,
   word: node => node.sourceString,
