@@ -45,9 +45,9 @@ export const grammar = ohm.grammar(`
     Status            = "status" status
     Delete            = "delete" deletableEntity identifier
     Rename            = "rename" entity identifier "to" identifier
-    UpdateTransaction = "update transaction" identifier "set" Setters
+    UpdateTransaction = "update transaction" identifier "set" TransactionSetters
 
-    Setters = NonemptyListOf<TransactionSetter, ",">
+    TransactionSetters = NonemptyListOf<TransactionSetter, ",">
 
     TransactionSetter =
       | "amount" "=" number

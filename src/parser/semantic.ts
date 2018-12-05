@@ -65,7 +65,7 @@ semantic.addOperation('eval', {
     }
     semanticCallback = undefined
   },
-  Setters: values => fromPairs(values.asIteration().eval()),
+  TransactionSetters: values => fromPairs(values.asIteration().eval()),
   TransactionSetter: (name, _, value) => [name.sourceString, value.eval()],
   number: node => parseFloat(node.sourceString),
   string: (_, str, _0) => str.sourceString,
