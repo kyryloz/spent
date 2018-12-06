@@ -61,6 +61,9 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
     },
     updateExpense: (id, values) => {
       console.log('UPDATE', id, values)
+    },
+    updateIncome: (id, values) => {
+      console.log('UPDATE', id, values)
     }
   })
 }

@@ -241,7 +241,7 @@ describe('parser.ts', () => {
         })
       })
 
-      describe('updateexpense', () => {
+      describe('updateExpense', () => {
         test('case1', () => {
           const input = 'update expense'
           expect(parseGrammar(input).success).toBeFalsy()
@@ -278,6 +278,43 @@ describe('parser.ts', () => {
         })
 
         test('case8', () => {
+          const input = 'update expense id1 set amount = 100,'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+      })
+
+      describe('updateIncome', () => {
+        test('case1', () => {
+          const input = 'update income'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case2', () => {
+          const input = 'update income id1'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case3', () => {
+          const input = 'update income id1 set'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case4', () => {
+          const input = 'update income id1 set amount = 100'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case5', () => {
+          const input = 'update income id1 set account = wallet'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case6', () => {
+          const input = 'update expense id1 set amount = 100, account = wallet'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case7', () => {
           const input = 'update expense id1 set amount = 100,'
           expect(parseGrammar(input).success).toBeFalsy()
         })
