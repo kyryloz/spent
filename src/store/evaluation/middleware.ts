@@ -59,7 +59,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
     rename: (entity, oldName, newName) => {
       dispatch(evaluateRename(state, input, entity, oldName, newName))
     },
-    updateTransaction: (id, values) => {
+    updateExpense: (id, values) => {
       console.log('UPDATE', id, values)
     }
   })

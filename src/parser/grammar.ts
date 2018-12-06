@@ -37,7 +37,7 @@ export const grammar = ohm.grammar(`
       | Status
       | Delete
       | Rename
-      | UpdateTransaction
+      | UpdateExpense
 
     Create            = "create" entity identifier
     Expense           = "expense" number "on" category "from" account
@@ -45,11 +45,11 @@ export const grammar = ohm.grammar(`
     Status            = "status" status
     Delete            = "delete" deletableEntity identifier
     Rename            = "rename" entity identifier "to" identifier
-    UpdateTransaction = "update transaction" identifier "set" TransactionSetters
+    UpdateExpense     = "update expense" identifier "set" ExpenseSetters
 
-    TransactionSetters = NonemptyListOf<TransactionSetter, ",">
+    ExpenseSetters = NonemptyListOf<ExpenseSetter, ",">
 
-    TransactionSetter =
+    ExpenseSetter =
       | "amount" "=" number
       | "account" "=" identifier
       | "category" "=" identifier

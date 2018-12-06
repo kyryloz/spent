@@ -10,7 +10,7 @@ describe('semantic.ts', () => {
       status: jest.fn(),
       remove: jest.fn(),
       rename: jest.fn(),
-      updateTransaction: jest.fn(),
+      updateExpense: jest.fn(),
     }
 
     beforeEach(() => {
@@ -53,21 +53,21 @@ describe('semantic.ts', () => {
       expect(mockCallback.rename).toBeCalledWith('category', 'clothes', 'clothes1')
     })
 
-    test('updateTransaction', () => {
+    test('updateExpense', () => {
       const input =
-        "update transaction 'c7cb' set amount = 100, account = 'wallet', category = 'clothes'"
+        "update expense 'c7cb' set amount = 100, account = 'wallet', category = 'clothes'"
       runSemantic(parseGrammar(input).match, mockCallback)
-      expect(mockCallback.updateTransaction).toBeCalledWith('c7cb', {
+      expect(mockCallback.updateExpense).toBeCalledWith('c7cb', {
         amount: 100,
         account: 'wallet',
         category: 'clothes',
       })
     })
 
-    test('updateTransaction2', () => {
-      const input = "update transaction 'c7cb' set account = 'wallet'"
+    test('updateExpense2', () => {
+      const input = "update expense 'c7cb' set account = 'wallet'"
       runSemantic(parseGrammar(input).match, mockCallback)
-      expect(mockCallback.updateTransaction).toBeCalledWith('c7cb', {
+      expect(mockCallback.updateExpense).toBeCalledWith('c7cb', {
         account: 'wallet',
       })
     })
