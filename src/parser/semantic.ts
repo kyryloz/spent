@@ -15,6 +15,7 @@ export interface SemanticCallback {
   rename: (entity: string, oldName: string, newName: string) => void
   updateExpense: (id: string, values: Values) => void
   updateIncome: (id: string, values: Values) => void
+  transfer: (from: string, to: string, amount: number) => void
 }
 
 let semantic: ohm.Semantics | undefined = undefined
@@ -76,6 +77,12 @@ semantic.addOperation('eval', {
   },
   IncomeSetters: values => fromPairs(values.asIteration().eval()),
   IncomeSetter: (name, _, value) => [name.sourceString, value.eval()],
+  Transfer: (_, amount, _0, from, _1, to) => {
+    if (semanticCallback) {
+      semanticCallback.transfer(from.eval(), to.eval(), amount.eval())
+    }
+    semanticCallback = undefined
+  },
   number: node => parseFloat(node.sourceString),
   string: (_, str, _0) => str.sourceString,
   word: node => node.sourceString,

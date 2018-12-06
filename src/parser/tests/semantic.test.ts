@@ -12,6 +12,7 @@ describe('semantic.ts', () => {
       rename: jest.fn(),
       updateExpense: jest.fn(),
       updateIncome: jest.fn(),
+      transfer: jest.fn(),
     }
 
     beforeEach(() => {
@@ -89,6 +90,12 @@ describe('semantic.ts', () => {
       expect(mockCallback.updateIncome).toBeCalledWith('c7cb', {
         account: 'wallet',
       })
+    })
+
+    test('transfer', () => {
+      const input = "transfer 100 from wallet to 'wallet1'"
+      runSemantic(parseGrammar(input).match, mockCallback)
+      expect(mockCallback.transfer).toBeCalledWith('wallet', 'wallet1', 100)
     })
   })
 })

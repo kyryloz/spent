@@ -60,10 +60,13 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateRename(state, input, entity, oldName, newName))
     },
     updateExpense: (id, values) => {
-      console.log('UPDATE', id, values)
+      console.log('UPDATE EXPENSE', id, values)
     },
     updateIncome: (id, values) => {
-      console.log('UPDATE', id, values)
+      console.log('UPDATE INCOME', id, values)
+    },
+    transfer: (from, to, amount) => {
+      console.log('TRANSFER', from, to, amount)
     }
   })
 }

@@ -319,6 +319,33 @@ describe('parser.ts', () => {
           expect(parseGrammar(input).success).toBeFalsy()
         })
       })
+
+      describe('transfer', () => {
+        test('case1', () => {
+          const input = 'transfer 100 from'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case2', () => {
+          const input = 'transfer 100 from wallet'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case3', () => {
+          const input = 'transfer 100 from wallet to'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case4', () => {
+          const input = 'transfer 100 from wallet to wallet1'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case5', () => {
+          const input = 'transfer'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+      })
     })
   })
 })
