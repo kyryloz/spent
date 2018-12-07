@@ -1,8 +1,8 @@
 import { Reducer } from 'redux'
+import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
-import { EvaluationActionType, EvaluationActionCreator } from 'store/evaluation/actions'
 
 const initialState: CommandModel.State = {
   items: [],
@@ -33,10 +33,30 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
     }
     case EvaluationActionType.UPDATE_INCOME: {
       const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateIncome>
-      // TODO update item
+
+      const updatedItems = state.items.map(item => {
+        if (item.id === payload.data.expenseId) {
+          const expenseItem = item as CommandModel.ExpenseData
+          return {
+            ...expenseItem,
+            data: {
+              ...expenseItem.data,
+              accountId: payload.data.values.accountId
+                ? payload.data.values.accountId
+                : expenseItem.data.accountId,
+              amount: payload.data.values.amount
+                ? payload.data.values.amount
+                : expenseItem.data.amount,
+            },
+          }
+        } else {
+          return item
+        }
+      })
+
       return {
         ...state,
-        items: [...state.items, action.payload],
+        items: [...updatedItems, action.payload],
         error: {
           human: '',
         },
