@@ -10,6 +10,9 @@ export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreator.income>
   | ReturnType<typeof EvaluationActionCreator.renameEntity>
   | ReturnType<typeof EvaluationActionCreator.status>
+  | ReturnType<typeof EvaluationActionCreator.updateExpense>
+  | ReturnType<typeof EvaluationActionCreator.updateIncome>
+  | ReturnType<typeof EvaluationActionCreator.transfer>
 
 export enum EvaluationActionType {
   EXPENSE = '@@evaluation/EXPENSE',
@@ -19,6 +22,9 @@ export enum EvaluationActionType {
   RENAME_ENTITY = '@@evaluation/RENAME_ENTITY',
   CREATE_ACCOUNT = '@@evaluation/CREATE_ACCOUNT',
   CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
+  UPDATE_EXPENSE = '@@evaluation/UPDATE_EXPENSE',
+  UPDATE_INCOME = '@@evaluation/UPDATE_INCOME',
+  TRANSFER = '@@evaluation/TRANSFER',
 }
 
 export namespace EvaluationActionCreator {
@@ -156,6 +162,77 @@ export namespace EvaluationActionCreator {
         raw,
         data: {
           dataType: CommandModel.DataType.RENAME_ENTITY,
+          ...data,
+        },
+      },
+    }
+  }
+
+  export const updateExpense = (
+    raw: string,
+    data: {
+      expenseId: string,
+      values: {
+        accountId?: string,
+        categoryId?: string,
+        amount?: number
+      }
+    }
+  ) => {
+    return {
+      type: EvaluationActionType.UPDATE_EXPENSE,
+      payload: {
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw,
+        data: {
+          dataType: CommandModel.DataType.UPDATE_EXPENSE,
+          ...data,
+        },
+      },
+    }
+  }
+
+  export const updateIncome = (
+    raw: string,
+    data: {
+      expenseId: string
+      values: {
+        accountId?: string,
+        amount?: number
+      }
+    }
+  ) => {
+    return {
+      type: EvaluationActionType.UPDATE_INCOME,
+      payload: {
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw,
+        data: {
+          dataType: CommandModel.DataType.UPDATE_INCOME,
+          ...data,
+        },
+      },
+    }
+  }
+
+  export const transfer = (
+    raw: string,
+    data: {
+      accountFromId: string
+      accountToId: string
+      amount: number
+    }
+  ) => {
+    return {
+      type: EvaluationActionType.TRANSFER,
+      payload: {
+        id: uuidv4(),
+        timestamp: moment().unix(),
+        raw,
+        data: {
+          dataType: CommandModel.DataType.TRANSFER,
           ...data,
         },
       },

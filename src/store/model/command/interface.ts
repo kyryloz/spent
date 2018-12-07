@@ -16,6 +16,9 @@ export namespace CommandModel {
     CREATE_CATEGORY = 'CREATE_CATEGORY',
     DELETE_ENTITY = 'DELETE_ENTITY',
     RENAME_ENTITY = 'RENAME_ENTITY',
+    UPDATE_EXPENSE = 'UPDATE_EXPENSE',
+    UPDATE_INCOME = 'UPDATE_INCOME',
+    TRANSFER = 'TRANSFER',
   }
 
   export const enum Entity {
@@ -86,6 +89,32 @@ export namespace CommandModel {
     readonly data: {
       readonly dataType: DataType.INCOME
       readonly accountId: string
+      readonly amount: number
+    }
+  }
+
+  export interface UpdateExpenseData extends CommandDataBase {
+    readonly data: {
+      readonly dataType: DataType.UPDATE_EXPENSE
+      readonly accountId?: string
+      readonly categoryId?: string
+      readonly amount?: number
+    }
+  }
+
+  export interface UpdateIncomeData extends CommandDataBase {
+    readonly data: {
+      readonly dataType: DataType.UPDATE_INCOME
+      readonly accountId?: string
+      readonly amount?: number
+    }
+  }
+
+  export interface TransferData extends CommandDataBase {
+    readonly data: {
+      readonly dataType: DataType.TRANSFER
+      readonly accountFromId: string
+      readonly accountToId: string
       readonly amount: number
     }
   }
