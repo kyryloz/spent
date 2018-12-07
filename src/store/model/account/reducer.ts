@@ -71,6 +71,35 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.UPDATE_EXPENSE: {
+      const {
+        payload: {
+          data: { expenseId, accountChangeData },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.updateExpense>
+
+      if (accountChangeData) {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [accountChangeData.oldAccountId]: {
+              ...state.byId[accountChangeData.oldAccountId],
+              commandIds: removeItem(
+                state.byId[accountChangeData.oldAccountId].commandIds,
+                expenseId
+              ),
+            },
+            [accountChangeData.newAccountId]: {
+              ...state.byId[accountChangeData.newAccountId],
+              commandIds: [...state.byId[accountChangeData.newAccountId].commandIds, expenseId],
+            },
+          },
+        }
+      }
+
+      return state
+    }
     case EvaluationActionType.DELETE_ENTITY: {
       const {
         payload: {

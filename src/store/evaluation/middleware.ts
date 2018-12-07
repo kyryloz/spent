@@ -192,14 +192,14 @@ const evaluateUpdateExpense = (
   }
 
   if (values.account && values.account !== command.data.account.name) {
-    const newAccount = values.account && AccountSelector.findByName(values.account)(state)
+    const newAccount = AccountSelector.findByName(values.account)(state)
 
     if (!newAccount) {
       return CommandActionCreator.error(`Account '${values.account}' not found`)
     }
 
     accountChangeData = {
-      oldAccountId: command.data.category.id,
+      oldAccountId: command.data.account.id,
       newAccountId: newAccount.id,
     }
   }
