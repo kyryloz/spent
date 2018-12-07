@@ -2,7 +2,7 @@ import { Reducer } from 'redux'
 import { App } from 'store/interface'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
-import { EvaluationActionType } from 'store/evaluation/actions'
+import { EvaluationActionType, EvaluationActionCreator } from 'store/evaluation/actions'
 
 const initialState: CommandModel.State = {
   items: [],
@@ -23,6 +23,17 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
     case EvaluationActionType.DELETE_ENTITY:
     case EvaluationActionType.RENAME_ENTITY:
     case EvaluationActionType.STATUS: {
+      return {
+        ...state,
+        items: [...state.items, action.payload],
+        error: {
+          human: '',
+        },
+      }
+    }
+    case EvaluationActionType.UPDATE_INCOME: {
+      const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateIncome>
+      // TODO update item
       return {
         ...state,
         items: [...state.items, action.payload],

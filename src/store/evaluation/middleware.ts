@@ -1,5 +1,5 @@
 import { parseGrammar } from 'parser/parser'
-import { runSemantic } from 'parser/semantic'
+import { runSemantic, IncomeSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategorySelector } from 'store/model/category/selectors'
@@ -9,7 +9,7 @@ import { CommandSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
-import { EvaluationActionCreator } from 'store/evaluation/actions';
+import { EvaluationActionCreator } from 'store/evaluation/actions'
 
 export const evaluationMiddleware: Middleware<
   {},
@@ -63,11 +63,11 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       console.log('UPDATE EXPENSE', id, values)
     },
     updateIncome: (id, values) => {
-      console.log('UPDATE INCOME', id, values)
+      dispatch(evaluateUpdateIncome(state, input, id, values))
     },
     transfer: (from, to, amount) => {
       console.log('TRANSFER', from, to, amount)
-    }
+    },
   })
 }
 
@@ -145,6 +145,33 @@ const evaluateIncome = (
   return EvaluationActionCreator.income(input, {
     accountId: account.id,
     amount,
+  })
+}
+
+const evaluateUpdateIncome = (
+  state: App.State,
+  input: string,
+  expenseId: string,
+  values: IncomeSetters
+): App.Action => {
+  let accountId = undefined
+
+  if (values.account) {
+    const account = values.account && AccountSelector.findByName(values.account)(state)
+
+    if (!account) {
+      return CommandActionCreator.error(`Account '${values.account}' not found`)
+    }
+
+    accountId = account.id
+  }
+
+  return EvaluationActionCreator.updateIncome(input, {
+    expenseId,
+    values: {
+      accountId,
+      amount: values.amount,
+    },
   })
 }
 

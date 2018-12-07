@@ -2,8 +2,15 @@ import { fromPairs } from 'lodash'
 import * as ohm from 'ohm-js'
 import { grammar } from 'parser/grammar'
 
-export interface Values {
-  [valueName: string]: any
+export interface ExpenseSetters {
+  account?: string
+  category?: string
+  amount?: number
+}
+
+export interface IncomeSetters {
+  account?: string
+  amount?: number
 }
 
 export interface SemanticCallback {
@@ -13,8 +20,8 @@ export interface SemanticCallback {
   status: (what: string) => void
   remove: (entity: string, name: string) => void
   rename: (entity: string, oldName: string, newName: string) => void
-  updateExpense: (id: string, values: Values) => void
-  updateIncome: (id: string, values: Values) => void
+  updateExpense: (id: string, values: ExpenseSetters) => void
+  updateIncome: (id: string, values: IncomeSetters) => void
   transfer: (from: string, to: string, amount: number) => void
 }
 
