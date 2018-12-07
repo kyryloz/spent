@@ -3,10 +3,9 @@ import { createWidget } from 'components/widgets/widgetFactory'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { CommandModel } from 'store/model/command/interface'
-import { CommandSelector } from 'store/model/command/selectors'
 import { App } from 'store/interface'
-import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
+import { CommandSelector } from 'store/model/command/selectors'
+import { dispatchDeleteAction, dispatchEditAction } from 'utils/editableActionUtils'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -63,43 +62,8 @@ export const SmartOutput = flow(
       commands: CommandSelector.items(state),
     }),
     dispatch => ({
-      editCommand: command => {
-        switch (command.data.dataType) {
-          case CommandModel.DataType.EXPENSE: {
-            const { data } = command as CommandSelector.ExpenseHydratedData
-
-            dispatch(
-              SmartInputActionCreator.setInput(
-                `update transaction '${command.id}' set amount = '${data.amount}', account = '${
-                  data.account.name
-                }', category = '${data.category.name}'`
-              )
-            )
-            break
-          }
-          case CommandModel.DataType.INCOME: {
-            const { data } = command as CommandSelector.IncomeHydratedData
-
-            dispatch(
-              SmartInputActionCreator.setInput(
-                `update transaction '${command.id}' set amount = '${data.amount}', account = '${
-                  data.account.name
-                }`
-              )
-            )
-            break
-          }
-          default: {
-            throw new Error(`Unsupported operation for '${command.data.dataType}'`)
-          }
-        }
-
-        dispatch(SmartInputActionCreator.setFocus(true))
-      },
-      deleteCommand: command => {
-        dispatch(SmartInputActionCreator.setInput(`delete transaction '${command.id}'`))
-        dispatch(SmartInputActionCreator.setFocus(true))
-      },
+      editCommand: command => dispatchEditAction(dispatch, command),
+      deleteCommand: command => dispatchDeleteAction(dispatch, command),
     })
   ),
   withStyles(styles)

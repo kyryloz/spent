@@ -1,5 +1,5 @@
 import { parseGrammar } from 'parser/parser'
-import { runSemantic, IncomeSetters } from 'parser/semantic'
+import { runSemantic, IncomeSetters, ExpenseSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategorySelector } from 'store/model/category/selectors'
@@ -60,7 +60,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateRename(state, input, entity, oldName, newName))
     },
     updateExpense: (id, values) => {
-      console.log('UPDATE EXPENSE', id, values)
+      dispatch(evaluateUpdateExpense(state, input, id, values))
     },
     updateIncome: (id, values) => {
       dispatch(evaluateUpdateIncome(state, input, id, values))
@@ -151,7 +151,7 @@ const evaluateIncome = (
 const evaluateUpdateIncome = (
   state: App.State,
   input: string,
-  expenseId: string,
+  incomeId: string,
   values: IncomeSetters
 ): App.Action => {
   let accountId = undefined
@@ -167,11 +167,68 @@ const evaluateUpdateIncome = (
   }
 
   return EvaluationActionCreator.updateIncome(input, {
-    expenseId,
+    incomeId,
     values: {
       accountId,
       amount: values.amount,
     },
+  })
+}
+
+const evaluateUpdateExpense = (
+  state: App.State,
+  input: string,
+  expenseId: string,
+  values: ExpenseSetters
+): App.Action => {
+  let accountChangeData = undefined
+  let categoryChangeData = undefined
+  let amountChangeData = undefined
+
+  const command = CommandSelector.findById(expenseId)(state) as CommandSelector.ExpenseHydratedData
+
+  if (!command) {
+    return CommandActionCreator.error(`Transaction with ID '${expenseId}' not found`)
+  }
+
+  if (values.account && values.account !== command.data.account.name) {
+    const newAccount = values.account && AccountSelector.findByName(values.account)(state)
+
+    if (!newAccount) {
+      return CommandActionCreator.error(`Account '${values.account}' not found`)
+    }
+
+    accountChangeData = {
+      oldAccountId: command.data.category.id,
+      newAccountId: newAccount.id,
+    }
+  }
+
+  if (values.category && values.category !== command.data.category.name) {
+    const newCategory = CategorySelector.findByName(values.category)(state)
+
+    if (!newCategory) {
+      return CommandActionCreator.error(`Category '${values.category}' not found`)
+    }
+
+    categoryChangeData = {
+      oldCategoryId: command.data.category.id,
+      newCategoryId: newCategory.id,
+    }
+  }
+
+  if (values.amount && values.amount !== command.data.amount) {
+    amountChangeData = {
+      oldAmount: command.data.amount,
+      newAmount: values.amount,
+    }
+  }
+
+  return EvaluationActionCreator.updateExpense(input, {
+    expenseId,
+    accountChangeData,
+    categoryChangeData,
+    amountChangeData,
   })
 }
 

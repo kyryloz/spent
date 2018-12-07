@@ -35,17 +35,53 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
       const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateIncome>
 
       const updatedItems = state.items.map(item => {
+        if (item.id === payload.data.incomeId) {
+          const incomeItem = item as CommandModel.IncomeData
+
+          return {
+            ...incomeItem,
+            data: {
+              ...incomeItem.data,
+              accountId: payload.data.values.accountId
+                ? payload.data.values.accountId
+                : incomeItem.data.accountId,
+              amount: payload.data.values.amount
+                ? payload.data.values.amount
+                : incomeItem.data.amount,
+            },
+          }
+        } else {
+          return item
+        }
+      })
+
+      return {
+        ...state,
+        items: [...updatedItems, action.payload],
+        error: {
+          human: '',
+        },
+      }
+    }
+    case EvaluationActionType.UPDATE_EXPENSE: {
+      const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateExpense>
+
+      const updatedItems = state.items.map(item => {
         if (item.id === payload.data.expenseId) {
           const expenseItem = item as CommandModel.ExpenseData
+
           return {
             ...expenseItem,
             data: {
               ...expenseItem.data,
-              accountId: payload.data.values.accountId
-                ? payload.data.values.accountId
+              accountId: payload.data.accountChangeData
+                ? payload.data.accountChangeData.newAccountId
                 : expenseItem.data.accountId,
-              amount: payload.data.values.amount
-                ? payload.data.values.amount
+              categoryId: payload.data.categoryChangeData
+                ? payload.data.categoryChangeData.newCategoryId
+                : expenseItem.data.categoryId,
+              amount: payload.data.amountChangeData
+                ? payload.data.amountChangeData.newAmount
                 : expenseItem.data.amount,
             },
           }

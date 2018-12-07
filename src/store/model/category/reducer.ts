@@ -68,6 +68,35 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.UPDATE_EXPENSE: {
+      const {
+        payload: {
+          data: { expenseId, categoryChangeData },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.updateExpense>
+
+      if (categoryChangeData) {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [categoryChangeData.oldCategoryId]: {
+              ...state.byId[categoryChangeData.oldCategoryId],
+              commandIds: removeItem(
+                state.byId[categoryChangeData.oldCategoryId].commandIds,
+                expenseId
+              ),
+            },
+            [categoryChangeData.newCategoryId]: {
+              ...state.byId[categoryChangeData.newCategoryId],
+              commandIds: [...state.byId[categoryChangeData.newCategoryId].commandIds, expenseId],
+            },
+          },
+        }
+      }
+
+      return state
+    }
     case EvaluationActionType.DELETE_ENTITY: {
       const {
         payload: {
