@@ -12,6 +12,7 @@ import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
 import { RenameAccount } from './RenameAccount'
 import { RenameCategory } from './RenameCategory'
+import { UpdateIncome } from './UpdateIncome'
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -93,6 +94,10 @@ export const createWidget = (
           widgetComponent = <RenameCategory command={renameCommand} />
           break
       }
+      break
+    }
+    case CommandModel.DataType.UPDATE_INCOME: {
+      widgetComponent = <UpdateIncome command={command as CommandModel.UpdateIncomeData} />
       break
     }
     default:

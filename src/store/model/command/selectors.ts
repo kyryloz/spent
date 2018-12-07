@@ -15,6 +15,9 @@ export namespace CommandSelector {
     | CommandModel.CreateCategoryData
     | CommandModel.DeleteEntityData
     | CommandModel.RenameEntityData
+    | CommandModel.UpdateIncomeData
+    | CommandModel.UpdateExpenseData
+    | CommandModel.TransferData
 
   export interface ExpenseHydratedData extends CommandModel.CommandDataBase {
     readonly data: {
