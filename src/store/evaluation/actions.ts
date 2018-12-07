@@ -1,6 +1,6 @@
 import * as moment from 'moment'
 import { CommandModel } from 'store/model/command/interface'
-import { uuidv4 } from 'utils/mathUtils'
+import { generateId } from 'utils/mathUtils'
 
 export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreator.createAccount>
@@ -39,7 +39,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.EXPENSE,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -60,7 +60,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.INCOME,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -75,12 +75,12 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.CREATE_ACCOUNT,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
           dataType: CommandModel.DataType.CREATE_ACCOUNT,
-          id: uuidv4(),
+          id: generateId(),
           name,
         },
       },
@@ -91,12 +91,12 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.CREATE_CATEGORY,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
           dataType: CommandModel.DataType.CREATE_CATEGORY,
-          id: uuidv4(),
+          id: generateId(),
           name,
         },
       },
@@ -112,7 +112,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.STATUS,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -134,7 +134,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.DELETE_ENTITY,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -157,7 +157,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.RENAME_ENTITY,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -189,7 +189,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.UPDATE_EXPENSE,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -217,7 +217,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.UPDATE_INCOME,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
@@ -239,7 +239,7 @@ export namespace EvaluationActionCreator {
     return {
       type: EvaluationActionType.TRANSFER,
       payload: {
-        id: uuidv4(),
+        id: generateId(),
         timestamp: moment().unix(),
         raw,
         data: {
