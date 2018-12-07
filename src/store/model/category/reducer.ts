@@ -71,7 +71,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
     case EvaluationActionType.UPDATE_EXPENSE: {
       const {
         payload: {
-          data: { expenseId, categoryChangeData },
+          data: { targetCommandId, categoryChangeData },
         },
       } = action as ReturnType<typeof EvaluationActionCreator.updateExpense>
 
@@ -84,12 +84,15 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
               ...state.byId[categoryChangeData.oldCategoryId],
               commandIds: removeItem(
                 state.byId[categoryChangeData.oldCategoryId].commandIds,
-                expenseId
+                targetCommandId
               ),
             },
             [categoryChangeData.newCategoryId]: {
               ...state.byId[categoryChangeData.newCategoryId],
-              commandIds: [...state.byId[categoryChangeData.newCategoryId].commandIds, expenseId],
+              commandIds: [
+                ...state.byId[categoryChangeData.newCategoryId].commandIds,
+                targetCommandId,
+              ],
             },
           },
         }

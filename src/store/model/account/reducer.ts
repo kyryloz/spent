@@ -71,12 +71,15 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.UPDATE_INCOME:
     case EvaluationActionType.UPDATE_EXPENSE: {
       const {
         payload: {
-          data: { expenseId, accountChangeData },
+          data: { targetCommandId, accountChangeData },
         },
-      } = action as ReturnType<typeof EvaluationActionCreator.updateExpense>
+      } = action as
+        | ReturnType<typeof EvaluationActionCreator.updateExpense>
+        | ReturnType<typeof EvaluationActionCreator.updateIncome>
 
       if (accountChangeData) {
         return {
@@ -87,12 +90,15 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
               ...state.byId[accountChangeData.oldAccountId],
               commandIds: removeItem(
                 state.byId[accountChangeData.oldAccountId].commandIds,
-                expenseId
+                targetCommandId
               ),
             },
             [accountChangeData.newAccountId]: {
               ...state.byId[accountChangeData.newAccountId],
-              commandIds: [...state.byId[accountChangeData.newAccountId].commandIds, expenseId],
+              commandIds: [
+                ...state.byId[accountChangeData.newAccountId].commandIds,
+                targetCommandId,
+              ],
             },
           },
         }

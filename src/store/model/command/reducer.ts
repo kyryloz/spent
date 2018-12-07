@@ -35,18 +35,18 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
       const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateIncome>
 
       const updatedItems = state.items.map(item => {
-        if (item.id === payload.data.incomeId) {
+        if (item.id === payload.data.targetCommandId) {
           const incomeItem = item as CommandModel.IncomeData
 
           return {
             ...incomeItem,
             data: {
               ...incomeItem.data,
-              accountId: payload.data.values.accountId
-                ? payload.data.values.accountId
+              accountId: payload.data.accountChangeData
+                ? payload.data.accountChangeData.newAccountId
                 : incomeItem.data.accountId,
-              amount: payload.data.values.amount
-                ? payload.data.values.amount
+              amount: payload.data.amountChangeData
+                ? payload.data.amountChangeData.newAmount
                 : incomeItem.data.amount,
             },
           }
@@ -67,7 +67,7 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
       const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateExpense>
 
       const updatedItems = state.items.map(item => {
-        if (item.id === payload.data.expenseId) {
+        if (item.id === payload.data.targetCommandId) {
           const expenseItem = item as CommandModel.ExpenseData
 
           return {

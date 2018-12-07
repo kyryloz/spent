@@ -22,7 +22,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
 
       dispatch(
         SmartInputActionCreator.setInput(
-          `update income '${command.id}' set amount = '${data.amount}', account = '${
+          `update income '${command.id}' set amount = ${data.amount}, account = '${
             data.account.name
           }'`
         )

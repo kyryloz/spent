@@ -1,15 +1,15 @@
 import { parseGrammar } from 'parser/parser'
-import { runSemantic, IncomeSetters, ExpenseSetters } from 'parser/semantic'
+import { ExpenseSetters, IncomeSetters, runSemantic } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
+import { EvaluationActionCreator } from 'store/evaluation/actions'
+import { App } from 'store/interface'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategorySelector } from 'store/model/category/selectors'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
-import { App } from 'store/interface'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
-import { EvaluationActionCreator } from 'store/evaluation/actions'
 
 export const evaluationMiddleware: Middleware<
   {},
@@ -151,44 +151,63 @@ const evaluateIncome = (
 const evaluateUpdateIncome = (
   state: App.State,
   input: string,
-  incomeId: string,
+  targetCommandId: string,
   values: IncomeSetters
 ): App.Action => {
-  let accountId = undefined
+  let accountChangeData = undefined
+  let amountChangeData = undefined
 
-  if (values.account) {
-    const account = values.account && AccountSelector.findByName(values.account)(state)
+  const command = CommandSelector.findById(targetCommandId)(
+    state
+  ) as CommandSelector.ExpenseHydratedData
 
-    if (!account) {
+  if (!command) {
+    return CommandActionCreator.error(`Transaction with ID '${targetCommandId}' not found`)
+  }
+
+  if (values.account && values.account !== command.data.account.name) {
+    const newAccount = AccountSelector.findByName(values.account)(state)
+
+    if (!newAccount) {
       return CommandActionCreator.error(`Account '${values.account}' not found`)
     }
 
-    accountId = account.id
+    accountChangeData = {
+      oldAccountId: command.data.account.id,
+      newAccountId: newAccount.id,
+    }
+  }
+
+  if (values.amount && values.amount !== command.data.amount) {
+    amountChangeData = {
+      oldAmount: command.data.amount,
+      newAmount: values.amount,
+    }
   }
 
   return EvaluationActionCreator.updateIncome(input, {
-    incomeId,
-    values: {
-      accountId,
-      amount: values.amount,
-    },
+    targetCommandId,
+    accountChangeData,
+    amountChangeData,
   })
 }
 
 const evaluateUpdateExpense = (
   state: App.State,
   input: string,
-  expenseId: string,
+  targetCommandId: string,
   values: ExpenseSetters
 ): App.Action => {
   let accountChangeData = undefined
   let categoryChangeData = undefined
   let amountChangeData = undefined
 
-  const command = CommandSelector.findById(expenseId)(state) as CommandSelector.ExpenseHydratedData
+  const command = CommandSelector.findById(targetCommandId)(
+    state
+  ) as CommandSelector.ExpenseHydratedData
 
   if (!command) {
-    return CommandActionCreator.error(`Transaction with ID '${expenseId}' not found`)
+    return CommandActionCreator.error(`Transaction with ID '${targetCommandId}' not found`)
   }
 
   if (values.account && values.account !== command.data.account.name) {
@@ -225,7 +244,7 @@ const evaluateUpdateExpense = (
   }
 
   return EvaluationActionCreator.updateExpense(input, {
-    expenseId,
+    targetCommandId,
     accountChangeData,
     categoryChangeData,
     amountChangeData,

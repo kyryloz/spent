@@ -171,7 +171,7 @@ export namespace EvaluationActionCreator {
   export const updateExpense = (
     raw: string,
     data: {
-      expenseId: string
+      targetCommandId: string
       accountChangeData?: {
         oldAccountId: string
         newAccountId: string
@@ -203,10 +203,14 @@ export namespace EvaluationActionCreator {
   export const updateIncome = (
     raw: string,
     data: {
-      incomeId: string
-      values: {
-        accountId?: string
-        amount?: number
+      targetCommandId: string
+      accountChangeData?: {
+        oldAccountId: string
+        newAccountId: string
+      }
+      amountChangeData?: {
+        oldAmount: number
+        newAmount: number
       }
     }
   ) => {
