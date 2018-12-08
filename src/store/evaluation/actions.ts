@@ -1,6 +1,6 @@
-import * as moment from 'moment'
-import { CommandModel } from 'store/model/command/interface'
-import { generateId } from 'utils/mathUtils'
+import * as moment from 'moment';
+import { CommandModel } from 'store/model/command/interface';
+import { generateId } from 'utils/mathUtils';
 
 export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreator.createAccount>
@@ -8,15 +8,17 @@ export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreator.deleteEntity>
   | ReturnType<typeof EvaluationActionCreator.expense>
   | ReturnType<typeof EvaluationActionCreator.income>
+  | ReturnType<typeof EvaluationActionCreator.transfer>
   | ReturnType<typeof EvaluationActionCreator.renameEntity>
   | ReturnType<typeof EvaluationActionCreator.status>
   | ReturnType<typeof EvaluationActionCreator.updateExpense>
   | ReturnType<typeof EvaluationActionCreator.updateIncome>
-  | ReturnType<typeof EvaluationActionCreator.transfer>
+  | ReturnType<typeof EvaluationActionCreator.updateTransfer>
 
 export enum EvaluationActionType {
   EXPENSE = '@@evaluation/EXPENSE',
   INCOME = '@@evaluation/INCOME',
+  TRANSFER = '@@evaluation/TRANSFER',
   STATUS = '@@evaluation/STATUS',
   DELETE_ENTITY = '@@evaluation/DELETE_ENTITY',
   RENAME_ENTITY = '@@evaluation/RENAME_ENTITY',
@@ -24,7 +26,7 @@ export enum EvaluationActionType {
   CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
   UPDATE_EXPENSE = '@@evaluation/UPDATE_EXPENSE',
   UPDATE_INCOME = '@@evaluation/UPDATE_INCOME',
-  TRANSFER = '@@evaluation/TRANSFER',
+  UPDATE_TRANSFER = '@@evaluation/UPDATE_TRANSFER',
 }
 
 export namespace EvaluationActionCreator {
@@ -225,6 +227,40 @@ export namespace EvaluationActionCreator {
           ...data,
         },
       },
+    }
+  }
+
+  export const updateTransfer = (
+    raw: string,
+    data: {
+      targetCommandId: string
+      accountFromChangeData?: {
+        oldAccountId: string
+        newAccountId: string
+      }
+      accountToChangeData?: {
+        oldAccountId: string
+        newAccountId: string
+      }
+      amountChangeData?: {
+        oldAmount: number
+        newAmount: number
+      }
+    }
+  ) => {
+    const payload: CommandModel.UpdateTransferData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.UPDATE_TRANSFER,
+        ...data,
+      },
+    }
+
+    return {
+      type: EvaluationActionType.UPDATE_TRANSFER,
+      payload
     }
   }
 
