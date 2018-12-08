@@ -6,7 +6,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
 import { AccountSelector } from 'store/model/account/selectors'
-import { CommandModel } from 'store/model/command/interface'
+import { CommandSelector } from 'store/model/command/selectors'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -51,7 +51,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.TransferData
+  command: CommandSelector.TransferHydratedData
   onEditClick: () => void
   onDeleteClick: () => void
 }
@@ -78,10 +78,11 @@ const TransferCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
       <Grid item>
         <Typography className={classes.amount}>
           <span className={classes.info}>Transfer </span>
-          {command.data.amount} USD<span className={classes.info}> from </span>
-          <span className={classes.account}>{command.data.accountFromId}</span>
+          {command.data.amount} USD
+          <span className={classes.info}> from </span>
+          <span className={classes.account}>{command.data.accountFrom.name}</span>
           <span className={classes.info}> to </span>
-          <span className={classes.account}>{command.data.accountToId}</span>
+          <span className={classes.account}>{command.data.accountTo.name}</span>
         </Typography>
       </Grid>
       <Grid item>
@@ -93,12 +94,13 @@ const TransferCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
     <div className={classes.line} />
 
     <Typography className={classes.amount} gutterBottom>
-      <span className={classes.account}>{command.data.accountFromId}</span> = {fromAccountBalance}{' '}
-      USD
+      <span className={classes.account}>{command.data.accountFrom.name}</span> ={' '}
+      {fromAccountBalance} USD
     </Typography>
 
     <Typography className={classes.amount} gutterBottom>
-      <span className={classes.account}>{command.data.accountToId}</span> = {toAccountBalance} USD
+      <span className={classes.account}>{command.data.accountTo.name}</span> = {toAccountBalance}{' '}
+      USD
     </Typography>
 
     <Typography className={classes.id}>ID: {command.id}</Typography>
@@ -109,12 +111,12 @@ export const Transfer = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     fromAccountBalance: AccountSelector.balance(
-      ownProps.command.data.accountFromId,
+      ownProps.command.data.accountFrom.id,
       0,
       ownProps.command.timestamp
     )(state),
     toAccountBalance: AccountSelector.balance(
-      ownProps.command.data.accountToId,
+      ownProps.command.data.accountTo.id,
       0,
       ownProps.command.timestamp
     )(state),

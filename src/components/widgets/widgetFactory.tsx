@@ -111,7 +111,7 @@ export const createWidget = (
         <Transfer
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as CommandModel.TransferData}
+          command={command as CommandSelector.TransferHydratedData}
         />
       )
       break

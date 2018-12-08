@@ -29,7 +29,7 @@ export const calculateTransfer = (
 ) => {
   return commands
     .filter(command => command.data.dataType === CommandModel.DataType.TRANSFER)
-    .map(data => data as CommandModel.TransferData)
+    .map(data => data as CommandSelector.TransferHydratedData)
     .filter(
       data =>
         data.timestamp >= timestampFrom && inclusive
@@ -37,11 +37,11 @@ export const calculateTransfer = (
           : data.timestamp < timestampTo
     )
     .reduce((sum, next) => {
-      if (next.data.accountFromId === accountId) {
+      if (next.data.accountFrom.id === accountId) {
         sum -= next.data.amount
       }
 
-      if (next.data.accountToId === accountId) {
+      if (next.data.accountTo.id === accountId) {
         sum += next.data.amount
       }
 

@@ -10,6 +10,7 @@ export namespace CommandSelector {
   export type CommandItem =
     | ExpenseHydratedData
     | IncomeHydratedData
+    | TransferHydratedData
     | CommandModel.StatusData
     | CommandModel.CreateAccountData
     | CommandModel.CreateCategoryData
@@ -17,7 +18,6 @@ export namespace CommandSelector {
     | CommandModel.RenameEntityData
     | CommandModel.UpdateIncomeData
     | CommandModel.UpdateExpenseData
-    | CommandModel.TransferData
 
   export interface ExpenseHydratedData extends CommandModel.CommandDataBase {
     readonly data: {
@@ -33,6 +33,15 @@ export namespace CommandSelector {
       readonly dataType: CommandModel.DataType.INCOME
       readonly amount: number
       readonly account: AccountModel.Account
+    }
+  }
+
+  export interface TransferHydratedData extends CommandModel.CommandDataBase {
+    readonly data: {
+      readonly dataType: CommandModel.DataType.TRANSFER
+      readonly amount: number
+      readonly accountFrom: AccountModel.Account
+      readonly accountTo: AccountModel.Account
     }
   }
 
@@ -63,6 +72,21 @@ export namespace CommandSelector {
               dataType: incomeItem.data.dataType,
               amount: incomeItem.data.amount,
               account: AccountSelector.findById(incomeItem.data.accountId)(state),
+            },
+          }
+
+          return hydratedItem
+        }
+        case CommandModel.DataType.TRANSFER: {
+          const transferItem = item as CommandModel.TransferData
+
+          const hydratedItem: TransferHydratedData = {
+            ...item,
+            data: {
+              dataType: transferItem.data.dataType,
+              amount: transferItem.data.amount,
+              accountFrom: AccountSelector.findById(transferItem.data.accountFromId)(state),
+              accountTo: AccountSelector.findById(transferItem.data.accountToId)(state),
             },
           }
 
