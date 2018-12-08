@@ -15,6 +15,15 @@ const keywords = [
   'transfer',
   'create',
   'category',
+  'status',
+  'delete',
+  'update income',
+  'update expense',
+  'update transfer',
+  'where',
+  'tag',
+  'tags',
+  'all',
   'to',
   'from',
   'save',
@@ -37,9 +46,10 @@ export const grammar = ohm.grammar(`
       | Status
       | Delete
       | Rename
+      | Transfer
       | UpdateExpense
       | UpdateIncome
-      | Transfer
+      | UpdateTransfer
 
     Create            = "create" entity identifier
     Expense           = "expense" number "on" category "from" account
@@ -47,9 +57,10 @@ export const grammar = ohm.grammar(`
     Status            = "status" status
     Delete            = "delete" deletableEntity identifier
     Rename            = "rename" entity identifier "to" identifier
+    Transfer          = "transfer" number "from" account "to" account
     UpdateExpense     = "update expense" identifier "set" ExpenseSetters
     UpdateIncome      = "update income" identifier "set" IncomeSetters
-    Transfer          = "transfer" number "from" account "to" account
+    UpdateTransfer    = "update transfer" identifier "set" TransferSetters
 
     ExpenseSetters = NonemptyListOf<ExpenseSetter, ",">
 
@@ -63,6 +74,13 @@ export const grammar = ohm.grammar(`
     IncomeSetter =
       | "amount" "=" number
       | "account" "=" account
+
+    TransferSetters = NonemptyListOf<TransferSetter, ",">
+
+    TransferSetter =
+      | "amount" "=" number
+      | "from" "=" account
+      | "to" "=" account
 
     category (a category)  = identifier
     account (an account)   = identifier

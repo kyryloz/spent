@@ -50,6 +50,9 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
     income: (accountName, amount) => {
       dispatch(evaluateIncome(state, input, accountName, amount))
     },
+    transfer: (from, to, amount) => {
+      dispatch(evaluateTransfer(state, input, from, to, amount))
+    },
     status: what => {
       dispatch(evaluateStatus(input, what))
     },
@@ -65,8 +68,8 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
     updateIncome: (id, values) => {
       dispatch(evaluateUpdateIncome(state, input, id, values))
     },
-    transfer: (from, to, amount) => {
-      dispatch(evaluateTransfer(state, input, from, to, amount))
+    updateTransfer: (id, values) => {
+      // dispatch(evaluateUpdateTransfer(state, input, id, values))
     },
   })
 }

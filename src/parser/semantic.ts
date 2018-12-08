@@ -13,16 +13,23 @@ export interface IncomeSetters {
   amount?: number
 }
 
+export interface TransferSetters {
+  from?: string
+  to?: string
+  amount?: number
+}
+
 export interface SemanticCallback {
   create: (entity: string, name: string) => void
   expense: (category: string, amount: number, source: string) => void
   income: (accountName: string, amount: number) => void
+  transfer: (from: string, to: string, amount: number) => void
   status: (what: string) => void
   remove: (entity: string, name: string) => void
   rename: (entity: string, oldName: string, newName: string) => void
   updateExpense: (id: string, values: ExpenseSetters) => void
   updateIncome: (id: string, values: IncomeSetters) => void
-  transfer: (from: string, to: string, amount: number) => void
+  updateTransfer: (id: string, values: TransferSetters) => void
 }
 
 let semantic: ohm.Semantics | undefined = undefined
@@ -47,6 +54,12 @@ semantic.addOperation('eval', {
   Income: (_, amount, _0, account) => {
     if (semanticCallback) {
       semanticCallback.income(account.eval(), amount.eval())
+    }
+    semanticCallback = undefined
+  },
+  Transfer: (_, amount, _0, from, _1, to) => {
+    if (semanticCallback) {
+      semanticCallback.transfer(from.eval(), to.eval(), amount.eval())
     }
     semanticCallback = undefined
   },
@@ -84,12 +97,14 @@ semantic.addOperation('eval', {
   },
   IncomeSetters: values => fromPairs(values.asIteration().eval()),
   IncomeSetter: (name, _, value) => [name.sourceString, value.eval()],
-  Transfer: (_, amount, _0, from, _1, to) => {
+  UpdateTransfer: (_, identifier, _0, values) => {
     if (semanticCallback) {
-      semanticCallback.transfer(from.eval(), to.eval(), amount.eval())
+      semanticCallback.updateTransfer(identifier.eval(), values.eval())
     }
     semanticCallback = undefined
   },
+  TransferSetters: values => fromPairs(values.asIteration().eval()),
+  TransferSetter: (name, _, value) => [name.sourceString, value.eval()],
   number: node => parseFloat(node.sourceString),
   string: (_, str, _0) => str.sourceString,
   word: node => node.sourceString,

@@ -13,6 +13,7 @@ describe('semantic.ts', () => {
       updateExpense: jest.fn(),
       updateIncome: jest.fn(),
       transfer: jest.fn(),
+      updateTransfer: jest.fn(),
     }
 
     beforeEach(() => {
@@ -75,8 +76,7 @@ describe('semantic.ts', () => {
     })
 
     test('updateIncome', () => {
-      const input =
-        "update income 'c7cb' set amount = 100, account = 'wallet'"
+      const input = "update income 'c7cb' set amount = 100, account = 'wallet'"
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.updateIncome).toBeCalledWith('c7cb', {
         amount: 100,
@@ -96,6 +96,16 @@ describe('semantic.ts', () => {
       const input = "transfer 100 from wallet to 'wallet1'"
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.transfer).toBeCalledWith('wallet', 'wallet1', 100)
+    })
+
+    test('updateTransfer', () => {
+      const input = "update transfer id1 set amount = 100, from = wallet, to = 'wallet1'"
+      runSemantic(parseGrammar(input).match, mockCallback)
+      expect(mockCallback.updateTransfer).toBeCalledWith('id1', {
+        amount: 100,
+        from: 'wallet',
+        to: 'wallet1',
+      })
     })
   })
 })

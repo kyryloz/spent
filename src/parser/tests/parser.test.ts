@@ -283,6 +283,48 @@ describe('parser.ts', () => {
         })
       })
 
+      describe('updateTransfer', () => {
+        test('case1', () => {
+          const input = 'update transfer'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case2', () => {
+          const input = 'update transfer id1'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case3', () => {
+          const input = 'update transfer id1 set'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case4', () => {
+          const input = 'update transfer id1 set amount = 100'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case5', () => {
+          const input = 'update transfer id1 set from = wallet'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case6', () => {
+          const input = 'update transfer id1 set to = wallet2'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case7', () => {
+          const input = 'update transfer id1 set amount = 100, from = wallet, to = wallet2'
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case8', () => {
+          const input = 'update transfer id1 set amount = 100,'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+      })
+
       describe('updateIncome', () => {
         test('case1', () => {
           const input = 'update income'
