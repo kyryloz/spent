@@ -12,8 +12,9 @@ import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
 import { RenameAccount } from './RenameAccount'
 import { RenameCategory } from './RenameCategory'
+import { Transfer } from './Transfer'
+import { UpdateExpense } from './UpdateExpense'
 import { UpdateIncome } from './UpdateIncome'
-import { UpdateExpense } from './UpdateExpense';
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -103,6 +104,16 @@ export const createWidget = (
     }
     case CommandModel.DataType.UPDATE_EXPENSE: {
       widgetComponent = <UpdateExpense command={command as CommandModel.UpdateExpenseData} />
+      break
+    }
+    case CommandModel.DataType.TRANSFER: {
+      widgetComponent = (
+        <Transfer
+          onEditClick={actionClickHandlers.onEditClick}
+          onDeleteClick={actionClickHandlers.onDeleteClick}
+          command={command as CommandModel.TransferData}
+        />
+      )
       break
     }
     default:

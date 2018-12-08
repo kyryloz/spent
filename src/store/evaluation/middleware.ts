@@ -66,7 +66,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateUpdateIncome(state, input, id, values))
     },
     transfer: (from, to, amount) => {
-      console.log('TRANSFER', from, to, amount)
+      dispatch(evaluateTransfer(state, input, from, to, amount))
     },
   })
 }
@@ -370,4 +370,30 @@ const evaluateRemove = (
   }
 
   return actions
+}
+
+const evaluateTransfer = (
+  state: App.State,
+  input: string,
+  fromAccountName: string,
+  toAccountName: string,
+  amount: number
+) => {
+  const fromAccount = AccountSelector.findByName(fromAccountName)(state)
+
+  if (!fromAccount) {
+    return CommandActionCreator.error(`Account '${fromAccountName}' not found`)
+  }
+
+  const toAccount = AccountSelector.findByName(toAccountName)(state)
+
+  if (!toAccount) {
+    return CommandActionCreator.error(`Account '${toAccountName}' not found`)
+  }
+
+  return EvaluationActionCreator.transfer(input, {
+    accountFromId: fromAccount.id,
+    accountToId: toAccount.id,
+    amount,
+  })
 }

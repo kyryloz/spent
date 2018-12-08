@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core'
-import { cyan, amber, teal, red, green, grey } from '@material-ui/core/colors'
+import { cyan, amber, teal, red, green, grey, orange } from '@material-ui/core/colors'
 
 declare module '@material-ui/core/styles/createMuiTheme' {
   interface Theme {
@@ -8,6 +8,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       account: React.CSSProperties['color']
       expense: React.CSSProperties['color']
       income: React.CSSProperties['color']
+      transfer: React.CSSProperties['color']
       number: React.CSSProperties['color']
       date: React.CSSProperties['color']
       info: React.CSSProperties['color']
@@ -22,6 +23,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
       account: React.CSSProperties['color']
       expense: React.CSSProperties['color']
       income: React.CSSProperties['color']
+      transfer: React.CSSProperties['color']
       number: React.CSSProperties['color']
       date: React.CSSProperties['color']
       info: React.CSSProperties['color']
@@ -46,6 +48,7 @@ export const spentTheme = createMuiTheme({
     account: teal[300],
     expense: red[300],
     income: green[300],
+    transfer: orange[300],
     number: grey.A100,
     date: grey[700],
     info: grey[500],

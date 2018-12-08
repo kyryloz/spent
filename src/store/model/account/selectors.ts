@@ -1,9 +1,9 @@
 import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
-import { calculateBalance } from 'utils/selectorUtils'
+import { App } from 'store/interface'
 import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
-import { App } from 'store/interface'
+import { calculateBalance, calculateTransfer } from 'utils/selectorUtils'
 
 export namespace AccountSelector {
   export const byId = (state: App.State) => state.entities.accounts.byId
@@ -30,13 +30,19 @@ export namespace AccountSelector {
       return calculateBalance(commandIds, CommandModel.DataType.EXPENSE, timestampFrom, timestampTo)
     })
 
+  export const transfer = (accountId: string, timestampFrom: number, timestampTo: number) =>
+    createSelector(commandIds(accountId), commandIds => {
+      return calculateTransfer(accountId, commandIds, timestampFrom, timestampTo)
+    })
+
   export const balance = (accountId: string, timestampFrom: number, timestampTo: number) =>
     createSelector(
       [
         income(accountId, timestampFrom, timestampTo),
         expense(accountId, timestampFrom, timestampTo),
+        transfer(accountId, timestampFrom, timestampTo),
       ],
-      (income, expense) => income - expense
+      (income, expense, transfer) => income - expense + transfer
     )
 
   export const balances = (timestampFrom: number, timestampTo: number) => (state: App.State) =>

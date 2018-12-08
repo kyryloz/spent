@@ -22,6 +22,7 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
     case EvaluationActionType.INCOME:
     case EvaluationActionType.DELETE_ENTITY:
     case EvaluationActionType.RENAME_ENTITY:
+    case EvaluationActionType.TRANSFER:
     case EvaluationActionType.STATUS: {
       return {
         ...state,

@@ -71,6 +71,30 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.TRANSFER: {
+      const {
+        payload: {
+          id,
+          data: { accountFromId, accountToId },
+        },
+      } = action as
+        | ReturnType<typeof EvaluationActionCreator.transfer>
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [accountFromId]: {
+            ...state.byId[accountFromId],
+            commandIds: [...state.byId[accountFromId].commandIds, id],
+          },
+          [accountToId]: {
+            ...state.byId[accountToId],
+            commandIds: [...state.byId[accountToId].commandIds, id],
+          },
+        },
+      }
+    }
     case EvaluationActionType.UPDATE_INCOME:
     case EvaluationActionType.UPDATE_EXPENSE: {
       const {
