@@ -1,5 +1,5 @@
 import { parseGrammar } from 'parser/parser'
-import { ExpenseSetters, IncomeSetters, runSemantic } from 'parser/semantic'
+import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
 import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { App } from 'store/interface'
@@ -69,7 +69,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateUpdateIncome(state, input, id, values))
     },
     updateTransfer: (id, values) => {
-      // dispatch(evaluateUpdateTransfer(state, input, id, values))
+      dispatch(evaluateUpdateTransfer(state, input, id, values))
     },
   })
 }
@@ -250,6 +250,65 @@ const evaluateUpdateExpense = (
     targetCommandId,
     accountChangeData,
     categoryChangeData,
+    amountChangeData,
+  })
+}
+
+const evaluateUpdateTransfer = (
+  state: App.State,
+  input: string,
+  targetCommandId: string,
+  values: TransferSetters
+): App.Action => {
+  let accountFromChangeData = undefined
+  let accountToChangeData = undefined
+  let amountChangeData = undefined
+
+  const command = CommandSelector.findById(targetCommandId)(
+    state
+  ) as CommandSelector.TransferHydratedData
+
+  if (!command) {
+    return CommandActionCreator.error(`Transaction with ID '${targetCommandId}' not found`)
+  }
+
+  if (values.from && values.from !== command.data.accountFrom.name) {
+    const newAccount = AccountSelector.findByName(values.from)(state)
+
+    if (!newAccount) {
+      return CommandActionCreator.error(`Account '${values.from}' not found`)
+    }
+
+    accountFromChangeData = {
+      oldAccountId: command.data.accountFrom.id,
+      newAccountId: newAccount.id,
+    }
+  }
+
+  if (values.to && values.to !== command.data.accountTo.name) {
+    const newAccount = AccountSelector.findByName(values.to)(state)
+
+    if (!newAccount) {
+      return CommandActionCreator.error(`Account '${values.to}' not found`)
+    }
+
+    accountToChangeData = {
+      oldAccountId: command.data.accountTo.id,
+      newAccountId: newAccount.id,
+    }
+  }
+
+  if (values.amount && values.amount !== command.data.amount) {
+    amountChangeData = {
+      oldAmount: command.data.amount,
+      newAmount: values.amount,
+    }
+  }
+
+  return EvaluationActionCreator.updateTransfer(input, {
+    targetCommandId,
+    accountFromChangeData,
+    accountToChangeData,
     amountChangeData,
   })
 }

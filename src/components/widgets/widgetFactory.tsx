@@ -106,6 +106,10 @@ export const createWidget = (
       widgetComponent = <UpdateExpense command={command as CommandModel.UpdateExpenseData} />
       break
     }
+    case CommandModel.DataType.UPDATE_TRANSFER: {
+      widgetComponent = <UpdateExpense command={command as CommandModel.UpdateExpenseData} />
+      break
+    }
     case CommandModel.DataType.TRANSFER: {
       widgetComponent = (
         <Transfer

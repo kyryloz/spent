@@ -29,6 +29,18 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
       )
       break
     }
+    case CommandModel.DataType.TRANSFER: {
+      const { data } = command as CommandSelector.TransferHydratedData
+
+      dispatch(
+        SmartInputActionCreator.setInput(
+          `update transfer '${command.id}' set amount = ${data.amount}, from = '${
+            data.accountFrom.name
+          }', to = '${data.accountTo.name}'`
+        )
+      )
+      break
+    }
     default: {
       throw new Error(`Unsupported operation for '${command.data.dataType}'`)
     }

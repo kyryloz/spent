@@ -44,6 +44,7 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
     case EvaluationActionType.RENAME_ENTITY:
     case EvaluationActionType.UPDATE_EXPENSE:
     case EvaluationActionType.UPDATE_INCOME:
+    case EvaluationActionType.UPDATE_TRANSFER:
     case EvaluationActionType.TRANSFER:
     case EvaluationActionType.STATUS: {
       return {

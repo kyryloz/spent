@@ -77,8 +77,7 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
           id,
           data: { accountFromId, accountToId },
         },
-      } = action as
-        | ReturnType<typeof EvaluationActionCreator.transfer>
+      } = action as ReturnType<typeof EvaluationActionCreator.transfer>
 
       return {
         ...state,
@@ -95,6 +94,63 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.UPDATE_TRANSFER: {
+      const {
+        payload: {
+          data: { targetCommandId, accountFromChangeData, accountToChangeData },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.updateTransfer>
+
+      let newState = state
+      if (accountFromChangeData) {
+        newState = {
+          ...state,
+          byId: {
+            ...state.byId,
+            [accountFromChangeData.oldAccountId]: {
+              ...state.byId[accountFromChangeData.oldAccountId],
+              commandIds: removeItem(
+                state.byId[accountFromChangeData.oldAccountId].commandIds,
+                targetCommandId
+              ),
+            },
+            [accountFromChangeData.newAccountId]: {
+              ...state.byId[accountFromChangeData.newAccountId],
+              commandIds: [
+                ...state.byId[accountFromChangeData.newAccountId].commandIds,
+                targetCommandId,
+              ],
+            },
+          },
+        }
+      }
+
+      if (accountToChangeData) {
+        newState = {
+          ...newState,
+          byId: {
+            ...state.byId,
+            [accountToChangeData.oldAccountId]: {
+              ...state.byId[accountToChangeData.oldAccountId],
+              commandIds: removeItem(
+                state.byId[accountToChangeData.oldAccountId].commandIds,
+                targetCommandId
+              ),
+            },
+            [accountToChangeData.newAccountId]: {
+              ...state.byId[accountToChangeData.newAccountId],
+              commandIds: [
+                ...state.byId[accountToChangeData.newAccountId].commandIds,
+                targetCommandId,
+              ],
+            },
+          },
+        }
+      }
+
+      return newState
+    }
+
     case EvaluationActionType.UPDATE_INCOME:
     case EvaluationActionType.UPDATE_EXPENSE: {
       const {

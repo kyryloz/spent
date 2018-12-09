@@ -99,6 +99,41 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.UPDATE_TRANSFER: {
+      const { payload } = action as ReturnType<typeof EvaluationActionCreator.updateTransfer>
+
+      const updatedItems = state.items.map(item => {
+        if (item.id === payload.data.targetCommandId) {
+          const expenseItem = item as CommandModel.TransferData
+
+          return {
+            ...expenseItem,
+            data: {
+              ...expenseItem.data,
+              accountFromId: payload.data.accountFromChangeData
+                ? payload.data.accountFromChangeData.newAccountId
+                : expenseItem.data.accountFromId,
+              accountToId: payload.data.accountToChangeData
+                ? payload.data.accountToChangeData.newAccountId
+                : expenseItem.data.accountToId,
+              amount: payload.data.amountChangeData
+                ? payload.data.amountChangeData.newAmount
+                : expenseItem.data.amount,
+            },
+          }
+        } else {
+          return item
+        }
+      })
+
+      return {
+        ...state,
+        items: [...updatedItems, action.payload],
+        error: {
+          human: '',
+        },
+      }
+    }
     case CommandActionType.COMMAND_REMOVE: {
       const {
         payload: { id },
