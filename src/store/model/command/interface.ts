@@ -97,17 +97,34 @@ export namespace CommandModel {
   export interface UpdateExpenseData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.UPDATE_EXPENSE
-      readonly accountId?: string
-      readonly categoryId?: string
-      readonly amount?: number
+      readonly targetCommandId: string
+      readonly accountChangeData?: {
+        readonly oldAccountId: string
+        readonly newAccountId: string
+      }
+      readonly categoryChangeData?: {
+        readonly oldCategoryId: string
+        readonly newCategoryId: string
+      }
+      readonly amountChangeData?: {
+        readonly oldAmount: number
+        readonly newAmount: number
+      }
     }
   }
 
   export interface UpdateIncomeData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.UPDATE_INCOME
-      readonly accountId?: string
-      readonly amount?: number
+      readonly targetCommandId: string
+      readonly accountChangeData?: {
+        readonly oldAccountId: string
+        readonly newAccountId: string
+      }
+      readonly amountChangeData?: {
+        readonly oldAmount: number
+        readonly newAmount: number
+      }
     }
   }
 

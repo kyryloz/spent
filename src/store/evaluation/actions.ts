@@ -38,17 +38,19 @@ export namespace EvaluationActionCreator {
       amount: number
     }
   ) => {
+    const payload: CommandModel.ExpenseData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.EXPENSE,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.EXPENSE,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.EXPENSE,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
@@ -59,49 +61,55 @@ export namespace EvaluationActionCreator {
       amount: number
     }
   ) => {
+    const payload: CommandModel.IncomeData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.INCOME,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.INCOME,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.INCOME,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
   export const createAccount = (raw: string, name: string) => {
+    const payload: CommandModel.CreateAccountData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.CREATE_ACCOUNT,
+        id: generateId(),
+        name,
+      },
+    }
+
     return {
       type: EvaluationActionType.CREATE_ACCOUNT,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.CREATE_ACCOUNT,
-          id: generateId(),
-          name,
-        },
-      },
+      payload,
     }
   }
 
   export const createCategory = (raw: string, name: string) => {
+    const payload: CommandModel.CreateCategoryData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.CREATE_CATEGORY,
+        id: generateId(),
+        name,
+      },
+    }
+
     return {
       type: EvaluationActionType.CREATE_CATEGORY,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.CREATE_CATEGORY,
-          id: generateId(),
-          name,
-        },
-      },
+      payload,
     }
   }
 
@@ -111,17 +119,19 @@ export namespace EvaluationActionCreator {
       entity: CommandModel.Entity
     }
   ) => {
+    const payload: CommandModel.StatusData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.STATUS,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.STATUS,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.STATUS,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
@@ -133,17 +143,19 @@ export namespace EvaluationActionCreator {
       entityName: string
     }
   ) => {
+    const payload: CommandModel.DeleteEntityData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.DELETE_ENTITY,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.DELETE_ENTITY,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.DELETE_ENTITY,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
@@ -156,17 +168,19 @@ export namespace EvaluationActionCreator {
       entityNewName: string
     }
   ) => {
+    const payload: CommandModel.RenameEntityData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.RENAME_ENTITY,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.RENAME_ENTITY,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.RENAME_ENTITY,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
@@ -188,17 +202,19 @@ export namespace EvaluationActionCreator {
       }
     }
   ) => {
+    const payload: CommandModel.UpdateExpenseData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.UPDATE_EXPENSE,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.UPDATE_EXPENSE,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.UPDATE_EXPENSE,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
@@ -216,17 +232,19 @@ export namespace EvaluationActionCreator {
       }
     }
   ) => {
+    const payload: CommandModel.UpdateIncomeData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.UPDATE_INCOME,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.UPDATE_INCOME,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.UPDATE_INCOME,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 
@@ -272,17 +290,19 @@ export namespace EvaluationActionCreator {
       amount: number
     }
   ) => {
+    const payload: CommandModel.TransferData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.TRANSFER,
+        ...data,
+      },
+    }
+
     return {
       type: EvaluationActionType.TRANSFER,
-      payload: {
-        id: generateId(),
-        timestamp: moment().unix(),
-        raw,
-        data: {
-          dataType: CommandModel.DataType.TRANSFER,
-          ...data,
-        },
-      },
+      payload,
     }
   }
 }
