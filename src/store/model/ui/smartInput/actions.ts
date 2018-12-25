@@ -5,6 +5,8 @@ export type SmartInputAction =
 export const enum SmartInputActionType {
   SET_INPUT = '@@smartInput/SET_INPUT',
   SET_FOCUS = '@@smartInput/SET_FOCUS',
+  HISTORY_UP = '@@smartInput/HISTORY_UP',
+  HISTORY_DOWN = '@@smartInput/HISTORY_DOWN',
 }
 
 export namespace SmartInputActionCreator {
@@ -20,5 +22,13 @@ export namespace SmartInputActionCreator {
     payload: {
       focus,
     },
+  })
+
+  export const historyUp = () => ({
+    type: SmartInputActionType.HISTORY_UP,
+  })
+
+  export const historyDown = () => ({
+    type: SmartInputActionType.HISTORY_DOWN,
   })
 }

@@ -51,6 +51,8 @@ interface StateProps {
 
 interface DispatchProps {
   evaluateInput: () => void
+  historyUp: () => void
+  historyDown: () => void
   setInput: (input: string) => void
   setFocus: (focus: boolean) => void
 }
@@ -78,13 +80,34 @@ class SmartInputCmp extends React.PureComponent<Props> {
     }
   }
 
+  handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    switch (event.key) {
+      case 'Enter': {
+        event.preventDefault()
+        this.props.evaluateInput()
+        break
+      }
+    }
+  }
+
+  handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    switch (event.key) {
+      case 'ArrowUp': {
+        event.preventDefault()
+        this.props.historyUp()
+        break
+      }
+      case 'ArrowDown': {
+        event.preventDefault()
+        this.props.historyDown()
+        break
+      }
+    }
+  }
+
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value
     this.props.setInput(input)
-  }
-
-  handleInputSubmit = () => {
-    this.props.evaluateInput()
   }
 
   handleFocusChange = (focus: boolean) => {
@@ -118,12 +141,8 @@ class SmartInputCmp extends React.PureComponent<Props> {
             ),
             className: classes.textFieldInput,
           }}
-          onKeyPress={event => {
-            if (event.key === 'Enter') {
-              event.preventDefault()
-              this.handleInputSubmit()
-            }
-          }}
+          onKeyPress={this.handleKeyPress}
+          onKeyDown={this.handleKeyDown}
         />
       </React.Fragment>
     )
@@ -140,6 +159,8 @@ export const SmartInput = flow(
     }),
     dispatch => ({
       evaluateInput: () => dispatch(CommandActionCreator.evaluate()),
+      historyUp: () => dispatch(SmartInputActionCreator.historyUp()),
+      historyDown: () => dispatch(SmartInputActionCreator.historyDown()),
       setInput: (input: string) => dispatch(SmartInputActionCreator.setInput(input)),
       setFocus: (focus: boolean) => dispatch(SmartInputActionCreator.setFocus(focus)),
     })

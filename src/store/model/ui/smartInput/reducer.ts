@@ -7,7 +7,10 @@ import { SmartInputActionCreator, SmartInputActionType } from './actions'
 
 const initialState: SmartInputModel.State = {
   input: '',
+  dirty: false,
   focus: true,
+  history: [],
+  historyPointer: -1,
 }
 
 export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
@@ -23,6 +26,8 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
       return {
         ...state,
         input,
+        dirty: input.length > 0,
+        historyPointer: -1,
       }
     }
     case SmartInputActionType.SET_FOCUS: {
@@ -35,7 +40,40 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         focus,
       }
     }
-    case CommandActionType.COMMAND_REMOVE:
+    case SmartInputActionType.HISTORY_UP: {
+      if (state.dirty) {
+        return state
+      }
+
+      let historyPointer = state.historyPointer + 1
+
+      if (historyPointer >= state.history.length) {
+        historyPointer = state.history.length - 1
+      }
+
+      return {
+        ...state,
+        historyPointer,
+        input: state.history[historyPointer],
+      }
+    }
+    case SmartInputActionType.HISTORY_DOWN: {
+      if (state.dirty) {
+        return state
+      }
+
+      let historyPointer = state.historyPointer - 1
+
+      if (historyPointer < -1) {
+        historyPointer = -1
+      }
+
+      return {
+        ...state,
+        historyPointer,
+        input: historyPointer < 0 ? '' : state.history[historyPointer],
+      }
+    }
     case EvaluationActionType.CREATE_ACCOUNT:
     case EvaluationActionType.CREATE_CATEGORY:
     case EvaluationActionType.EXPENSE:
@@ -48,10 +86,22 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
     case EvaluationActionType.TRANSFER:
     case EvaluationActionType.STATUS: {
       return {
+        ...state,
         input: '',
+        dirty: false,
         focus: false,
+        history: [action.payload.raw, ...state.history],
+        historyPointer: -1,
       }
     }
+    case CommandActionType.COMMAND_REMOVE:
+      return {
+        ...state,
+        input: '',
+        focus: false,
+        dirty: false,
+        historyPointer: -1,
+      }
     default: {
       return state
     }
