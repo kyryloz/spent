@@ -392,14 +392,7 @@ const evaluateRemove = (
       if (!account) {
         actions.push(CommandActionCreator.error(`You do not have '${name}' account`))
       } else {
-        actions.push(...account.commandIds.map(id => CommandActionCreator.removeCommand(id)))
-        actions.push(
-          EvaluationActionCreator.deleteEntity(input, {
-            entity: CommandModel.Entity.ACCOUNT,
-            entityId: account.id,
-            entityName: name,
-          })
-        )
+        actions.push(EvaluationActionCreator.deleteAccount(input, account))
       }
       break
     case 'category':
@@ -408,12 +401,12 @@ const evaluateRemove = (
       if (!category) {
         actions.push(CommandActionCreator.error(`You do not have '${name}' category`))
       } else {
-        actions.push(...category.commandIds.map(id => CommandActionCreator.removeCommand(id)))
         actions.push(
           EvaluationActionCreator.deleteEntity(input, {
             entity: CommandModel.Entity.CATEGORY,
             entityId: category.id,
             entityName: name,
+            commandIds: category.commandIds,
           })
         )
       }
@@ -424,7 +417,14 @@ const evaluateRemove = (
       if (!command) {
         actions.push(CommandActionCreator.error(`Can't find a transaction with id '${name}'`))
       } else {
-        actions.push(CommandActionCreator.removeCommand(command.id))
+        actions.push(
+          EvaluationActionCreator.deleteEntity(input, {
+            entity: CommandModel.Entity.TRANSACTION,
+            entityId: command.id,
+            entityName: command.id,
+            commandIds: [command.id],
+          })
+        )
       }
       break
     default:

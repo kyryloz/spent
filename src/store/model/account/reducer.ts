@@ -186,15 +186,15 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
 
       return state
     }
-    case EvaluationActionType.DELETE_ENTITY: {
+    case EvaluationActionType.DELETE_ACCOUNT: {
       const {
         payload: {
-          data: { entityId },
+          data: { account },
         },
-      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteAccount>
 
-      const allIds = removeItem(state.allIds, entityId)
-      const { [entityId]: _, ...byId } = state.byId
+      const allIds = removeItem(state.allIds, account.id)
+      const { [account.id]: _, ...byId } = state.byId
 
       return {
         byId,
@@ -223,10 +223,10 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         return state
       }
     }
-    case CommandActionType.COMMAND_REMOVE: {
+    case EvaluationActionType.DELETE_TRANSACTION: {
       const {
         payload: { id },
-      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
 
       const accounts = values(state.byId)
         .map(account => ({

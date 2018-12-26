@@ -1,4 +1,6 @@
 import { App } from 'store/interface'
+import { AccountModel } from '../account/interface';
+import { CategoryModel } from '../category/interface';
 
 export namespace CommandModel {
   export interface State {
@@ -15,6 +17,9 @@ export namespace CommandModel {
     STATUS = 'STATUS',
     CREATE_ACCOUNT = 'CREATE_ACCOUNT',
     CREATE_CATEGORY = 'CREATE_CATEGORY',
+    DELETE_ACCOUNT = 'DELETE_ACCOUNT',
+    DELETE_CATEGORY = 'DELETE_CATEGORY',
+    DELETE_TRANSACTION = 'DELETE_TRANSACTION',
     DELETE_ENTITY = 'DELETE_ENTITY',
     RENAME_ENTITY = 'RENAME_ENTITY',
     UPDATE_EXPENSE = 'UPDATE_EXPENSE',
@@ -25,6 +30,7 @@ export namespace CommandModel {
   export const enum Entity {
     ACCOUNT = 'account',
     CATEGORY = 'category',
+    TRANSACTION = 'transaction'
   }
 
   export interface CommandDataBase extends App.Identifiable {
@@ -58,12 +64,34 @@ export namespace CommandModel {
     }
   }
 
+  export interface DeleteAccountData extends CommandDataBase {
+    readonly data: {
+      readonly dataType: DataType.DELETE_ACCOUNT
+      readonly account: AccountModel.Account
+    }
+  }
+
+  export interface DeleteCategoryData extends CommandDataBase {
+    readonly data: {
+      readonly dataType: DataType.DELETE_CATEGORY
+      readonly category: CategoryModel.Category
+    }
+  }
+
+  export interface DeleteTransactionData extends CommandDataBase {
+    readonly data: {
+      readonly dataType: DataType.DELETE_TRANSACTION
+      readonly commandId: string
+    }
+  }
+
   export interface DeleteEntityData extends CommandDataBase {
     readonly data: {
       readonly dataType: DataType.DELETE_ENTITY
       readonly entity: Entity
       readonly entityId: string
       readonly entityName: string
+      readonly commandIds: Array<string>
     }
   }
 

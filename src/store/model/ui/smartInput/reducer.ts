@@ -94,14 +94,6 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         historyPointer: -1,
       }
     }
-    case CommandActionType.COMMAND_REMOVE:
-      return {
-        ...state,
-        input: '',
-        focus: false,
-        dirty: false,
-        historyPointer: -1,
-      }
     default: {
       return state
     }

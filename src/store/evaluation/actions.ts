@@ -1,11 +1,15 @@
-import * as moment from 'moment';
-import { CommandModel } from 'store/model/command/interface';
-import { generateId } from 'utils/mathUtils';
+import * as moment from 'moment'
+import { AccountModel } from 'store/model/account/interface'
+import { CategoryModel } from 'store/model/category/interface'
+import { CommandModel } from 'store/model/command/interface'
+import { generateId } from 'utils/mathUtils'
 
 export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreator.createAccount>
   | ReturnType<typeof EvaluationActionCreator.createCategory>
-  | ReturnType<typeof EvaluationActionCreator.deleteEntity>
+  | ReturnType<typeof EvaluationActionCreator.deleteAccount>
+  | ReturnType<typeof EvaluationActionCreator.deleteCategory>
+  | ReturnType<typeof EvaluationActionCreator.deleteTransaction>
   | ReturnType<typeof EvaluationActionCreator.expense>
   | ReturnType<typeof EvaluationActionCreator.income>
   | ReturnType<typeof EvaluationActionCreator.transfer>
@@ -21,6 +25,9 @@ export enum EvaluationActionType {
   TRANSFER = '@@evaluation/TRANSFER',
   STATUS = '@@evaluation/STATUS',
   DELETE_ENTITY = '@@evaluation/DELETE_ENTITY',
+  DELETE_ACCOUNT = '@@evaluation/DELETE_ACCOUNT',
+  DELETE_CATEGORY = '@@evaluation/DELETE_CATEGORY',
+  DELETE_TRANSACTION = '@@evaluation/DELETE_TRANSACTION',
   RENAME_ENTITY = '@@evaluation/RENAME_ENTITY',
   CREATE_ACCOUNT = '@@evaluation/CREATE_ACCOUNT',
   CREATE_CATEGORY = '@@evaluation/CREATE_CATEGORY',
@@ -135,12 +142,64 @@ export namespace EvaluationActionCreator {
     }
   }
 
+  export const deleteAccount = (raw: string, account: AccountModel.Account) => {
+    const payload: CommandModel.DeleteAccountData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.DELETE_ACCOUNT,
+        account,
+      },
+    }
+
+    return {
+      type: EvaluationActionType.DELETE_ACCOUNT,
+      payload,
+    }
+  }
+
+  export const deleteCategory = (raw: string, category: CategoryModel.Category) => {
+    const payload: CommandModel.DeleteCategoryData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.DELETE_CATEGORY,
+        category,
+      },
+    }
+
+    return {
+      type: EvaluationActionType.DELETE_CATEGORY,
+      payload,
+    }
+  }
+
+  export const deleteTransaction = (raw: string, commandId: string) => {
+    const payload: CommandModel.DeleteTransactionData = {
+      id: generateId(),
+      timestamp: moment().unix(),
+      raw,
+      data: {
+        dataType: CommandModel.DataType.DELETE_TRANSACTION,
+        commandId,
+      },
+    }
+
+    return {
+      type: EvaluationActionType.DELETE_TRANSACTION,
+      payload,
+    }
+  }
+
   export const deleteEntity = (
     raw: string,
     data: {
       entity: CommandModel.Entity
       entityId: string
       entityName: string
+      commandIds: Array<string>
     }
   ) => {
     const payload: CommandModel.DeleteEntityData = {
@@ -278,7 +337,7 @@ export namespace EvaluationActionCreator {
 
     return {
       type: EvaluationActionType.UPDATE_TRANSFER,
-      payload
+      payload,
     }
   }
 

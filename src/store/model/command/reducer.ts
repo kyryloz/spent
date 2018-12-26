@@ -134,14 +134,27 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
         },
       }
     }
-    case CommandActionType.COMMAND_REMOVE: {
+    case EvaluationActionType.DELETE_ACCOUNT: {
       const {
-        payload: { id },
-      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
+        payload: { data: { account: { commandIds } } },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteAccount>
 
       return {
         ...state,
-        items: state.items.filter(item => item.id !== id),
+        items: state.items.filter(item => commandIds.indexOf(item.id) < 0),
+        error: {
+          human: '',
+        },
+      }
+    }
+    case EvaluationActionType.DELETE_ENTITY: {
+      const {
+        payload: { data: { commandIds } },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
+
+      return {
+        ...state,
+        items: state.items.filter(item => commandIds.indexOf(item.id) < 0),
         error: {
           human: '',
         },

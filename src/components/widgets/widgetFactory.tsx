@@ -10,6 +10,7 @@ import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
+import { DeleteTransaction } from './DeleteTransaction'
 import { RenameAccount } from './RenameAccount'
 import { RenameCategory } from './RenameCategory'
 import { Transfer } from './Transfer'
@@ -80,6 +81,10 @@ export const createWidget = (
 
         case CommandModel.Entity.CATEGORY:
           widgetComponent = <DeleteCategory command={deleteCommand} />
+          break
+
+        case CommandModel.Entity.TRANSACTION:
+          widgetComponent = <DeleteTransaction command={deleteCommand} />
           break
       }
       break
