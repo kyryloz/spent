@@ -14,7 +14,9 @@ export namespace CommandSelector {
     | CommandModel.StatusData
     | CommandModel.CreateAccountData
     | CommandModel.CreateCategoryData
-    | CommandModel.DeleteEntityData
+    | CommandModel.DeleteAccountData
+    | CommandModel.DeleteCategoryData
+    | CommandModel.DeleteTransactionData
     | CommandModel.RenameEntityData
     | CommandModel.UpdateIncomeData
     | CommandModel.UpdateExpenseData

@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.DeleteEntityData
+  command: CommandModel.DeleteCategoryData
 }
 
 interface StyleProps {
@@ -23,7 +23,7 @@ interface StyleProps {
 
 const DeleteCategoryCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Category <span className={classes.category}>{command.data.entityName}</span> was deleted. All
+    Category <span className={classes.category}>{command.data.category.name}</span> was deleted. All
     references are updated.
   </Typography>
 )

@@ -71,22 +71,18 @@ export const createWidget = (
       }
       break
     }
-    case CommandModel.DataType.DELETE_ENTITY: {
-      const deleteCommand = command as CommandModel.DeleteEntityData
-
-      switch (deleteCommand.data.entity) {
-        case CommandModel.Entity.ACCOUNT:
-          widgetComponent = <DeleteAccount command={deleteCommand} />
-          break
-
-        case CommandModel.Entity.CATEGORY:
-          widgetComponent = <DeleteCategory command={deleteCommand} />
-          break
-
-        case CommandModel.Entity.TRANSACTION:
-          widgetComponent = <DeleteTransaction command={deleteCommand} />
-          break
-      }
+    case CommandModel.DataType.DELETE_ACCOUNT: {
+      widgetComponent = <DeleteAccount command={command as CommandModel.DeleteAccountData} />
+      break
+    }
+    case CommandModel.DataType.DELETE_CATEGORY: {
+      widgetComponent = <DeleteCategory command={command as CommandModel.DeleteCategoryData} />
+      break
+    }
+    case CommandModel.DataType.DELETE_TRANSACTION: {
+      widgetComponent = (
+        <DeleteTransaction command={command as CommandModel.DeleteTransactionData} />
+      )
       break
     }
     case CommandModel.DataType.RENAME_ENTITY: {

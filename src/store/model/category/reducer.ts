@@ -2,7 +2,6 @@ import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
 import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
 import { CategoryModel } from './interface'
@@ -100,19 +99,38 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
 
       return state
     }
-    case EvaluationActionType.DELETE_ENTITY: {
+    case EvaluationActionType.DELETE_CATEGORY: {
       const {
         payload: {
-          data: { entityId },
+          data: { category },
         },
-      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteCategory>
 
-      const allIds = removeItem(state.allIds, entityId)
-      const { [entityId]: _, ...byId } = state.byId
+      const allIds = removeItem(state.allIds, category.id)
+      const { [category.id]: _, ...byId } = state.byId
 
       return {
         byId,
         allIds,
+      }
+    }
+    case EvaluationActionType.DELETE_ACCOUNT: {
+      const {
+        payload: {
+          data: {
+            account: { commandIds },
+          },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteAccount>
+
+      const categories = values(state.byId).map(category => ({
+        ...category,
+        commandIds: category.commandIds.filter(id => commandIds.indexOf(id) < 0),
+      }))
+
+      return {
+        byId: fromPairs(categories.map(category => [category.id, category])),
+        allIds: categories.map(category => category.id),
       }
     }
     case EvaluationActionType.RENAME_ENTITY: {
@@ -137,17 +155,19 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         return state
       }
     }
-    case CommandActionType.COMMAND_REMOVE: {
+    case EvaluationActionType.DELETE_TRANSACTION: {
       const {
-        payload: { id },
-      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
+        payload: {
+          data: { commandId },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteTransaction>
 
       const categories = values(state.byId)
         .map(category => ({
           ...category,
-          commandIds: category.commandIds.filter(commandId => commandId !== id),
+          commandIds: category.commandIds.filter(id => id !== commandId),
         }))
-        .filter(category => category.createdByCommandId !== id)
+        .filter(category => category.createdByCommandId !== commandId)
 
       return {
         byId: fromPairs(categories.map(category => [category.id, category])),

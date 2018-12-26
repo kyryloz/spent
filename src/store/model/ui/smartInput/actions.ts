@@ -1,6 +1,8 @@
 export type SmartInputAction =
   | ReturnType<typeof SmartInputActionCreator.setInput>
   | ReturnType<typeof SmartInputActionCreator.setFocus>
+  | ReturnType<typeof SmartInputActionCreator.historyUp>
+  | ReturnType<typeof SmartInputActionCreator.historyDown>
 
 export const enum SmartInputActionType {
   SET_INPUT = '@@smartInput/SET_INPUT',

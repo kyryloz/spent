@@ -20,7 +20,6 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
     case EvaluationActionType.CREATE_CATEGORY:
     case EvaluationActionType.EXPENSE:
     case EvaluationActionType.INCOME:
-    case EvaluationActionType.DELETE_ENTITY:
     case EvaluationActionType.RENAME_ENTITY:
     case EvaluationActionType.TRANSFER:
     case EvaluationActionType.STATUS: {
@@ -134,9 +133,30 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
         },
       }
     }
+    case EvaluationActionType.DELETE_CATEGORY: {
+      const {
+        payload: {
+          data: {
+            category: { commandIds },
+          },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteCategory>
+
+      return {
+        ...state,
+        items: state.items.filter(item => commandIds.indexOf(item.id) < 0),
+        error: {
+          human: '',
+        },
+      }
+    }
     case EvaluationActionType.DELETE_ACCOUNT: {
       const {
-        payload: { data: { account: { commandIds } } },
+        payload: {
+          data: {
+            account: { commandIds },
+          },
+        },
       } = action as ReturnType<typeof EvaluationActionCreator.deleteAccount>
 
       return {
@@ -147,14 +167,16 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
         },
       }
     }
-    case EvaluationActionType.DELETE_ENTITY: {
+    case EvaluationActionType.DELETE_TRANSACTION: {
       const {
-        payload: { data: { commandIds } },
-      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
+        payload: {
+          data: { commandId },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteTransaction>
 
       return {
         ...state,
-        items: state.items.filter(item => commandIds.indexOf(item.id) < 0),
+        items: state.items.filter(item => item.id !== commandId),
         error: {
           human: '',
         },

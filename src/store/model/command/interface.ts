@@ -20,7 +20,6 @@ export namespace CommandModel {
     DELETE_ACCOUNT = 'DELETE_ACCOUNT',
     DELETE_CATEGORY = 'DELETE_CATEGORY',
     DELETE_TRANSACTION = 'DELETE_TRANSACTION',
-    DELETE_ENTITY = 'DELETE_ENTITY',
     RENAME_ENTITY = 'RENAME_ENTITY',
     UPDATE_EXPENSE = 'UPDATE_EXPENSE',
     UPDATE_INCOME = 'UPDATE_INCOME',
@@ -82,16 +81,6 @@ export namespace CommandModel {
     readonly data: {
       readonly dataType: DataType.DELETE_TRANSACTION
       readonly commandId: string
-    }
-  }
-
-  export interface DeleteEntityData extends CommandDataBase {
-    readonly data: {
-      readonly dataType: DataType.DELETE_ENTITY
-      readonly entity: Entity
-      readonly entityId: string
-      readonly entityName: string
-      readonly commandIds: Array<string>
     }
   }
 

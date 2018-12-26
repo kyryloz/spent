@@ -57,7 +57,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateStatus(input, what))
     },
     remove: (entity, name) => {
-      evaluateRemove(state, input, entity, name).forEach(dispatch)
+      dispatch(evaluateRemove(state, input, entity, name))
     },
     rename: (entity, oldName, newName) => {
       dispatch(evaluateRename(state, input, entity, oldName, newName))
@@ -382,56 +382,42 @@ const evaluateRemove = (
   input: string,
   entity: string,
   name: string
-): Array<App.Action> => {
-  const actions: Array<App.Action> = []
+): App.Action => {
+  let action: App.Action
 
   switch (entity) {
     case 'account':
       const account = AccountSelector.findByName(name)(state)
 
       if (!account) {
-        actions.push(CommandActionCreator.error(`You do not have '${name}' account`))
+        action = CommandActionCreator.error(`You do not have '${name}' account`)
       } else {
-        actions.push(EvaluationActionCreator.deleteAccount(input, account))
+        action = EvaluationActionCreator.deleteAccount(input, account)
       }
       break
     case 'category':
       const category = CategorySelector.findByName(name)(state)
 
       if (!category) {
-        actions.push(CommandActionCreator.error(`You do not have '${name}' category`))
+        action = CommandActionCreator.error(`You do not have '${name}' category`)
       } else {
-        actions.push(
-          EvaluationActionCreator.deleteEntity(input, {
-            entity: CommandModel.Entity.CATEGORY,
-            entityId: category.id,
-            entityName: name,
-            commandIds: category.commandIds,
-          })
-        )
+        action = EvaluationActionCreator.deleteCategory(input, category)
       }
       break
     case 'transaction':
       const command = CommandSelector.findById(name)(state)
 
       if (!command) {
-        actions.push(CommandActionCreator.error(`Can't find a transaction with id '${name}'`))
+        action = CommandActionCreator.error(`Can't find a transaction with id '${name}'`)
       } else {
-        actions.push(
-          EvaluationActionCreator.deleteEntity(input, {
-            entity: CommandModel.Entity.TRANSACTION,
-            entityId: command.id,
-            entityName: command.id,
-            commandIds: [command.id],
-          })
-        )
+        action = EvaluationActionCreator.deleteTransaction(input, command.id)
       }
       break
     default:
       throw new Error(`Unknown entity name: '${entity}'`)
   }
 
-  return actions
+  return action
 }
 
 const evaluateTransfer = (

@@ -24,7 +24,6 @@ export enum EvaluationActionType {
   INCOME = '@@evaluation/INCOME',
   TRANSFER = '@@evaluation/TRANSFER',
   STATUS = '@@evaluation/STATUS',
-  DELETE_ENTITY = '@@evaluation/DELETE_ENTITY',
   DELETE_ACCOUNT = '@@evaluation/DELETE_ACCOUNT',
   DELETE_CATEGORY = '@@evaluation/DELETE_CATEGORY',
   DELETE_TRANSACTION = '@@evaluation/DELETE_TRANSACTION',
@@ -189,31 +188,6 @@ export namespace EvaluationActionCreator {
 
     return {
       type: EvaluationActionType.DELETE_TRANSACTION,
-      payload,
-    }
-  }
-
-  export const deleteEntity = (
-    raw: string,
-    data: {
-      entity: CommandModel.Entity
-      entityId: string
-      entityName: string
-      commandIds: Array<string>
-    }
-  ) => {
-    const payload: CommandModel.DeleteEntityData = {
-      id: generateId(),
-      timestamp: moment().unix(),
-      raw,
-      data: {
-        dataType: CommandModel.DataType.DELETE_ENTITY,
-        ...data,
-      },
-    }
-
-    return {
-      type: EvaluationActionType.DELETE_ENTITY,
       payload,
     }
   }

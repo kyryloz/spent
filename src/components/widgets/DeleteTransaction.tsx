@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.DeleteEntityData
+  command: CommandModel.DeleteTransactionData
 }
 
 interface StyleProps {
@@ -23,7 +23,7 @@ interface StyleProps {
 
 const DeleteTransactionCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Transaction <span className={classes.category}>{command.data.entityId}</span> was deleted.
+    Transaction <span className={classes.category}>{command.data.commandId}</span> was deleted.
   </Typography>
 )
 

@@ -2,7 +2,6 @@ import { fromPairs, values } from 'lodash'
 import { Reducer } from 'redux'
 import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
 import { AccountModel } from './interface'
@@ -201,6 +200,25 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         allIds,
       }
     }
+    case EvaluationActionType.DELETE_CATEGORY: {
+      const {
+        payload: {
+          data: {
+            category: { commandIds },
+          },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteCategory>
+
+      const accounts = values(state.byId).map(account => ({
+        ...account,
+        commandIds: account.commandIds.filter(id => commandIds.indexOf(id) < 0),
+      }))
+
+      return {
+        byId: fromPairs(accounts.map(account => [account.id, account])),
+        allIds: accounts.map(account => account.id),
+      }
+    }
     case EvaluationActionType.RENAME_ENTITY: {
       const {
         payload: {
@@ -225,15 +243,17 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
     }
     case EvaluationActionType.DELETE_TRANSACTION: {
       const {
-        payload: { id },
-      } = action as ReturnType<typeof EvaluationActionCreator.deleteEntity>
+        payload: {
+          data: { commandId },
+        },
+      } = action as ReturnType<typeof EvaluationActionCreator.deleteTransaction>
 
       const accounts = values(state.byId)
         .map(account => ({
           ...account,
-          commandIds: account.commandIds.filter(commandId => commandId !== id),
+          commandIds: account.commandIds.filter(id => id !== commandId),
         }))
-        .filter(account => account.createdByCommandId !== id)
+        .filter(account => account.createdByCommandId !== commandId)
 
       return {
         byId: fromPairs(accounts.map(account => [account.id, account])),

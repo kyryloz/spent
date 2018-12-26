@@ -78,7 +78,9 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
     case EvaluationActionType.CREATE_CATEGORY:
     case EvaluationActionType.EXPENSE:
     case EvaluationActionType.INCOME:
-    case EvaluationActionType.DELETE_ENTITY:
+    case EvaluationActionType.DELETE_ACCOUNT:
+    case EvaluationActionType.DELETE_CATEGORY:
+    case EvaluationActionType.DELETE_TRANSACTION:
     case EvaluationActionType.RENAME_ENTITY:
     case EvaluationActionType.UPDATE_EXPENSE:
     case EvaluationActionType.UPDATE_INCOME:
