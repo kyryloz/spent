@@ -1,10 +1,11 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import { flow, isEmpty, toPairs } from 'lodash'
+import * as moment from 'moment'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { App } from 'store/interface'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CommandModel } from 'store/model/command/interface'
-import { App } from 'store/interface'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -60,6 +61,6 @@ const StatusAccountsCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
 export const StatusAccounts = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
-    accounts: AccountSelector.balances(0, ownProps.command.timestamp)(state),
+    accounts: AccountSelector.balances(0, moment().unix())(state),
   }))
 )(StatusAccountsCmp)

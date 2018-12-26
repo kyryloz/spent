@@ -144,7 +144,7 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
 
       return {
         ...state,
-        items: state.items.filter(item => commandIds.indexOf(item.id) < 0),
+        items: [...state.items.filter(item => commandIds.indexOf(item.id) < 0), action.payload],
         error: {
           human: '',
         },
@@ -161,7 +161,7 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
 
       return {
         ...state,
-        items: state.items.filter(item => commandIds.indexOf(item.id) < 0),
+        items: [...state.items.filter(item => commandIds.indexOf(item.id) < 0), action.payload],
         error: {
           human: '',
         },
@@ -176,7 +176,7 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
 
       return {
         ...state,
-        items: state.items.filter(item => item.id !== commandId),
+        items: [...state.items.filter(item => item.id !== commandId), action.payload],
         error: {
           human: '',
         },
