@@ -26,7 +26,7 @@ export namespace TransactionSelector {
       transfers,
       items =>
         values(items).filter(
-          transfer => transfer.accountFromId === accountId || transfer.accountToId === accountId
+          transfer => transfer.fromAccountId === accountId || transfer.toAccountId === accountId
         )
     )
 
@@ -57,11 +57,11 @@ export namespace TransactionSelector {
             transfer => transfer.timestamp >= timestampFrom && transfer.timestamp <= timestampTo
           )
           .reduce((sum, next) => {
-            if (next.accountFromId === accountId) {
+            if (next.fromAccountId === accountId) {
               sum -= next.amount
             }
 
-            if (next.accountToId === accountId) {
+            if (next.toAccountId === accountId) {
               sum += next.amount
             }
 

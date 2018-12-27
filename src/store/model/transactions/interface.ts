@@ -1,5 +1,3 @@
-import { App } from 'store/interface'
-
 export namespace TransactionModel {
   export interface State {
     readonly expenses: {
@@ -13,22 +11,25 @@ export namespace TransactionModel {
     }
   }
 
-  export interface Expense extends App.Identifiable {
+  export interface Expense {
+    readonly id: string
     readonly amount: number
     readonly categoryId: string
     readonly accountId: string
     readonly timestamp: number
   }
 
-  export interface Income extends App.Identifiable {
+  export interface Income {
+    readonly id: string
     readonly accountId: string
     readonly amount: number
     readonly timestamp: number
   }
 
-  export interface Transfer extends App.Identifiable {
-    readonly accountFromId: string
-    readonly accountToId: string
+  export interface Transfer {
+    readonly id: string
+    readonly fromAccountId: string
+    readonly toAccountId: string
     readonly amount: number
     readonly timestamp: number
   }
