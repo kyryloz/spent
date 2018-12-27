@@ -6,17 +6,20 @@ export interface ExpenseSetters {
   account?: string
   category?: string
   amount?: number
+  date?: string
 }
 
 export interface IncomeSetters {
   account?: string
   amount?: number
+  date?: string
 }
 
 export interface TransferSetters {
   from?: string
   to?: string
   amount?: number
+  date?: string
 }
 
 export interface SemanticCallback {

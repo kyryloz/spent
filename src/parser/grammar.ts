@@ -68,12 +68,14 @@ export const grammar = ohm.grammar(`
       | "amount" "=" number
       | "account" "=" account
       | "category" "=" category
+      | "date" "=" date
 
     IncomeSetters = NonemptyListOf<IncomeSetter, ",">
 
     IncomeSetter =
       | "amount" "=" number
       | "account" "=" account
+      | "date" "=" date
 
     TransferSetters = NonemptyListOf<TransferSetter, ",">
 
@@ -81,9 +83,11 @@ export const grammar = ohm.grammar(`
       | "amount" "=" number
       | "from" "=" account
       | "to" "=" account
+      | "date" "=" date
 
     category (a category)  = identifier
     account (an account)   = identifier
+    date (a date)          = string
 
     identifier =
       | word

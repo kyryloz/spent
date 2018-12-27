@@ -58,12 +58,13 @@ describe('semantic.ts', () => {
 
     test('updateExpense', () => {
       const input =
-        "update expense 'c7cb' set amount = 100, account = 'wallet', category = 'clothes'"
+        "update expense 'c7cb' set amount = 100, account = 'wallet', category = 'clothes', date = '20.12.2018'"
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.updateExpense).toBeCalledWith('c7cb', {
         amount: 100,
         account: 'wallet',
         category: 'clothes',
+        date: '20.12.2018',
       })
     })
 
@@ -76,11 +77,12 @@ describe('semantic.ts', () => {
     })
 
     test('updateIncome', () => {
-      const input = "update income 'c7cb' set amount = 100, account = 'wallet'"
+      const input = "update income 'c7cb' set amount = 100, account = 'wallet', date = '20.12.2018'"
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.updateIncome).toBeCalledWith('c7cb', {
         amount: 100,
         account: 'wallet',
+        date: '20.12.2018',
       })
     })
 
@@ -99,12 +101,14 @@ describe('semantic.ts', () => {
     })
 
     test('updateTransfer', () => {
-      const input = "update transfer id1 set amount = 100, from = wallet, to = 'wallet1'"
+      const input =
+        "update transfer id1 set amount = 100, from = wallet, to = 'wallet1', date = '20.12.2018'"
       runSemantic(parseGrammar(input).match, mockCallback)
       expect(mockCallback.updateTransfer).toBeCalledWith('id1', {
         amount: 100,
         from: 'wallet',
         to: 'wallet1',
+        date: '20.12.2018',
       })
     })
   })

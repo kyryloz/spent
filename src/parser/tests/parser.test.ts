@@ -273,12 +273,23 @@ describe('parser.ts', () => {
         })
 
         test('case7', () => {
-          const input = 'update expense id1 set amount = 100, account = wallet, category = clothes'
+          const input =
+            "update expense id1 set amount = 100, account = wallet, category = clothes, date = '20.12.2018'"
           expect(parseGrammar(input).success).toBeTruthy()
         })
 
         test('case8', () => {
           const input = 'update expense id1 set amount = 100,'
+          expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case9', () => {
+          const input = "update expense id1 set date = '20.12.2018'"
+          expect(parseGrammar(input).success).toBeTruthy()
+        })
+
+        test('case10', () => {
+          const input = 'update expense id1 set date = 20.12.2018'
           expect(parseGrammar(input).success).toBeFalsy()
         })
       })
@@ -315,13 +326,19 @@ describe('parser.ts', () => {
         })
 
         test('case7', () => {
-          const input = 'update transfer id1 set amount = 100, from = wallet, to = wallet2'
+          const input =
+            "update transfer id1 set amount = 100, from = wallet, to = wallet2, date = '20.12.2018'"
           expect(parseGrammar(input).success).toBeTruthy()
         })
 
         test('case8', () => {
           const input = 'update transfer id1 set amount = 100,'
           expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case9', () => {
+          const input = "update transfer id1 set date = '20.12.2018'"
+          expect(parseGrammar(input).success).toBeTruthy()
         })
       })
 
@@ -352,13 +369,18 @@ describe('parser.ts', () => {
         })
 
         test('case6', () => {
-          const input = 'update expense id1 set amount = 100, account = wallet'
+          const input = "update expense id1 set amount = 100, account = wallet, date = '20.12.2018'"
           expect(parseGrammar(input).success).toBeTruthy()
         })
 
         test('case7', () => {
           const input = 'update expense id1 set amount = 100,'
           expect(parseGrammar(input).success).toBeFalsy()
+        })
+
+        test('case8', () => {
+          const input = "update expense id1 set date = '20.12.2018'"
+          expect(parseGrammar(input).success).toBeTruthy()
         })
       })
 
