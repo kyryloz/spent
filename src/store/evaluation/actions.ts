@@ -42,6 +42,7 @@ export namespace EvaluationActionCreator {
       categoryId: string
       accountId: string
       amount: number
+      date: string
     }
   ) => {
     const payload: CommandModel.ExpenseData = {
@@ -65,6 +66,7 @@ export namespace EvaluationActionCreator {
     data: {
       accountId: string
       amount: number
+      date: string
     }
   ) => {
     const payload: CommandModel.IncomeData = {
@@ -233,6 +235,10 @@ export namespace EvaluationActionCreator {
         oldAmount: number
         newAmount: number
       }
+      dateChangeData?: {
+        oldDate: string
+        newDate: string
+      }
     }
   ) => {
     const payload: CommandModel.UpdateExpenseData = {
@@ -262,6 +268,10 @@ export namespace EvaluationActionCreator {
       amountChangeData?: {
         oldAmount: number
         newAmount: number
+      }
+      dateChangeData?: {
+        oldDate: string
+        newDate: string
       }
     }
   ) => {
@@ -297,6 +307,10 @@ export namespace EvaluationActionCreator {
         oldAmount: number
         newAmount: number
       }
+      dateChangeData?: {
+        oldDate: string
+        newDate: string
+      }
     }
   ) => {
     const payload: CommandModel.UpdateTransferData = {
@@ -321,6 +335,7 @@ export namespace EvaluationActionCreator {
       accountFromId: string
       accountToId: string
       amount: number
+      date: string
     }
   ) => {
     const payload: CommandModel.TransferData = {

@@ -28,6 +28,7 @@ export namespace CommandSelector {
       readonly amount: number
       readonly account: AccountModel.Account
       readonly category: CategoryModel.Category
+      readonly date: string
     }
   }
 
@@ -36,6 +37,7 @@ export namespace CommandSelector {
       readonly dataType: CommandModel.DataType.INCOME
       readonly amount: number
       readonly account: AccountModel.Account
+      readonly date: string
     }
   }
 
@@ -45,6 +47,7 @@ export namespace CommandSelector {
       readonly amount: number
       readonly accountFrom: AccountModel.Account
       readonly accountTo: AccountModel.Account
+      readonly date: string
     }
   }
 
@@ -61,6 +64,7 @@ export namespace CommandSelector {
               amount: expenseItem.data.amount,
               account: AccountSelector.findById(expenseItem.data.accountId)(state),
               category: CategorySelector.findById(expenseItem.data.categoryId)(state),
+              date: expenseItem.data.date
             },
           }
 
@@ -75,6 +79,7 @@ export namespace CommandSelector {
               dataType: incomeItem.data.dataType,
               amount: incomeItem.data.amount,
               account: AccountSelector.findById(incomeItem.data.accountId)(state),
+              date: incomeItem.data.date
             },
           }
 
@@ -90,6 +95,7 @@ export namespace CommandSelector {
               amount: transferItem.data.amount,
               accountFrom: AccountSelector.findById(transferItem.data.accountFromId)(state),
               accountTo: AccountSelector.findById(transferItem.data.accountToId)(state),
+              date: transferItem.data.date
             },
           }
 

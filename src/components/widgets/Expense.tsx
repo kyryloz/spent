@@ -1,15 +1,15 @@
-import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/DeleteSharp'
-import EditIcon from '@material-ui/icons/EditSharp'
-import { flow } from 'lodash'
-import * as React from 'react'
-import { connect } from 'react-redux'
-import { AccountSelector } from 'store/model/account/selectors'
-import { CategorySelector } from 'store/model/category/selectors'
-import { CommandModel } from 'store/model/command/interface'
-import { App } from 'store/interface'
-import { Classes } from 'utils/styleUtils'
+import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/DeleteSharp';
+import EditIcon from '@material-ui/icons/EditSharp';
+import { flow } from 'lodash';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { App } from 'store/interface';
+import { AccountSelector } from 'store/model/account/selectors';
+import { CategorySelector } from 'store/model/category/selectors';
 import { CommandSelector } from 'store/model/command/selectors';
+import { formatTransactionDate } from 'utils/dateUtils';
+import { Classes } from 'utils/styleUtils';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -35,6 +35,9 @@ const styles = (theme: Theme) =>
     id: {
       color: theme.colors.actionIcon,
       opacity: 0.2,
+    },
+    date: {
+      color: theme.colors.date,
     },
     line: {
       borderTop: `1px solid ${theme.colors.expense}`,
@@ -101,6 +104,7 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
       Spent on <span className={classes.category}>{command.data.category.name}</span>{' '}
       {categoryExpenses} USD
     </Typography>
+    <Typography className={classes.date}>{formatTransactionDate(command.data.date)}</Typography>
     <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )

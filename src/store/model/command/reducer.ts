@@ -48,6 +48,9 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
               amount: payload.data.amountChangeData
                 ? payload.data.amountChangeData.newAmount
                 : incomeItem.data.amount,
+              date: payload.data.dateChangeData
+                ? payload.data.dateChangeData.newDate
+                : incomeItem.data.date,
             },
           }
         } else {
@@ -83,6 +86,9 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
               amount: payload.data.amountChangeData
                 ? payload.data.amountChangeData.newAmount
                 : expenseItem.data.amount,
+              date: payload.data.dateChangeData
+                ? payload.data.dateChangeData.newDate
+                : expenseItem.data.date,
             },
           }
         } else {
@@ -103,21 +109,24 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
 
       const updatedItems = state.items.map(item => {
         if (item.id === payload.data.targetCommandId) {
-          const expenseItem = item as CommandModel.TransferData
+          const transferItem = item as CommandModel.TransferData
 
           return {
-            ...expenseItem,
+            ...transferItem,
             data: {
-              ...expenseItem.data,
+              ...transferItem.data,
               accountFromId: payload.data.accountFromChangeData
                 ? payload.data.accountFromChangeData.newAccountId
-                : expenseItem.data.accountFromId,
+                : transferItem.data.accountFromId,
               accountToId: payload.data.accountToChangeData
                 ? payload.data.accountToChangeData.newAccountId
-                : expenseItem.data.accountToId,
+                : transferItem.data.accountToId,
               amount: payload.data.amountChangeData
                 ? payload.data.amountChangeData.newAmount
-                : expenseItem.data.amount,
+                : transferItem.data.amount,
+              date: payload.data.dateChangeData
+                ? payload.data.dateChangeData.newDate
+                : transferItem.data.date,
             },
           }
         } else {

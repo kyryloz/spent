@@ -12,7 +12,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
         SmartInputActionCreator.setInput(
           `update expense '${command.id}' set amount = ${data.amount}, account = '${
             data.account.name
-          }', category = '${data.category.name}'`
+          }', category = '${data.category.name}', date = '${command.data.date}'`
         )
       )
       break
@@ -24,7 +24,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
         SmartInputActionCreator.setInput(
           `update income '${command.id}' set amount = ${data.amount}, account = '${
             data.account.name
-          }'`
+          }', date = '${command.data.date}'`
         )
       )
       break
@@ -36,7 +36,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
         SmartInputActionCreator.setInput(
           `update transfer '${command.id}' set amount = ${data.amount}, from = '${
             data.accountFrom.name
-          }', to = '${data.accountTo.name}'`
+          }', to = '${data.accountTo.name}', date = '${command.data.date}'`
         )
       )
       break

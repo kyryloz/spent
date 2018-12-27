@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { App } from 'store/interface'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CommandSelector } from 'store/model/command/selectors'
+import { formatTransactionDate } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -35,6 +36,9 @@ const styles = (theme: Theme) =>
     id: {
       color: theme.colors.actionIcon,
       opacity: 0.2,
+    },
+    date: {
+      color: theme.colors.date,
     },
     actionIcon: {
       marginTop: theme.spacing.unit / 2,
@@ -103,6 +107,7 @@ const TransferCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
       USD
     </Typography>
 
+    <Typography className={classes.date}>{formatTransactionDate(command.data.date)}</Typography>
     <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )

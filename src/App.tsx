@@ -22,12 +22,14 @@ const testCategoryAction = EvaluationActionCreator.createCategory(
 const testIncomeAction = EvaluationActionCreator.income('income 1000 to wallet', {
   accountId: testAccountAction.payload.data.id,
   amount: 1000,
+  date: '25.11.2018'
 })
 
 const testExpenseAction = EvaluationActionCreator.expense('expense 100 on clothes from wallet', {
   accountId: testAccountAction.payload.data.id,
   categoryId: testCategoryAction.payload.data.id,
   amount: 100,
+  date: '25.11.2018'
 })
 
 store.dispatch(testAccountAction)

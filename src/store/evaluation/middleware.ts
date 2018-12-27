@@ -1,3 +1,4 @@
+import * as moment from 'moment'
 import { parseGrammar } from 'parser/parser'
 import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
@@ -9,6 +10,7 @@ import { CommandActionCreator, CommandActionType } from 'store/model/command/act
 import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
+import { USER_INPUT_DATE_FORMAT } from 'utils/settings'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
 
 export const evaluationMiddleware: Middleware<
@@ -130,6 +132,7 @@ const evaluateExpense = (
     categoryId: category.id,
     accountId: account.id,
     amount,
+    date: moment().toISOString(),
   })
 }
 
@@ -148,6 +151,7 @@ const evaluateIncome = (
   return EvaluationActionCreator.income(input, {
     accountId: account.id,
     amount,
+    date: moment().toISOString(),
   })
 }
 
@@ -159,6 +163,7 @@ const evaluateUpdateIncome = (
 ): App.Action => {
   let accountChangeData = undefined
   let amountChangeData = undefined
+  let dateChangeData = undefined
 
   const command = CommandSelector.findById(targetCommandId)(
     state
@@ -188,10 +193,28 @@ const evaluateUpdateIncome = (
     }
   }
 
+  if (values.date) {
+    const newDate = moment(values.date, USER_INPUT_DATE_FORMAT)
+
+    if (newDate.isValid()) {
+      if (newDate !== moment(command.data.date)) {
+        dateChangeData = {
+          oldDate: moment(command.data.date).format(USER_INPUT_DATE_FORMAT),
+          newDate: values.date,
+        }
+      }
+    } else {
+      return CommandActionCreator.error(
+        `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+      )
+    }
+  }
+
   return EvaluationActionCreator.updateIncome(input, {
     targetCommandId,
     accountChangeData,
     amountChangeData,
+    dateChangeData,
   })
 }
 
@@ -204,6 +227,7 @@ const evaluateUpdateExpense = (
   let accountChangeData = undefined
   let categoryChangeData = undefined
   let amountChangeData = undefined
+  let dateChangeData = undefined
 
   const command = CommandSelector.findById(targetCommandId)(
     state
@@ -246,11 +270,29 @@ const evaluateUpdateExpense = (
     }
   }
 
+  if (values.date) {
+    const newDate = moment(values.date, USER_INPUT_DATE_FORMAT)
+
+    if (newDate.isValid()) {
+      if (newDate !== moment(command.data.date)) {
+        dateChangeData = {
+          oldDate: moment(command.data.date).format(USER_INPUT_DATE_FORMAT),
+          newDate: values.date,
+        }
+      }
+    } else {
+      return CommandActionCreator.error(
+        `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+      )
+    }
+  }
+
   return EvaluationActionCreator.updateExpense(input, {
     targetCommandId,
     accountChangeData,
     categoryChangeData,
     amountChangeData,
+    dateChangeData,
   })
 }
 
@@ -263,6 +305,7 @@ const evaluateUpdateTransfer = (
   let accountFromChangeData = undefined
   let accountToChangeData = undefined
   let amountChangeData = undefined
+  let dateChangeData = undefined
 
   const command = CommandSelector.findById(targetCommandId)(
     state
@@ -305,11 +348,29 @@ const evaluateUpdateTransfer = (
     }
   }
 
+  if (values.date) {
+    const newDate = moment(values.date, USER_INPUT_DATE_FORMAT)
+
+    if (newDate.isValid()) {
+      if (newDate !== moment(command.data.date)) {
+        dateChangeData = {
+          oldDate: moment(command.data.date).format(USER_INPUT_DATE_FORMAT),
+          newDate: values.date,
+        }
+      }
+    } else {
+      return CommandActionCreator.error(
+        `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+      )
+    }
+  }
+
   return EvaluationActionCreator.updateTransfer(input, {
     targetCommandId,
     accountFromChangeData,
     accountToChangeData,
     amountChangeData,
+    dateChangeData,
   })
 }
 
@@ -443,5 +504,6 @@ const evaluateTransfer = (
     accountFromId: fromAccount.id,
     accountToId: toAccount.id,
     amount,
+    date: moment().toISOString(),
   })
 }

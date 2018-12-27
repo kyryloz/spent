@@ -100,6 +100,7 @@ export namespace CommandModel {
       readonly amount: number
       readonly categoryId: string
       readonly accountId: string
+      readonly date: string
     }
   }
 
@@ -108,6 +109,7 @@ export namespace CommandModel {
       readonly dataType: DataType.INCOME
       readonly accountId: string
       readonly amount: number
+      readonly date: string
     }
   }
 
@@ -127,6 +129,10 @@ export namespace CommandModel {
         readonly oldAmount: number
         readonly newAmount: number
       }
+      readonly dateChangeData?: {
+        readonly oldDate: string
+        readonly newDate: string
+      }
     }
   }
 
@@ -141,6 +147,10 @@ export namespace CommandModel {
       readonly amountChangeData?: {
         readonly oldAmount: number
         readonly newAmount: number
+      }
+      readonly dateChangeData?: {
+        readonly oldDate: string
+        readonly newDate: string
       }
     }
   }
@@ -161,6 +171,10 @@ export namespace CommandModel {
         readonly oldAmount: number
         readonly newAmount: number
       }
+      readonly dateChangeData?: {
+        readonly oldDate: string
+        readonly newDate: string
+      }
     }
   }
 
@@ -170,6 +184,7 @@ export namespace CommandModel {
       readonly accountFromId: string
       readonly accountToId: string
       readonly amount: number
+      readonly date: string
     }
   }
 
