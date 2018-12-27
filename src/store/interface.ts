@@ -6,6 +6,8 @@ import { CommandModel } from 'store/model/command/interface'
 import { SmartInputAction } from 'store/model/ui/smartInput/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { EvaluationAction } from './evaluation/actions'
+import { TransactionAction } from './model/transactions/actions'
+import { TransactionModel } from './model/transactions/interface';
 
 export namespace App {
   export interface State {
@@ -13,6 +15,7 @@ export namespace App {
     readonly entities: {
       readonly accounts: AccountModel.State
       readonly categories: CategoryModel.State
+      readonly transactions: TransactionModel.State
     }
     readonly ui: {
       readonly smartInput: SmartInputModel.State
@@ -20,7 +23,7 @@ export namespace App {
     readonly commands: CommandModel.State
   }
 
-  export type Action = CommandAction | SmartInputAction | EvaluationAction
+  export type Action = CommandAction | SmartInputAction | EvaluationAction | TransactionAction
 
   export interface Identifiable {
     id: string
