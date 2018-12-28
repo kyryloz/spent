@@ -3,9 +3,11 @@ import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/
 import { App } from 'store/interface'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
+import { TransactionActionType } from '../transactions/actions';
 
 const initialState: CommandModel.State = {
   items: [],
+  cliActions: [],
   error: {
     human: '',
   },

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
-import { TransactionActionType } from './actions'
+import { TransactionActionCreator, TransactionActionType } from './actions'
 import { TransactionModel } from './interface'
 
 const initialState: TransactionModel.State = {
@@ -15,7 +15,9 @@ export const transactions: Reducer<TransactionModel.State, App.Action> = (
 ): TransactionModel.State => {
   switch (action.type) {
     case TransactionActionType.EXPENSE: {
-      const transaction = action.transaction as TransactionModel.Expense
+      const {
+        payload: { transaction },
+      } = action as ReturnType<typeof TransactionActionCreator.expense>
 
       return {
         ...state,
@@ -26,7 +28,9 @@ export const transactions: Reducer<TransactionModel.State, App.Action> = (
       }
     }
     case TransactionActionType.INCOME: {
-      const transaction = action.transaction as TransactionModel.Income
+      const {
+        payload: { transaction },
+      } = action as ReturnType<typeof TransactionActionCreator.income>
 
       return {
         ...state,
@@ -37,7 +41,9 @@ export const transactions: Reducer<TransactionModel.State, App.Action> = (
       }
     }
     case TransactionActionType.TRANSFER: {
-      const transaction = action.transaction as TransactionModel.Transfer
+      const {
+        payload: { transaction },
+      } = action as ReturnType<typeof TransactionActionCreator.transfer>
 
       return {
         ...state,

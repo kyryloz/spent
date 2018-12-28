@@ -1,19 +1,21 @@
 import { App } from 'store/interface'
 import { AccountModel } from '../account/interface';
 import { CategoryModel } from '../category/interface';
+import { TransactionAction } from '../transactions/actions';
 
 export namespace CommandModel {
   export interface State {
     readonly items: Array<CommandDataBase>
+    readonly cliActions: Array<CliAction>
     readonly error: {
       human: string
     }
   }
 
   export const enum DataType {
-    EXPENSE = 'EXPENSE',
-    INCOME = 'INCOME',
-    TRANSFER = 'TRANSFER',
+    EXPENSE = 'EXPENSE', // extracted
+    INCOME = 'INCOME', // extracted
+    TRANSFER = 'TRANSFER', // extracted
     STATUS = 'STATUS',
     CREATE_ACCOUNT = 'CREATE_ACCOUNT',
     CREATE_CATEGORY = 'CREATE_CATEGORY',
@@ -30,6 +32,13 @@ export namespace CommandModel {
     ACCOUNT = 'account',
     CATEGORY = 'category',
     TRANSACTION = 'transaction'
+  }
+
+  export interface CliAction {
+    readonly id: string
+    readonly raw: string
+    readonly timestamp: number
+    readonly cliAction: TransactionAction
   }
 
   export interface CommandDataBase extends App.Identifiable {
