@@ -48,74 +48,28 @@ export namespace TransactionActionCreator {
     },
   })
 
-  export const updateExpense = (updateData: {
-    transactionId: string
-    accountChangeData?: {
-      oldAccountId: string
-      newAccountId: string
-    }
-    categoryChangeData?: {
-      oldCategoryId: string
-      newCategoryId: string
-    }
-    amountChangeData?: {
-      oldAmount: number
-      newAmount: number
-    }
-    dateChangeData?: {
-      oldDate: string
-      newDate: string
-    }
-  }) => ({
+  export const updateExpense = (
+    transaction: Partial<TransactionModel.Expense> & { id: string }
+  ) => ({
     type: TransactionActionType.UPDATE_EXPENSE,
     payload: {
-      updateData,
+      transaction,
     },
   })
 
-  export const updateIncome = (updateData: {
-    targetCommandId: string
-    accountChangeData?: {
-      oldAccountId: string
-      newAccountId: string
-    }
-    amountChangeData?: {
-      oldAmount: number
-      newAmount: number
-    }
-    dateChangeData?: {
-      oldDate: string
-      newDate: string
-    }
-  }) => ({
+  export const updateIncome = (transaction: Partial<TransactionModel.Income> & { id: string }) => ({
     type: TransactionActionType.UPDATE_INCOME,
     payload: {
-      updateData,
+      transaction,
     },
   })
 
-  export const updateTransfer = (updateData: {
-    targetCommandId: string
-    accountFromChangeData?: {
-      oldAccountId: string
-      newAccountId: string
-    }
-    accountToChangeData?: {
-      oldAccountId: string
-      newAccountId: string
-    }
-    amountChangeData?: {
-      oldAmount: number
-      newAmount: number
-    }
-    dateChangeData?: {
-      oldDate: string
-      newDate: string
-    }
-  }) => ({
+  export const updateTransfer = (
+    transaction: Partial<TransactionModel.Transfer> & { id: string }
+  ) => ({
     type: TransactionActionType.UPDATE_TRANSFER,
     payload: {
-      updateData,
+      transaction,
     },
   })
 }
