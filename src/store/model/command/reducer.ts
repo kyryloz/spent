@@ -3,7 +3,6 @@ import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/
 import { App } from 'store/interface'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
-import { TransactionActionType } from '../transactions/actions';
 
 const initialState: CommandModel.State = {
   items: [],
@@ -18,6 +17,30 @@ export const commands: Reducer<CommandModel.State, App.Action> = (
   action
 ): CommandModel.State => {
   switch (action.type) {
+    case CommandActionType.ADD: {
+      const { payload } = action as ReturnType<typeof CommandActionCreator.addCommand>
+
+      return {
+        ...state,
+        cliActions: [...state.cliActions, payload],
+        error: {
+          human: '',
+        },
+      }
+    }
+    case CommandActionType.REMOVE: {
+      const {
+        payload: { commandId },
+      } = action as ReturnType<typeof CommandActionCreator.removeCommand>
+
+      return {
+        ...state,
+        cliActions: state.cliActions.filter(item => item.id !== commandId),
+        error: {
+          human: '',
+        },
+      }
+    }
     case EvaluationActionType.CREATE_ACCOUNT:
     case EvaluationActionType.CREATE_CATEGORY:
     case EvaluationActionType.EXPENSE:

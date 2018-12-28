@@ -1,7 +1,8 @@
+import { EvaluationAction } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { AccountModel } from '../account/interface';
-import { CategoryModel } from '../category/interface';
-import { TransactionAction } from '../transactions/actions';
+import { AccountModel } from '../account/interface'
+import { CategoryModel } from '../category/interface'
+import { TransactionAction } from '../transactions/actions'
 
 export namespace CommandModel {
   export interface State {
@@ -21,24 +22,24 @@ export namespace CommandModel {
     CREATE_CATEGORY = 'CREATE_CATEGORY',
     DELETE_ACCOUNT = 'DELETE_ACCOUNT',
     DELETE_CATEGORY = 'DELETE_CATEGORY',
-    DELETE_TRANSACTION = 'DELETE_TRANSACTION',
+    DELETE_TRANSACTION = 'DELETE_TRANSACTION', // extracted
     RENAME_ENTITY = 'RENAME_ENTITY',
-    UPDATE_EXPENSE = 'UPDATE_EXPENSE',
-    UPDATE_INCOME = 'UPDATE_INCOME',
-    UPDATE_TRANSFER = 'UPDATE_TRANSFER',
+    UPDATE_EXPENSE = 'UPDATE_EXPENSE', // extracted
+    UPDATE_INCOME = 'UPDATE_INCOME', // extracted
+    UPDATE_TRANSFER = 'UPDATE_TRANSFER', // extracted
   }
 
   export const enum Entity {
     ACCOUNT = 'account',
     CATEGORY = 'category',
-    TRANSACTION = 'transaction'
+    TRANSACTION = 'transaction',
   }
 
   export interface CliAction {
     readonly id: string
     readonly raw: string
     readonly timestamp: number
-    readonly cliAction: TransactionAction
+    readonly action: EvaluationAction | TransactionAction
   }
 
   export interface CommandDataBase extends App.Identifiable {

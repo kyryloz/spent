@@ -9,7 +9,9 @@ import { CategorySelector } from 'store/model/category/selectors'
 import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
+import { TransactionActionCreator } from 'store/model/transactions/actions'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
+import { generateId } from 'utils/mathUtils'
 import { USER_INPUT_DATE_FORMAT } from 'utils/settings'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
 
@@ -47,10 +49,10 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateCreate(state, input, entityName, name))
     },
     expense: (category, amount, fromAccount) => {
-      dispatch(evaluateExpense(state, input, category, amount, fromAccount))
+      evaluateExpense(state, input, category, amount, fromAccount).forEach(dispatch)
     },
     income: (accountName, amount) => {
-      dispatch(evaluateIncome(state, input, accountName, amount))
+      evaluateIncome(state, input, accountName, amount).forEach(dispatch)
     },
     transfer: (from, to, amount) => {
       dispatch(evaluateTransfer(state, input, from, to, amount))
@@ -116,24 +118,34 @@ const evaluateExpense = (
   categoryName: string,
   amount: number,
   accountName: string
-): App.Action => {
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
+
   const category = CategorySelector.findByName(categoryName)(state)
   const account = AccountSelector.findByName(accountName)(state)
 
   if (!category) {
-    return CommandActionCreator.error(`Category '${categoryName}' not found`)
+    actions.push(CommandActionCreator.error(`Category '${categoryName}' not found`))
+    return actions
   }
 
   if (!account) {
-    return CommandActionCreator.error(`Account '${accountName}' not found`)
+    actions.push(CommandActionCreator.error(`Account '${accountName}' not found`))
+    return actions
   }
 
-  return EvaluationActionCreator.expense(input, {
+  const expense = TransactionActionCreator.expense({
+    id: generateId(),
     categoryId: category.id,
     accountId: account.id,
     amount,
-    date: moment().toISOString(),
+    timestamp: moment().unix(),
   })
+
+  actions.push(expense)
+  actions.push(CommandActionCreator.addCommand(input, expense))
+
+  return actions
 }
 
 const evaluateIncome = (
@@ -141,18 +153,27 @@ const evaluateIncome = (
   input: string,
   accountName: string,
   amount: number
-): App.Action => {
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
+
   const account = AccountSelector.findByName(accountName)(state)
 
   if (!account) {
-    return CommandActionCreator.error(`Account '${accountName}' not found`)
+    actions.push(CommandActionCreator.error(`Account '${accountName}' not found`))
+    return actions
   }
 
-  return EvaluationActionCreator.income(input, {
+  const income = TransactionActionCreator.income({
+    id: generateId(),
     accountId: account.id,
     amount,
-    date: moment().toISOString(),
+    timestamp: moment().unix(),
   })
+
+  actions.push(income)
+  actions.push(CommandActionCreator.addCommand(input, income))
+
+  return actions
 }
 
 const evaluateUpdateIncome = (
