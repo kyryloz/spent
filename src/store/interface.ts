@@ -1,4 +1,5 @@
 import { RouterState } from 'connected-react-router'
+import { AnyAction } from 'redux'
 import { AccountModel } from 'store/model/account/interface'
 import { CategoryModel } from 'store/model/category/interface'
 import { CommandAction } from 'store/model/command/actions'
@@ -7,7 +8,7 @@ import { SmartInputAction } from 'store/model/ui/smartInput/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { EvaluationAction } from './evaluation/actions'
 import { TransactionAction } from './model/transactions/actions'
-import { TransactionModel } from './model/transactions/interface';
+import { TransactionModel } from './model/transactions/interface'
 
 export namespace App {
   export interface State {
