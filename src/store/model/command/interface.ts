@@ -1,6 +1,8 @@
 import { EvaluationAction } from 'store/evaluation/actions'
 import { App } from 'store/interface'
+import { AccountAction } from '../account/actions'
 import { AccountModel } from '../account/interface'
+import { CategoryAction } from '../category/actions'
 import { CategoryModel } from '../category/interface'
 import { TransactionAction } from '../transactions/actions'
 
@@ -39,7 +41,7 @@ export namespace CommandModel {
     readonly id: string
     readonly raw: string
     readonly timestamp: number
-    readonly action: EvaluationAction | TransactionAction
+    readonly action: EvaluationAction | TransactionAction | CategoryAction | AccountAction
   }
 
   export interface CommandDataBase extends App.Identifiable {
