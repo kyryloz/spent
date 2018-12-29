@@ -4,9 +4,11 @@ import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/
 import { App } from 'store/interface'
 import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
+import { CategoryActionCreator, CategoryActionType } from './actions'
 import { CategoryModel } from './interface'
 
 const initialState: CategoryModel.State = {
+  items: {},
   byId: {},
   allIds: [],
 }
@@ -16,6 +18,44 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
   action
 ): CategoryModel.State => {
   switch (action.type) {
+    case CategoryActionType.CREATE: {
+      const { payload } = action as ReturnType<typeof CategoryActionCreator.create>
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [payload.id]: payload,
+        },
+      }
+    }
+    case CategoryActionType.UPDATE: {
+      const {
+        payload: { id, name },
+      } = action as ReturnType<typeof CategoryActionCreator.update>
+
+      return {
+        ...state,
+        items: {
+          [id]: {
+            ...state.items[id],
+            name,
+          },
+        },
+      }
+    }
+    case CategoryActionType.REMOVE: {
+      const {
+        payload: { categoryId },
+      } = action as ReturnType<typeof CategoryActionCreator.remove>
+
+      const { [categoryId]: _removed, ...items } = state.items
+
+      return {
+        ...state,
+        items,
+      }
+    }
     case EvaluationActionType.CREATE_CATEGORY: {
       const {
         payload: {
@@ -110,6 +150,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
       const { [category.id]: _, ...byId } = state.byId
 
       return {
+        ...state,
         byId,
         allIds,
       }
@@ -129,6 +170,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
       }))
 
       return {
+        ...state,
         byId: fromPairs(categories.map(category => [category.id, category])),
         allIds: categories.map(category => category.id),
       }
@@ -170,6 +212,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
         .filter(category => category.createdByCommandId !== commandId)
 
       return {
+        ...state,
         byId: fromPairs(categories.map(category => [category.id, category])),
         allIds: categories.map(category => category.id),
       }

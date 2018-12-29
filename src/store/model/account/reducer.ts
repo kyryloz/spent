@@ -4,9 +4,11 @@ import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/
 import { App } from 'store/interface'
 import { CommandModel } from 'store/model/command/interface'
 import { removeItem } from 'utils/storeUtils'
+import { AccountActionCreator, AccountActionType } from './actions'
 import { AccountModel } from './interface'
 
 const initialState: AccountModel.State = {
+  items: {},
   byId: {},
   allIds: [],
 }
@@ -16,6 +18,44 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
   action
 ): AccountModel.State => {
   switch (action.type) {
+    case AccountActionType.CREATE: {
+      const { payload } = action as ReturnType<typeof AccountActionCreator.create>
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [payload.id]: payload,
+        },
+      }
+    }
+    case AccountActionType.UPDATE: {
+      const {
+        payload: { id, name },
+      } = action as ReturnType<typeof AccountActionCreator.update>
+
+      return {
+        ...state,
+        items: {
+          [id]: {
+            ...state.items[id],
+            name,
+          },
+        },
+      }
+    }
+    case AccountActionType.REMOVE: {
+      const {
+        payload: { accountId },
+      } = action as ReturnType<typeof AccountActionCreator.remove>
+
+      const { [accountId]: _removed, ...items } = state.items
+
+      return {
+        ...state,
+        items,
+      }
+    }
     case EvaluationActionType.CREATE_ACCOUNT: {
       const {
         payload: {
@@ -196,6 +236,7 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
       const { [account.id]: _, ...byId } = state.byId
 
       return {
+        ...state,
         byId,
         allIds,
       }
@@ -215,6 +256,7 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
       }))
 
       return {
+        ...state,
         byId: fromPairs(accounts.map(account => [account.id, account])),
         allIds: accounts.map(account => account.id),
       }
@@ -256,6 +298,7 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
         .filter(account => account.createdByCommandId !== commandId)
 
       return {
+        ...state,
         byId: fromPairs(accounts.map(account => [account.id, account])),
         allIds: accounts.map(account => account.id),
       }
