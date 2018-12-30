@@ -3,24 +3,19 @@ import { CreateAccount } from 'components/widgets/CreateAccount'
 import { CreateCategory } from 'components/widgets/CreateCategory'
 import { Expense } from 'components/widgets/Expense'
 import { Income } from 'components/widgets/Income'
-import { StatusAccounts } from 'components/widgets/StatusAccounts'
-import { StatusCategories } from 'components/widgets/StatusCategories'
 import * as React from 'react'
+import { EvaluationActionType, EvaluationActionCreator } from 'store/evaluation/actions'
 import { AccountActionCreator, AccountActionType } from 'store/model/account/actions'
-import { CommandModel } from 'store/model/command/interface'
+import { CategoryActionCreator, CategoryActionType } from 'store/model/category/actions'
 import { CommandSelector } from 'store/model/command/selectors'
+import { TransactionActionType, TransactionActionCreator } from 'store/model/transactions/actions'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
-import { DeleteTransaction } from './DeleteTransaction'
-import { RenameAccount } from './RenameAccount'
-import { RenameCategory } from './RenameCategory'
 import { Transfer } from './Transfer'
-import { UpdateExpense } from './UpdateExpense'
-import { UpdateIncome } from './UpdateIncome'
-import { CategoryActionType, CategoryActionCreator } from 'store/model/category/actions';
-import { TransactionActionType } from 'store/model/transactions/actions';
-import { CommandActionType } from 'store/model/command/actions';
-import { EvaluationActionType } from 'store/evaluation/actions';
+import { DeleteTransaction } from './DeleteTransaction'
+import { CommandModel } from 'store/model/command/interface'
+import { StatusAccounts } from './StatusAccounts'
+import { StatusCategories } from './StatusCategories'
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -41,7 +36,11 @@ export const createWidget = (
       break
     }
     case CategoryActionType.CREATE: {
-      widgetComponent = <CreateCategory command={command.action as ReturnType<typeof CategoryActionCreator.create>} />
+      widgetComponent = (
+        <CreateCategory
+          command={command.action as ReturnType<typeof CategoryActionCreator.create>}
+        />
+      )
       break
     }
     case TransactionActionType.EXPENSE: {
@@ -65,35 +64,43 @@ export const createWidget = (
       break
     }
     case EvaluationActionType.STATUS: {
-      // const statusCommand = command as CommandModel.CliCommand
+      const statusCommand = command.action as ReturnType<typeof EvaluationActionCreator.status>
 
-      // switch (statusCommand.action.payload) {
-      //   case CommandModel.Entity.ACCOUNT:
-      //     widgetComponent = <StatusAccounts command={statusCommand} />
-      //     break
+      switch (statusCommand.payload.data.entity) {
+        case CommandModel.Entity.ACCOUNT:
+          widgetComponent = <StatusAccounts command={statusCommand} />
+          break
 
-      //   case CommandModel.Entity.CATEGORY:
-      //     widgetComponent = <StatusCategories command={statusCommand} />
-      //     break
-      // }
+        case CommandModel.Entity.CATEGORY:
+          widgetComponent = <StatusCategories command={statusCommand} />
+          break
+      }
       break
     }
     case AccountActionType.REMOVE: {
-      // widgetComponent = <DeleteAccount command={command as CommandModel.DeleteAccountData} />
+      widgetComponent = (
+        <DeleteAccount command={command.action as ReturnType<typeof AccountActionCreator.remove>} />
+      )
       break
     }
     case CategoryActionType.REMOVE: {
-      // widgetComponent = <DeleteCategory command={command as CommandModel.DeleteCategoryData} />
+      widgetComponent = (
+        <DeleteCategory
+          command={command.action as ReturnType<typeof CategoryActionCreator.remove>}
+        />
+      )
       break
     }
     case TransactionActionType.REMOVE: {
-      // widgetComponent = (
-      //   <DeleteTransaction command={command as CommandModel.DeleteTransactionData} />
-      // )
+      widgetComponent = (
+        <DeleteTransaction
+          command={command.action as ReturnType<typeof TransactionActionCreator.remove>}
+        />
+      )
       break
     }
-    case AccountActionType.UPDATE: {
-      // const renameCommand = command as CommandModel.RenameEntityData
+    case EvaluationActionType.RENAME_ENTITY: {
+      // const renameCommand = command as EvAC
 
       // switch (renameCommand.data.entity) {
       //   case CommandModel.Entity.ACCOUNT:

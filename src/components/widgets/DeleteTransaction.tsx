@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
+import { TransactionActionCreator } from 'store/model/transactions/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.DeleteTransactionData
+  command: ReturnType<typeof TransactionActionCreator.remove>
 }
 
 interface StyleProps {
@@ -23,7 +23,8 @@ interface StyleProps {
 
 const DeleteTransactionCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Transaction <span className={classes.category}>{command.data.commandId}</span> was deleted.
+    Transaction <span className={classes.category}>{command.payload.transactionId}</span> was
+    deleted.
   </Typography>
 )
 

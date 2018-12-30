@@ -3,9 +3,9 @@ import { flow, isEmpty, toPairs } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { App } from 'store/interface'
 import { CategorySelector } from 'store/model/category/selectors'
-import { CommandModel } from 'store/model/command/interface'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.StatusData
+  command: ReturnType<typeof EvaluationActionCreator.status>
 }
 
 interface StyleProps {

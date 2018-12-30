@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
+import { AccountActionCreator } from 'store/model/account/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.DeleteAccountData
+  command: ReturnType<typeof AccountActionCreator.remove>
 }
 
 interface StyleProps {
@@ -23,7 +23,7 @@ interface StyleProps {
 
 const DeleteAccountCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Account <span className={classes.account}>{command.data.account.name}</span> was deleted. All
+    Account <span className={classes.account}>{command.payload.accountId}</span> was deleted. All
     references are updated.
   </Typography>
 )

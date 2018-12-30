@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
+import { CategoryActionCreator } from 'store/model/category/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.DeleteCategoryData
+  command: ReturnType<typeof CategoryActionCreator.remove>
 }
 
 interface StyleProps {
@@ -23,7 +23,7 @@ interface StyleProps {
 
 const DeleteCategoryCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Category <span className={classes.category}>{command.data.category.name}</span> was deleted. All
+    Category <span className={classes.category}>{command.payload.categoryId}</span> was deleted. All
     references are updated.
   </Typography>
 )
