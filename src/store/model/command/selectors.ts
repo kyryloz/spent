@@ -5,97 +5,122 @@ import { AccountSelector } from 'store/model/account/selectors'
 import { CategoryModel } from 'store/model/category/interface'
 import { CategorySelector } from 'store/model/category/selectors'
 import { CommandModel } from 'store/model/command/interface'
+import { TransactionActionCreator, TransactionActionType } from '../transactions/actions'
 
 export namespace CommandSelector {
   export type CommandItem =
-    | ExpenseHydratedData
-    | IncomeHydratedData
-    | TransferHydratedData
-    | CommandModel.StatusData
-    | CommandModel.CreateAccountData
-    | CommandModel.CreateCategoryData
-    | CommandModel.DeleteAccountData
-    | CommandModel.DeleteCategoryData
-    | CommandModel.DeleteTransactionData
-    | CommandModel.RenameEntityData
-    | CommandModel.UpdateIncomeData
-    | CommandModel.UpdateExpenseData
-    | CommandModel.UpdateTransferData
+    | ExpenseCommand
+    | IncomeCommand
+    | TransferCommand
+    | CommandModel.CliCommand
 
-  export interface ExpenseHydratedData extends CommandModel.CommandDataBase {
-    readonly data: {
-      readonly dataType: CommandModel.DataType.EXPENSE
-      readonly amount: number
-      readonly account: AccountModel.Account
-      readonly category: CategoryModel.Category
-      readonly date: string
+  export interface ExpenseCommand {
+    readonly id: string
+    readonly raw: string
+    readonly timestamp: number
+    readonly action: {
+      readonly type: TransactionActionType.EXPENSE
+      readonly payload: {
+        readonly amount: number
+        readonly account: AccountModel.Account
+        readonly category: CategoryModel.Category
+        readonly timestamp: number
+      }
     }
   }
 
-  export interface IncomeHydratedData extends CommandModel.CommandDataBase {
-    readonly data: {
-      readonly dataType: CommandModel.DataType.INCOME
-      readonly amount: number
-      readonly account: AccountModel.Account
-      readonly date: string
+  export interface IncomeCommand {
+    readonly id: string
+    readonly raw: string
+    readonly timestamp: number
+    readonly action: {
+      readonly type: TransactionActionType.INCOME
+      readonly payload: {
+        readonly amount: number
+        readonly account: AccountModel.Account
+        readonly timestamp: number
+      }
     }
   }
 
-  export interface TransferHydratedData extends CommandModel.CommandDataBase {
-    readonly data: {
-      readonly dataType: CommandModel.DataType.TRANSFER
-      readonly amount: number
-      readonly accountFrom: AccountModel.Account
-      readonly accountTo: AccountModel.Account
-      readonly date: string
+  export interface TransferCommand {
+    readonly id: string
+    readonly raw: string
+    readonly timestamp: number
+    readonly action: {
+      readonly type: TransactionActionType.TRANSFER
+      readonly payload: {
+        readonly amount: number
+        readonly fromAccount: AccountModel.Account
+        readonly toAccount: AccountModel.Account
+        readonly timestamp: number
+      }
     }
   }
 
-  export const items = (state: App.State): Array<CommandItem> => {
-    return state.commands.items.map(item => {
-      switch (item.data.dataType) {
-        case CommandModel.DataType.EXPENSE: {
-          const expenseItem = item as CommandModel.ExpenseData
+  export const items = (
+    state: App.State
+  ): Array<ExpenseCommand | IncomeCommand | TransferCommand | CommandModel.CliCommand> => {
+    return state.commands.cliActions.map(item => {
+      switch (item.action.type) {
+        case TransactionActionType.EXPENSE: {
+          const expenseAction = item.action as ReturnType<typeof TransactionActionCreator.expense>
 
-          const hydratedItem: ExpenseHydratedData = {
+          const hydratedItem: ExpenseCommand = {
             ...item,
-            data: {
-              dataType: expenseItem.data.dataType,
-              amount: expenseItem.data.amount,
-              account: AccountSelector.findById(expenseItem.data.accountId)(state),
-              category: CategorySelector.findById(expenseItem.data.categoryId)(state),
-              date: expenseItem.data.date
+            action: {
+              type: TransactionActionType.EXPENSE,
+              payload: {
+                amount: expenseAction.payload.transaction.amount,
+                account: AccountSelector.findById(expenseAction.payload.transaction.accountId)(
+                  state
+                ),
+                category: CategorySelector.findById(expenseAction.payload.transaction.categoryId)(
+                  state
+                ),
+                timestamp: expenseAction.payload.transaction.timestamp,
+              },
             },
           }
 
           return hydratedItem
         }
-        case CommandModel.DataType.INCOME: {
-          const incomeItem = item as CommandModel.IncomeData
+        case TransactionActionType.INCOME: {
+          const incomeAction = item.action as ReturnType<typeof TransactionActionCreator.income>
 
-          const hydratedItem: IncomeHydratedData = {
+          const hydratedItem: IncomeCommand = {
             ...item,
-            data: {
-              dataType: incomeItem.data.dataType,
-              amount: incomeItem.data.amount,
-              account: AccountSelector.findById(incomeItem.data.accountId)(state),
-              date: incomeItem.data.date
+            action: {
+              type: TransactionActionType.INCOME,
+              payload: {
+                amount: incomeAction.payload.transaction.amount,
+                account: AccountSelector.findById(incomeAction.payload.transaction.accountId)(
+                  state
+                ),
+                timestamp: incomeAction.payload.transaction.timestamp,
+              },
             },
           }
 
           return hydratedItem
         }
-        case CommandModel.DataType.TRANSFER: {
-          const transferItem = item as CommandModel.TransferData
+        case TransactionActionType.TRANSFER: {
+          const transferAction = item.action as ReturnType<typeof TransactionActionCreator.transfer>
 
-          const hydratedItem: TransferHydratedData = {
+          const hydratedItem: TransferCommand = {
             ...item,
-            data: {
-              dataType: transferItem.data.dataType,
-              amount: transferItem.data.amount,
-              accountFrom: AccountSelector.findById(transferItem.data.accountFromId)(state),
-              accountTo: AccountSelector.findById(transferItem.data.accountToId)(state),
-              date: transferItem.data.date
+            action: {
+              type: TransactionActionType.TRANSFER,
+              payload: {
+                amount: transferAction.payload.transaction.amount,
+                fromAccount: AccountSelector.findById(
+                  transferAction.payload.transaction.fromAccountId
+                )(state),
+                toAccount: AccountSelector.findById(transferAction.payload.transaction.toAccountId)(
+                  state
+                ),
+                timestamp: transferAction.payload.transaction.timestamp,
+              },
             },
           }
 
@@ -103,12 +128,15 @@ export namespace CommandSelector {
         }
       }
 
-      return item as CommandItem
+      return item as CommandModel.CliCommand
     })
   }
 
   export const findById = (id: string) =>
-    createSelector(items, items => items.find(item => item.id === id))
+    createSelector(
+      items,
+      items => items.find(item => item.id === id)
+    )
 
   export const error = (state: App.State) => state.commands.error
 }

@@ -1,50 +1,50 @@
-import { CommandModel } from 'store/model/command/interface'
-import { CommandSelector } from 'store/model/command/selectors'
+// import { CommandModel } from 'store/model/command/interface'
+// import { CommandSelector } from 'store/model/command/selectors'
 
-export const calculateBalance = (
-  commands: Array<CommandSelector.CommandItem>,
-  dataType: CommandModel.DataType,
-  timestampFrom: number,
-  timestampTo: number,
-  inclusive: boolean = true
-) => {
-  return commands
-    .filter(command => command.data.dataType === dataType)
-    .map(data => data as CommandSelector.IncomeHydratedData | CommandSelector.ExpenseHydratedData)
-    .filter(
-      data =>
-        data.timestamp >= timestampFrom && inclusive
-          ? data.timestamp <= timestampTo
-          : data.timestamp < timestampTo
-    )
-    .reduce((sum, next) => (sum += next.data.amount), 0)
-}
+// export const calculateBalance = (
+//   commands: Array<CommandSelector.CommandItem>,
+//   dataType: CommandModel.DataType,
+//   timestampFrom: number,
+//   timestampTo: number,
+//   inclusive: boolean = true
+// ) => {
+//   return commands
+//     .filter(command => command.data.dataType === dataType)
+//     .map(data => data as CommandSelector.IncomeCommand | CommandSelector.ExpenseHydratedData)
+//     .filter(
+//       data =>
+//         data.timestamp >= timestampFrom && inclusive
+//           ? data.timestamp <= timestampTo
+//           : data.timestamp < timestampTo
+//     )
+//     .reduce((sum, next) => (sum += next.data.amount), 0)
+// }
 
-export const calculateTransfer = (
-  accountId: string,
-  commands: Array<CommandSelector.CommandItem>,
-  timestampFrom: number,
-  timestampTo: number,
-  inclusive: boolean = true
-) => {
-  return commands
-    .filter(command => command.data.dataType === CommandModel.DataType.TRANSFER)
-    .map(data => data as CommandSelector.TransferHydratedData)
-    .filter(
-      data =>
-        data.timestamp >= timestampFrom && inclusive
-          ? data.timestamp <= timestampTo
-          : data.timestamp < timestampTo
-    )
-    .reduce((sum, next) => {
-      if (next.data.accountFrom.id === accountId) {
-        sum -= next.data.amount
-      }
+// export const calculateTransfer = (
+//   accountId: string,
+//   commands: Array<CommandSelector.CommandItem>,
+//   timestampFrom: number,
+//   timestampTo: number,
+//   inclusive: boolean = true
+// ) => {
+//   return commands
+//     .filter(command => command.data.dataType === CommandModel.DataType.TRANSFER)
+//     .map(data => data as CommandSelector.TransferCommand)
+//     .filter(
+//       data =>
+//         data.timestamp >= timestampFrom && inclusive
+//           ? data.timestamp <= timestampTo
+//           : data.timestamp < timestampTo
+//     )
+//     .reduce((sum, next) => {
+//       if (next.data.accountFrom.id === accountId) {
+//         sum -= next.data.amount
+//       }
 
-      if (next.data.accountTo.id === accountId) {
-        sum += next.data.amount
-      }
+//       if (next.data.accountTo.id === accountId) {
+//         sum += next.data.amount
+//       }
 
-      return sum
-    }, 0)
-}
+//       return sum
+//     }, 0)
+// }

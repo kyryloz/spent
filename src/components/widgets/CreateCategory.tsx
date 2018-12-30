@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
+import { CategoryActionCreator } from 'store/model/category/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.CreateCategoryData
+  command: ReturnType<typeof CategoryActionCreator.create>
 }
 
 interface StyleProps {
@@ -23,7 +23,7 @@ interface StyleProps {
 
 const CreateCategoryCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Category <span className={classes.category}>{command.data.name}</span> successfully created.
+    Category <span className={classes.category}>{command.payload.name}</span> successfully created.
   </Typography>
 )
 

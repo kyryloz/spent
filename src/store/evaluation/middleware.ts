@@ -1,21 +1,22 @@
-import * as moment from 'moment';
-import { parseGrammar } from 'parser/parser';
-import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic';
-import { Dispatch, Middleware } from 'redux';
-import { EvaluationActionCreator } from 'store/evaluation/actions';
-import { App } from 'store/interface';
-import { AccountActionCreator } from 'store/model/account/actions';
-import { AccountSelector } from 'store/model/account/selectors';
-import { CategoryActionCreator } from 'store/model/category/actions';
-import { CategorySelector } from 'store/model/category/selectors';
-import { CommandActionCreator, CommandActionType } from 'store/model/command/actions';
-import { CommandModel } from 'store/model/command/interface';
-import { CommandSelector } from 'store/model/command/selectors';
-import { TransactionActionCreator } from 'store/model/transactions/actions';
-import { SmartInputSelector } from 'store/model/ui/smartInput/selectors';
-import { generateId } from 'utils/mathUtils';
-import { USER_INPUT_DATE_FORMAT } from 'utils/settings';
-import { capitalizeFirstLetter } from 'utils/stringUtils';
+import * as moment from 'moment'
+import { parseGrammar } from 'parser/parser'
+import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic'
+import { Dispatch, Middleware } from 'redux'
+import { EvaluationActionCreator } from 'store/evaluation/actions'
+import { App } from 'store/interface'
+import { AccountActionCreator } from 'store/model/account/actions'
+import { AccountSelector } from 'store/model/account/selectors'
+import { CategoryActionCreator } from 'store/model/category/actions'
+import { CategorySelector } from 'store/model/category/selectors'
+import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
+import { CommandModel } from 'store/model/command/interface'
+import { CommandSelector } from 'store/model/command/selectors'
+import { TransactionActionCreator } from 'store/model/transactions/actions'
+import { TransactionSelector } from 'store/model/transactions/selectors'
+import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
+import { generateId } from 'utils/mathUtils'
+import { USER_INPUT_DATE_FORMAT } from 'utils/settings'
+import { capitalizeFirstLetter } from 'utils/stringUtils'
 
 export const evaluationMiddleware: Middleware<
   {},
@@ -63,7 +64,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       dispatch(evaluateStatus(input, what))
     },
     remove: (entity, name) => {
-      dispatch(evaluateRemove(state, input, entity, name))
+      evaluateRemove(state, input, entity, name).forEach(dispatch)
     },
     rename: (entity, oldName, newName) => {
       evaluateRename(state, input, entity, oldName, newName).forEach(dispatch)
@@ -72,10 +73,10 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       evaluateUpdateExpense(state, input, id, values).forEach(dispatch)
     },
     updateIncome: (id, values) => {
-      dispatch(evaluateUpdateIncome(state, input, id, values))
+      evaluateUpdateIncome(state, input, id, values).forEach(dispatch)
     },
     updateTransfer: (id, values) => {
-      dispatch(evaluateUpdateTransfer(state, input, id, values))
+      evaluateUpdateTransfer(state, input, id, values).forEach(dispatch)
     },
   })
 }
@@ -187,35 +188,37 @@ const evaluateUpdateIncome = (
   input: string,
   targetCommandId: string,
   values: IncomeSetters
-): App.Action => {
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
+
   let accountChangeData = undefined
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const command = CommandSelector.findById(targetCommandId)(
-    state
-  ) as CommandSelector.ExpenseHydratedData
+  const income = TransactionSelector.incomeById(targetCommandId)(state)
 
-  if (!command) {
-    return CommandActionCreator.error(`Transaction with ID '${targetCommandId}' not found`)
+  if (!income) {
+    actions.push(CommandActionCreator.error(`Income with ID '${targetCommandId}' not found`))
+    return actions
   }
 
-  if (values.account && values.account !== command.data.account.name) {
+  if (values.account && values.account !== income.account.name) {
     const newAccount = AccountSelector.findByName(values.account)(state)
 
     if (!newAccount) {
-      return CommandActionCreator.error(`Account '${values.account}' not found`)
+      actions.push(CommandActionCreator.error(`Account '${values.account}' not found`))
+      return actions
     }
 
     accountChangeData = {
-      oldAccountId: command.data.account.id,
+      oldAccountId: income.account.id,
       newAccountId: newAccount.id,
     }
   }
 
-  if (values.amount && values.amount !== command.data.amount) {
+  if (values.amount && values.amount !== income.amount) {
     amountChangeData = {
-      oldAmount: command.data.amount,
+      oldAmount: income.amount,
       newAmount: values.amount,
     }
   }
@@ -224,25 +227,33 @@ const evaluateUpdateIncome = (
     const newDate = moment(values.date, USER_INPUT_DATE_FORMAT)
 
     if (newDate.isValid()) {
-      if (newDate !== moment(command.data.date)) {
+      if (newDate !== moment.unix(income.timestamp)) {
         dateChangeData = {
-          oldDate: moment(command.data.date).format(USER_INPUT_DATE_FORMAT),
+          oldDate: moment.unix(income.timestamp).format(USER_INPUT_DATE_FORMAT),
           newDate: values.date,
         }
       }
     } else {
-      return CommandActionCreator.error(
-        `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+      actions.push(
+        CommandActionCreator.error(
+          `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+        )
       )
+      return actions
     }
   }
 
-  return EvaluationActionCreator.updateIncome(input, {
-    targetCommandId,
-    accountChangeData,
-    amountChangeData,
-    dateChangeData,
+  const updateIncome = TransactionActionCreator.updateIncome({
+    id: targetCommandId,
+    accountId: accountChangeData && accountChangeData.newAccountId,
+    amount: amountChangeData && amountChangeData.newAmount,
+    timestamp: dateChangeData && moment(dateChangeData.newDate, USER_INPUT_DATE_FORMAT).unix(),
   })
+
+  actions.push(updateIncome)
+  actions.push(CommandActionCreator.addCommand(input, updateIncome))
+
+  return actions
 }
 
 const evaluateUpdateExpense = (
@@ -258,16 +269,14 @@ const evaluateUpdateExpense = (
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const command = CommandSelector.findById(targetCommandId)(
-    state
-  ) as CommandSelector.ExpenseHydratedData
+  const expense = TransactionSelector.expenseById(targetCommandId)(state)
 
-  if (!command) {
-    actions.push(CommandActionCreator.error(`Transaction with ID '${targetCommandId}' not found`))
+  if (!expense) {
+    actions.push(CommandActionCreator.error(`Expense with ID '${targetCommandId}' not found`))
     return actions
   }
 
-  if (values.account && values.account !== command.data.account.name) {
+  if (values.account && values.account !== expense.account.name) {
     const newAccount = AccountSelector.findByName(values.account)(state)
 
     if (!newAccount) {
@@ -276,12 +285,12 @@ const evaluateUpdateExpense = (
     }
 
     accountChangeData = {
-      oldAccountId: command.data.account.id,
+      oldAccountId: expense.account.id,
       newAccountId: newAccount.id,
     }
   }
 
-  if (values.category && values.category !== command.data.category.name) {
+  if (values.category && values.category !== expense.category.name) {
     const newCategory = CategorySelector.findByName(values.category)(state)
 
     if (!newCategory) {
@@ -290,14 +299,14 @@ const evaluateUpdateExpense = (
     }
 
     categoryChangeData = {
-      oldCategoryId: command.data.category.id,
+      oldCategoryId: expense.category.id,
       newCategoryId: newCategory.id,
     }
   }
 
-  if (values.amount && values.amount !== command.data.amount) {
+  if (values.amount && values.amount !== expense.amount) {
     amountChangeData = {
-      oldAmount: command.data.amount,
+      oldAmount: expense.amount,
       newAmount: values.amount,
     }
   }
@@ -306,9 +315,9 @@ const evaluateUpdateExpense = (
     const newDate = moment(values.date, USER_INPUT_DATE_FORMAT)
 
     if (newDate.isValid()) {
-      if (newDate !== moment(command.data.date)) {
+      if (newDate !== moment.unix(expense.timestamp)) {
         dateChangeData = {
-          oldDate: moment(command.data.date).format(USER_INPUT_DATE_FORMAT),
+          oldDate: moment.unix(expense.timestamp).format(USER_INPUT_DATE_FORMAT),
           newDate: values.date,
         }
       }
@@ -341,49 +350,52 @@ const evaluateUpdateTransfer = (
   input: string,
   targetCommandId: string,
   values: TransferSetters
-): App.Action => {
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
+
   let accountFromChangeData = undefined
   let accountToChangeData = undefined
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const command = CommandSelector.findById(targetCommandId)(
-    state
-  ) as CommandSelector.TransferHydratedData
+  const transfer = TransactionSelector.transferById(targetCommandId)(state)
 
-  if (!command) {
-    return CommandActionCreator.error(`Transaction with ID '${targetCommandId}' not found`)
+  if (!transfer) {
+    actions.push(CommandActionCreator.error(`Transfer with ID '${targetCommandId}' not found`))
+    return actions
   }
 
-  if (values.from && values.from !== command.data.accountFrom.name) {
+  if (values.from && values.from !== transfer.fromAccount.name) {
     const newAccount = AccountSelector.findByName(values.from)(state)
 
     if (!newAccount) {
-      return CommandActionCreator.error(`Account '${values.from}' not found`)
+      actions.push(CommandActionCreator.error(`Account '${values.from}' not found`))
+      return actions
     }
 
     accountFromChangeData = {
-      oldAccountId: command.data.accountFrom.id,
+      oldAccountId: transfer.fromAccount.id,
       newAccountId: newAccount.id,
     }
   }
 
-  if (values.to && values.to !== command.data.accountTo.name) {
+  if (values.to && values.to !== transfer.toAccount.name) {
     const newAccount = AccountSelector.findByName(values.to)(state)
 
     if (!newAccount) {
-      return CommandActionCreator.error(`Account '${values.to}' not found`)
+      actions.push(CommandActionCreator.error(`Account '${values.to}' not found`))
+      return actions
     }
 
     accountToChangeData = {
-      oldAccountId: command.data.accountTo.id,
+      oldAccountId: transfer.toAccount.id,
       newAccountId: newAccount.id,
     }
   }
 
-  if (values.amount && values.amount !== command.data.amount) {
+  if (values.amount && values.amount !== transfer.amount) {
     amountChangeData = {
-      oldAmount: command.data.amount,
+      oldAmount: transfer.amount,
       newAmount: values.amount,
     }
   }
@@ -392,26 +404,34 @@ const evaluateUpdateTransfer = (
     const newDate = moment(values.date, USER_INPUT_DATE_FORMAT)
 
     if (newDate.isValid()) {
-      if (newDate !== moment(command.data.date)) {
+      if (newDate !== moment.unix(transfer.timestamp)) {
         dateChangeData = {
-          oldDate: moment(command.data.date).format(USER_INPUT_DATE_FORMAT),
+          oldDate: moment.unix(transfer.timestamp).format(USER_INPUT_DATE_FORMAT),
           newDate: values.date,
         }
       }
     } else {
-      return CommandActionCreator.error(
-        `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+      actions.push(
+        CommandActionCreator.error(
+          `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
+        )
       )
+      return actions
     }
   }
 
-  return EvaluationActionCreator.updateTransfer(input, {
-    targetCommandId,
-    accountFromChangeData,
-    accountToChangeData,
-    amountChangeData,
-    dateChangeData,
+  const updateTransfer = TransactionActionCreator.updateTransfer({
+    id: targetCommandId,
+    fromAccountId: accountFromChangeData && accountFromChangeData.newAccountId,
+    toAccountId: accountToChangeData && accountToChangeData.newAccountId,
+    amount: amountChangeData && amountChangeData.newAmount,
+    timestamp: dateChangeData && moment(dateChangeData.newDate, USER_INPUT_DATE_FORMAT).unix(),
   })
+
+  actions.push(updateTransfer)
+  actions.push(CommandActionCreator.addCommand(input, updateTransfer))
+
+  return actions
 }
 
 const evaluateStatus = (input: string, what: string): App.Action => {
@@ -477,42 +497,52 @@ const evaluateRemove = (
   input: string,
   entity: string,
   name: string
-): App.Action => {
-  let action: App.Action
+): Array<App.Action> => {
+  const actions: Array<App.Action> = []
 
   switch (entity) {
     case 'account':
       const account = AccountSelector.findByName(name)(state)
 
       if (!account) {
-        action = CommandActionCreator.error(`You do not have '${name}' account`)
+        actions.push(CommandActionCreator.error(`You do not have '${name}' account`))
+        return actions
       } else {
-        action = EvaluationActionCreator.deleteAccount(input, account)
+        const deleteAccount = AccountActionCreator.remove(account.id)
+        actions.push(deleteAccount)
+        actions.push(CommandActionCreator.addCommand(input, deleteAccount))
+        return actions
       }
       break
     case 'category':
       const category = CategorySelector.findByName(name)(state)
 
       if (!category) {
-        action = CommandActionCreator.error(`You do not have '${name}' category`)
+        actions.push(CommandActionCreator.error(`You do not have '${name}' category`))
+        return actions
       } else {
-        action = EvaluationActionCreator.deleteCategory(input, category)
+        const deleteCategory = CategoryActionCreator.remove(category.id)
+        actions.push(deleteCategory)
+        actions.push(CommandActionCreator.addCommand(input, deleteCategory))
+        return actions
       }
       break
     case 'transaction':
       const command = CommandSelector.findById(name)(state)
 
       if (!command) {
-        action = CommandActionCreator.error(`Can't find a transaction with id '${name}'`)
+        actions.push(CommandActionCreator.error(`Can't find a transaction with id '${name}'`))
+        return actions
       } else {
-        action = EvaluationActionCreator.deleteTransaction(input, command.id)
+        const deleteTransactions = TransactionActionCreator.remove(command.id)
+        actions.push(deleteTransactions)
+        actions.push(CommandActionCreator.addCommand(input, deleteTransactions))
+        return actions
       }
       break
     default:
       throw new Error(`Unknown entity name: '${entity}'`)
   }
-
-  return action
 }
 
 const evaluateTransfer = (

@@ -1,48 +1,54 @@
 import { Dispatch } from 'redux'
-import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
+import { TransactionActionType } from 'store/model/transactions/actions'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 
 export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.CommandItem) => {
-  switch (command.data.dataType) {
-    case CommandModel.DataType.EXPENSE: {
-      const { data } = command as CommandSelector.ExpenseHydratedData
+  switch (command.action.type) {
+    case TransactionActionType.EXPENSE: {
+      const {
+        action: { payload: data },
+      } = command as CommandSelector.ExpenseCommand
 
       dispatch(
         SmartInputActionCreator.setInput(
           `update expense '${command.id}' set amount = ${data.amount}, account = '${
             data.account.name
-          }', category = '${data.category.name}', date = '${command.data.date}'`
+          }', category = '${data.category.name}', date = '${command.timestamp}'`
         )
       )
       break
     }
-    case CommandModel.DataType.INCOME: {
-      const { data } = command as CommandSelector.IncomeHydratedData
+    case TransactionActionType.INCOME: {
+      const {
+        action: { payload: data },
+      } = command as CommandSelector.IncomeCommand
 
       dispatch(
         SmartInputActionCreator.setInput(
           `update income '${command.id}' set amount = ${data.amount}, account = '${
             data.account.name
-          }', date = '${command.data.date}'`
+          }', date = '${command.timestamp}'`
         )
       )
       break
     }
-    case CommandModel.DataType.TRANSFER: {
-      const { data } = command as CommandSelector.TransferHydratedData
+    case TransactionActionType.TRANSFER: {
+      const {
+        action: { payload: data },
+      } = command as CommandSelector.TransferCommand
 
       dispatch(
         SmartInputActionCreator.setInput(
           `update transfer '${command.id}' set amount = ${data.amount}, from = '${
-            data.accountFrom.name
-          }', to = '${data.accountTo.name}', date = '${command.data.date}'`
+            data.fromAccount.name
+          }', to = '${data.toAccount.name}', date = '${command.timestamp}'`
         )
       )
       break
     }
     default: {
-      throw new Error(`Unsupported operation for '${command.data.dataType}'`)
+      throw new Error(`Unsupported operation for '${command.action.type}'`)
     }
   }
 

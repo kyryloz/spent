@@ -9,7 +9,7 @@ import { TransactionAction } from '../transactions/actions'
 export namespace CommandModel {
   export interface State {
     readonly items: Array<CommandDataBase>
-    readonly cliActions: Array<CliAction>
+    readonly cliActions: Array<CliCommand>
     readonly error: {
       human: string
     }
@@ -37,7 +37,7 @@ export namespace CommandModel {
     TRANSACTION = 'transaction',
   }
 
-  export interface CliAction {
+  export interface CliCommand {
     readonly id: string
     readonly raw: string
     readonly timestamp: number

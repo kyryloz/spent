@@ -1,15 +1,15 @@
-import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/DeleteSharp';
-import EditIcon from '@material-ui/icons/EditSharp';
-import { flow } from 'lodash';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { App } from 'store/interface';
-import { AccountSelector } from 'store/model/account/selectors';
-import { CategorySelector } from 'store/model/category/selectors';
-import { CommandSelector } from 'store/model/command/selectors';
-import { formatTransactionDate } from 'utils/dateUtils';
-import { Classes } from 'utils/styleUtils';
+import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/DeleteSharp'
+import EditIcon from '@material-ui/icons/EditSharp'
+import { flow } from 'lodash'
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { App } from 'store/interface'
+import { AccountSelector } from 'store/model/account/selectors'
+import { CategorySelector } from 'store/model/category/selectors'
+import { CommandSelector } from 'store/model/command/selectors'
+import { formatTimestamp } from 'utils/dateUtils'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -59,7 +59,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandSelector.ExpenseHydratedData
+  command: CommandSelector.ExpenseCommand
   onEditClick: () => void
   onDeleteClick: () => void
 }
@@ -85,8 +85,8 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
     <Grid container justify="space-between" alignItems="center" spacing={40}>
       <Grid item>
         <Typography className={classes.amount}>
-          -{command.data.amount} USD →{' '}
-          <span className={classes.category}>{command.data.category.name}</span>
+          -{command.action.payload.amount} USD →{' '}
+          <span className={classes.category}>{command.action.payload.category.name}</span>
         </Typography>
       </Grid>
       <Grid item>
@@ -98,13 +98,16 @@ export const ExpenseCmp: React.SFC<StateProps & OwnProps & StyleProps> = ({
     <div className={classes.line} />
 
     <Typography className={classes.amount}>
-      <span className={classes.account}>{command.data.account.name}</span> = {accountBalance} USD
+      <span className={classes.account}>{command.action.payload.account.name}</span> ={' '}
+      {accountBalance} USD
     </Typography>
     <Typography className={classes.amount} gutterBottom>
-      Spent on <span className={classes.category}>{command.data.category.name}</span>{' '}
+      Spent on <span className={classes.category}>{command.action.payload.category.name}</span>{' '}
       {categoryExpenses} USD
     </Typography>
-    <Typography className={classes.date}>{formatTransactionDate(command.data.date)}</Typography>
+    <Typography className={classes.date}>
+      {formatTimestamp(command.action.payload.timestamp)}
+    </Typography>
     <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )
@@ -113,12 +116,12 @@ export const Expense = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     accountBalance: AccountSelector.balance(
-      ownProps.command.data.account.id,
+      ownProps.command.action.payload.account.id,
       0,
       ownProps.command.timestamp
     )(state),
-    categoryExpenses: CategorySelector.expense(
-      ownProps.command.data.category.id,
+    categoryExpenses: CategorySelector.totalExpense(
+      ownProps.command.action.payload.category.id,
       0,
       ownProps.command.timestamp
     )(state),

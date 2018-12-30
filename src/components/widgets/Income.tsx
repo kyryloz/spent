@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { App } from 'store/interface'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CommandSelector } from 'store/model/command/selectors'
-import { formatTransactionDate } from 'utils/dateUtils'
+import { formatTimestamp } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -52,7 +52,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandSelector.IncomeHydratedData
+  command: CommandSelector.IncomeCommand
   onEditClick: () => void
   onDeleteClick: () => void
 }
@@ -76,8 +76,8 @@ const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
     <Grid container justify="space-between" alignItems="center" spacing={40}>
       <Grid item>
         <Typography className={classes.amount}>
-          +{command.data.amount} USD →{' '}
-          <span className={classes.account}>{command.data.account.name}</span>
+          +{command.action.payload.amount} USD →{' '}
+          <span className={classes.account}>{command.action.payload.account.name}</span>
         </Typography>
       </Grid>
       <Grid item>
@@ -89,9 +89,12 @@ const IncomeCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
     <div className={classes.line} />
 
     <Typography className={classes.amount} gutterBottom>
-      <span className={classes.account}>{command.data.account.name}</span> = {accountBalance} USD
+      <span className={classes.account}>{command.action.payload.account.name}</span> ={' '}
+      {accountBalance} USD
     </Typography>
-    <Typography className={classes.date}>{formatTransactionDate(command.data.date)}</Typography>
+    <Typography className={classes.date}>
+      {formatTimestamp(command.action.payload.timestamp)}
+    </Typography>
     <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )
@@ -100,7 +103,7 @@ export const Income = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
     accountBalance: AccountSelector.balance(
-      ownProps.command.data.account.id,
+      ownProps.command.action.payload.account.id,
       0,
       ownProps.command.timestamp
     )(state),

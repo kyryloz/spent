@@ -1,6 +1,8 @@
-import { values } from 'lodash'
 import { createSelector } from 'reselect'
 import { App } from 'store/interface'
+import { AccountSelector } from '../account/selectors'
+import { CategorySelector } from '../category/selectors'
+import { TransactionModel } from './interface'
 
 export namespace TransactionSelector {
   export const incomes = (state: App.State) => state.entities.transactions.incomes
@@ -9,63 +11,68 @@ export namespace TransactionSelector {
 
   export const transfers = (state: App.State) => state.entities.transactions.transfers
 
-  export const incomesByAccountId = (accountId: string) =>
+  export const findById = (transactionId: string) =>
     createSelector(
       incomes,
-      items => values(items).filter(income => income.accountId === accountId)
+      expenses,
+      transfers,
+      (incomes, expenses, transfers) => ({ ...incomes, ...expenses, ...transfers }[transactionId])
     )
 
-  export const expensesByAccountId = (accountId: string) =>
+  export const incomeById = (incomeId: string) => (
+    state: App.State
+  ): TransactionModel.IncomeHydrated =>
+    createSelector(
+      incomes,
+      AccountSelector.byId,
+      (incomes, accounts) => {
+        const income = incomes[incomeId]
+
+        return {
+          id: income.id,
+          amount: income.amount,
+          timestamp: income.timestamp,
+          account: accounts[income.accountId],
+        }
+      }
+    )(state)
+
+  export const expenseById = (expenseId: string) => (
+    state: App.State
+  ): TransactionModel.ExpenseHydrated =>
     createSelector(
       expenses,
-      items => values(items).filter(expense => expense.accountId === accountId)
-    )
+      AccountSelector.byId,
+      CategorySelector.items,
+      (expenses, accounts, categories) => {
+        const expense = expenses[expenseId]
 
-  export const transfersByAccountId = (accountId: string) =>
+        return {
+          id: expense.id,
+          amount: expense.amount,
+          timestamp: expense.timestamp,
+          account: accounts[expense.accountId],
+          category: categories[expense.categoryId],
+        }
+      }
+    )(state)
+
+  export const transferById = (transferId: string) => (
+    state: App.State
+  ): TransactionModel.TransferHydrated =>
     createSelector(
       transfers,
-      items =>
-        values(items).filter(
-          transfer => transfer.fromAccountId === accountId || transfer.toAccountId === accountId
-        )
-    )
+      AccountSelector.byId,
+      (transfers, accounts) => {
+        const transfer = transfers[transferId]
 
-  export const totalIncome = (accountId: string, timestampFrom: number, timestampTo: number) =>
-    createSelector(
-      incomesByAccountId(accountId),
-      incomes =>
-        incomes
-          .filter(income => income.timestamp >= timestampFrom && income.timestamp <= timestampTo)
-          .reduce((prev, current) => prev + current.amount, 0)
-    )
-
-  export const totalExpense = (accountId: string, timestampFrom: number, timestampTo: number) =>
-    createSelector(
-      expensesByAccountId(accountId),
-      expenses =>
-        expenses
-          .filter(expense => expense.timestamp >= timestampFrom && expense.timestamp <= timestampTo)
-          .reduce((prev, current) => prev + current.amount, 0)
-    )
-
-  export const totalTransfer = (accountId: string, timestampFrom: number, timestampTo: number) =>
-    createSelector(
-      transfersByAccountId(accountId),
-      transfers =>
-        transfers
-          .filter(
-            transfer => transfer.timestamp >= timestampFrom && transfer.timestamp <= timestampTo
-          )
-          .reduce((sum, next) => {
-            if (next.fromAccountId === accountId) {
-              sum -= next.amount
-            }
-
-            if (next.toAccountId === accountId) {
-              sum += next.amount
-            }
-
-            return sum
-          }, 0)
-    )
+        return {
+          id: transfer.id,
+          amount: transfer.amount,
+          timestamp: transfer.timestamp,
+          fromAccount: accounts[transfer.fromAccountId],
+          toAccount: accounts[transfer.toAccountId],
+        }
+      }
+    )(state)
 }
