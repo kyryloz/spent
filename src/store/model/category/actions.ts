@@ -18,8 +18,6 @@ export namespace CategoryActionCreator {
     payload: {
       id: generateId(),
       createdAt: moment().unix(),
-      createdByCommandId: '',
-      commandIds: [],
       name,
     },
   })

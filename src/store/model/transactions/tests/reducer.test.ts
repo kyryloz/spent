@@ -188,6 +188,83 @@ describe('transactions reducer', () => {
     expect(state).toEqual(expectedState)
   })
 
+  it('should handle UPDATE_INCOME', () => {
+    let state = transactions(
+      undefined,
+      TransactionActionCreator.income({
+        id: '1',
+        timestamp: 0,
+        accountId: '1',
+        amount: 100,
+      })
+    )
+
+    state = transactions(
+      state,
+      TransactionActionCreator.updateIncome({
+        id: '1',
+        timestamp: 1,
+        accountId: '2',
+        amount: 200,
+      })
+    )
+
+    const expectedState = {
+      expenses: {},
+      incomes: {
+        '1': {
+          id: '1',
+          timestamp: 1,
+          accountId: '2',
+          amount: 200,
+        },
+      },
+      transfers: {},
+    }
+
+    expect(state).toEqual(expectedState)
+  })
+
+  it('should handle UPDATE_TRANSFER', () => {
+    let state = transactions(
+      undefined,
+      TransactionActionCreator.transfer({
+        id: '1',
+        timestamp: 0,
+        fromAccountId: '1',
+        toAccountId: '2',
+        amount: 100,
+      })
+    )
+
+    state = transactions(
+      state,
+      TransactionActionCreator.updateTransfer({
+        id: '1',
+        timestamp: 1,
+        fromAccountId: '2',
+        toAccountId: '3',
+        amount: 200,
+      })
+    )
+
+    const expectedState = {
+      expenses: {},
+      incomes: {},
+      transfers: {
+        '1': {
+          id: '1',
+          timestamp: 1,
+          fromAccountId: '2',
+          toAccountId: '3',
+          amount: 200,
+        },
+      },
+    }
+
+    expect(state).toEqual(expectedState)
+  })
+
   it('should handle REMOVE', () => {
     let state = transactions(
       undefined,
