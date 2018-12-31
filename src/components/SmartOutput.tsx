@@ -4,7 +4,7 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
-import { CommandSelector } from 'store/model/command/selectors'
+import { CommandSelector } from 'store/model/cli/selectors'
 import { dispatchDeleteAction, dispatchEditAction } from 'utils/editableActionUtils'
 import { Classes } from 'utils/styleUtils'
 

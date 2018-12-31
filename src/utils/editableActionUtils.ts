@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { CommandSelector } from 'store/model/command/selectors'
+import { CommandSelector } from 'store/model/cli/selectors'
 import { TransactionActionType } from 'store/model/transactions/actions'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 

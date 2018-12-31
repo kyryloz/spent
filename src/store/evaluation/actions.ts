@@ -1,4 +1,4 @@
-import { CommandModel } from 'store/model/command/interface'
+import { CommandModel } from 'store/model/cli/interface'
 
 export type EvaluationAction = ReturnType<typeof EvaluationActionCreator.status>
 

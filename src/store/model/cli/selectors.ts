@@ -4,7 +4,7 @@ import { AccountModel } from 'store/model/account/interface'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategoryModel } from 'store/model/category/interface'
 import { CategorySelector } from 'store/model/category/selectors'
-import { CommandModel } from 'store/model/command/interface'
+import { CommandModel } from 'store/model/cli/interface'
 import { TransactionActionCreator, TransactionActionType } from '../transactions/actions'
 
 export namespace CommandSelector {

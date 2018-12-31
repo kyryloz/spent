@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
-import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
+import { CommandActionCreator, CommandActionType } from 'store/model/cli/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { SmartInputActionCreator, SmartInputActionType } from './actions'
 

@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
-import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
-import { CommandModel } from 'store/model/command/interface'
+import { CommandActionCreator, CommandActionType } from 'store/model/cli/actions'
+import { CommandModel } from 'store/model/cli/interface'
 
 const initialState: CommandModel.State = {
   cliActions: [],
