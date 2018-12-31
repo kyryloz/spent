@@ -2,13 +2,13 @@ import * as moment from 'moment'
 import { parseGrammar } from 'parser/parser'
 import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
-import { EvaluationActionCreator } from 'store/evaluation/actions'
+import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
 import { AccountActionCreator } from 'store/model/account/actions'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategoryActionCreator } from 'store/model/category/actions'
 import { CategorySelector } from 'store/model/category/selectors'
-import { CliActionCreator, CliActionType } from 'store/model/cli/actions'
+import { CliActionCreator } from 'store/model/cli/actions'
 import { CommandModel } from 'store/model/cli/interface'
 import { CliSelector } from 'store/model/cli/selectors'
 import { TransactionActionCreator } from 'store/model/transactions/actions'
@@ -23,7 +23,7 @@ export const evaluationMiddleware: Middleware<
   App.State,
   Dispatch<App.Action>
 > = store => next => action => {
-  if (action.type === CliActionType.EVALUATE) {
+  if (action.type === EvaluationActionType.EVALUATE) {
     const state = store.getState()
     const input = SmartInputSelector.input(state)
 

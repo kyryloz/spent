@@ -9,8 +9,8 @@ import {
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CliActionCreator } from 'store/model/cli/actions'
 import { CliSelector } from 'store/model/cli/selectors'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
@@ -159,7 +159,7 @@ export const SmartInput = flow(
       focus: SmartInputSelector.focus(state),
     }),
     dispatch => ({
-      evaluateInput: () => dispatch(CliActionCreator.evaluate()),
+      evaluateInput: () => dispatch(EvaluationActionCreator.evaluate()),
       historyUp: () => dispatch(SmartInputActionCreator.historyUp()),
       historyDown: () => dispatch(SmartInputActionCreator.historyDown()),
       setInput: (input: string) => dispatch(SmartInputActionCreator.setInput(input)),

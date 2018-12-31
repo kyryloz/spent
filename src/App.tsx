@@ -3,7 +3,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { CliActionCreator } from 'store/model/cli/actions'
+import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { Routes } from './routes'
 import { configureStore } from './store/configureStore'
@@ -14,16 +14,16 @@ const history = createHashHistory()
 const store = configureStore(history)
 
 store.dispatch(SmartInputActionCreator.setInput('create account wallet'))
-store.dispatch(CliActionCreator.evaluate())
+store.dispatch(EvaluationActionCreator.evaluate())
 
 store.dispatch(SmartInputActionCreator.setInput('create category clothes'))
-store.dispatch(CliActionCreator.evaluate())
+store.dispatch(EvaluationActionCreator.evaluate())
 
 store.dispatch(SmartInputActionCreator.setInput('income 1000 to wallet'))
-store.dispatch(CliActionCreator.evaluate())
+store.dispatch(EvaluationActionCreator.evaluate())
 
 store.dispatch(SmartInputActionCreator.setInput('expense 100 on clothes from wallet'))
-store.dispatch(CliActionCreator.evaluate())
+store.dispatch(EvaluationActionCreator.evaluate())
 
 export const App = () => (
   <Provider store={store}>

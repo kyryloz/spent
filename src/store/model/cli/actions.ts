@@ -6,7 +6,6 @@ import { AccountAction } from '../account/actions'
 import { CategoryAction } from '../category/actions'
 
 export type CliAction =
-  | ReturnType<typeof CliActionCreator.evaluate>
   | ReturnType<typeof CliActionCreator.error>
   | ReturnType<typeof CliActionCreator.addCommand>
   | ReturnType<typeof CliActionCreator.removeCommand>
@@ -14,17 +13,10 @@ export type CliAction =
 export const enum CliActionType {
   ADD = '@@cli/ADD',
   REMOVE = '@@cli/REMOVE',
-  EVALUATE = '@@cli/EVALUATE',
   ERROR = '@@cli/ERROR',
 }
 
 export namespace CliActionCreator {
-  export const evaluate = () => {
-    return {
-      type: CliActionType.EVALUATE,
-    }
-  }
-
   export const addCommand = (
     raw: string,
     action: EvaluationAction | TransactionAction | AccountAction | CategoryAction
