@@ -4,18 +4,20 @@ import { CreateCategory } from 'components/widgets/CreateCategory'
 import { Expense } from 'components/widgets/Expense'
 import { Income } from 'components/widgets/Income'
 import * as React from 'react'
-import { EvaluationActionType, EvaluationActionCreator } from 'store/evaluation/actions'
+import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { AccountActionCreator, AccountActionType } from 'store/model/account/actions'
 import { CategoryActionCreator, CategoryActionType } from 'store/model/category/actions'
+import { CommandModel } from 'store/model/command/interface'
 import { CommandSelector } from 'store/model/command/selectors'
-import { TransactionActionType, TransactionActionCreator } from 'store/model/transactions/actions'
+import { TransactionActionCreator, TransactionActionType } from 'store/model/transactions/actions'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
-import { Transfer } from './Transfer'
 import { DeleteTransaction } from './DeleteTransaction'
-import { CommandModel } from 'store/model/command/interface'
+import { RenameAccount } from './RenameAccount'
+import { RenameCategory } from './RenameCategory'
 import { StatusAccounts } from './StatusAccounts'
 import { StatusCategories } from './StatusCategories'
+import { Transfer } from './Transfer'
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -99,18 +101,18 @@ export const createWidget = (
       )
       break
     }
-    case EvaluationActionType.RENAME_ENTITY: {
-      // const renameCommand = command as EvAC
-
-      // switch (renameCommand.data.entity) {
-      //   case CommandModel.Entity.ACCOUNT:
-      //     widgetComponent = <RenameAccount command={renameCommand} />
-      //     break
-
-      //   case CommandModel.Entity.CATEGORY:
-      //     widgetComponent = <RenameCategory command={renameCommand} />
-      //     break
-      // }
+    case CategoryActionType.UPDATE: {
+      widgetComponent = (
+        <RenameCategory
+          command={command.action as ReturnType<typeof CategoryActionCreator.update>}
+        />
+      )
+      break
+    }
+    case AccountActionType.UPDATE: {
+      widgetComponent = (
+        <RenameAccount command={command.action as ReturnType<typeof AccountActionCreator.update>} />
+      )
       break
     }
     case TransactionActionType.UPDATE_INCOME: {

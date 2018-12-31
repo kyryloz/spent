@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
+import { AccountActionCreator } from 'store/model/account/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.RenameEntityData
+  command: ReturnType<typeof AccountActionCreator.update>
 }
 
 interface StyleProps {
@@ -23,9 +23,8 @@ interface StyleProps {
 
 const RenameAccountCmp: React.SFC<OwnProps & StyleProps> = ({ command, classes }) => (
   <Typography className={classes.bodyTitle}>
-    Account <span className={classes.account}>{command.data.entityOldName}</span> renamed to{' '}
-    <span className={classes.account}>{command.data.entityNewName}</span>. All references are
-    updated.
+    Account <span className={classes.account}>{command.payload.id}</span> renamed to{' '}
+    <span className={classes.account}>{command.payload.name}</span>. All references are updated.
   </Typography>
 )
 
