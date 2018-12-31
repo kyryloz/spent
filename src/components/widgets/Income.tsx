@@ -6,7 +6,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
 import { AccountSelector } from 'store/model/account/selectors'
-import { CommandSelector } from 'store/model/cli/selectors'
+import { CliSelector } from 'store/model/cli/selectors'
 import { formatTimestamp } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
 
@@ -52,7 +52,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandSelector.IncomeCommand
+  command: CliSelector.IncomeCommand
   onEditClick: () => void
   onDeleteClick: () => void
 }

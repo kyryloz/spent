@@ -1,14 +1,14 @@
 import { Dispatch } from 'redux'
-import { CommandSelector } from 'store/model/cli/selectors'
+import { CliSelector } from 'store/model/cli/selectors'
 import { TransactionActionType } from 'store/model/transactions/actions'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 
-export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.CommandItem) => {
+export const dispatchEditAction = (dispatch: Dispatch, command: CliSelector.CommandItem) => {
   switch (command.action.type) {
     case TransactionActionType.EXPENSE: {
       const {
         action: { payload: data },
-      } = command as CommandSelector.ExpenseCommand
+      } = command as CliSelector.ExpenseCommand
 
       dispatch(
         SmartInputActionCreator.setInput(
@@ -22,7 +22,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
     case TransactionActionType.INCOME: {
       const {
         action: { payload: data },
-      } = command as CommandSelector.IncomeCommand
+      } = command as CliSelector.IncomeCommand
 
       dispatch(
         SmartInputActionCreator.setInput(
@@ -36,7 +36,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
     case TransactionActionType.TRANSFER: {
       const {
         action: { payload: data },
-      } = command as CommandSelector.TransferCommand
+      } = command as CliSelector.TransferCommand
 
       dispatch(
         SmartInputActionCreator.setInput(
@@ -55,7 +55,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CommandSelector.
   dispatch(SmartInputActionCreator.setFocus(true))
 }
 
-export const dispatchDeleteAction = (dispatch: Dispatch, command: CommandSelector.CommandItem) => {
+export const dispatchDeleteAction = (dispatch: Dispatch, command: CliSelector.CommandItem) => {
   dispatch(SmartInputActionCreator.setInput(`delete transaction '${command.id}'`))
   dispatch(SmartInputActionCreator.setFocus(true))
 }

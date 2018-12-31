@@ -8,7 +8,7 @@ import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/
 import { AccountActionCreator, AccountActionType } from 'store/model/account/actions'
 import { CategoryActionCreator, CategoryActionType } from 'store/model/category/actions'
 import { CommandModel } from 'store/model/cli/interface'
-import { CommandSelector } from 'store/model/cli/selectors'
+import { CliSelector } from 'store/model/cli/selectors'
 import { TransactionActionCreator, TransactionActionType } from 'store/model/transactions/actions'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
@@ -28,7 +28,7 @@ interface ActionClickHandlers {
 }
 
 export const createWidget = (
-  command: CommandSelector.CommandItem,
+  command: CliSelector.CommandItem,
   actionClickHandlers: ActionClickHandlers
 ) => {
   let widgetComponent
@@ -53,7 +53,7 @@ export const createWidget = (
         <Expense
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as CommandSelector.ExpenseCommand}
+          command={command as CliSelector.ExpenseCommand}
         />
       )
       break
@@ -63,7 +63,7 @@ export const createWidget = (
         <Income
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as CommandSelector.IncomeCommand}
+          command={command as CliSelector.IncomeCommand}
         />
       )
       break
@@ -147,7 +147,7 @@ export const createWidget = (
         <Transfer
           onEditClick={actionClickHandlers.onEditClick}
           onDeleteClick={actionClickHandlers.onDeleteClick}
-          command={command as CommandSelector.TransferCommand}
+          command={command as CliSelector.TransferCommand}
         />
       )
       break

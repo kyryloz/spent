@@ -7,7 +7,7 @@ import { CategorySelector } from 'store/model/category/selectors'
 import { CommandModel } from 'store/model/cli/interface'
 import { TransactionActionCreator, TransactionActionType } from '../transactions/actions'
 
-export namespace CommandSelector {
+export namespace CliSelector {
   export type CommandItem =
     | ExpenseCommand
     | IncomeCommand

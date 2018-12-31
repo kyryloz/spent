@@ -4,7 +4,7 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
-import { CommandSelector } from 'store/model/cli/selectors'
+import { CliSelector } from 'store/model/cli/selectors'
 import { dispatchDeleteAction, dispatchEditAction } from 'utils/editableActionUtils'
 import { Classes } from 'utils/styleUtils'
 
@@ -28,12 +28,12 @@ interface StyleProps {
 }
 
 interface StateProps {
-  commands: Array<CommandSelector.CommandItem>
+  commands: Array<CliSelector.CommandItem>
 }
 
 interface DispatchProps {
-  editCommand: (command: CommandSelector.CommandItem) => void
-  deleteCommand: (command: CommandSelector.CommandItem) => void
+  editCommand: (command: CliSelector.CommandItem) => void
+  deleteCommand: (command: CliSelector.CommandItem) => void
 }
 
 const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({
@@ -59,7 +59,7 @@ const SmartOutputCmp: React.SFC<StyleProps & StateProps & DispatchProps> = ({
 export const SmartOutput = flow(
   connect<StateProps, DispatchProps, {}, App.State>(
     state => ({
-      commands: CommandSelector.items(state),
+      commands: CliSelector.items(state),
     }),
     dispatch => ({
       editCommand: command => dispatchEditAction(dispatch, command),

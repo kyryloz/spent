@@ -5,23 +5,23 @@ import { generateId } from 'utils/mathUtils'
 import { AccountAction } from '../account/actions'
 import { CategoryAction } from '../category/actions'
 
-export type CommandAction =
-  | ReturnType<typeof CommandActionCreator.evaluate>
-  | ReturnType<typeof CommandActionCreator.error>
-  | ReturnType<typeof CommandActionCreator.addCommand>
-  | ReturnType<typeof CommandActionCreator.removeCommand>
+export type CliAction =
+  | ReturnType<typeof CliActionCreator.evaluate>
+  | ReturnType<typeof CliActionCreator.error>
+  | ReturnType<typeof CliActionCreator.addCommand>
+  | ReturnType<typeof CliActionCreator.removeCommand>
 
-export const enum CommandActionType {
-  ADD = '@@command/ADD',
-  REMOVE = '@@command/REMOVE',
-  EVALUATE = '@@command/EVALUATE',
-  ERROR = '@@command/ERROR',
+export const enum CliActionType {
+  ADD = '@@cli/ADD',
+  REMOVE = '@@cli/REMOVE',
+  EVALUATE = '@@cli/EVALUATE',
+  ERROR = '@@cli/ERROR',
 }
 
-export namespace CommandActionCreator {
+export namespace CliActionCreator {
   export const evaluate = () => {
     return {
-      type: CommandActionType.EVALUATE,
+      type: CliActionType.EVALUATE,
     }
   }
 
@@ -30,7 +30,7 @@ export namespace CommandActionCreator {
     action: EvaluationAction | TransactionAction | AccountAction | CategoryAction
   ) => {
     return {
-      type: CommandActionType.ADD,
+      type: CliActionType.ADD,
       payload: {
         id: generateId(),
         timestamp: moment().unix(),
@@ -42,7 +42,7 @@ export namespace CommandActionCreator {
 
   export const removeCommand = (commandId: string) => {
     return {
-      type: CommandActionType.REMOVE,
+      type: CliActionType.REMOVE,
       payload: {
         commandId,
       },
@@ -50,7 +50,7 @@ export namespace CommandActionCreator {
   }
 
   export const error = (human: string) => ({
-    type: CommandActionType.ERROR,
+    type: CliActionType.ERROR,
     payload: {
       human,
     },

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
-import { CommandActionCreator, CommandActionType } from 'store/model/cli/actions'
+import { CliActionCreator, CliActionType } from 'store/model/cli/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { SmartInputActionCreator, SmartInputActionType } from './actions'
 
@@ -73,8 +73,8 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         input: historyPointer < 0 ? '' : state.history[historyPointer],
       }
     }
-    case CommandActionType.ADD: {
-      const { payload } = action as ReturnType<typeof CommandActionCreator.addCommand>
+    case CliActionType.ADD: {
+      const { payload } = action as ReturnType<typeof CliActionCreator.addCommand>
 
       return {
         ...state,

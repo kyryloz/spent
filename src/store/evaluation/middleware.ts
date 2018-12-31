@@ -8,9 +8,9 @@ import { AccountActionCreator } from 'store/model/account/actions'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategoryActionCreator } from 'store/model/category/actions'
 import { CategorySelector } from 'store/model/category/selectors'
-import { CommandActionCreator, CommandActionType } from 'store/model/cli/actions'
+import { CliActionCreator, CliActionType } from 'store/model/cli/actions'
 import { CommandModel } from 'store/model/cli/interface'
-import { CommandSelector } from 'store/model/cli/selectors'
+import { CliSelector } from 'store/model/cli/selectors'
 import { TransactionActionCreator } from 'store/model/transactions/actions'
 import { TransactionSelector } from 'store/model/transactions/selectors'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
@@ -23,7 +23,7 @@ export const evaluationMiddleware: Middleware<
   App.State,
   Dispatch<App.Action>
 > = store => next => action => {
-  if (action.type === CommandActionType.EVALUATE) {
+  if (action.type === CliActionType.EVALUATE) {
     const state = store.getState()
     const input = SmartInputSelector.input(state)
 
@@ -43,7 +43,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       message = capitalizeFirstLetter(message)
     }
 
-    dispatch(CommandActionCreator.error(message))
+    dispatch(CliActionCreator.error(message))
     return
   }
 
@@ -94,24 +94,24 @@ const evaluateCreate = (
       const account = AccountSelector.findByName(name)(state)
 
       if (account) {
-        actions.push(CommandActionCreator.error(`Account '${name}' is already existed`))
+        actions.push(CliActionCreator.error(`Account '${name}' is already existed`))
         return actions
       } else {
         const createAccount = AccountActionCreator.create(name)
         actions.push(createAccount)
-        actions.push(CommandActionCreator.addCommand(input, createAccount))
+        actions.push(CliActionCreator.addCommand(input, createAccount))
         return actions
       }
     case 'category':
       const category = CategorySelector.findByName(name)(state)
 
       if (category) {
-        actions.push(CommandActionCreator.error(`Category '${name}' is already existed`))
+        actions.push(CliActionCreator.error(`Category '${name}' is already existed`))
         return actions
       } else {
         const createCategory = CategoryActionCreator.create(name)
         actions.push(createCategory)
-        actions.push(CommandActionCreator.addCommand(input, createCategory))
+        actions.push(CliActionCreator.addCommand(input, createCategory))
         return actions
       }
     default:
@@ -132,12 +132,12 @@ const evaluateExpense = (
   const account = AccountSelector.findByName(accountName)(state)
 
   if (!category) {
-    actions.push(CommandActionCreator.error(`Category '${categoryName}' not found`))
+    actions.push(CliActionCreator.error(`Category '${categoryName}' not found`))
     return actions
   }
 
   if (!account) {
-    actions.push(CommandActionCreator.error(`Account '${accountName}' not found`))
+    actions.push(CliActionCreator.error(`Account '${accountName}' not found`))
     return actions
   }
 
@@ -150,7 +150,7 @@ const evaluateExpense = (
   })
 
   actions.push(expense)
-  actions.push(CommandActionCreator.addCommand(input, expense))
+  actions.push(CliActionCreator.addCommand(input, expense))
 
   return actions
 }
@@ -166,7 +166,7 @@ const evaluateIncome = (
   const account = AccountSelector.findByName(accountName)(state)
 
   if (!account) {
-    actions.push(CommandActionCreator.error(`Account '${accountName}' not found`))
+    actions.push(CliActionCreator.error(`Account '${accountName}' not found`))
     return actions
   }
 
@@ -178,7 +178,7 @@ const evaluateIncome = (
   })
 
   actions.push(income)
-  actions.push(CommandActionCreator.addCommand(input, income))
+  actions.push(CliActionCreator.addCommand(input, income))
 
   return actions
 }
@@ -198,7 +198,7 @@ const evaluateUpdateIncome = (
   const income = TransactionSelector.incomeById(targetCommandId)(state)
 
   if (!income) {
-    actions.push(CommandActionCreator.error(`Income with ID '${targetCommandId}' not found`))
+    actions.push(CliActionCreator.error(`Income with ID '${targetCommandId}' not found`))
     return actions
   }
 
@@ -206,7 +206,7 @@ const evaluateUpdateIncome = (
     const newAccount = AccountSelector.findByName(values.account)(state)
 
     if (!newAccount) {
-      actions.push(CommandActionCreator.error(`Account '${values.account}' not found`))
+      actions.push(CliActionCreator.error(`Account '${values.account}' not found`))
       return actions
     }
 
@@ -235,7 +235,7 @@ const evaluateUpdateIncome = (
       }
     } else {
       actions.push(
-        CommandActionCreator.error(
+        CliActionCreator.error(
           `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
         )
       )
@@ -251,7 +251,7 @@ const evaluateUpdateIncome = (
   })
 
   actions.push(updateIncome)
-  actions.push(CommandActionCreator.addCommand(input, updateIncome))
+  actions.push(CliActionCreator.addCommand(input, updateIncome))
 
   return actions
 }
@@ -272,7 +272,7 @@ const evaluateUpdateExpense = (
   const expense = TransactionSelector.expenseById(expenseId)(state)
 
   if (!expense) {
-    actions.push(CommandActionCreator.error(`Expense with ID '${expenseId}' not found`))
+    actions.push(CliActionCreator.error(`Expense with ID '${expenseId}' not found`))
     return actions
   }
 
@@ -280,7 +280,7 @@ const evaluateUpdateExpense = (
     const newAccount = AccountSelector.findByName(values.account)(state)
 
     if (!newAccount) {
-      actions.push(CommandActionCreator.error(`Account '${values.account}' not found`))
+      actions.push(CliActionCreator.error(`Account '${values.account}' not found`))
       return actions
     }
 
@@ -294,7 +294,7 @@ const evaluateUpdateExpense = (
     const newCategory = CategorySelector.findByName(values.category)(state)
 
     if (!newCategory) {
-      actions.push(CommandActionCreator.error(`Category '${values.category}' not found`))
+      actions.push(CliActionCreator.error(`Category '${values.category}' not found`))
       return actions
     }
 
@@ -323,7 +323,7 @@ const evaluateUpdateExpense = (
       }
     } else {
       actions.push(
-        CommandActionCreator.error(
+        CliActionCreator.error(
           `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
         )
       )
@@ -340,7 +340,7 @@ const evaluateUpdateExpense = (
   })
 
   actions.push(updateExpense)
-  actions.push(CommandActionCreator.addCommand(input, updateExpense))
+  actions.push(CliActionCreator.addCommand(input, updateExpense))
 
   return actions
 }
@@ -361,7 +361,7 @@ const evaluateUpdateTransfer = (
   const transfer = TransactionSelector.transferById(targetCommandId)(state)
 
   if (!transfer) {
-    actions.push(CommandActionCreator.error(`Transfer with ID '${targetCommandId}' not found`))
+    actions.push(CliActionCreator.error(`Transfer with ID '${targetCommandId}' not found`))
     return actions
   }
 
@@ -369,7 +369,7 @@ const evaluateUpdateTransfer = (
     const newAccount = AccountSelector.findByName(values.from)(state)
 
     if (!newAccount) {
-      actions.push(CommandActionCreator.error(`Account '${values.from}' not found`))
+      actions.push(CliActionCreator.error(`Account '${values.from}' not found`))
       return actions
     }
 
@@ -383,7 +383,7 @@ const evaluateUpdateTransfer = (
     const newAccount = AccountSelector.findByName(values.to)(state)
 
     if (!newAccount) {
-      actions.push(CommandActionCreator.error(`Account '${values.to}' not found`))
+      actions.push(CliActionCreator.error(`Account '${values.to}' not found`))
       return actions
     }
 
@@ -412,7 +412,7 @@ const evaluateUpdateTransfer = (
       }
     } else {
       actions.push(
-        CommandActionCreator.error(
+        CliActionCreator.error(
           `Date '${values.date}' is invalid. Valid format is '${USER_INPUT_DATE_FORMAT}'`
         )
       )
@@ -429,7 +429,7 @@ const evaluateUpdateTransfer = (
   })
 
   actions.push(updateTransfer)
-  actions.push(CommandActionCreator.addCommand(input, updateTransfer))
+  actions.push(CliActionCreator.addCommand(input, updateTransfer))
 
   return actions
 }
@@ -452,7 +452,7 @@ const evaluateStatus = (input: string, what: string): Array<App.Action> => {
   const status = EvaluationActionCreator.status(entity)
 
   actions.push(status)
-  actions.push(CommandActionCreator.addCommand(input, status))
+  actions.push(CliActionCreator.addCommand(input, status))
 
   return actions
 }
@@ -471,12 +471,12 @@ const evaluateRename = (
       const account = AccountSelector.findByName(oldName)(state)
 
       if (!account) {
-        actions.push(CommandActionCreator.error(`You do not have '${oldName}' account`))
+        actions.push(CliActionCreator.error(`You do not have '${oldName}' account`))
         return actions
       } else {
         const renameAccount = AccountActionCreator.update(account.id, newName)
         actions.push(renameAccount)
-        actions.push(CommandActionCreator.addCommand(input, renameAccount))
+        actions.push(CliActionCreator.addCommand(input, renameAccount))
         return actions
       }
     }
@@ -484,12 +484,12 @@ const evaluateRename = (
       const category = CategorySelector.findByName(oldName)(state)
 
       if (!category) {
-        actions.push(CommandActionCreator.error(`You do not have '${oldName}' category`))
+        actions.push(CliActionCreator.error(`You do not have '${oldName}' category`))
         return actions
       } else {
         const renameCategory = AccountActionCreator.update(category.id, newName)
         actions.push(renameCategory)
-        actions.push(CommandActionCreator.addCommand(input, renameCategory))
+        actions.push(CliActionCreator.addCommand(input, renameCategory))
         return actions
       }
     }
@@ -512,12 +512,12 @@ const evaluateRemove = (
       const account = AccountSelector.findByName(name)(state)
 
       if (!account) {
-        actions.push(CommandActionCreator.error(`You do not have '${name}' account`))
+        actions.push(CliActionCreator.error(`You do not have '${name}' account`))
         return actions
       } else {
         const deleteAccount = AccountActionCreator.remove(account.id)
         actions.push(deleteAccount)
-        actions.push(CommandActionCreator.addCommand(input, deleteAccount))
+        actions.push(CliActionCreator.addCommand(input, deleteAccount))
         return actions
       }
       break
@@ -525,25 +525,25 @@ const evaluateRemove = (
       const category = CategorySelector.findByName(name)(state)
 
       if (!category) {
-        actions.push(CommandActionCreator.error(`You do not have '${name}' category`))
+        actions.push(CliActionCreator.error(`You do not have '${name}' category`))
         return actions
       } else {
         const deleteCategory = CategoryActionCreator.remove(category.id)
         actions.push(deleteCategory)
-        actions.push(CommandActionCreator.addCommand(input, deleteCategory))
+        actions.push(CliActionCreator.addCommand(input, deleteCategory))
         return actions
       }
       break
     case 'transaction':
-      const command = CommandSelector.findById(name)(state)
+      const command = CliSelector.findById(name)(state)
 
       if (!command) {
-        actions.push(CommandActionCreator.error(`Can't find a transaction with id '${name}'`))
+        actions.push(CliActionCreator.error(`Can't find a transaction with id '${name}'`))
         return actions
       } else {
         const deleteTransactions = TransactionActionCreator.remove(command.id)
         actions.push(deleteTransactions)
-        actions.push(CommandActionCreator.addCommand(input, deleteTransactions))
+        actions.push(CliActionCreator.addCommand(input, deleteTransactions))
         return actions
       }
       break
@@ -564,14 +564,14 @@ const evaluateTransfer = (
   const fromAccount = AccountSelector.findByName(fromAccountName)(state)
 
   if (!fromAccount) {
-    actions.push(CommandActionCreator.error(`Account '${fromAccountName}' not found`))
+    actions.push(CliActionCreator.error(`Account '${fromAccountName}' not found`))
     return actions
   }
 
   const toAccount = AccountSelector.findByName(toAccountName)(state)
 
   if (!toAccount) {
-    actions.push(CommandActionCreator.error(`Account '${toAccountName}' not found`))
+    actions.push(CliActionCreator.error(`Account '${toAccountName}' not found`))
     return actions
   }
 
@@ -584,7 +584,7 @@ const evaluateTransfer = (
   })
 
   actions.push(transfer)
-  actions.push(CommandActionCreator.addCommand(input, transfer))
+  actions.push(CliActionCreator.addCommand(input, transfer))
 
   return actions
 }
