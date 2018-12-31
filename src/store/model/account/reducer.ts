@@ -31,6 +31,7 @@ export const accounts: Reducer<AccountModel.State, App.Action> = (
       return {
         ...state,
         items: {
+          ...state.items,
           [id]: {
             ...state.items[id],
             name,
