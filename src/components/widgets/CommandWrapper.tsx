@@ -1,6 +1,5 @@
 import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { formatTimestamp } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -27,7 +26,7 @@ interface Props {
   timestamp: number
 }
 
-const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, timestamp, children }) => (
+const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, children }) => (
   <Grid container className={classes.root}>
     <Grid item container direction={'row'} alignItems="center" spacing={16}>
       <Grid item>
@@ -41,10 +40,6 @@ const CommandWrapperCmp: React.SFC<Props> = ({ classes, rawCommand, timestamp, c
       <Grid item className={classes.body}>
         {children}
       </Grid>
-
-      <div className={classes.timestampWrapper}>
-        <Typography className={classes.date}>{formatTimestamp(timestamp)}</Typography>
-      </div>
     </Grid>
   </Grid>
 )

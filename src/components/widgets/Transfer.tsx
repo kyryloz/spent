@@ -110,7 +110,6 @@ const TransferCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
     <Typography className={classes.date}>
       {formatTimestamp(command.action.payload.timestamp)}
     </Typography>
-    <Typography className={classes.id}>ID: {command.id}</Typography>
   </div>
 )
 
