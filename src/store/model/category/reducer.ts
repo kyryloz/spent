@@ -31,6 +31,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
       return {
         ...state,
         items: {
+          ...state.items,
           [id]: {
             ...state.items[id],
             name,
@@ -47,7 +48,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
 
       return {
         ...state,
-        items,
+        items
       }
     }
     default: {
