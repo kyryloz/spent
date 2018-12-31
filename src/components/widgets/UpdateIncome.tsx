@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
+import { TransactionActionCreator } from 'store/model/transactions/actions'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.UpdateIncomeData
+  command: ReturnType<typeof TransactionActionCreator.updateIncome>
 }
 
 interface StyleProps {

@@ -1,7 +1,7 @@
-import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
-import * as React from 'react'
-import { CommandModel } from 'store/model/command/interface'
-import { Classes } from 'utils/styleUtils'
+import { createStyles, Theme, Typography, withStyles } from '@material-ui/core';
+import * as React from 'react';
+import { TransactionActionCreator } from 'store/model/transactions/actions';
+import { Classes } from 'utils/styleUtils';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -14,7 +14,7 @@ const styles = (theme: Theme) =>
   })
 
 interface OwnProps {
-  command: CommandModel.UpdateTransferData
+  command: ReturnType<typeof TransactionActionCreator.updateTransfer>
 }
 
 interface StyleProps {

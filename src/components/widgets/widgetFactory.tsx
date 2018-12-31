@@ -18,6 +18,9 @@ import { RenameCategory } from './RenameCategory'
 import { StatusAccounts } from './StatusAccounts'
 import { StatusCategories } from './StatusCategories'
 import { Transfer } from './Transfer'
+import { UpdateExpense } from './UpdateExpense'
+import { UpdateIncome } from './UpdateIncome'
+import { UpdateTransfer } from './UpdateTransfer'
 
 interface ActionClickHandlers {
   onEditClick: () => void
@@ -116,15 +119,27 @@ export const createWidget = (
       break
     }
     case TransactionActionType.UPDATE_INCOME: {
-      // widgetComponent = <UpdateIncome command={command as CommandModel.UpdateIncomeData} />
+      widgetComponent = (
+        <UpdateIncome
+          command={command.action as ReturnType<typeof TransactionActionCreator.updateIncome>}
+        />
+      )
       break
     }
     case TransactionActionType.UPDATE_EXPENSE: {
-      // widgetComponent = <UpdateExpense command={command as CommandModel.UpdateExpenseData} />
+      widgetComponent = (
+        <UpdateExpense
+          command={command.action as ReturnType<typeof TransactionActionCreator.updateExpense>}
+        />
+      )
       break
     }
     case TransactionActionType.UPDATE_TRANSFER: {
-      // widgetComponent = <UpdateExpense command={command as CommandModel.UpdateExpenseData} />
+      widgetComponent = (
+        <UpdateTransfer
+          command={command.action as ReturnType<typeof TransactionActionCreator.updateTransfer>}
+        />
+      )
       break
     }
     case TransactionActionType.TRANSFER: {
