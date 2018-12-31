@@ -1,10 +1,10 @@
-import { EvaluationActionCreator } from 'store/evaluation/actions'
+import { AccountActionCreator } from 'store/model/account/actions'
 import { TransactionActionCreator } from '../actions'
 import { transactions } from '../reducer'
 
 describe('transactions reducer', () => {
   it('should return the initial state', () => {
-    expect(transactions(undefined, EvaluationActionCreator.createAccount('', ''))).toEqual({
+    expect(transactions(undefined, AccountActionCreator.create(''))).toEqual({
       expenses: {},
       incomes: {},
       transfers: {},
@@ -211,10 +211,7 @@ describe('transactions reducer', () => {
       })
     )
 
-    state = transactions(
-      state,
-      TransactionActionCreator.remove('1')
-    )
+    state = transactions(state, TransactionActionCreator.remove('1'))
 
     const expectedState = {
       expenses: {

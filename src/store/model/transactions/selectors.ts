@@ -24,7 +24,7 @@ export namespace TransactionSelector {
   ): TransactionModel.IncomeHydrated =>
     createSelector(
       incomes,
-      AccountSelector.byId,
+      AccountSelector.items,
       (incomes, accounts) => {
         const income = incomes[incomeId]
 
@@ -42,7 +42,7 @@ export namespace TransactionSelector {
   ): TransactionModel.ExpenseHydrated =>
     createSelector(
       expenses,
-      AccountSelector.byId,
+      AccountSelector.items,
       CategorySelector.items,
       (expenses, accounts, categories) => {
         const expense = expenses[expenseId]
@@ -62,7 +62,7 @@ export namespace TransactionSelector {
   ): TransactionModel.TransferHydrated =>
     createSelector(
       transfers,
-      AccountSelector.byId,
+      AccountSelector.items,
       (transfers, accounts) => {
         const transfer = transfers[transferId]
 

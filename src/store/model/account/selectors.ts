@@ -4,20 +4,20 @@ import { App } from 'store/interface'
 import { TransactionSelector } from '../transactions/selectors'
 
 export namespace AccountSelector {
-  export const byId = (state: App.State) => state.entities.accounts.items
+  export const items = (state: App.State) => state.entities.accounts.items
 
   export const findByName = (name: string) =>
     createSelector(
-      byId,
-      resultById => {
-        return values(resultById).find(value => value.name === name)
+      items,
+      items => {
+        return values(items).find(value => value.name === name)
       }
     )
 
   export const findById = (id: string) =>
     createSelector(
-      byId,
-      resultById => resultById[id]
+      items,
+      items => (items[id] ? items[id] : null)
     )
 
   export const incomesByAccountId = (accountId: string) =>
@@ -92,10 +92,10 @@ export namespace AccountSelector {
 
   export const balances = (timestampFrom: number, timestampTo: number) => (state: App.State) =>
     createSelector(
-      byId,
-      byId => {
+      items,
+      items => {
         return fromPairs(
-          values(byId)
+          values(items)
             .filter(account => account.createdAt <= timestampTo)
             .map(account => [account.name, balance(account.id, timestampFrom, timestampTo)(state)])
         )

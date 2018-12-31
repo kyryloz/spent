@@ -21,6 +21,7 @@ export namespace CommandSelector {
     readonly action: {
       readonly type: TransactionActionType.EXPENSE
       readonly payload: {
+        readonly id: string
         readonly amount: number
         readonly account: AccountModel.Account
         readonly category: CategoryModel.Category
@@ -36,6 +37,7 @@ export namespace CommandSelector {
     readonly action: {
       readonly type: TransactionActionType.INCOME
       readonly payload: {
+        readonly id: string
         readonly amount: number
         readonly account: AccountModel.Account
         readonly timestamp: number
@@ -50,6 +52,7 @@ export namespace CommandSelector {
     readonly action: {
       readonly type: TransactionActionType.TRANSFER
       readonly payload: {
+        readonly id: string
         readonly amount: number
         readonly fromAccount: AccountModel.Account
         readonly toAccount: AccountModel.Account
@@ -66,18 +69,31 @@ export namespace CommandSelector {
         case TransactionActionType.EXPENSE: {
           const expenseAction = item.action as ReturnType<typeof TransactionActionCreator.expense>
 
+          const account = AccountSelector.findById(expenseAction.payload.transaction.accountId)(
+            state
+          ) || {
+            id: 'deleted',
+            name: '<deleted>',
+            createdAt: 0,
+          }
+
+          const category = CategorySelector.findById(expenseAction.payload.transaction.categoryId)(
+            state
+          ) || {
+            id: 'deleted',
+            name: '<deleted>',
+            createdAt: 0,
+          }
+
           const hydratedItem: ExpenseCommand = {
             ...item,
             action: {
               type: TransactionActionType.EXPENSE,
               payload: {
+                id: expenseAction.payload.transaction.id,
                 amount: expenseAction.payload.transaction.amount,
-                account: AccountSelector.findById(expenseAction.payload.transaction.accountId)(
-                  state
-                ),
-                category: CategorySelector.findById(expenseAction.payload.transaction.categoryId)(
-                  state
-                ),
+                account,
+                category,
                 timestamp: expenseAction.payload.transaction.timestamp,
               },
             },
@@ -88,15 +104,22 @@ export namespace CommandSelector {
         case TransactionActionType.INCOME: {
           const incomeAction = item.action as ReturnType<typeof TransactionActionCreator.income>
 
+          const account = AccountSelector.findById(incomeAction.payload.transaction.accountId)(
+            state
+          ) || {
+            id: 'deleted',
+            name: '<deleted>',
+            createdAt: 0,
+          }
+
           const hydratedItem: IncomeCommand = {
             ...item,
             action: {
               type: TransactionActionType.INCOME,
               payload: {
+                id: incomeAction.payload.transaction.id,
                 amount: incomeAction.payload.transaction.amount,
-                account: AccountSelector.findById(incomeAction.payload.transaction.accountId)(
-                  state
-                ),
+                account,
                 timestamp: incomeAction.payload.transaction.timestamp,
               },
             },
@@ -107,18 +130,31 @@ export namespace CommandSelector {
         case TransactionActionType.TRANSFER: {
           const transferAction = item.action as ReturnType<typeof TransactionActionCreator.transfer>
 
+          const fromAccount = AccountSelector.findById(
+            transferAction.payload.transaction.fromAccountId
+          )(state) || {
+            id: 'deleted',
+            name: '<deleted>',
+            createdAt: 0,
+          }
+
+          const toAccount = AccountSelector.findById(
+            transferAction.payload.transaction.toAccountId
+          )(state) || {
+            id: 'deleted',
+            name: '<deleted>',
+            createdAt: 0,
+          }
+
           const hydratedItem: TransferCommand = {
             ...item,
             action: {
               type: TransactionActionType.TRANSFER,
               payload: {
+                id: transferAction.payload.transaction.id,
                 amount: transferAction.payload.transaction.amount,
-                fromAccount: AccountSelector.findById(
-                  transferAction.payload.transaction.fromAccountId
-                )(state),
-                toAccount: AccountSelector.findById(transferAction.payload.transaction.toAccountId)(
-                  state
-                ),
+                fromAccount,
+                toAccount,
                 timestamp: transferAction.payload.transaction.timestamp,
               },
             },

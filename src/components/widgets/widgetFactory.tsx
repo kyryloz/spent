@@ -71,7 +71,7 @@ export const createWidget = (
     case EvaluationActionType.STATUS: {
       const statusCommand = command.action as ReturnType<typeof EvaluationActionCreator.status>
 
-      switch (statusCommand.payload.data.entity) {
+      switch (statusCommand.payload.entity) {
         case CommandModel.Entity.ACCOUNT:
           widgetComponent = <StatusAccounts command={statusCommand} />
           break

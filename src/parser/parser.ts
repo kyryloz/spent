@@ -12,8 +12,6 @@ export const parseGrammar = (input: string): ParseGrammarResult => {
   const match = grammar.match(input)
   const message = match.message
 
-  console.log(message)
-
   return {
     error: match.failed(),
     success: match.succeeded(),

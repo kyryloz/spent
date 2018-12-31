@@ -1,7 +1,6 @@
 import { Reducer } from 'redux'
-import { EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CommandActionType } from 'store/model/command/actions'
+import { CommandActionCreator, CommandActionType } from 'store/model/command/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { SmartInputActionCreator, SmartInputActionType } from './actions'
 
@@ -74,25 +73,15 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         input: historyPointer < 0 ? '' : state.history[historyPointer],
       }
     }
-    case EvaluationActionType.CREATE_ACCOUNT:
-    case EvaluationActionType.CREATE_CATEGORY:
-    case EvaluationActionType.EXPENSE:
-    case EvaluationActionType.INCOME:
-    case EvaluationActionType.DELETE_ACCOUNT:
-    case EvaluationActionType.DELETE_CATEGORY:
-    case EvaluationActionType.DELETE_TRANSACTION:
-    case EvaluationActionType.RENAME_ENTITY:
-    case EvaluationActionType.UPDATE_EXPENSE:
-    case EvaluationActionType.UPDATE_INCOME:
-    case EvaluationActionType.UPDATE_TRANSFER:
-    case EvaluationActionType.TRANSFER:
-    case EvaluationActionType.STATUS: {
+    case CommandActionType.ADD: {
+      const { payload } = action as ReturnType<typeof CommandActionCreator.addCommand>
+
       return {
         ...state,
         input: '',
         dirty: false,
         focus: false,
-        history: [action.payload.raw, ...state.history],
+        history: [payload.raw, ...state.history],
         historyPointer: -1,
       }
     }

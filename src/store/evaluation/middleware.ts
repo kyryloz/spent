@@ -61,7 +61,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       evaluateTransfer(state, input, from, to, amount).forEach(dispatch)
     },
     status: what => {
-      dispatch(evaluateStatus(input, what))
+      evaluateStatus(input, what).forEach(dispatch)
     },
     remove: (entity, name) => {
       evaluateRemove(state, input, entity, name).forEach(dispatch)
@@ -259,7 +259,7 @@ const evaluateUpdateIncome = (
 const evaluateUpdateExpense = (
   state: App.State,
   input: string,
-  targetCommandId: string,
+  expenseId: string,
   values: ExpenseSetters
 ): Array<App.Action> => {
   const actions: Array<App.Action> = []
@@ -269,10 +269,10 @@ const evaluateUpdateExpense = (
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const expense = TransactionSelector.expenseById(targetCommandId)(state)
+  const expense = TransactionSelector.expenseById(expenseId)(state)
 
   if (!expense) {
-    actions.push(CommandActionCreator.error(`Expense with ID '${targetCommandId}' not found`))
+    actions.push(CommandActionCreator.error(`Expense with ID '${expenseId}' not found`))
     return actions
   }
 
@@ -332,7 +332,7 @@ const evaluateUpdateExpense = (
   }
 
   const updateExpense = TransactionActionCreator.updateExpense({
-    id: targetCommandId,
+    id: expenseId,
     accountId: accountChangeData && accountChangeData.newAccountId,
     categoryId: categoryChangeData && categoryChangeData.newCategoryId,
     amount: amountChangeData && amountChangeData.newAmount,
@@ -434,7 +434,9 @@ const evaluateUpdateTransfer = (
   return actions
 }
 
-const evaluateStatus = (input: string, what: string): App.Action => {
+const evaluateStatus = (input: string, what: string): Array<App.Action> => {
+  const actions: Array<App.Action> = []
+
   let entity
   switch (what) {
     case 'categories':
@@ -447,7 +449,12 @@ const evaluateStatus = (input: string, what: string): App.Action => {
       throw new Error(`Unknown entity: ${what}`)
   }
 
-  return EvaluationActionCreator.status(input, { entity })
+  const status = EvaluationActionCreator.status(entity)
+
+  actions.push(status)
+  actions.push(CommandActionCreator.addCommand(input, status))
+
+  return actions
 }
 
 const evaluateRename = (

@@ -9,15 +9,15 @@ export namespace CategorySelector {
   export const findByName = (name: string) =>
     createSelector(
       items,
-      resultById => {
-        return values(resultById).find(value => value.name === name)
+      items => {
+        return values(items).find(value => value.name === name)
       }
     )
 
   export const findById = (id: string) =>
     createSelector(
       items,
-      resultById => resultById[id]
+      items => (items[id] ? items[id] : null)
     )
 
   export const expensesByCategoryId = (categoryId: string) =>

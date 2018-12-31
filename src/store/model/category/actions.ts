@@ -33,7 +33,7 @@ export namespace CategoryActionCreator {
   })
 
   export const remove = (categoryId: string) => ({
-    type: CategoryActionType.CREATE,
+    type: CategoryActionType.REMOVE,
     payload: {
       categoryId,
     },

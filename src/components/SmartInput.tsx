@@ -46,7 +46,9 @@ interface StyleProps {
 interface StateProps {
   input: string
   focus: boolean
-  error: CommandModel.ErrorData
+  error: {
+    human: string
+  }
 }
 
 interface DispatchProps {

@@ -33,7 +33,7 @@ export namespace AccountActionCreator {
   })
 
   export const remove = (accountId: string) => ({
-    type: AccountActionType.CREATE,
+    type: AccountActionType.REMOVE,
     payload: {
       accountId,
     },

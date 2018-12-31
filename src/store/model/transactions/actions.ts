@@ -14,8 +14,8 @@ export const enum TransactionActionType {
   INCOME = '@@transaction/INCOME',
   TRANSFER = '@@transaction/TRANSFER',
   UPDATE_EXPENSE = '@@transaction/UPDATE_EXPENSE',
-  UPDATE_INCOME = '@@transaction/UPDATE_EXPENSE',
-  UPDATE_TRANSFER = '@@transaction/UPDATE_EXPENSE',
+  UPDATE_INCOME = '@@transaction/UPDATE_INCOME',
+  UPDATE_TRANSFER = '@@transaction/UPDATE_TRANSFER',
   REMOVE = '@@transaction/REMOVE',
 }
 
