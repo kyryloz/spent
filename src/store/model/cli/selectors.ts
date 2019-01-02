@@ -4,15 +4,11 @@ import { AccountModel } from 'store/model/account/interface'
 import { AccountSelector } from 'store/model/account/selectors'
 import { CategoryModel } from 'store/model/category/interface'
 import { CategorySelector } from 'store/model/category/selectors'
-import { CommandModel } from 'store/model/cli/interface'
+import { CliModel } from 'store/model/cli/interface'
 import { TransactionActionCreator, TransactionActionType } from '../transactions/actions'
 
 export namespace CliSelector {
-  export type CommandItem =
-    | ExpenseCommand
-    | IncomeCommand
-    | TransferCommand
-    | CommandModel.CliCommand
+  export type CommandItem = ExpenseCommand | IncomeCommand | TransferCommand | CliModel.CliCommand
 
   export interface ExpenseCommand {
     readonly id: string
@@ -63,7 +59,7 @@ export namespace CliSelector {
 
   export const items = (
     state: App.State
-  ): Array<ExpenseCommand | IncomeCommand | TransferCommand | CommandModel.CliCommand> => {
+  ): Array<ExpenseCommand | IncomeCommand | TransferCommand | CliModel.CliCommand> => {
     return state.commands.cliActions.map(item => {
       switch (item.action.type) {
         case TransactionActionType.EXPENSE: {
@@ -164,7 +160,7 @@ export namespace CliSelector {
         }
       }
 
-      return item as CommandModel.CliCommand
+      return item as CliModel.CliCommand
     })
   }
 
@@ -173,6 +169,4 @@ export namespace CliSelector {
       items,
       items => items.find(item => item.id === id)
     )
-
-  export const error = (state: App.State) => state.commands.error
 }

@@ -3,12 +3,14 @@ export type SmartInputAction =
   | ReturnType<typeof SmartInputActionCreator.setFocus>
   | ReturnType<typeof SmartInputActionCreator.historyUp>
   | ReturnType<typeof SmartInputActionCreator.historyDown>
+  | ReturnType<typeof SmartInputActionCreator.error>
 
 export const enum SmartInputActionType {
   SET_INPUT = '@@smartInput/SET_INPUT',
   SET_FOCUS = '@@smartInput/SET_FOCUS',
   HISTORY_UP = '@@smartInput/HISTORY_UP',
   HISTORY_DOWN = '@@smartInput/HISTORY_DOWN',
+  ERROR = '@@smartInput/ERROR',
 }
 
 export namespace SmartInputActionCreator {
@@ -32,5 +34,12 @@ export namespace SmartInputActionCreator {
 
   export const historyDown = () => ({
     type: SmartInputActionType.HISTORY_DOWN,
+  })
+
+  export const error = (human: string) => ({
+    type: SmartInputActionType.ERROR,
+    payload: {
+      human,
+    },
   })
 }

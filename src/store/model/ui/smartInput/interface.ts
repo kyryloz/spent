@@ -5,5 +5,8 @@ export namespace SmartInputModel {
     readonly focus: boolean
     readonly history: Array<string>
     readonly historyPointer: number
+    readonly error: {
+      human: string
+    }
   }
 }

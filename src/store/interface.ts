@@ -2,7 +2,7 @@ import { RouterState } from 'connected-react-router'
 import { AccountModel } from 'store/model/account/interface'
 import { CategoryModel } from 'store/model/category/interface'
 import { CliAction } from 'store/model/cli/actions'
-import { CommandModel } from 'store/model/cli/interface'
+import { CliModel } from 'store/model/cli/interface'
 import { SmartInputAction } from 'store/model/ui/smartInput/actions'
 import { SmartInputModel } from 'store/model/ui/smartInput/interface'
 import { EvaluationAction } from 'store/evaluation/actions'
@@ -22,7 +22,7 @@ export namespace App {
     readonly ui: {
       readonly smartInput: SmartInputModel.State
     }
-    readonly commands: CommandModel.State
+    readonly commands: CliModel.State
   }
 
   export type Action =

@@ -7,7 +7,7 @@ import * as React from 'react'
 import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { AccountActionCreator, AccountActionType } from 'store/model/account/actions'
 import { CategoryActionCreator, CategoryActionType } from 'store/model/category/actions'
-import { CommandModel } from 'store/model/cli/interface'
+import { CliModel } from 'store/model/cli/interface'
 import { CliSelector } from 'store/model/cli/selectors'
 import { TransactionActionCreator, TransactionActionType } from 'store/model/transactions/actions'
 import { DeleteAccount } from './DeleteAccount'
@@ -72,11 +72,11 @@ export const createWidget = (
       const statusCommand = command.action as ReturnType<typeof EvaluationActionCreator.status>
 
       switch (statusCommand.payload.entity) {
-        case CommandModel.Entity.ACCOUNT:
+        case CliModel.Entity.ACCOUNT:
           widgetComponent = <StatusAccounts command={statusCommand} />
           break
 
-        case CommandModel.Entity.CATEGORY:
+        case CliModel.Entity.CATEGORY:
           widgetComponent = <StatusCategories command={statusCommand} />
           break
       }

@@ -1,12 +1,11 @@
-import * as moment from 'moment'
-import { EvaluationAction } from 'store/evaluation/actions'
-import { TransactionAction } from 'store/model/transactions/actions'
-import { generateId } from 'utils/mathUtils'
-import { AccountAction } from '../account/actions'
-import { CategoryAction } from '../category/actions'
+import * as moment from 'moment';
+import { EvaluationAction } from 'store/evaluation/actions';
+import { TransactionAction } from 'store/model/transactions/actions';
+import { generateId } from 'utils/mathUtils';
+import { AccountAction } from '../account/actions';
+import { CategoryAction } from '../category/actions';
 
 export type CliAction =
-  | ReturnType<typeof CliActionCreator.error>
   | ReturnType<typeof CliActionCreator.addCommand>
   | ReturnType<typeof CliActionCreator.removeCommand>
 
@@ -40,11 +39,4 @@ export namespace CliActionCreator {
       },
     }
   }
-
-  export const error = (human: string) => ({
-    type: CliActionType.ERROR,
-    payload: {
-      human,
-    },
-  })
 }

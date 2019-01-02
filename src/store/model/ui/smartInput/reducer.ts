@@ -10,6 +10,9 @@ const initialState: SmartInputModel.State = {
   focus: true,
   history: [],
   historyPointer: -1,
+  error: {
+    human: ''
+  }
 }
 
 export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
@@ -71,6 +74,14 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
         ...state,
         historyPointer,
         input: historyPointer < 0 ? '' : state.history[historyPointer],
+      }
+    }
+    case SmartInputActionType.ERROR: {
+      const { payload } = action as ReturnType<typeof SmartInputActionCreator.error>
+
+      return {
+        ...state,
+        error: payload,
       }
     }
     case CliActionType.ADD: {

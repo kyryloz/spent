@@ -3,12 +3,9 @@ import { AccountAction } from '../account/actions'
 import { CategoryAction } from '../category/actions'
 import { TransactionAction } from '../transactions/actions'
 
-export namespace CommandModel {
+export namespace CliModel {
   export interface State {
     readonly cliActions: Array<CliCommand>
-    readonly error: {
-      human: string
-    }
   }
 
   export const enum Entity {

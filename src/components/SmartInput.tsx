@@ -11,7 +11,6 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { CliSelector } from 'store/model/cli/selectors'
 import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
 import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
 import { Classes } from 'utils/styleUtils'
@@ -154,7 +153,7 @@ export const SmartInput = flow(
   withStyles(styles),
   connect<StateProps, DispatchProps, {}, App.State>(
     state => ({
-      error: CliSelector.error(state),
+      error: SmartInputSelector.error(state),
       input: SmartInputSelector.input(state),
       focus: SmartInputSelector.focus(state),
     }),

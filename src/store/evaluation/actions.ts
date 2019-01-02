@@ -1,4 +1,4 @@
-import { CommandModel } from 'store/model/cli/interface'
+import { CliModel } from 'store/model/cli/interface'
 
 export type EvaluationAction =
   | ReturnType<typeof EvaluationActionCreator.status>
@@ -16,7 +16,7 @@ export namespace EvaluationActionCreator {
     }
   }
 
-  export const status = (entity: CommandModel.Entity) => {
+  export const status = (entity: CliModel.Entity) => {
     return {
       type: EvaluationActionType.STATUS,
       payload: {
