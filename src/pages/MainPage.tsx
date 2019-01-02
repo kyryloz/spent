@@ -1,6 +1,6 @@
 import { createStyles, CssBaseline, Theme, Typography, withStyles } from '@material-ui/core'
-import { SmartInput } from 'components/SmartInput'
-import { SmartOutput } from 'components/SmartOutput'
+import { SmartInput } from 'components/CliInput'
+import { SmartOutput } from 'components/CliOutput'
 import * as React from 'react'
 import { Classes } from 'utils/styleUtils'
 

@@ -4,7 +4,7 @@ import { AccountActionType } from 'store/model/account/actions'
 import { CategoryActionType } from 'store/model/category/actions'
 import { CliActionCreator } from 'store/model/cli/actions'
 import { TransactionActionType } from 'store/model/transactions/actions'
-import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
+import { SmartInputSelector } from 'store/model/ui/cliInput/selectors'
 
 export const cliMiddleware: Middleware<
   {},

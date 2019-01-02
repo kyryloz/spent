@@ -11,8 +11,8 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { SmartInputActionCreator } from 'store/model/ui/smartInput/actions'
-import { SmartInputSelector } from 'store/model/ui/smartInput/selectors'
+import { SmartInputActionCreator } from 'store/model/ui/cliInput/actions'
+import { SmartInputSelector } from 'store/model/ui/cliInput/selectors'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>

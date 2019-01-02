@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
 import { App } from 'store/interface'
 import { CliActionCreator, CliActionType } from 'store/model/cli/actions'
-import { SmartInputModel } from 'store/model/ui/smartInput/interface'
+import { SmartInputModel } from 'store/model/ui/cliInput/interface'
 import { SmartInputActionCreator, SmartInputActionType } from './actions'
 
 const initialState: SmartInputModel.State = {
