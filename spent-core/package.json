@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "description": "Spent core",
   "private": true,
-  "main": "build",
+  "main": "index.js",
   "files": [
-    "dist"
+    "index.js"
   ],
   "scripts": {
-    "prepare": "tsc",
+    "build": "tsc",
+    "clean": "tsc --build build --clean",
     "start": "tsc -w"
   },
   "dependencies": {
