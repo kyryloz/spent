@@ -2,15 +2,19 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "spent-app", "spent-core"
+    "spent-app",
+    "spent-core"
   ],
   "scripts": {
     "clean": "yarn workspaces run clean",
     "test": "yarn workspaces run test",
-    "start": "yarn workspaces run start",
+    "start": "yarn wsrun run start",
     "build": "yarn workspaces run prepare && yarn workspaces run build"
   },
   "resolutions": {
     "jss": "^10.0.0-alpha.3"
+  },
+  "devDependencies": {
+    "wsrun": "^3.6.2"
   }
 }
