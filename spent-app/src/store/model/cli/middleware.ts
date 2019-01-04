@@ -1,9 +1,7 @@
+import { AccountActionType, CategoryActionType, TransactionActionType } from '@spent/core'
 import { Dispatch, Middleware } from 'redux'
 import { App } from 'store/interface'
-import { AccountActionType } from 'store/model/account/actions'
-import { CategoryActionType } from 'store/model/category/actions'
 import { CliActionCreator } from 'store/model/cli/actions'
-import { TransactionActionType } from 'store/model/transactions/actions'
 import { SmartInputSelector } from 'store/model/ui/cliInput/selectors'
 
 export const cliMiddleware: Middleware<

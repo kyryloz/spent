@@ -1,7 +1,5 @@
+import { CoreAction } from '@spent/core'
 import { EvaluationAction } from 'store/evaluation/actions'
-import { AccountAction } from '../account/actions'
-import { CategoryAction } from '../category/actions'
-import { TransactionAction } from '../transactions/actions'
 
 export namespace CliModel {
   export interface State {
@@ -18,6 +16,6 @@ export namespace CliModel {
     readonly id: string
     readonly raw: string
     readonly timestamp: number
-    readonly action: EvaluationAction | TransactionAction | CategoryAction | AccountAction
+    readonly action: EvaluationAction | CoreAction
   }
 }

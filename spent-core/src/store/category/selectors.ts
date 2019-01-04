@@ -1,10 +1,10 @@
 import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
-import { App } from 'store/interface'
+import { CoreState } from '../..'
 import { TransactionSelector } from '../transactions/selectors'
 
 export namespace CategorySelector {
-  export const items = (state: App.State) => state.entities.categories.items
+  export const items = (state: CoreState) => state.categories.items
 
   export const findByName = (name: string) =>
     createSelector(
@@ -35,7 +35,7 @@ export namespace CategorySelector {
           .reduce((prev, current) => prev + current.amount, 0)
     )
 
-  export const expenses = (timestampFrom: number, timestampTo: number) => (state: App.State) =>
+  export const expenses = (timestampFrom: number, timestampTo: number) => (state: CoreState) =>
     createSelector(
       items,
       byId => {

@@ -1,6 +1,6 @@
 import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
 import * as React from 'react'
-import { CategoryActionCreator } from 'store/model/category/actions'
+import { CategoryActionCreator } from '@spent/core'
 import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>

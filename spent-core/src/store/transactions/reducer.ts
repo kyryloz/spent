@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { App } from 'store/interface'
+import { CoreAction } from '../..'
 import { TransactionActionCreator, TransactionActionType } from './actions'
 import { TransactionModel } from './interface'
 
@@ -9,7 +9,7 @@ const initialState: TransactionModel.State = {
   transfers: {},
 }
 
-export const transactions: Reducer<TransactionModel.State, App.Action> = (
+export const transactions: Reducer<TransactionModel.State, CoreAction> = (
   state = initialState,
   action
 ): TransactionModel.State => {

@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { App } from 'store/interface'
+import { CoreAction } from '../..'
 import { AccountActionCreator, AccountActionType } from './actions'
 import { AccountModel } from './interface'
 
@@ -7,7 +7,7 @@ const initialState: AccountModel.State = {
   items: {},
 }
 
-export const accounts: Reducer<AccountModel.State, App.Action> = (
+export const accounts: Reducer<AccountModel.State, CoreAction> = (
   state = initialState,
   action
 ): AccountModel.State => {

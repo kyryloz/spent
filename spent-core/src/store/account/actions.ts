@@ -1,5 +1,5 @@
 import * as moment from 'moment'
-import { generateId } from 'utils/mathUtils'
+import { generateId } from '../../utils/mathUtils'
 
 export type AccountAction =
   | ReturnType<typeof AccountActionCreator.create>

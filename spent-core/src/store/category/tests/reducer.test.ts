@@ -1,4 +1,4 @@
-import { AccountActionCreator } from 'store/model/account/actions'
+import { AccountActionCreator } from '../../account/actions'
 import { CategoryActionCreator, CategoryActionType } from '../actions'
 import { categories } from '../reducer'
 

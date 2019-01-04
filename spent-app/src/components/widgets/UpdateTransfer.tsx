@@ -1,7 +1,7 @@
-import { createStyles, Theme, Typography, withStyles } from '@material-ui/core';
-import * as React from 'react';
-import { TransactionActionCreator } from 'store/model/transactions/actions';
-import { Classes } from 'utils/styleUtils';
+import { createStyles, Theme, Typography, withStyles } from '@material-ui/core'
+import { TransactionActionCreator } from '@spent/core'
+import * as React from 'react'
+import { Classes } from 'utils/styleUtils'
 
 const styles = (theme: Theme) =>
   createStyles({

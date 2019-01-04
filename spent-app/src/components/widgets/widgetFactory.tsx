@@ -1,3 +1,11 @@
+import {
+  AccountActionCreator,
+  AccountActionType,
+  CategoryActionCreator,
+  CategoryActionType,
+  TransactionActionCreator,
+  TransactionActionType,
+} from '@spent/core'
 import { CommandWrapper } from 'components/widgets/CommandWrapper'
 import { CreateAccount } from 'components/widgets/CreateAccount'
 import { CreateCategory } from 'components/widgets/CreateCategory'
@@ -5,11 +13,8 @@ import { Expense } from 'components/widgets/Expense'
 import { Income } from 'components/widgets/Income'
 import * as React from 'react'
 import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
-import { AccountActionCreator, AccountActionType } from 'store/model/account/actions'
-import { CategoryActionCreator, CategoryActionType } from 'store/model/category/actions'
 import { CliModel } from 'store/model/cli/interface'
 import { CliSelector } from 'store/model/cli/selectors'
-import { TransactionActionCreator, TransactionActionType } from 'store/model/transactions/actions'
 import { DeleteAccount } from './DeleteAccount'
 import { DeleteCategory } from './DeleteCategory'
 import { DeleteTransaction } from './DeleteTransaction'

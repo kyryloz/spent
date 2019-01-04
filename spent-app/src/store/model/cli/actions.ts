@@ -1,9 +1,7 @@
-import * as moment from 'moment';
-import { EvaluationAction } from 'store/evaluation/actions';
-import { TransactionAction } from 'store/model/transactions/actions';
-import { generateId } from 'utils/mathUtils';
-import { AccountAction } from '../account/actions';
-import { CategoryAction } from '../category/actions';
+import { CoreAction } from '@spent/core'
+import * as moment from 'moment'
+import { EvaluationAction } from 'store/evaluation/actions'
+import { generateId } from 'utils/mathUtils'
 
 export type CliAction =
   | ReturnType<typeof CliActionCreator.addCommand>
@@ -16,10 +14,7 @@ export const enum CliActionType {
 }
 
 export namespace CliActionCreator {
-  export const addCommand = (
-    raw: string,
-    action: EvaluationAction | TransactionAction | AccountAction | CategoryAction
-  ) => {
+  export const addCommand = (raw: string, action: EvaluationAction | CoreAction) => {
     return {
       type: CliActionType.ADD,
       payload: {

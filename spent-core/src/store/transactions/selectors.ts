@@ -1,15 +1,15 @@
 import { createSelector } from 'reselect'
-import { App } from 'store/interface'
+import { CoreState } from '../..'
 import { AccountSelector } from '../account/selectors'
 import { CategorySelector } from '../category/selectors'
 import { TransactionModel } from './interface'
 
 export namespace TransactionSelector {
-  export const incomes = (state: App.State) => state.entities.transactions.incomes
+  export const incomes = (state: CoreState) => state.transactions.incomes
 
-  export const expenses = (state: App.State) => state.entities.transactions.expenses
+  export const expenses = (state: CoreState) => state.transactions.expenses
 
-  export const transfers = (state: App.State) => state.entities.transactions.transfers
+  export const transfers = (state: CoreState) => state.transactions.transfers
 
   export const findById = (transactionId: string) =>
     createSelector(
@@ -20,7 +20,7 @@ export namespace TransactionSelector {
     )
 
   export const incomeById = (incomeId: string) => (
-    state: App.State
+    state: CoreState
   ): TransactionModel.IncomeHydrated =>
     createSelector(
       incomes,
@@ -38,7 +38,7 @@ export namespace TransactionSelector {
     )(state)
 
   export const expenseById = (expenseId: string) => (
-    state: App.State
+    state: CoreState
   ): TransactionModel.ExpenseHydrated =>
     createSelector(
       expenses,
@@ -58,7 +58,7 @@ export namespace TransactionSelector {
     )(state)
 
   export const transferById = (transferId: string) => (
-    state: App.State
+    state: CoreState
   ): TransactionModel.TransferHydrated =>
     createSelector(
       transfers,

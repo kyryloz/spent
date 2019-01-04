@@ -5,10 +5,11 @@ import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
-import { AccountSelector } from 'store/model/account/selectors'
+import { AccountSelector } from '@spent/core'
 import { CliSelector } from 'store/model/cli/selectors'
 import { formatTimestamp } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
+import { coreSelector } from '../../store/appSelector'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -105,6 +106,6 @@ export const Income = flow(
       ownProps.command.action.payload.account.id,
       0,
       ownProps.command.timestamp
-    )(state),
+    )(coreSelector(state)),
   }))
 )(IncomeCmp)

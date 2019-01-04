@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { App } from 'store/interface'
+import { CoreAction } from '../..'
 import { CategoryActionCreator, CategoryActionType } from './actions'
 import { CategoryModel } from './interface'
 
@@ -7,7 +7,7 @@ const initialState: CategoryModel.State = {
   items: {},
 }
 
-export const categories: Reducer<CategoryModel.State, App.Action> = (
+export const categories: Reducer<CategoryModel.State, CoreAction> = (
   state = initialState,
   action
 ): CategoryModel.State => {
@@ -48,7 +48,7 @@ export const categories: Reducer<CategoryModel.State, App.Action> = (
 
       return {
         ...state,
-        items
+        items,
       }
     }
     default: {

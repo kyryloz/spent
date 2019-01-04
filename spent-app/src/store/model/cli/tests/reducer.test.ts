@@ -1,4 +1,4 @@
-import { AccountActionCreator } from 'store/model/account/actions'
+import { AccountActionCreator } from '@spent/core'
 import { cli } from '../reducer'
 
 describe('cli reducer', () => {

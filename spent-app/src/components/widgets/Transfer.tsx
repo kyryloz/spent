@@ -1,14 +1,15 @@
 import { createStyles, Grid, Theme, Typography, withStyles } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/DeleteSharp'
 import EditIcon from '@material-ui/icons/EditSharp'
+import { AccountSelector } from '@spent/core'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { App } from 'store/interface'
-import { AccountSelector } from 'store/model/account/selectors'
 import { CliSelector } from 'store/model/cli/selectors'
 import { formatTimestamp } from 'utils/dateUtils'
 import { Classes } from 'utils/styleUtils'
+import { coreSelector } from '../../store/appSelector'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -120,11 +121,11 @@ export const Transfer = flow(
       ownProps.command.action.payload.fromAccount.id,
       0,
       ownProps.command.timestamp
-    )(state),
+    )(coreSelector(state)),
     toAccountBalance: AccountSelector.balance(
       ownProps.command.action.payload.toAccount.id,
       0,
       ownProps.command.timestamp
-    )(state),
+    )(coreSelector(state)),
   }))
 )(TransferCmp)

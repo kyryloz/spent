@@ -1,6 +1,6 @@
+import { TransactionActionType } from '@spent/core'
 import { Dispatch } from 'redux'
 import { CliSelector } from 'store/model/cli/selectors'
-import { TransactionActionType } from 'store/model/transactions/actions'
 import { SmartInputActionCreator } from 'store/model/ui/cliInput/actions'
 
 export const dispatchEditAction = (dispatch: Dispatch, command: CliSelector.CommandItem) => {

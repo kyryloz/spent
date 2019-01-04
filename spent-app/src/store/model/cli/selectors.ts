@@ -1,11 +1,15 @@
+import {
+  AccountModel,
+  AccountSelector,
+  CategoryModel,
+  CategorySelector,
+  TransactionActionCreator,
+  TransactionActionType,
+} from '@spent/core'
 import { createSelector } from 'reselect'
 import { App } from 'store/interface'
-import { AccountModel } from 'store/model/account/interface'
-import { AccountSelector } from 'store/model/account/selectors'
-import { CategoryModel } from 'store/model/category/interface'
-import { CategorySelector } from 'store/model/category/selectors'
 import { CliModel } from 'store/model/cli/interface'
-import { TransactionActionCreator, TransactionActionType } from '../transactions/actions'
+import { coreSelector } from '../../appSelector'
 
 export namespace CliSelector {
   export type CommandItem = ExpenseCommand | IncomeCommand | TransferCommand | CliModel.CliCommand
@@ -66,7 +70,7 @@ export namespace CliSelector {
           const expenseAction = item.action as ReturnType<typeof TransactionActionCreator.expense>
 
           const account = AccountSelector.findById(expenseAction.payload.transaction.accountId)(
-            state
+            coreSelector(state)
           ) || {
             id: 'deleted',
             name: '<deleted>',
@@ -74,7 +78,7 @@ export namespace CliSelector {
           }
 
           const category = CategorySelector.findById(expenseAction.payload.transaction.categoryId)(
-            state
+            coreSelector(state)
           ) || {
             id: 'deleted',
             name: '<deleted>',
@@ -101,7 +105,7 @@ export namespace CliSelector {
           const incomeAction = item.action as ReturnType<typeof TransactionActionCreator.income>
 
           const account = AccountSelector.findById(incomeAction.payload.transaction.accountId)(
-            state
+            coreSelector(state)
           ) || {
             id: 'deleted',
             name: '<deleted>',
@@ -128,7 +132,7 @@ export namespace CliSelector {
 
           const fromAccount = AccountSelector.findById(
             transferAction.payload.transaction.fromAccountId
-          )(state) || {
+          )(coreSelector(state)) || {
             id: 'deleted',
             name: '<deleted>',
             createdAt: 0,
@@ -136,7 +140,7 @@ export namespace CliSelector {
 
           const toAccount = AccountSelector.findById(
             transferAction.payload.transaction.toAccountId
-          )(state) || {
+          )(coreSelector(state)) || {
             id: 'deleted',
             name: '<deleted>',
             createdAt: 0,

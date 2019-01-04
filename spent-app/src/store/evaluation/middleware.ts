@@ -1,21 +1,24 @@
+import {
+  AccountActionCreator,
+  AccountSelector,
+  CategoryActionCreator,
+  CategorySelector,
+  TransactionActionCreator,
+  TransactionSelector,
+} from '@spent/core'
 import * as moment from 'moment'
 import { parseGrammar } from 'parser/parser'
 import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
 import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { AccountActionCreator } from 'store/model/account/actions'
-import { AccountSelector } from 'store/model/account/selectors'
-import { CategoryActionCreator } from 'store/model/category/actions'
-import { CategorySelector } from 'store/model/category/selectors'
 import { CliModel } from 'store/model/cli/interface'
-import { TransactionActionCreator } from 'store/model/transactions/actions'
-import { TransactionSelector } from 'store/model/transactions/selectors'
 import { SmartInputActionCreator } from 'store/model/ui/cliInput/actions'
 import { SmartInputSelector } from 'store/model/ui/cliInput/selectors'
 import { generateId } from 'utils/mathUtils'
 import { USER_INPUT_DATE_FORMAT } from 'utils/settings'
 import { capitalizeFirstLetter } from 'utils/stringUtils'
+import { coreSelector } from '../appSelector'
 
 export const evaluationMiddleware: Middleware<
   {},
@@ -42,7 +45,7 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       message = capitalizeFirstLetter(message)
     }
 
-    // dispatch(CliActionCreator.error(message))
+    dispatch(SmartInputActionCreator.error(message))
     return
   }
 
@@ -90,7 +93,7 @@ const evaluateCreate = (
 
   switch (entityName) {
     case 'account':
-      const account = AccountSelector.findByName(name)(state)
+      const account = AccountSelector.findByName(name)(coreSelector(state))
 
       if (account) {
         actions.push(SmartInputActionCreator.error(`Account '${name}' is already existed`))
@@ -101,7 +104,7 @@ const evaluateCreate = (
         return actions
       }
     case 'category':
-      const category = CategorySelector.findByName(name)(state)
+      const category = CategorySelector.findByName(name)(coreSelector(state))
 
       if (category) {
         actions.push(SmartInputActionCreator.error(`Category '${name}' is already existed`))
@@ -125,8 +128,8 @@ const evaluateExpense = (
 ): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
-  const category = CategorySelector.findByName(categoryName)(state)
-  const account = AccountSelector.findByName(accountName)(state)
+  const category = CategorySelector.findByName(categoryName)(coreSelector(state))
+  const account = AccountSelector.findByName(accountName)(coreSelector(state))
 
   if (!category) {
     actions.push(SmartInputActionCreator.error(`Category '${categoryName}' not found`))
@@ -159,7 +162,7 @@ const evaluateIncome = (
 ): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
-  const account = AccountSelector.findByName(accountName)(state)
+  const account = AccountSelector.findByName(accountName)(coreSelector(state))
 
   if (!account) {
     actions.push(SmartInputActionCreator.error(`Account '${accountName}' not found`))
@@ -190,7 +193,7 @@ const evaluateUpdateIncome = (
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const income = TransactionSelector.incomeById(targetCommandId)(state)
+  const income = TransactionSelector.incomeById(targetCommandId)(coreSelector(state))
 
   if (!income) {
     actions.push(SmartInputActionCreator.error(`Income with ID '${targetCommandId}' not found`))
@@ -198,7 +201,7 @@ const evaluateUpdateIncome = (
   }
 
   if (values.account && values.account !== income.account.name) {
-    const newAccount = AccountSelector.findByName(values.account)(state)
+    const newAccount = AccountSelector.findByName(values.account)(coreSelector(state))
 
     if (!newAccount) {
       actions.push(SmartInputActionCreator.error(`Account '${values.account}' not found`))
@@ -263,7 +266,7 @@ const evaluateUpdateExpense = (
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const expense = TransactionSelector.expenseById(expenseId)(state)
+  const expense = TransactionSelector.expenseById(expenseId)(coreSelector(state))
 
   if (!expense) {
     actions.push(SmartInputActionCreator.error(`Expense with ID '${expenseId}' not found`))
@@ -271,7 +274,7 @@ const evaluateUpdateExpense = (
   }
 
   if (values.account && values.account !== expense.account.name) {
-    const newAccount = AccountSelector.findByName(values.account)(state)
+    const newAccount = AccountSelector.findByName(values.account)(coreSelector(state))
 
     if (!newAccount) {
       actions.push(SmartInputActionCreator.error(`Account '${values.account}' not found`))
@@ -285,7 +288,7 @@ const evaluateUpdateExpense = (
   }
 
   if (values.category && values.category !== expense.category.name) {
-    const newCategory = CategorySelector.findByName(values.category)(state)
+    const newCategory = CategorySelector.findByName(values.category)(coreSelector(state))
 
     if (!newCategory) {
       actions.push(SmartInputActionCreator.error(`Category '${values.category}' not found`))
@@ -351,7 +354,7 @@ const evaluateUpdateTransfer = (
   let amountChangeData = undefined
   let dateChangeData = undefined
 
-  const transfer = TransactionSelector.transferById(targetCommandId)(state)
+  const transfer = TransactionSelector.transferById(targetCommandId)(coreSelector(state))
 
   if (!transfer) {
     actions.push(SmartInputActionCreator.error(`Transfer with ID '${targetCommandId}' not found`))
@@ -359,7 +362,7 @@ const evaluateUpdateTransfer = (
   }
 
   if (values.from && values.from !== transfer.fromAccount.name) {
-    const newAccount = AccountSelector.findByName(values.from)(state)
+    const newAccount = AccountSelector.findByName(values.from)(coreSelector(state))
 
     if (!newAccount) {
       actions.push(SmartInputActionCreator.error(`Account '${values.from}' not found`))
@@ -373,7 +376,7 @@ const evaluateUpdateTransfer = (
   }
 
   if (values.to && values.to !== transfer.toAccount.name) {
-    const newAccount = AccountSelector.findByName(values.to)(state)
+    const newAccount = AccountSelector.findByName(values.to)(coreSelector(state))
 
     if (!newAccount) {
       actions.push(SmartInputActionCreator.error(`Account '${values.to}' not found`))
@@ -459,7 +462,7 @@ const evaluateRename = (
 
   switch (entity) {
     case 'account': {
-      const account = AccountSelector.findByName(oldName)(state)
+      const account = AccountSelector.findByName(oldName)(coreSelector(state))
 
       if (!account) {
         actions.push(SmartInputActionCreator.error(`You do not have '${oldName}' account`))
@@ -471,7 +474,7 @@ const evaluateRename = (
       }
     }
     case 'category': {
-      const category = CategorySelector.findByName(oldName)(state)
+      const category = CategorySelector.findByName(oldName)(coreSelector(state))
 
       if (!category) {
         actions.push(SmartInputActionCreator.error(`You do not have '${oldName}' category`))
@@ -498,7 +501,7 @@ const evaluateRemove = (
 
   switch (entity) {
     case 'account':
-      const account = AccountSelector.findByName(name)(state)
+      const account = AccountSelector.findByName(name)(coreSelector(state))
 
       if (!account) {
         actions.push(SmartInputActionCreator.error(`You do not have '${name}' account`))
@@ -510,7 +513,7 @@ const evaluateRemove = (
       }
       break
     case 'category':
-      const category = CategorySelector.findByName(name)(state)
+      const category = CategorySelector.findByName(name)(coreSelector(state))
 
       if (!category) {
         actions.push(SmartInputActionCreator.error(`You do not have '${name}' category`))
@@ -522,7 +525,7 @@ const evaluateRemove = (
       }
       break
     case 'transaction':
-      const command = TransactionSelector.findById(name)(state)
+      const command = TransactionSelector.findById(name)(coreSelector(state))
 
       if (!command) {
         actions.push(SmartInputActionCreator.error(`Can't find a transaction with id '${name}'`))
@@ -547,14 +550,14 @@ const evaluateTransfer = (
 ) => {
   const actions: Array<App.Action> = []
 
-  const fromAccount = AccountSelector.findByName(fromAccountName)(state)
+  const fromAccount = AccountSelector.findByName(fromAccountName)(coreSelector(state))
 
   if (!fromAccount) {
     actions.push(SmartInputActionCreator.error(`Account '${fromAccountName}' not found`))
     return actions
   }
 
-  const toAccount = AccountSelector.findByName(toAccountName)(state)
+  const toAccount = AccountSelector.findByName(toAccountName)(coreSelector(state))
 
   if (!toAccount) {
     actions.push(SmartInputActionCreator.error(`Account '${toAccountName}' not found`))

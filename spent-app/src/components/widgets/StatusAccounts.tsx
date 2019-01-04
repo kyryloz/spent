@@ -5,8 +5,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { EvaluationActionCreator } from 'store/evaluation/actions'
 import { App } from 'store/interface'
-import { AccountSelector } from 'store/model/account/selectors'
+import { AccountSelector } from '@spent/core'
 import { Classes } from 'utils/styleUtils'
+import { coreSelector } from '../../store/appSelector';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -61,6 +62,6 @@ const StatusAccountsCmp: React.SFC<OwnProps & StyleProps & StateProps> = ({
 export const StatusAccounts = flow(
   withStyles(styles),
   connect<StateProps, {}, OwnProps, App.State>((state, ownProps) => ({
-    accounts: AccountSelector.balances(0, moment().unix())(state),
+    accounts: AccountSelector.balances(0, moment().unix())(coreSelector(state)),
   }))
 )(StatusAccountsCmp)

@@ -3,26 +3,27 @@ import { ConnectedRouter } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { evaluationActions, smartInputActionCreator } from '@spent/core'
 import { Routes } from './routes'
 import { configureStore } from './store/configureStore'
+import { EvaluationActionCreator } from './store/evaluation/actions'
+import { SmartInputActionCreator } from './store/model/ui/cliInput/actions'
 import { spentTheme } from './theme'
 
 const history = createHashHistory()
 
 const store = configureStore(history)
 
-store.dispatch(smartInputActionCreator.setInput('create account wallet'))
-store.dispatch(evaluationActions.evaluate())
+store.dispatch(SmartInputActionCreator.setInput('create account wallet'))
+store.dispatch(EvaluationActionCreator.evaluate())
 
-store.dispatch(smartInputActionCreator.setInput('create category clothes'))
-store.dispatch(evaluationActions.evaluate())
+store.dispatch(SmartInputActionCreator.setInput('create category clothes'))
+store.dispatch(EvaluationActionCreator.evaluate())
 
-store.dispatch(smartInputActionCreator.setInput('income 1000 to wallet'))
-store.dispatch(evaluationActions.evaluate())
+store.dispatch(SmartInputActionCreator.setInput('income 1000 to wallet'))
+store.dispatch(EvaluationActionCreator.evaluate())
 
-store.dispatch(smartInputActionCreator.setInput('expense 100 on clothes from wallet'))
-store.dispatch(evaluationActions.evaluate())
+store.dispatch(SmartInputActionCreator.setInput('expense 100 on clothes from wallet'))
+store.dispatch(EvaluationActionCreator.evaluate())
 
 export const App = () => (
   <Provider store={store}>

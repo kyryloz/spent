@@ -1,5 +1,5 @@
-import { AccountActionCreator, AccountActionType } from 'store/model/account/actions'
-import { CategoryActionCreator } from 'store/model/category/actions'
+import { CategoryActionCreator } from '../../category/actions'
+import { AccountActionCreator, AccountActionType } from '../actions'
 import { accounts } from '../reducer'
 
 describe('accounts reducer', () => {

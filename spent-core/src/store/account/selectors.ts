@@ -1,17 +1,15 @@
 import { fromPairs, values } from 'lodash'
 import { createSelector } from 'reselect'
-import { App } from 'store/interface'
+import { CoreState } from '../..'
 import { TransactionSelector } from '../transactions/selectors'
 
 export namespace AccountSelector {
-  export const items = (state: App.State) => state.entities.accounts.items
+  export const items = (state: CoreState) => state.accounts.items
 
   export const findByName = (name: string) =>
     createSelector(
       items,
-      items => {
-        return values(items).find(value => value.name === name)
-      }
+      items => values(items).find(value => value.name === name)
     )
 
   export const findById = (id: string) =>
@@ -90,7 +88,7 @@ export namespace AccountSelector {
       (income, expense, transfer) => income - expense + transfer
     )
 
-  export const balances = (timestampFrom: number, timestampTo: number) => (state: App.State) =>
+  export const balances = (timestampFrom: number, timestampTo: number) => (state: CoreState) =>
     createSelector(
       items,
       items => {
