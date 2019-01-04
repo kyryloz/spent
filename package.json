@@ -3,14 +3,15 @@
   "private": true,
   "workspaces": [
     "spent-app",
-    "spent-core"
+    "spent-core",
+    "spent-cli-parser"
   ],
   "scripts": {
     "start": "yarn wsrun run start",
     "test": "yarn wsrun run test",
-    "build-core": "yarn workspace @spent/core build",
-    "build-cli": "yarn workspace @spent/cli build",
-    "build-all": "yarn run build-core && yarn run build-cli"
+    "build-core": "yarn wsrun -p @spent/core -c build",
+    "build-cli-parser": "yarn wsrun -p @spent/cli-parser -c build",
+    "build-all": "yarn wsrun -p @spent/core @spent/cli-parser -c build"
   },
   "resolutions": {
     "jss": "^10.0.0-alpha.3"

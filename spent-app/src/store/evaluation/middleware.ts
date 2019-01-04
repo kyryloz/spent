@@ -1,4 +1,11 @@
 import {
+  ExpenseSetters,
+  IncomeSetters,
+  parseGrammar,
+  runSemantic,
+  TransferSetters,
+} from '@spent/cli-parser'
+import {
   AccountActionCreator,
   AccountSelector,
   CategoryActionCreator,
@@ -7,8 +14,6 @@ import {
   TransactionSelector,
 } from '@spent/core'
 import * as moment from 'moment'
-import { parseGrammar } from 'parser/parser'
-import { ExpenseSetters, IncomeSetters, runSemantic, TransferSetters } from 'parser/semantic'
 import { Dispatch, Middleware } from 'redux'
 import { EvaluationActionCreator, EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'

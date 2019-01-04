@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@spent/core": "0.0.1",
+    "@spent/cli-parser": "0.0.1",
     "@material-ui/core": "^3.3.1",
     "@material-ui/icons": "^3.0.1",
     "connected-react-router": "^6.0.0",
