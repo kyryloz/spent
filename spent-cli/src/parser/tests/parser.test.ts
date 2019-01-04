@@ -1,4 +1,4 @@
-import { parseGrammar } from 'parser/parser'
+import { parseGrammar } from '../../parser/parser'
 
 describe('parser.ts', () => {
   describe('parse()', () => {

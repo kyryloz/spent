@@ -1,6 +1,6 @@
 import { fromPairs } from 'lodash'
 import * as ohm from 'ohm-js'
-import { grammar } from 'parser/grammar'
+import { grammar } from '../parser/grammar'
 
 export interface ExpenseSetters {
   account?: string
