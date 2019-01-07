@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "start": "yarn wsrun run start",
-    "test": "yarn wsrun run test",
+    "test": "yarn jest",
     "build-core": "yarn wsrun -p @spent/core -c build",
     "build-cli-parser": "yarn wsrun -p @spent/cli-parser -c build",
     "build-all": "yarn wsrun -p @spent/core @spent/cli-parser -c build"
@@ -17,6 +17,7 @@
     "jss": "^10.0.0-alpha.3"
   },
   "devDependencies": {
-    "wsrun": "^3.6.2"
+    "wsrun": "^3.6.2",
+    "jest": "^23.6.0"
   }
 }

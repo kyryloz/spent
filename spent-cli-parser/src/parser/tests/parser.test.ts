@@ -53,7 +53,7 @@ describe('parser.ts', () => {
         expect(parseGrammar(input).success).toBeFalsy()
       })
 
-      test('case10', () => {
+      test('case11', () => {
         const input = 'create account to'
         expect(parseGrammar(input).success).toBeFalsy()
       })

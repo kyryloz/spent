@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "build",
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
@@ -13,17 +14,19 @@
     "noUnusedParameters": false,
     "importHelpers": true,
     "noEmitHelpers": true,
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "pretty": true,
     "target": "es2015",
-    "jsx": "react",
-    "baseUrl": "src"
+    "jsx": "react"
   },
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2
   },
+  "include": [
+    "./src"
+  ],
   "exclude": [
     "node_modules",
     "build",
@@ -31,6 +34,7 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "**/tests"
   ]
 }
