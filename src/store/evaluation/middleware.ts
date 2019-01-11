@@ -42,50 +42,45 @@ const evaluate = (input: string, dispatch: Dispatch<App.Action>, state: App.Stat
       message = capitalizeFirstLetter(message)
     }
 
-    // dispatch(CliActionCreator.error(message))
+    dispatch(SmartInputActionCreator.error(message))
     return
   }
 
   runSemantic(parseResult.match, {
     create: (entityName, name) => {
-      evaluateCreate(state, input, entityName, name).forEach(dispatch)
+      evaluateCreate(state, entityName, name).forEach(dispatch)
     },
     expense: (category, amount, fromAccount) => {
-      evaluateExpense(state, input, category, amount, fromAccount).forEach(dispatch)
+      evaluateExpense(state, category, amount, fromAccount).forEach(dispatch)
     },
     income: (accountName, amount) => {
-      evaluateIncome(state, input, accountName, amount).forEach(dispatch)
+      evaluateIncome(state, accountName, amount).forEach(dispatch)
     },
     transfer: (from, to, amount) => {
-      evaluateTransfer(state, input, from, to, amount).forEach(dispatch)
+      evaluateTransfer(state, from, to, amount).forEach(dispatch)
     },
     status: what => {
-      evaluateStatus(input, what).forEach(dispatch)
+      evaluateStatus(what).forEach(dispatch)
     },
     remove: (entity, name) => {
-      evaluateRemove(state, input, entity, name).forEach(dispatch)
+      evaluateRemove(state, entity, name).forEach(dispatch)
     },
     rename: (entity, oldName, newName) => {
-      evaluateRename(state, input, entity, oldName, newName).forEach(dispatch)
+      evaluateRename(state, entity, oldName, newName).forEach(dispatch)
     },
     updateExpense: (id, values) => {
-      evaluateUpdateExpense(state, input, id, values).forEach(dispatch)
+      evaluateUpdateExpense(state, id, values).forEach(dispatch)
     },
     updateIncome: (id, values) => {
-      evaluateUpdateIncome(state, input, id, values).forEach(dispatch)
+      evaluateUpdateIncome(state, id, values).forEach(dispatch)
     },
     updateTransfer: (id, values) => {
-      evaluateUpdateTransfer(state, input, id, values).forEach(dispatch)
+      evaluateUpdateTransfer(state, id, values).forEach(dispatch)
     },
   })
 }
 
-const evaluateCreate = (
-  state: App.State,
-  input: string,
-  entityName: string,
-  name: string
-): Array<App.Action> => {
+const evaluateCreate = (state: App.State, entityName: string, name: string): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
   switch (entityName) {
@@ -118,7 +113,6 @@ const evaluateCreate = (
 
 const evaluateExpense = (
   state: App.State,
-  input: string,
   categoryName: string,
   amount: number,
   accountName: string
@@ -153,7 +147,6 @@ const evaluateExpense = (
 
 const evaluateIncome = (
   state: App.State,
-  input: string,
   accountName: string,
   amount: number
 ): Array<App.Action> => {
@@ -180,7 +173,6 @@ const evaluateIncome = (
 
 const evaluateUpdateIncome = (
   state: App.State,
-  input: string,
   targetCommandId: string,
   values: IncomeSetters
 ): Array<App.Action> => {
@@ -252,7 +244,6 @@ const evaluateUpdateIncome = (
 
 const evaluateUpdateExpense = (
   state: App.State,
-  input: string,
   expenseId: string,
   values: ExpenseSetters
 ): Array<App.Action> => {
@@ -340,7 +331,6 @@ const evaluateUpdateExpense = (
 
 const evaluateUpdateTransfer = (
   state: App.State,
-  input: string,
   targetCommandId: string,
   values: TransferSetters
 ): Array<App.Action> => {
@@ -426,7 +416,7 @@ const evaluateUpdateTransfer = (
   return actions
 }
 
-const evaluateStatus = (input: string, what: string): Array<App.Action> => {
+const evaluateStatus = (what: string): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
   let entity
@@ -448,13 +438,7 @@ const evaluateStatus = (input: string, what: string): Array<App.Action> => {
   return actions
 }
 
-const evaluateRename = (
-  state: App.State,
-  input: string,
-  entity: string,
-  oldName: string,
-  newName: string
-) => {
+const evaluateRename = (state: App.State, entity: string, oldName: string, newName: string) => {
   const actions: Array<App.Action> = []
 
   switch (entity) {
@@ -488,12 +472,7 @@ const evaluateRename = (
   }
 }
 
-const evaluateRemove = (
-  state: App.State,
-  input: string,
-  entity: string,
-  name: string
-): Array<App.Action> => {
+const evaluateRemove = (state: App.State, entity: string, name: string): Array<App.Action> => {
   const actions: Array<App.Action> = []
 
   switch (entity) {
@@ -508,7 +487,6 @@ const evaluateRemove = (
         actions.push(deleteAccount)
         return actions
       }
-      break
     case 'category':
       const category = CategorySelector.findByName(name)(state)
 
@@ -520,7 +498,6 @@ const evaluateRemove = (
         actions.push(deleteCategory)
         return actions
       }
-      break
     case 'transaction':
       const command = TransactionSelector.findById(name)(state)
 
@@ -532,7 +509,6 @@ const evaluateRemove = (
         actions.push(deleteTransactions)
         return actions
       }
-      break
     default:
       throw new Error(`Unknown entity name: '${entity}'`)
   }
@@ -540,7 +516,6 @@ const evaluateRemove = (
 
 const evaluateTransfer = (
   state: App.State,
-  input: string,
   fromAccountName: string,
   toAccountName: string,
   amount: number

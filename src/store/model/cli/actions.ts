@@ -11,8 +11,7 @@ export type CliAction =
 
 export const enum CliActionType {
   ADD = '@@cli/ADD',
-  REMOVE = '@@cli/REMOVE',
-  ERROR = '@@cli/ERROR',
+  REMOVE = '@@cli/REMOVE'
 }
 
 export namespace CliActionCreator {

@@ -1,4 +1,5 @@
 import { Dispatch, Middleware } from 'redux'
+import { EvaluationActionType } from 'store/evaluation/actions'
 import { App } from 'store/interface'
 import { AccountActionType } from 'store/model/account/actions'
 import { CategoryActionType } from 'store/model/category/actions'
@@ -12,6 +13,7 @@ export const cliMiddleware: Middleware<
   Dispatch<App.Action>
 > = store => next => action => {
   switch (action.type) {
+    case EvaluationActionType.STATUS:
     case AccountActionType.CREATE:
     case AccountActionType.UPDATE:
     case AccountActionType.REMOVE:

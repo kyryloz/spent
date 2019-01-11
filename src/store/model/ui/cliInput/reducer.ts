@@ -89,6 +89,9 @@ export const smartInput: Reducer<SmartInputModel.State, App.Action> = (
 
       return {
         ...state,
+        error: {
+          human: ''
+        },
         input: '',
         dirty: false,
         focus: false,
