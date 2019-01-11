@@ -2,6 +2,7 @@ import { Dispatch } from 'redux'
 import { CliSelector } from 'store/model/cli/selectors'
 import { TransactionActionType } from 'store/model/transactions/actions'
 import { SmartInputActionCreator } from 'store/model/ui/cliInput/actions'
+import { formatTimestampAsUserInput } from './dateUtils'
 
 export const dispatchEditAction = (dispatch: Dispatch, command: CliSelector.CommandItem) => {
   switch (command.action.type) {
@@ -14,7 +15,9 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CliSelector.Comm
         SmartInputActionCreator.setInput(
           `update expense '${data.id}' set amount = ${data.amount}, account = '${
             data.account.name
-          }', category = '${data.category.name}', date = '${command.timestamp}'`
+          }', category = '${data.category.name}', date = '${formatTimestampAsUserInput(
+            command.timestamp
+          )}'`
         )
       )
       break
@@ -28,7 +31,7 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CliSelector.Comm
         SmartInputActionCreator.setInput(
           `update income '${data.id}' set amount = ${data.amount}, account = '${
             data.account.name
-          }', date = '${command.timestamp}'`
+          }', date = '${formatTimestampAsUserInput(command.timestamp)}'`
         )
       )
       break
@@ -42,7 +45,9 @@ export const dispatchEditAction = (dispatch: Dispatch, command: CliSelector.Comm
         SmartInputActionCreator.setInput(
           `update transfer '${data.id}' set amount = ${data.amount}, from = '${
             data.fromAccount.name
-          }', to = '${data.toAccount.name}', date = '${command.timestamp}'`
+          }', to = '${data.toAccount.name}', date = '${formatTimestampAsUserInput(
+            command.timestamp
+          )}'`
         )
       )
       break
