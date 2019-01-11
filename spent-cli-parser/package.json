@@ -11,7 +11,7 @@
     "build": "yarn clean && tsc --pretty",
     "clean": "rm -rf build",
     "start": "yarn clean && tsc -w --pretty",
-    "test": "jest --modulePaths=src"
+    "test": "jest --modulePaths=src --watch"
   },
   "dependencies": {
     "lodash": "^4.17.11",

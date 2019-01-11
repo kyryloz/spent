@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "start": "yarn wsrun run start",
-    "test": "yarn workspaces run test",
+    "test": "yarn wsrun run test",
     "build-core": "yarn wsrun -p @spent/core -c build",
     "build-cli-parser": "yarn wsrun -p @spent/cli-parser -c build",
     "build-all": "yarn wsrun -p @spent/core @spent/cli-parser -c build"
@@ -17,20 +17,13 @@
     "jss": "^10.0.0-alpha.3"
   },
   "devDependencies": {
-    "wsrun": "^3.6.2",
-    "ts-jest": "^23.10.5"
+    "wsrun": "^3.6.2"
   },
   "jest": {
-    "projects": ["spent-core"],
-    "testMatch": ["<rootDir>/src/**/?(*.)(test).{js,jsx,mjs,ts,tsx}"],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "testEnvironment": "node"
+    "projects": [
+      "spent-core",
+      "spent-cli-parser",
+      "spent-app"
+    ]
   }
 }
