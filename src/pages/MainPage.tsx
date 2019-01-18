@@ -1,8 +1,7 @@
 import { createStyles, CssBaseline, Theme, Typography, withStyles } from '@material-ui/core'
-import { SmartInput } from 'components/CliInput'
-import { SmartOutput } from 'components/CliOutput'
 import * as React from 'react'
 import { Classes } from 'utils/styleUtils'
+import { TerminalPage } from './TerminalPage'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -22,13 +21,6 @@ const styles = (theme: Theme) =>
     header: {
       padding: theme.spacing.unit * 2,
     },
-    main: {
-      flex: 1,
-      overflow: 'auto',
-    },
-    footer: {
-      marginBottom: theme.spacing.unit * 4,
-    },
   })
 
 interface StyleProps {
@@ -43,12 +35,7 @@ const MainPageCmp: React.SFC<StyleProps> = ({ classes }) => (
         Spent
       </Typography>
     </header>
-    <main className={classes.main}>
-      <SmartOutput />
-    </main>
-    <footer className={classes.footer}>
-      <SmartInput />
-    </footer>
+    <TerminalPage />
   </div>
 )
 
